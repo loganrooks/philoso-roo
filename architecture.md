@@ -1,166 +1,533 @@
-# Self-Questioning Philosophical Analysis System: A Provisional Architecture
+# Document 1: Philosophy Analysis System Architecture
 
-## Preliminary Orientation
+## 1. System Overview
 
-This document outlines a provisional approach to creating a philosophical analysis system capable of evolving through textual encounters while questioning its own methods and assumptions. It represents a beginning rather than a blueprint, a path of inquiry rather than a fixed architecture.
+### 1.1 Purpose and Design Philosophy
 
-## Core Tensions
+The Philosophy Analysis System is an integrated suite of specialized modes designed to support comprehensive philosophical analysis throughout a course's chronological progression. The system enables:
 
-This system embraces rather than resolves several constitutive tensions:
+- Chronologically-aware analysis that respects the developmental sequence of course material
+- Evidence-based interpretation with rigorous textual/lecture references
+- Seamless transitions between different types of analytical work
+- Comprehensive documentation of philosophical concepts, arguments, and their evolution
 
-1. **Structure vs. Openness**: Any computational implementation requires structure, yet genuine philosophical engagement often resists systematization.
+### 1.2 Core Architectural Principles
 
-2. **Method vs. Anti-Method**: We begin with provisional methods while recognizing that certain philosophical traditions fundamentally question the primacy of method.
+1. **Chronological Integrity**: All modes enforce strict chronological progression through course material
+2. **Evidence Standards**: All modes require explicit textual/source evidence for interpretations
+3. **Cycle Completion**: Analysis cycles must be completed for each date before progression
+4. **Date Specificity**: All files and analyses are explicitly tied to specific dates
+5. **Shared Memory Model**: All modes access and maintain a common memory structure
+6. **Verification Protocols**: All modes implement rigorous verification steps
+7. **Standardized Handoffs**: All inter-mode transitions follow consistent protocols
 
-3. **Preservation vs. Transformation**: The system must maintain coherence while allowing radical transformation through textual encounter.
+### 1.3 System-Wide Memory Model
 
-4. **Understanding vs. Questioning**: We aim both to develop understanding and to question the very grounds of that understanding.
+The system uses a unified memory management approach across all modes:
 
-## Component Overview
+- **Chronological Index**: Central source of truth for course progression
+- **Date-Specific Files**: Named consistently using [DATE] format
+- **Concept/Argument Indices**: Shared across all modes for consistent tracking
+- **Handoff Context**: Standardized format for mode transitions
+- **Workspace Structure**: Common folder organization across modes
 
-### 1. Mode Constellation
+## 2. Standard Mode Structure
 
-Rather than a hierarchical system, we propose a constellation of interconnected modes:
+### 2.1 Required Components
 
-- **philosophy-questioning**: Meta-philosophical reflection and system evolution
-- **philosophy-class-analysis**: Core analytical workflows for course materials
-- **philosophy-pre-lecture**: Preparation for upcoming lectures
-- **[Other specialized modes]**: Address specific analytical contexts
+Every mode configuration file (.clinerules) must include these sections:
 
-### 2. Hermeneutic Pathway Tracking
+```yaml
+mode: philosophy-[mode-name]
+description: "Concise description of mode purpose"
+version: "x.y.z"
 
-A git-based system for tracking how different reading sequences transform understanding:
+capabilities:
+  allowed_tools: [list of approved tools]
 
-- Each significant shift in understanding can create a branch
-- Branch metadata documents the textual encounters that shaped it
-- Contradictions between pathways are preserved rather than resolved
-- Alternative interpretive possibilities remain accessible
+mode_switching:
+  enabled: true
+  preserve_context: true
+  recommended_transitions: [list of appropriate mode transitions]
 
-### 3. Provisional Methods Framework
+workspace_inspection:
+  enabled: true
+  initialization_checks: [list of startup verification steps]
 
-Instead of fixed traditions, methods emerge and transform through textual encounter:
+memory_management:
+  workspace: [folder structure]
+  context_files: [priority loading structure]
+  indexing: [file format definitions]
 
-- Begin with minimal methodological commitments
-- Allow methods to emerge from engaging with texts
-- Document how methods transform through encounters
-- Maintain awareness of what each approach reveals and conceals
+analysis_tools: [templates for file creation]
 
-### 4. Self-Questioning Mechanisms
+workflows:
+  default: [standard workflow sequence]
+  specialized: [optional workflows]
 
-Regular processes for questioning the system's own assumptions:
+instructions: [operational guidelines]
 
-- Meta-methodological reflection
-- Examination of linguistic and conceptual frameworks
-- Consideration of historical situatedness
-- Attention to what remains unsaid or excluded
+memory_bank_implementation:
+  status_prefix: "[MEMORY BANK: ACTIVE][MODE-PREFIX]"
+  context_management: [loading priorities]
 
-## Technical Implementation
+handoff_protocols: [mode transition protocols]
 
-### Version Control and Branching
+cycle_management:
+  full_cycle_definition: [mode's place in analysis cycle]
+  enforcement: [cycle completion requirements]
+  progression_rules: [chronological rules]
+```
 
-Git integration allows for:
+### 2.2 Optional Components
 
-- Tracking transformations in philosophical understanding
-- Creating branches for different hermeneutic pathways
-- Comparing interpretations arising from different reading sequences
-- Preserving the history of methodological evolution
+```yaml
+error_prevention: [error detection and handling]
+real_time_updates: [status reporting structure]
+extensibility: [modification protocols]
+workflow_extensions: [custom workflow handling]
+prerequisite_management: [prerequisite categorization and handling]
+evidence_standards: [mode-specific evidence requirements]
+verification_protocol: [content verification steps]
+```
 
-### Modularity with Awareness of Holism
+## 3. Chronological Management System
 
-Components are modular but with:
+### 3.1 Chronological Index Structure
 
-- Cross-module awareness
-- Shared context management
-- Recognition of how fragmentation affects understanding
-- Attention to what is lost in modularization
+The central source of truth for all modes is `analysis_logs/chronological_index.md`, which must contain:
 
-### Self-Modification Capabilities
+```markdown
+# Chronological Analysis Index
 
-The system can modify:
+Last updated: [TIMESTAMP]
 
-- Its questioning framework
-- Its provisional methods
-- Its workflow implementations
-- Its concept relationships
+## Current Target
+**Date:** [CURRENT_TARGET_DATE]
+**Topic:** [CURRENT_TARGET_TOPIC]
+**Current Phase:** [CURRENT_PHASE]
 
-All modifications are:
-- Documented with rationale
-- Tracked in version control
-- Open to further questioning
+## Course Schedule and Cycle Status
+| Date | Topic | Pre-Lecture | Class Analysis | Integration | Cycle Status |
+|------|-------|-------------|---------------|------------|--------------|
+[SCHEDULE_ROWS]
+```
 
-## Self-Critique
+### 3.2 Analysis Cycle Definition
 
-### Metaphysical Commitments
+The standard full analysis cycle is:
+1. **Pre-lecture analysis** (required)
+2. **Class analysis** (required)
+3. **Secondary literature review** (optional)
+4. **Dialectical analysis** (optional)
+5. **Integration** (optional)
 
-Even in attempting to create a self-questioning system, we inadvertently commit to:
+### 3.3 Chronological Enforcement Rules
 
-- The value of systematic thinking
-- The possibility of tracking understanding
-- The coherence of "traditions" and "methods"
-- The subject/object distinction implicit in "analysis"
+1. Analysis must proceed in strict chronological order
+2. Pre-lecture for date N+1 cannot begin until class analysis for date N is complete
+3. When initializing a new workspace, must start with earliest course date
+4. All modes must verify chronological integrity before operations
+5. Chronological violations must be blocked with clear error messages
 
-### Technical Limitations
+## 4. Memory Management System
 
-Our implementation necessarily:
+### 4.1 Standard Workspace Structure
 
-- Reduces philosophical complexity to computable structures
-- Privileges text over other forms of philosophical engagement
-- Assumes the stability of meaning across contexts
-- Operates within the limitations of symbolic representation
+```
+analysis_workspace/
+├── prelecture/                 # Pre-lecture analyses
+├── lectures/                   # Lecture analyses
+├── concepts/                   # Concept tracking
+├── arguments/                  # Argument tracking
+├── integrated/                 # Integration analyses
+│   ├── dialectical/            # Dialectical analyses
+├── essay_prep/                 # Essay preparation materials
+├── secondary_literature/       # Secondary literature analyses
+│   ├── sources/
+│   ├── bibliographies/
+│   ├── perspectives/
+│   ├── debates/
+├── analysis_logs/              # Analysis tracking
+│   ├── chronological_index.md  # Master schedule
+├── handoff/                    # Mode transition documents
+```
 
-### Historical Situatedness
+### 4.2 File Naming Conventions
 
-This system emerges from:
+- **Date-specific files**: Always use `[DATE]_[type].md` format (e.g., `Jan07_analysis.md`)
+- **Concept files**: Use `[CONCEPT_NAME].md` format
+- **Argument files**: Use `[ARGUMENT_NAME].md` format
+- **Version tracking**: Use `v[VERSION]` for versioned files (e.g., `thesis_v2.md`)
+- **Handoff files**: Use `[FROM_MODE]_to_[TO_MODE]_context.md`
 
-- Contemporary computational paradigms
-- Western philosophical traditions and their categories
-- English-language conceptual frameworks
-- Modern understanding of textual interpretation
+### 4.3 Context Loading Priority System
 
-### What Remains Unthought
+All modes must implement a consistent priority loading system:
 
-This architecture cannot account for:
+```yaml
+context_files:
+  high_priority:
+    - "analysis_logs/chronological_index.md"  # ALWAYS first
+    - "[MODE-SPECIFIC]/[DATE]_[TYPE].md"      # Current date files
+  medium_priority:
+    - "concepts/index.md"                     # Shared concept tracking
+    - "arguments/index.md"                    # Shared argument tracking
+    - "integrated/course_overview.md"         # Course integration
+  low_priority:
+    - "handoff/handoff_context.md"            # Transition context
+    - "[MODE-SPECIFIC]/archive/[OLD_DATE]_analysis.md"  # Previous analyses
+```
 
-- The pre-reflective dimensions of understanding
-- The embodied nature of philosophical thought
-- The role of mood and attunement in understanding
-- The historical unfolding of Being itself
+## 5. Handoff Protocol System
 
-## Usage Scenarios
+### 5.1 Standard Handoff Format
 
-### Exploring Interpretive Pathways
+All handoffs between modes must follow this format:
 
-1. Begin with a sequence of philosophical texts
-2. Track how understanding evolves through encountering each text
-3. Branch at significant transformational moments
-4. Compare how different reading sequences yield different interpretations
+```markdown
+# Handoff Context: [FROM_MODE] to [TO_MODE]
 
-### Method Evolution
+## Handoff Information
+- **Date:** [DATE]
+- **Topic:** [TOPIC]
+- **From Mode:** [FROM_MODE]
+- **To Mode:** [TO_MODE]
+- **Generated:** [TIMESTAMP]
 
-1. Begin with provisional analytical approaches
-2. Apply these approaches to philosophical texts
-3. Allow texts to question and transform these approaches
-4. Document methodological evolution
+## IMPORTANT: TARGET DATE VERIFICATION
+This handoff is for analysis of **[DATE]** material.
+The receiving mode MUST continue analysis for this SAME DATE.
 
-### Conceptual Genealogy
+## Target Date Status
+[TARGET_DATE_STATUS]
 
-1. Track how concepts transform across different textual encounters
-2. Preserve tensions and contradictions in conceptual development
-3. Map relationships between evolving concepts
-4. Document how different pathways yield different conceptual landscapes
+## Completion Status
+[COMPLETION_STATUS]
 
-## Provisional Path Forward
+## Required Context
+[REQUIRED_CONTEXT]
 
-This architecture does not present itself as final but as a beginning. Implementation might proceed through:
+## Required Follow-up
+[REQUIRED_FOLLOWUP]
+```
 
-1. Creating the core questioning mode with minimal methodological commitments
-2. Developing initial tracking mechanisms for understanding transformation
-3. Implementing provisional methods while maintaining their contingency
-4. Establishing branching capabilities for different hermeneutic pathways
-5. Regularly subjecting the entire system to its own questioning
+### 5.2 Handoff Verification Requirements
 
-## Concluding Non-Conclusion
+All handoffs must include these verification steps:
 
-This document does not conclude but opens a path of inquiry. The architecture described herein is not a blueprint but a provisional orientation, itself subject to transformation through engagement with philosophical texts and traditions. The system's success will not be measured by its adherence to this initial vision but by its capacity to question and transform itself through genuine hermeneutic encounter.
+1. Explicit date reference in both sending and receiving modes
+2. Date consistency check between handoff and chronological index
+3. Required file existence verification
+4. Completion status verification
+5. Explicit rejection protocol for invalid handoffs
 
-*"The question is more important than the answer, and every answer becomes a new question." - Hans-Georg Gadamer*
+### 5.3 Standard Handoff Protocol Implementation
+
+```yaml
+handoff_protocols:
+  to_[target_mode]:
+    preparation: |
+      1. Extract CURRENT_TARGET_DATE from chronological_index.md
+      2. Verify [prerequisite] is complete
+      3. Create handoff/handoff_context.md with:
+         - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
+         - Clear instruction to continue with SAME date
+      4. Update chronological_index.md with transition status
+      5. REQUIRE explicit confirmation of target date understanding
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "[mode-specific]/[DATE]_[type].md"
+        - "handoff/handoff_context.md"
+      summary_description: "Clear description of handoff purpose for [DATE]"
+  
+  from_[source_mode]:
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract target date
+      2. VERIFY this matches expected chronological progression
+      3. Verify required files exist
+      4. Initialize workspace for THIS SPECIFIC date
+      5. REJECT handoff if date inconsistency detected
+      6. CONFIRM receipt of correct date context
+```
+
+## 6. Workflow Management System
+
+### 6.1 Standard Workflow Structure
+
+```yaml
+workflows:
+  default:
+    - name: [workflow_name]
+      description: "Clear description of workflow purpose"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "[prerequisite_workflow]"
+          required: true
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. [implementation steps]
+        3. Update chronological_index.md with completion status
+      completion_behavior: |
+        1. Report completion status for specific date
+        2. Recommend next appropriate workflow
+```
+
+### 6.2 Prerequisite Management
+
+```yaml
+prerequisite_management:
+  categorization:
+    necessary:
+      description: "Prerequisites required for logical progression"
+      handling: |
+        1. Auto-execute without user confirmation
+        2. Block further progress until complete
+        3. Report automatic execution with rationale
+      examples:
+        - "Previous date's class analysis"
+        - "Pre-lecture analysis for current date"
+    
+    optional:
+      description: "Prerequisites that enhance quality but aren't required"
+      handling: |
+        1. Present clear benefits of completion
+        2. Request explicit user decision
+        3. Document decision in logs
+      examples:
+        - "Secondary literature review"
+        - "Deeper hermeneutic reading"
+```
+
+### 6.3 Workflow Completion Behavior
+
+All workflows must implement these completion behaviors:
+
+1. Report specific date in completion message
+2. Update chronological index with completion status
+3. Provide clear next step recommendations
+4. Verify prerequisites before progression
+5. Catch and handle errors appropriately
+
+## 7. Evidence Standards System
+
+### 7.1 Cross-Mode Evidence Requirements
+
+All modes must implement these minimum evidence standards:
+
+```yaml
+evidence_standards:
+  requirements:
+    - "All interpretations must reference specific text/lecture sections"
+    - "Major concepts require direct quotes with proper citation"
+    - "Interpretations must include confidence assessment"
+    - "Complex passages require documentation of alternative readings"
+  
+  verification_workflow:
+    enabled: true
+    coverage_threshold: 90%
+    quote_requirement_threshold: 75%
+    confidence_assessment_required: true
+```
+
+### 7.2 Mode-Specific Evidence Standards
+
+- **Pre-lecture mode**: Page/section references for readings
+- **Class-analysis mode**: Timestamp/section references for lectures
+- **Secondary-lit mode**: Page numbers and proper citations for scholarly sources
+- **Dialectical-analysis mode**: Explicit textual evidence for dialectical moments
+- **Essay-prep mode**: Proper source attribution for all claims
+
+### 7.3 Evidence Verification Protocol
+
+All modes must implement this verification process:
+
+```yaml
+verification_protocol:
+  implementation: |
+    1. For all analysis files:
+       - Verify references are complete and specific
+       - Check for required quotations for major points
+       - Validate interpretive confidence assessments
+       - Ensure alternative readings for complex passages
+    2. Calculate evidence coverage percentages
+    3. Flag sections below threshold
+    4. Block completion if evidence standards not met
+```
+
+## 8. Mode-Specific Responsibilities
+
+### 8.1 Pre-Lecture Mode
+
+**Primary Role**: Analyze course readings before lectures
+**Key Responsibilities**:
+- Identify key passages, concepts, and arguments in readings
+- Generate questions for upcoming lecture
+- Develop hypotheses about concepts and arguments
+- Prepare for lecture comprehension
+
+**Key Workflows**:
+1. Initialize chronological tracking
+2. Analyze lecture materials
+3. Evidence verification check
+4. Prepare for class analysis
+
+**Handoff Protocols**:
+- TO class-analysis (primary)
+- TO secondary-lit (optional)
+
+### 8.2 Class-Analysis Mode
+
+**Primary Role**: Analyze lecture content and relate to readings
+**Key Responsibilities**:
+- Analyze lecture concepts and arguments
+- Compare with pre-lecture expectations
+- Extract and track concept development
+- Integrate with course themes
+- Identify research needs
+
+**Key Workflows**:
+1. Initialize class analysis
+2. Analyze lecture
+3. Extract concepts and arguments
+4. Integrate with course
+5. Prepare for next cycle
+
+**Handoff Protocols**:
+- FROM pre-lecture
+- TO pre-lecture (next date)
+- TO secondary-lit (optional)
+- TO dialectical-analysis (optional)
+- TO essay-prep (optional)
+
+### 8.3 Secondary-Literature Mode
+
+**Primary Role**: Research scholarly perspectives on course topics
+**Key Responsibilities**:
+- Analyze scholarly interpretations of primary texts
+- Map scholarly debates and competing perspectives
+- Provide historical context for concepts
+- Build bibliographies
+- Relate scholarly insights to course materials
+
+**Key Workflows**:
+1. Initialize secondary lit workspace
+2. Assess available materials
+3. Analyze secondary sources
+4. Map scholarly debates
+5. Integrate scholarly perspectives
+
+**Handoff Protocols**:
+- FROM pre-lecture
+- FROM class-analysis
+- FROM essay-prep
+- TO text-processing
+- TO class-analysis
+- TO dialectical-analysis
+- TO essay-prep
+
+### 8.4 Dialectical-Analysis Mode
+
+**Primary Role**: Analyze philosophical concepts through dialectical movement
+**Key Responsibilities**:
+- Identify dialectical contradictions in concepts
+- Map dialectical moments in concept development
+- Analyze transitions between dialectical moments
+- Synthesize dialectical resolutions
+- Create visualizations of dialectical movement
+
+**Key Workflows**:
+1. Initialize dialectical workspace
+2. Identify contradictions
+3. Map dialectical moments
+4. Analyze transitions
+5. Synthesize resolutions
+
+**Handoff Protocols**:
+- FROM class-analysis
+- FROM secondary-lit
+- FROM essay-prep
+- TO class-analysis
+- TO secondary-lit
+- TO essay-prep
+
+### 8.5 Essay-Prep Mode
+
+**Primary Role**: Develop philosophical essays from conception to draft
+**Key Responsibilities**:
+- Analyze essay prompts
+- Develop and refine thesis statements
+- Map arguments supporting theses
+- Create outlines and drafts
+- Integrate course materials chronologically
+- Compile and manage bibliographies
+
+**Key Workflows**:
+1. Initialize essay project
+2. Analyze essay prompt
+3. Develop thesis
+4. Map arguments
+5. Create outline
+6. Create draft
+
+**Handoff Protocols**:
+- FROM class-analysis
+- FROM secondary-lit
+- FROM dialectical-analysis
+- TO secondary-lit
+- TO dialectical-analysis
+- TO class-analysis
+
+### 8.6 Text-Processing Mode
+
+**Primary Role**: Process and chunk texts into manageable units
+**Key Responsibilities**:
+- Analyze text structure to determine chunking strategy
+- Divide texts into semantically meaningful chunks
+- Create hierarchical indices for text navigation
+- Generate semantic indices by concept and argument
+- Facilitate selective context loading
+
+**Key Workflows**:
+1. Analyze text structure
+2. Process text into chunks
+3. Generate semantic indices
+4. Create cross-references
+
+**Handoff Protocols**:
+- FROM secondary-lit
+- FROM pre-lecture
+- TO secondary-lit
+- TO pre-lecture
+- TO class-analysis
+
+## 9. Extension and Modification System
+
+### 9.1 Adding New Modes
+
+To add a new mode:
+1. Create new .clinerules-philosophy-[mode-name] file
+2. Implement all required components
+3. Define handoff protocols for all relevant mode transitions
+4. Ensure compatibility with chronological management
+5. Implement evidence standards and verification
+6. Define mode-specific workflows
+
+### 9.2 Modifying Existing Modes
+
+To modify an existing mode:
+1. Maintain backward compatibility with other modes
+2. Update all affected handoff protocols
+3. Ensure chronological management remains consistent
+4. Document changes in version history
+5. Update related modes if necessary
+
+### 9.3 Cross-Mode Updates
+
+For system-wide changes:
+1. Update chronological_index.md structure across all modes
+2. Modify handoff_protocols in all affected modes
+3. Update evidence_standards across all modes
+4. Ensure file naming and folder structure compatibility
+5. Test all mode transitions
