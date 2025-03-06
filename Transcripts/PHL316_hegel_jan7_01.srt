@@ -1,0 +1,7820 @@
+1
+00:00:00,000 --> 00:00:05,320
+So let me say a few things about the idea of this class.
+
+2
+00:00:05,320 --> 00:00:11,040
+So Hegel has always suffered from the problem
+
+3
+00:00:11,040 --> 00:00:13,280
+that he is very hard to teach.
+
+4
+00:00:13,280 --> 00:00:15,640
+And the reason he is very hard to teach
+
+5
+00:00:15,640 --> 00:00:18,920
+is because there is no book by Hegel
+
+6
+00:00:18,920 --> 00:00:23,120
+that is the equivalent of the critique of pure reason,
+
+7
+00:00:23,120 --> 00:00:28,120
+or the ethics of Spinoza, or the Republic of Plato,
+
+8
+00:00:28,240 --> 00:00:31,800
+or Truth is a Human Nature.
+
+9
+00:00:31,800 --> 00:00:34,560
+That is to say, a single book that you
+
+10
+00:00:34,560 --> 00:00:36,920
+could teach either in the course of a semester,
+
+11
+00:00:36,920 --> 00:00:40,000
+or you could teach a significant chunk of a semester,
+
+12
+00:00:40,000 --> 00:00:44,120
+that gives you, if not the philosopher's whole system,
+
+13
+00:00:44,120 --> 00:00:48,960
+at least enough of it that you can kind of figure out
+
+14
+00:00:48,960 --> 00:00:52,480
+how everything fits into it.
+
+15
+00:00:52,480 --> 00:00:57,200
+The closest thing in Hegel would be the philosophy of right.
+
+16
+00:00:57,200 --> 00:01:01,640
+But that is really only a very small part of Hegel's system.
+
+17
+00:01:01,640 --> 00:01:05,040
+The books by Hegel that do contain a more complete
+
+18
+00:01:05,040 --> 00:01:07,640
+presentation of the system have this problem
+
+19
+00:01:07,640 --> 00:01:11,520
+that they are unbelievably hard to read,
+
+20
+00:01:11,520 --> 00:01:14,240
+in particular this one, the Phenomenology of Spirit.
+
+21
+00:01:14,240 --> 00:01:17,560
+So the standard way that Hegel gets
+
+22
+00:01:17,560 --> 00:01:19,760
+taught at the undergraduate class
+
+23
+00:01:19,760 --> 00:01:22,960
+is you teach the Phenomenology of Spirit.
+
+24
+00:01:22,960 --> 00:01:26,080
+So in the past when I've taught this class,
+
+25
+00:01:26,080 --> 00:01:28,200
+I have done the standard thing.
+
+26
+00:01:28,200 --> 00:01:30,320
+You try to read the Phenomenology of Spirit.
+
+27
+00:01:30,320 --> 00:01:32,960
+The problem with that is that in one semester,
+
+28
+00:01:32,960 --> 00:01:36,480
+you can only really do half of the Phenomenology.
+
+29
+00:01:36,480 --> 00:01:38,640
+I never managed to get to the end.
+
+30
+00:01:38,640 --> 00:01:42,000
+And the Phenomenology of Spirit is, I think,
+
+31
+00:01:42,000 --> 00:01:45,960
+the hardest book in the entire Western philosophical tradition.
+
+32
+00:01:45,960 --> 00:01:49,880
+So what has this experience teaching the Phenomenology
+
+33
+00:01:49,880 --> 00:01:52,360
+of Spirit that, at a certain point, people aren't really
+
+34
+00:01:52,360 --> 00:01:53,920
+reading the book anymore.
+
+35
+00:01:53,920 --> 00:01:57,280
+They're just kind of getting a kind of indirect high level
+
+36
+00:01:57,280 --> 00:01:58,720
+summary of it.
+
+37
+00:01:58,720 --> 00:02:00,960
+And they're kind of talking about Hegel,
+
+38
+00:02:00,960 --> 00:02:03,480
+but they're not really talking about what's in the book.
+
+39
+00:02:03,480 --> 00:02:04,960
+And that's not just true of students
+
+40
+00:02:04,960 --> 00:02:06,160
+in undergraduate classes.
+
+41
+00:02:06,160 --> 00:02:08,520
+On Hegel, I sometimes have the impression
+
+42
+00:02:08,520 --> 00:02:11,120
+with a lot of so-called Hegel scholars
+
+43
+00:02:11,120 --> 00:02:13,840
+that they're not really reading the same book that I am.
+
+44
+00:02:13,840 --> 00:02:17,000
+They're kind of like doing this second hand high level
+
+45
+00:02:17,000 --> 00:02:17,880
+summary of Hegel.
+
+46
+00:02:17,880 --> 00:02:22,280
+So the last time I taught 316, I went the opposite direction.
+
+47
+00:02:22,280 --> 00:02:25,840
+We read the Phenomenology of Spirit line by line.
+
+48
+00:02:25,840 --> 00:02:28,400
+In fact, in at least one three hour course,
+
+49
+00:02:28,400 --> 00:02:30,960
+we didn't get past a single sentence.
+
+50
+00:02:30,960 --> 00:02:35,520
+That had the contrary benefit that people were really, really
+
+51
+00:02:35,520 --> 00:02:37,800
+reading the text.
+
+52
+00:02:37,800 --> 00:02:40,160
+However, it had the complementary problem
+
+53
+00:02:40,160 --> 00:02:42,120
+that we didn't get very far.
+
+54
+00:02:42,120 --> 00:02:45,520
+And after a certain point, even if you're
+
+55
+00:02:45,520 --> 00:02:48,280
+reading it sentence by sentence, Hegel
+
+56
+00:02:48,280 --> 00:02:50,680
+is extraordinarily difficult.
+
+57
+00:02:50,680 --> 00:02:55,320
+So this class is going to go in the opposite direction.
+
+58
+00:02:55,320 --> 00:02:59,280
+The idea of this class is that we're going to do,
+
+59
+00:02:59,280 --> 00:03:04,440
+or I'm going to present, the entirety of Hegel's system,
+
+60
+00:03:04,440 --> 00:03:05,640
+or at least not the whole thing.
+
+61
+00:03:05,640 --> 00:03:07,400
+You can't do the whole thing one semester.
+
+62
+00:03:07,400 --> 00:03:10,680
+I'm going to talk about all of the main structural moments
+
+63
+00:03:10,680 --> 00:03:11,920
+of Hegel's system.
+
+64
+00:03:11,920 --> 00:03:14,880
+And I'll talk about this in more detail, a little bit more
+
+65
+00:03:14,880 --> 00:03:20,040
+detail later today, and much more detail in several weeks.
+
+66
+00:03:20,040 --> 00:03:22,600
+We're going to talk about the Phenomenology of Spirit, which
+
+67
+00:03:22,600 --> 00:03:27,280
+is the introduction to the system, which has three parts,
+
+68
+00:03:27,280 --> 00:03:30,760
+logic, philosophy of spirit.
+
+69
+00:03:34,920 --> 00:03:38,440
+Sorry, I really should bring my notes with me.
+
+70
+00:03:38,440 --> 00:03:42,760
+Philosophy of nature, that's an embarrassing mistake.
+
+71
+00:03:42,760 --> 00:03:43,920
+The philosophy of spirit.
+
+72
+00:03:43,920 --> 00:03:49,640
+So we're obviously not going to read every part.
+
+73
+00:03:49,640 --> 00:03:54,040
+The book that presents this whole thing is called the Psychopedia.
+
+74
+00:03:54,040 --> 00:03:56,800
+We're not going to read the entire Encyclopedia.
+
+75
+00:03:56,800 --> 00:03:58,240
+That would be ridiculous.
+
+76
+00:03:58,240 --> 00:04:01,040
+But we're going to talk about all of the main structural moments
+
+77
+00:04:01,040 --> 00:04:01,920
+of this.
+
+78
+00:04:01,920 --> 00:04:05,560
+So we're going to spend the first two weeks on the Phenomenology
+
+79
+00:04:05,560 --> 00:04:06,640
+of Spirit.
+
+80
+00:04:06,640 --> 00:04:11,680
+We're going to spend three, four, five, six, from weeks three
+
+81
+00:04:11,680 --> 00:04:13,840
+to six on the logic, which means we're
+
+82
+00:04:13,840 --> 00:04:16,800
+going to talk about the beginning.
+
+83
+00:04:16,800 --> 00:04:19,360
+And we're going to talk about the end.
+
+84
+00:04:19,360 --> 00:04:21,840
+And then we're going to spend a week on the transition
+
+85
+00:04:21,840 --> 00:04:23,440
+to the philosophy of nature.
+
+86
+00:04:23,440 --> 00:04:25,400
+Then we're going to spend a week talking
+
+87
+00:04:25,400 --> 00:04:28,480
+about the move from the philosophy of nature
+
+88
+00:04:28,480 --> 00:04:30,080
+to the philosophy of spirit.
+
+89
+00:04:30,080 --> 00:04:36,160
+And then we're going to spend one week on the philosophy of right.
+
+90
+00:04:36,160 --> 00:04:37,800
+It's week nine.
+
+91
+00:04:37,800 --> 00:04:41,640
+We're going to spend, I feel like I've missed a week somewhere
+
+92
+00:04:41,640 --> 00:04:42,140
+in here.
+
+93
+00:04:42,140 --> 00:04:43,560
+This is not quite accurate.
+
+94
+00:04:43,560 --> 00:04:45,960
+But you get the basic picture.
+
+95
+00:04:45,960 --> 00:04:55,400
+And then we're going to spend one week on art, one week on religion,
+
+96
+00:04:55,400 --> 00:04:59,400
+and then one week on philosophy, which
+
+97
+00:04:59,400 --> 00:05:02,600
+is the return of the philosophy of spirit back to the logic.
+
+98
+00:05:02,600 --> 00:05:05,720
+So we're not going to cover every single part of the system.
+
+99
+00:05:05,720 --> 00:05:09,600
+But we are going to talk about all the major moving parts.
+
+100
+00:05:09,600 --> 00:05:14,560
+So the other idea that sort of mixed in with this idea for this course
+
+101
+00:05:14,560 --> 00:05:18,360
+is we're going to read all the parts of Hegel you can just read.
+
+102
+00:05:18,360 --> 00:05:20,800
+We're going to read all the easy parts of it.
+
+103
+00:05:20,800 --> 00:05:22,760
+And we're going to read them in systematic order
+
+104
+00:05:22,760 --> 00:05:26,360
+so that you have some idea of what Hegel's philosophical system actually
+
+105
+00:05:26,360 --> 00:05:26,960
+is.
+
+106
+00:05:26,960 --> 00:05:31,120
+The other problem with reading the phenomenology of spirit,
+
+107
+00:05:31,120 --> 00:05:34,200
+the other problem with treating the phenomenology of spirit
+
+108
+00:05:34,200 --> 00:05:37,120
+as like the textbook for an undergraduate Hegel course,
+
+109
+00:05:37,120 --> 00:05:42,240
+is I'll talk about this more later today and more next week.
+
+110
+00:05:42,240 --> 00:05:44,840
+The phenomenology of spirit is in a certain way,
+
+111
+00:05:44,840 --> 00:05:49,400
+although this requires qualifications, only Hegel's negative view.
+
+112
+00:05:49,400 --> 00:05:53,000
+It should bear the subtitle wrong answers only.
+
+113
+00:05:53,000 --> 00:05:57,240
+So the phenomenology of spirit is a series of failed attempts,
+
+114
+00:05:57,240 --> 00:05:59,880
+failed accounts of what knowledge is.
+
+115
+00:05:59,880 --> 00:06:04,600
+So it's just very weird that this book has become treated
+
+116
+00:06:04,600 --> 00:06:07,440
+as the critique of pure reason of Hegel.
+
+117
+00:06:07,440 --> 00:06:11,200
+That is just, I mean, Hegel would be totally shocked
+
+118
+00:06:11,200 --> 00:06:13,160
+that this is the book that everyone reads,
+
+119
+00:06:13,160 --> 00:06:16,720
+because it's basically his jubinellia.
+
+120
+00:06:16,720 --> 00:06:19,320
+And he wasn't even really sure what to do with it
+
+121
+00:06:19,320 --> 00:06:22,160
+once he had completed the mature system, which is this.
+
+122
+00:06:26,160 --> 00:06:27,400
+OK.
+
+123
+00:06:27,400 --> 00:06:31,960
+So that's the idea of what you've gotten yourself into.
+
+124
+00:06:31,960 --> 00:06:32,920
+OK.
+
+125
+00:06:32,920 --> 00:06:34,360
+Some course mechanics.
+
+126
+00:06:34,360 --> 00:06:37,240
+The syllabus is on Quercus.
+
+127
+00:06:37,240 --> 00:06:38,800
+I will just say a few things about it.
+
+128
+00:06:38,800 --> 00:06:40,800
+I find discussing course mechanics in the beginning
+
+129
+00:06:40,800 --> 00:06:42,720
+of the semester really boring.
+
+130
+00:06:42,720 --> 00:06:44,280
+So I'm going to do this very quickly.
+
+131
+00:06:44,280 --> 00:06:47,520
+You have to write two essays, and there is a final exam
+
+132
+00:06:47,520 --> 00:06:49,480
+during the exam period.
+
+133
+00:06:49,480 --> 00:06:53,080
+The, you know, it couldn't be more straightforward.
+
+134
+00:06:53,080 --> 00:06:54,280
+OK.
+
+135
+00:06:54,280 --> 00:06:56,920
+Your participation grade will be determined
+
+136
+00:06:56,920 --> 00:07:00,160
+on the basis of how many weeks you submit questions
+
+137
+00:07:00,160 --> 00:07:01,400
+about the reading.
+
+138
+00:07:01,400 --> 00:07:03,160
+So the questions about the reading should be written.
+
+139
+00:07:03,160 --> 00:07:05,160
+You can type them if you want, but it's also
+
+140
+00:07:05,160 --> 00:07:06,720
+fine to submit them just handwritten,
+
+141
+00:07:06,720 --> 00:07:09,160
+as long as your handwriting is legible.
+
+142
+00:07:09,160 --> 00:07:11,680
+And they should be questions about the reading for that week.
+
+143
+00:07:11,680 --> 00:07:15,400
+And not, you know, like, I was an undergraduate too once.
+
+144
+00:07:15,400 --> 00:07:17,000
+I know all the tricks, right?
+
+145
+00:07:17,000 --> 00:07:19,640
+So not like you just turn to a random page in the reading,
+
+146
+00:07:19,640 --> 00:07:22,400
+and you find Hegel saying, the study of philosophy
+
+147
+00:07:22,400 --> 00:07:25,120
+is hindered by the conduct of only clever argumentation.
+
+148
+00:07:25,120 --> 00:07:27,160
+Why does Hegel say the, you know,
+
+149
+00:07:27,160 --> 00:07:29,360
+that's not what I'm looking for.
+
+150
+00:07:29,440 --> 00:07:31,520
+You know, put, like, say a little bit more
+
+151
+00:07:31,520 --> 00:07:35,280
+about why this question is relevant or contextualize it.
+
+152
+00:07:35,280 --> 00:07:37,440
+Given that Hegel says this, and he says this other thing,
+
+153
+00:07:37,440 --> 00:07:38,520
+how is this compatible?
+
+154
+00:07:38,520 --> 00:07:41,400
+Why does Hegel think that this transition is unproblematic?
+
+155
+00:07:41,400 --> 00:07:43,160
+Why is this argument supposed to be good?
+
+156
+00:07:43,160 --> 00:07:44,160
+How is this consistent?
+
+157
+00:07:44,160 --> 00:07:44,960
+Something like that.
+
+158
+00:07:44,960 --> 00:07:45,920
+Two for every week.
+
+159
+00:07:45,920 --> 00:07:46,480
+OK.
+
+160
+00:07:46,480 --> 00:07:49,040
+So some of you probably, how many of you
+
+161
+00:07:49,040 --> 00:07:51,120
+brought reading questions for this week?
+
+162
+00:07:51,120 --> 00:07:52,120
+OK, good.
+
+163
+00:07:52,120 --> 00:07:53,360
+That's great.
+
+164
+00:07:53,360 --> 00:07:55,120
+A lot of you joined the class later,
+
+165
+00:07:55,120 --> 00:07:56,640
+didn't know about this, so I'm going
+
+166
+00:07:56,640 --> 00:07:58,200
+to treat those as extra credit.
+
+167
+00:07:58,280 --> 00:08:00,120
+You can hand them, you can give them to me
+
+168
+00:08:00,120 --> 00:08:01,440
+at the end of the day.
+
+169
+00:08:01,440 --> 00:08:03,800
+But in general, they're due first thing.
+
+170
+00:08:03,800 --> 00:08:05,840
+So you know, this is like, don't show up
+
+171
+00:08:05,840 --> 00:08:08,240
+and think you can scribble a few questions about the reading
+
+172
+00:08:08,240 --> 00:08:09,560
+and grab total credit for it.
+
+173
+00:08:09,560 --> 00:08:10,920
+That's not going to work.
+
+174
+00:08:10,920 --> 00:08:11,800
+OK.
+
+175
+00:08:11,800 --> 00:08:17,560
+Other than that, how many of you here are auditing this class?
+
+176
+00:08:17,560 --> 00:08:18,440
+OK.
+
+177
+00:08:18,440 --> 00:08:19,840
+That's a lot.
+
+178
+00:08:19,840 --> 00:08:21,200
+That's like an insane number.
+
+179
+00:08:21,200 --> 00:08:21,720
+OK.
+
+180
+00:08:21,720 --> 00:08:24,160
+So let me just say, those of you who
+
+181
+00:08:24,160 --> 00:08:26,720
+are taking this class for credit,
+
+182
+00:08:26,720 --> 00:08:30,720
+you have something of great value that other people want,
+
+183
+00:08:30,720 --> 00:08:32,760
+which means you have to earn it.
+
+184
+00:08:32,760 --> 00:08:35,760
+So do your best work.
+
+185
+00:08:35,760 --> 00:08:38,480
+Because if you don't do your best work,
+
+186
+00:08:38,480 --> 00:08:41,400
+I would prefer that you just drop the class
+
+187
+00:08:41,400 --> 00:08:43,760
+and one of the people who's auditing it take your spot.
+
+188
+00:08:43,760 --> 00:08:46,280
+Because many of them are very, very motivated.
+
+189
+00:08:46,280 --> 00:08:48,560
+OK.
+
+190
+00:08:48,560 --> 00:08:53,480
+Let me say one or two things more.
+
+191
+00:08:53,480 --> 00:08:56,000
+Why is Hegel relevant, or why is Hegel important?
+
+192
+00:08:56,000 --> 00:08:59,480
+Why should you spend the amount of energy
+
+193
+00:08:59,480 --> 00:09:03,720
+that you're going to have to expend this semester on Hegel?
+
+194
+00:09:03,720 --> 00:09:05,960
+I mean, the other reason that I've designed this class
+
+195
+00:09:05,960 --> 00:09:08,360
+is I wanted to finally teach a Hegel class that
+
+196
+00:09:08,360 --> 00:09:11,320
+wasn't impossibly difficult.
+
+197
+00:09:11,320 --> 00:09:13,840
+This is supposed to be like moderate level difficulty
+
+198
+00:09:13,840 --> 00:09:14,600
+Hegel.
+
+199
+00:09:14,600 --> 00:09:16,120
+OK.
+
+200
+00:09:16,120 --> 00:09:19,520
+I mean, for the most part, not a sign of a really impossible
+
+201
+00:09:19,520 --> 00:09:20,960
+hard things in Hegel.
+
+202
+00:09:20,960 --> 00:09:24,440
+But there's a few weeks where we are
+
+203
+00:09:24,440 --> 00:09:26,960
+going to read some really hard stuff in Hegel,
+
+204
+00:09:26,960 --> 00:09:29,880
+and I will kind of hold your hand through those.
+
+205
+00:09:29,880 --> 00:09:30,560
+OK.
+
+206
+00:09:30,560 --> 00:09:35,640
+So I regard Hegel as the philosophical equal,
+
+207
+00:09:35,640 --> 00:09:38,680
+the peer of Plato and Aristotle.
+
+208
+00:09:38,680 --> 00:09:42,520
+I think he's the only modern philosopher other than Kant,
+
+209
+00:09:42,520 --> 00:09:45,120
+who has that kind of status.
+
+210
+00:09:45,120 --> 00:09:48,320
+In a more generous mood, or if Tariq Dicco were here,
+
+211
+00:09:48,320 --> 00:09:51,040
+I would include Heidegger.
+
+212
+00:09:51,080 --> 00:09:54,440
+But, and Hegel has had an enormous influence
+
+213
+00:09:54,440 --> 00:09:58,320
+on European philosophy, the Western philosophy,
+
+214
+00:09:58,320 --> 00:09:59,800
+after that.
+
+215
+00:09:59,800 --> 00:10:02,800
+But always, I think, in a distorted form.
+
+216
+00:10:02,800 --> 00:10:06,160
+That is to say, the Hegel that was taken up
+
+217
+00:10:06,160 --> 00:10:10,560
+and was influential in philosophy after that
+
+218
+00:10:10,560 --> 00:10:15,440
+was always in one way or another distorted version of Hegel.
+
+219
+00:10:15,440 --> 00:10:18,520
+So that, in a certain way, the true Hegel
+
+220
+00:10:18,520 --> 00:10:21,320
+remains to be understood and really
+
+221
+00:10:21,320 --> 00:10:24,160
+philosophically appreciated.
+
+222
+00:10:24,160 --> 00:10:27,320
+Which also makes reading Hegel very exciting,
+
+223
+00:10:27,320 --> 00:10:31,360
+because there's more work to be done in understanding Hegel,
+
+224
+00:10:31,360 --> 00:10:33,400
+not just exegetically, but philosophically,
+
+225
+00:10:33,400 --> 00:10:35,600
+than there is with any other comparably
+
+226
+00:10:35,600 --> 00:10:40,400
+important modern philosophy, even Kant, especially Kant.
+
+227
+00:10:40,400 --> 00:10:44,880
+Kant is, in a certain way, relatively well understood,
+
+228
+00:10:44,880 --> 00:10:46,960
+vastly better understood than Hegel.
+
+229
+00:10:46,960 --> 00:10:50,280
+And Hegel has only himself to blame for this.
+
+230
+00:10:50,280 --> 00:10:54,600
+The books are, aside from the philosophy of right,
+
+231
+00:10:54,600 --> 00:11:00,120
+extraordinarily kind of maddeningly difficult.
+
+232
+00:11:00,120 --> 00:11:02,920
+Sometimes read as though they are.
+
+233
+00:11:02,920 --> 00:11:05,800
+So Hegel has a reputation, especially
+
+234
+00:11:05,800 --> 00:11:09,400
+in the English language tradition,
+
+235
+00:11:09,400 --> 00:11:13,800
+of just being an author of Gable de Gug of gibberish.
+
+236
+00:11:13,800 --> 00:11:14,720
+That's not true.
+
+237
+00:11:14,720 --> 00:11:18,200
+That reflects more on the readers who say that,
+
+238
+00:11:18,200 --> 00:11:20,000
+or that he's some kind of mystic.
+
+239
+00:11:20,000 --> 00:11:21,840
+Also, that's just a simple misreading.
+
+240
+00:11:21,840 --> 00:11:27,480
+But the books are forbiddingly difficult and dense.
+
+241
+00:11:27,480 --> 00:11:29,440
+There are significant chunks.
+
+242
+00:11:29,440 --> 00:11:33,040
+I mean, I've spent so much time reading these books.
+
+243
+00:11:33,040 --> 00:11:36,200
+I'm on my second read.
+
+244
+00:11:36,200 --> 00:11:38,480
+I read the Phonology of Spirit cover to cover
+
+245
+00:11:38,480 --> 00:11:40,440
+with some friends, and then I immediately
+
+246
+00:11:40,440 --> 00:11:41,880
+started rereading it from scratch.
+
+247
+00:11:41,880 --> 00:11:45,800
+And that's my fourth complete read through in my life.
+
+248
+00:11:45,800 --> 00:11:48,680
+And I'm constantly rereading the Science of Logic.
+
+249
+00:11:48,680 --> 00:11:51,640
+There are chunks of these books that I just
+
+250
+00:11:51,640 --> 00:11:53,840
+have to throw my hands around.
+
+251
+00:11:53,840 --> 00:11:57,520
+I don't really know what's going on.
+
+252
+00:11:57,520 --> 00:11:59,880
+Now, there's a reason, and we'll see this
+
+253
+00:11:59,880 --> 00:12:01,480
+over the course of the semester.
+
+254
+00:12:01,480 --> 00:12:04,960
+It's not just that Hegel was a bad writer, which he wasn't.
+
+255
+00:12:04,960 --> 00:12:08,000
+So Hegel has this reputation for being a bad writer.
+
+256
+00:12:08,000 --> 00:12:09,720
+This is simply false.
+
+257
+00:12:09,720 --> 00:12:14,120
+When Hegel wants to, he can be eloquent, indeed beautiful.
+
+258
+00:12:14,120 --> 00:12:16,040
+There's actually a philosophical reason
+
+259
+00:12:16,040 --> 00:12:20,680
+for why the books are written as densely as they are.
+
+260
+00:12:20,680 --> 00:12:24,200
+I also think part of the reason why some parts of the books
+
+261
+00:12:24,200 --> 00:12:27,160
+are as dense as they are is because Hegel had not fully
+
+262
+00:12:27,160 --> 00:12:29,960
+worked out his theory.
+
+263
+00:12:29,960 --> 00:12:33,200
+He had not fully worked out his system in all of the detail
+
+264
+00:12:33,200 --> 00:12:38,160
+that he presents it as having been worked out in.
+
+265
+00:12:38,160 --> 00:12:42,040
+Failures of presentation are often failures of thought.
+
+266
+00:12:42,040 --> 00:12:44,320
+And I think to some extent, that's
+
+267
+00:12:44,320 --> 00:12:46,760
+part of what's going on with Hegel in some places.
+
+268
+00:12:46,760 --> 00:12:48,920
+And also, I think there are philosophical reasons
+
+269
+00:12:48,920 --> 00:12:51,880
+for why the books have to be written in this way that
+
+270
+00:12:51,880 --> 00:12:55,240
+is extremely difficult to read.
+
+271
+00:12:55,240 --> 00:12:58,920
+But because Hegel has, in my view,
+
+272
+00:12:58,920 --> 00:13:02,840
+never been received as Hegel, that is to say,
+
+273
+00:13:02,840 --> 00:13:05,040
+the reception of Hegel has always been the distortion
+
+274
+00:13:05,040 --> 00:13:05,760
+of Hegel.
+
+275
+00:13:05,760 --> 00:13:08,480
+That makes Hegel exciting.
+
+276
+00:13:08,480 --> 00:13:15,000
+In a certain way, in other moods,
+
+277
+00:13:15,000 --> 00:13:17,640
+I would say this more vociferously.
+
+278
+00:13:17,640 --> 00:13:21,680
+In a certain way, the big, unaccomplished task
+
+279
+00:13:21,680 --> 00:13:24,720
+of philosophy in Western tradition
+
+280
+00:13:24,720 --> 00:13:27,360
+is fully understanding and grappling with Hegel.
+
+281
+00:13:27,360 --> 00:13:29,960
+I think that's the thing that hasn't really been done.
+
+282
+00:13:29,960 --> 00:13:33,480
+And this class can serve as a kind of introduction
+
+283
+00:13:33,480 --> 00:13:36,360
+to doing that, and maybe an inspiration to you
+
+284
+00:13:36,360 --> 00:13:37,560
+to do that further.
+
+285
+00:13:37,560 --> 00:13:41,240
+Because one of the ways that I hope this class will function
+
+286
+00:13:41,240 --> 00:13:47,720
+is as a propagutic for you to read more of Hegel
+
+287
+00:13:47,720 --> 00:13:52,040
+on your own, an entry point in Hegel
+
+288
+00:13:52,040 --> 00:13:54,120
+so that you can study it more on your own.
+
+289
+00:13:54,120 --> 00:13:57,400
+OK, there is no textbook for this class.
+
+290
+00:13:57,400 --> 00:13:59,760
+All of the readings are going to be online
+
+291
+00:13:59,760 --> 00:14:03,200
+on corkis in the form of PDFs, which
+
+292
+00:14:03,200 --> 00:14:08,640
+means that if you want to, you can read them on screens.
+
+293
+00:14:08,640 --> 00:14:11,200
+And that means that I will have to allow laptops
+
+294
+00:14:11,200 --> 00:14:14,560
+in this class if normally I don't, which I hate doing.
+
+295
+00:14:14,560 --> 00:14:19,560
+The reason I hate doing that is because these things are just
+
+296
+00:14:19,560 --> 00:14:20,920
+distraction machines.
+
+297
+00:14:20,920 --> 00:14:23,400
+So whenever you see a screen, what you should see
+
+298
+00:14:23,400 --> 00:14:27,760
+is a conspiracy by very rich and powerful people
+
+299
+00:14:27,760 --> 00:14:30,360
+to destroy your mind and ruin your life,
+
+300
+00:14:30,360 --> 00:14:33,080
+because that's, in fact, what they are.
+
+301
+00:14:33,080 --> 00:14:37,520
+They are the great toxin of our contemporary world.
+
+302
+00:14:37,520 --> 00:14:40,280
+And so I would prefer to not have them in the classroom.
+
+303
+00:14:40,280 --> 00:14:42,680
+Somehow, all of the best philosophy ever written
+
+304
+00:14:42,680 --> 00:14:45,560
+was written without them, so we don't actually
+
+305
+00:14:45,560 --> 00:14:47,240
+need them for any of this.
+
+306
+00:14:47,240 --> 00:14:49,400
+In fact, all of the best philosophy
+
+307
+00:14:49,400 --> 00:14:54,200
+was done and taught without artificial light.
+
+308
+00:14:54,200 --> 00:14:56,960
+So I would really like to someday teach a class.
+
+309
+00:14:57,600 --> 00:15:00,080
+If you go to old German universities,
+
+310
+00:15:00,080 --> 00:15:02,720
+if you go to what is now Pumboldo Investitatie
+
+311
+00:15:02,720 --> 00:15:04,120
+in Berlin, the University of Berlin,
+
+312
+00:15:04,120 --> 00:15:07,080
+where Hegel is a professor, the Bruins
+
+313
+00:15:07,080 --> 00:15:11,040
+have these gigantic floor-to-ceiling windows,
+
+314
+00:15:11,040 --> 00:15:14,280
+because of course, there was no artificial light.
+
+315
+00:15:14,280 --> 00:15:18,560
+And teaching by candlelight is not really a safe or
+
+316
+00:15:18,560 --> 00:15:19,960
+particularly practical.
+
+317
+00:15:19,960 --> 00:15:23,440
+So in fact, we don't even need this horrible fluorescent
+
+318
+00:15:23,440 --> 00:15:26,240
+or a headlighting that's ugly and destroys,
+
+319
+00:15:26,240 --> 00:15:29,080
+diminishes the human spirit.
+
+320
+00:15:29,080 --> 00:15:33,800
+But unfortunately, we are stuck with this institutional setup.
+
+321
+00:15:33,800 --> 00:15:37,200
+So that was all a way of saying, I encourage you
+
+322
+00:15:37,200 --> 00:15:44,800
+to print out the reading and read Hegel in print,
+
+323
+00:15:44,800 --> 00:15:49,480
+because all of the evidence is that you understand
+
+324
+00:15:49,480 --> 00:15:53,640
+and remember things better when you read them in print.
+
+325
+00:15:56,240 --> 00:15:57,920
+When you read something on paper,
+
+326
+00:15:57,920 --> 00:16:01,040
+you have this multimodal sensory experience of it.
+
+327
+00:16:01,040 --> 00:16:02,480
+It's both tactile.
+
+328
+00:16:02,480 --> 00:16:07,000
+If it's a pretty old book, it has an olfactory dimension.
+
+329
+00:16:07,000 --> 00:16:08,240
+You shouldn't taste the books.
+
+330
+00:16:08,240 --> 00:16:10,080
+You have a gustatory dimension.
+
+331
+00:16:10,080 --> 00:16:13,040
+But there's all the physical, it's carrying it around.
+
+332
+00:16:13,040 --> 00:16:15,960
+You develop a physical relationship with your book.
+
+333
+00:16:15,960 --> 00:16:18,600
+So if you've ever taken a class under critique of pure reason,
+
+334
+00:16:18,600 --> 00:16:23,040
+by the end of the semester, your critique is like this.
+
+335
+00:16:23,040 --> 00:16:24,440
+Binding has been destroyed.
+
+336
+00:16:24,440 --> 00:16:26,920
+It's covered in notations.
+
+337
+00:16:26,920 --> 00:16:28,920
+And it's like a physically important object to you.
+
+338
+00:16:28,920 --> 00:16:31,240
+And that physical defecation to the book, I think,
+
+339
+00:16:31,240 --> 00:16:35,040
+actually improves your learning and reading experience.
+
+340
+00:16:35,040 --> 00:16:38,480
+Even better would be if you wanted to buy or somehow
+
+341
+00:16:38,480 --> 00:16:41,640
+acquire the physical books.
+
+342
+00:16:41,640 --> 00:16:43,960
+But I'm not going to require that because, of course,
+
+343
+00:16:43,960 --> 00:16:45,800
+we're only going to read a little bit of this
+
+344
+00:16:45,800 --> 00:16:48,240
+and then a little bit of the science of logic.
+
+345
+00:16:48,360 --> 00:16:50,720
+If I made you buy the books for all this class,
+
+346
+00:16:50,720 --> 00:16:53,720
+it would be more expensive than I can reasonably expect from you.
+
+347
+00:16:53,720 --> 00:16:54,600
+OK.
+
+348
+00:16:54,600 --> 00:16:56,200
+So that is everything that I'm going
+
+349
+00:16:56,200 --> 00:16:59,600
+to say about course mechanics before we
+
+350
+00:16:59,600 --> 00:17:06,880
+dive into the phenomenology of spirit itself.
+
+351
+00:17:06,880 --> 00:17:18,200
+Let me just say, normally, so GWF Hegel, born in 1770,
+
+352
+00:17:19,160 --> 00:17:22,600
+you need 31, normally the principle
+
+353
+00:17:22,600 --> 00:17:25,880
+in which I operate with respect to historical philosophers
+
+354
+00:17:25,880 --> 00:17:28,680
+is all that we need to say about them is they were born,
+
+355
+00:17:28,680 --> 00:17:30,880
+they worked, and they died.
+
+356
+00:17:30,880 --> 00:17:34,440
+Now, I'm going to slightly violate my own rule
+
+357
+00:17:34,440 --> 00:17:37,360
+because I'm a big fan of the digression.
+
+358
+00:17:37,360 --> 00:17:41,480
+And in being a fan of the digression in the lecture,
+
+359
+00:17:41,480 --> 00:17:45,560
+I have no less eminent of precursor than Hegel himself
+
+360
+00:17:45,560 --> 00:17:48,440
+because in the transcripts of Hegel's lectures, some
+
+361
+00:17:48,440 --> 00:17:50,280
+of which we will read, Hegel's constantly
+
+362
+00:17:50,280 --> 00:17:51,920
+going on these digressions, some of which
+
+363
+00:17:51,920 --> 00:17:55,840
+are totally off topic and some of which are hilarious.
+
+364
+00:17:55,840 --> 00:17:59,800
+He'll talk about some recent play that's been displayed.
+
+365
+00:17:59,800 --> 00:18:04,320
+So a little bit of digression is fun,
+
+366
+00:18:04,320 --> 00:18:09,760
+distracts us from what Hegel calls the rigor of the concept.
+
+367
+00:18:09,760 --> 00:18:12,880
+But occasionally, biographical remarks about Hegel
+
+368
+00:18:12,880 --> 00:18:15,000
+will actually be exegetically relevant.
+
+369
+00:18:15,080 --> 00:18:18,320
+And so I'll say a few things about Hegel's life.
+
+370
+00:18:18,320 --> 00:18:18,820
+OK.
+
+371
+00:18:21,760 --> 00:18:24,640
+This was all that I want to say initially
+
+372
+00:18:24,640 --> 00:18:25,960
+about Hegel's philosophy.
+
+373
+00:18:25,960 --> 00:18:29,160
+I don't like beginning a class by giving
+
+374
+00:18:29,160 --> 00:18:31,880
+this big aerial overview of the philosopher
+
+375
+00:18:31,880 --> 00:18:35,560
+or the philosophical work precisely because it's
+
+376
+00:18:35,560 --> 00:18:37,040
+given purely externally.
+
+377
+00:18:37,040 --> 00:18:38,800
+It's just narration.
+
+378
+00:18:38,800 --> 00:18:40,720
+It's something you could learn from the Stanford
+
+379
+00:18:40,720 --> 00:18:45,520
+Encyclopedia of Philosophy or YouTube.
+
+380
+00:18:45,520 --> 00:18:46,600
+It's not philosophy.
+
+381
+00:18:46,600 --> 00:18:48,480
+It wouldn't be philosophically justified.
+
+382
+00:18:48,480 --> 00:18:50,240
+It wouldn't be doing any philosophy for you.
+
+383
+00:18:50,240 --> 00:18:51,800
+We wouldn't be doing any philosophy together.
+
+384
+00:18:51,800 --> 00:18:53,320
+I'd just be telling you some stuff.
+
+385
+00:18:53,320 --> 00:19:00,960
+So as we'll see, because Hegel takes very seriously
+
+386
+00:19:00,960 --> 00:19:04,600
+the ambition that philosophy should develop everything
+
+387
+00:19:04,600 --> 00:19:09,000
+from itself, it's particularly inappropriate to Hegel
+
+388
+00:19:09,000 --> 00:19:12,640
+to begin with this external just telling you something,
+
+389
+00:19:12,640 --> 00:19:14,840
+mere reports.
+
+390
+00:19:14,840 --> 00:19:18,720
+I would prefer to begin talking about Hegel
+
+391
+00:19:18,720 --> 00:19:21,280
+by doing philosophy in the Hegelian way, which
+
+392
+00:19:21,280 --> 00:19:23,760
+is developing it internally just through thinking something
+
+393
+00:19:23,760 --> 00:19:24,360
+through.
+
+394
+00:19:24,360 --> 00:19:26,640
+So that's all that I want to say initially
+
+395
+00:19:26,640 --> 00:19:28,360
+about Hegel's philosophy.
+
+396
+00:19:28,360 --> 00:19:30,480
+I'll just say one or two things more
+
+397
+00:19:30,480 --> 00:19:33,640
+about what's special about Hegel.
+
+398
+00:19:33,640 --> 00:19:37,960
+Hegel is probably the most ambitious philosopher
+
+399
+00:19:37,960 --> 00:19:39,360
+who's ever existed.
+
+400
+00:19:39,360 --> 00:19:42,800
+So the ambition of Hegel's philosophy
+
+401
+00:19:42,800 --> 00:19:46,520
+is to develop all of this, which is
+
+402
+00:19:46,520 --> 00:19:49,380
+to say a completely systematic epistemology,
+
+403
+00:19:49,380 --> 00:19:50,960
+a completely systematic metaphysics,
+
+404
+00:19:50,960 --> 00:19:53,400
+a completely systematic account of the natural world,
+
+405
+00:19:53,400 --> 00:19:56,760
+a completely systematic account of the mind, which
+
+406
+00:19:56,760 --> 00:19:58,640
+includes a completely systematic account
+
+407
+00:19:58,640 --> 00:20:00,920
+of moral and political philosophy,
+
+408
+00:20:00,920 --> 00:20:03,760
+a completely systematic account of art and its history,
+
+409
+00:20:03,760 --> 00:20:06,400
+a completely systematic account of the history of religion,
+
+410
+00:20:06,400 --> 00:20:11,880
+And true religion, Hegel calls consonant religion,
+
+411
+00:20:11,880 --> 00:20:15,760
+without any presuppositions.
+
+412
+00:20:15,760 --> 00:20:18,000
+That's the most ambitious that I think philosophy has ever
+
+413
+00:20:18,000 --> 00:20:18,500
+gotten.
+
+414
+00:20:18,500 --> 00:20:21,360
+So Hegel is, in a certain way, the person
+
+415
+00:20:21,360 --> 00:20:25,760
+who has the most faith or confidence in philosophy
+
+416
+00:20:25,760 --> 00:20:27,600
+that I can think of.
+
+417
+00:20:27,600 --> 00:20:31,280
+Everyone since Hegel has been more disillusioned
+
+418
+00:20:31,280 --> 00:20:32,240
+about philosophy.
+
+419
+00:20:32,240 --> 00:20:34,280
+Or another way of pointing that point
+
+420
+00:20:34,280 --> 00:20:37,920
+is Hegel is even more than Kant.
+
+421
+00:20:37,920 --> 00:20:40,720
+The person, the philosopher, with the most confidence
+
+422
+00:20:40,720 --> 00:20:46,520
+that reason, just reasoning, can do everything that we want.
+
+423
+00:20:46,520 --> 00:20:48,680
+That it can be completely satisfactory.
+
+424
+00:20:48,680 --> 00:20:50,480
+Reason can be completely self-determinate.
+
+425
+00:20:50,480 --> 00:20:53,480
+Doesn't need anything outside.
+
+426
+00:20:53,480 --> 00:20:55,440
+Everyone in philosophy, since Hegel,
+
+427
+00:20:55,440 --> 00:20:58,320
+has been more pessimistic about the possibility
+
+428
+00:20:58,320 --> 00:21:00,280
+of this complete self-determination
+
+429
+00:21:00,280 --> 00:21:01,880
+of rational thought.
+
+430
+00:21:02,880 --> 00:21:05,360
+Questions about that before we dive
+
+431
+00:21:05,360 --> 00:21:07,080
+into the phenomenology of spirit itself?
+
+432
+00:21:12,040 --> 00:21:12,540
+No?
+
+433
+00:21:12,540 --> 00:21:13,040
+Yeah.
+
+434
+00:21:13,040 --> 00:21:13,540
+Hey.
+
+435
+00:21:13,540 --> 00:21:15,120
+I'm not sure what that's supposed to be,
+
+436
+00:21:15,120 --> 00:21:16,960
+but can I ask something about the question?
+
+437
+00:21:16,960 --> 00:21:17,960
+Sure.
+
+438
+00:21:17,960 --> 00:21:19,000
+The question is this.
+
+439
+00:21:19,000 --> 00:21:21,040
+On the set of us, that's like two, three lines.
+
+440
+00:21:21,040 --> 00:21:23,800
+But you ask us to contextualize it.
+
+441
+00:21:23,800 --> 00:21:27,080
+That would require us to pull up Hegel.
+
+442
+00:21:27,080 --> 00:21:29,800
+But that makes it less space, like one line or two.
+
+443
+00:21:29,800 --> 00:21:31,800
+So by two or three sentence, do you
+
+444
+00:21:31,800 --> 00:21:35,800
+make two or three sentence of a whole world together?
+
+445
+00:21:35,800 --> 00:21:42,080
+You're taking, like, we'll figure it out.
+
+446
+00:21:42,080 --> 00:21:47,000
+Yeah, you're taking a rule of thumb too precisely.
+
+447
+00:21:47,000 --> 00:21:48,200
+Oh, the other thing I want to say
+
+448
+00:21:48,200 --> 00:21:52,380
+is if anyone reads German, I would
+
+449
+00:21:52,380 --> 00:21:57,800
+encourage you to try to read at least some of this in German.
+
+450
+00:21:57,800 --> 00:22:01,080
+The translations vary a great deal in quality.
+
+451
+00:22:01,080 --> 00:22:03,800
+And so one of the themes of this semester
+
+452
+00:22:03,800 --> 00:22:05,960
+that you will probably learn to find really annoying
+
+453
+00:22:05,960 --> 00:22:11,080
+will be complaining about various Hegel translations.
+
+454
+00:22:11,080 --> 00:22:12,880
+I haven't been hard about whether to use this
+
+455
+00:22:12,880 --> 00:22:14,680
+as the textbook for the course.
+
+456
+00:22:14,680 --> 00:22:17,560
+This is the closest thing to a collection
+
+457
+00:22:17,560 --> 00:22:19,560
+of all of the relevant texts that we
+
+458
+00:22:19,560 --> 00:22:21,000
+would read in this class.
+
+459
+00:22:21,000 --> 00:22:23,880
+The reason I decided against it is the translations
+
+460
+00:22:23,880 --> 00:22:26,500
+are, in some cases, very strange.
+
+461
+00:22:26,500 --> 00:22:30,740
+And the selections are, in some cases, I think not ideal.
+
+462
+00:22:30,740 --> 00:22:32,780
+And so then I thought, OK, then they're
+
+463
+00:22:32,780 --> 00:22:34,860
+going to have to listen to me complain, not only
+
+464
+00:22:34,860 --> 00:22:38,060
+about the translations, but also Holgate selections.
+
+465
+00:22:38,060 --> 00:22:39,820
+That will open order the hell out of them.
+
+466
+00:22:39,820 --> 00:22:42,260
+So I'll just make my own selections.
+
+467
+00:22:42,260 --> 00:22:44,300
+Yes?
+
+468
+00:22:44,300 --> 00:22:46,020
+I don't know if it's too early, but I
+
+469
+00:22:46,020 --> 00:22:51,940
+want to know how Hegel connects logic to aesthetics and how.
+
+470
+00:22:51,940 --> 00:22:54,260
+Oh, that's way too early.
+
+471
+00:22:54,260 --> 00:22:54,940
+Way too early.
+
+472
+00:22:54,940 --> 00:22:56,100
+We're not even.
+
+473
+00:22:56,180 --> 00:22:58,180
+We don't even know what logic is yet.
+
+474
+00:22:58,180 --> 00:23:01,220
+That's just a word on a blackboard.
+
+475
+00:23:01,220 --> 00:23:03,740
+So using the Cambridge translations.
+
+476
+00:23:03,740 --> 00:23:06,940
+Using the Cambridge translations insofar as it's possible.
+
+477
+00:23:06,940 --> 00:23:09,500
+So the Cambridge translations, the Cambridge Hegel
+
+478
+00:23:09,500 --> 00:23:11,080
+translations, you might think, oh, my god,
+
+479
+00:23:11,080 --> 00:23:12,380
+they're going to translate everything.
+
+480
+00:23:12,380 --> 00:23:14,380
+But they have now translated the phenomenology
+
+481
+00:23:14,380 --> 00:23:17,580
+of spirit, the science of logic, the encyclopedia logic,
+
+482
+00:23:17,580 --> 00:23:21,900
+the Hegel's writings from Heidelberg, and that's it.
+
+483
+00:23:21,900 --> 00:23:24,100
+And so you might think, oh, everything's coming out more.
+
+484
+00:23:24,100 --> 00:23:27,540
+No, Hilary Gaskin, the main philosophy
+
+485
+00:23:27,540 --> 00:23:28,980
+editor at Cambridge University Press,
+
+486
+00:23:28,980 --> 00:23:30,780
+has announced it's complete.
+
+487
+00:23:30,780 --> 00:23:32,780
+That's all they're going to do.
+
+488
+00:23:32,780 --> 00:23:34,500
+And that's all they ever intended to.
+
+489
+00:23:34,500 --> 00:23:36,820
+That is not, in fact, a complete story.
+
+490
+00:23:36,820 --> 00:23:40,100
+In fact, so I'll tell you, at some point
+
+491
+00:23:40,100 --> 00:23:42,620
+when I feel like we need a break,
+
+492
+00:23:42,620 --> 00:23:44,820
+I'll give you the complete backstory about how
+
+493
+00:23:44,820 --> 00:23:48,260
+the Cambridge Hegel translation is so radically incomplete.
+
+494
+00:23:48,260 --> 00:23:50,300
+And it was, of course, never intended to be in complete
+
+495
+00:23:50,300 --> 00:23:51,100
+this way.
+
+496
+00:23:51,100 --> 00:23:53,660
+The short answer is they decided to woefully
+
+497
+00:23:53,740 --> 00:23:57,340
+underpay the editorial order, who all resigned.
+
+498
+00:23:57,340 --> 00:24:01,020
+And then at some point, the new editorial board,
+
+499
+00:24:01,020 --> 00:24:02,380
+some point Cambridge just realized
+
+500
+00:24:02,380 --> 00:24:04,020
+it wasn't worth the money.
+
+501
+00:24:04,020 --> 00:24:06,660
+So we're now in this totally ridiculous situation
+
+502
+00:24:06,660 --> 00:24:10,460
+that there is never going to be, in the foreseeable future,
+
+503
+00:24:10,460 --> 00:24:13,440
+a good, complete translation of the works
+
+504
+00:24:13,440 --> 00:24:15,500
+of Hegel in England.
+
+505
+00:24:15,500 --> 00:24:18,900
+So now, OK, I'll say one other thing.
+
+506
+00:24:18,900 --> 00:24:21,380
+There are two different, there's basically
+
+507
+00:24:21,380 --> 00:24:25,380
+two different editions of the works of Hegel in German.
+
+508
+00:24:25,380 --> 00:24:29,780
+The first one is published by a, is now
+
+509
+00:24:29,780 --> 00:24:36,660
+published by a press in Germany called Zuk.
+
+510
+00:24:36,660 --> 00:24:38,340
+Those are, if you ever see, they're
+
+511
+00:24:38,340 --> 00:24:41,300
+sort of very dark blue paperbacks.
+
+512
+00:24:41,300 --> 00:24:46,020
+That translation goes back to a translation that was made,
+
+513
+00:24:46,020 --> 00:24:48,620
+sorry, an edition that was made immediately
+
+514
+00:24:48,620 --> 00:24:52,460
+after Hegel's death by this group called themselves
+
+515
+00:24:52,460 --> 00:24:54,140
+the Friends of Hegel.
+
+516
+00:24:54,140 --> 00:24:56,580
+Now, the problem with that edition
+
+517
+00:24:56,580 --> 00:24:58,900
+is that it isn't up to contemporary
+
+518
+00:24:58,900 --> 00:25:00,900
+filmological snuff.
+
+519
+00:25:00,900 --> 00:25:04,620
+In particular, with respect to Hegel's lectures,
+
+520
+00:25:04,620 --> 00:25:06,860
+they did this thing that from a contemporary point of view
+
+521
+00:25:06,860 --> 00:25:08,780
+was totally outrageous.
+
+522
+00:25:08,780 --> 00:25:12,060
+People, the people who were editing Hegel's lectures,
+
+523
+00:25:12,060 --> 00:25:15,940
+took all of Hegel's notes and the student transcripts
+
+524
+00:25:15,940 --> 00:25:20,660
+and then composed one sort of condensed version
+
+525
+00:25:20,660 --> 00:25:23,780
+of all of this information and then destroyed,
+
+526
+00:25:23,780 --> 00:25:27,900
+in many cases, the originals so that we can't verify
+
+527
+00:25:27,900 --> 00:25:30,460
+whether their edition was correct.
+
+528
+00:25:30,460 --> 00:25:35,580
+So this was for, this was until the 70s, the only edition
+
+529
+00:25:35,580 --> 00:25:38,500
+of Hegel that there was.
+
+530
+00:25:38,500 --> 00:25:45,020
+Now, after that, there's the Academy edition,
+
+531
+00:25:45,020 --> 00:25:47,300
+where people actually sat down and did
+
+532
+00:25:47,300 --> 00:25:49,220
+the really philologically respectable thing.
+
+533
+00:25:49,220 --> 00:25:53,100
+I mean, the other thing is, for instance, the Friends of Hegel
+
+534
+00:25:53,100 --> 00:25:56,260
+edition only contains one edition of the Encyclopedia.
+
+535
+00:25:56,260 --> 00:25:59,340
+It only contains one edition of the Science of Logic.
+
+536
+00:25:59,340 --> 00:26:00,980
+That, by contemporary philological standards,
+
+537
+00:26:00,980 --> 00:26:03,740
+is radically inadequate.
+
+538
+00:26:03,740 --> 00:26:07,900
+The Academy edition does this much more complete job.
+
+539
+00:26:07,900 --> 00:26:10,700
+But the weird result of that is almost all
+
+540
+00:26:10,700 --> 00:26:13,300
+of the translations of Hegel into English that
+
+541
+00:26:13,420 --> 00:26:16,060
+existed historically are based on this.
+
+542
+00:26:16,060 --> 00:26:17,460
+And so you would think, well, this
+
+543
+00:26:17,460 --> 00:26:19,260
+would be a perfect opportunity for Cambridge
+
+544
+00:26:19,260 --> 00:26:21,300
+to do the English translations from that.
+
+545
+00:26:21,300 --> 00:26:23,500
+But that's not going to happen because they
+
+546
+00:26:23,500 --> 00:26:25,300
+underpaid the editorial board.
+
+547
+00:26:25,300 --> 00:26:27,140
+Also, these editorial board guys,
+
+548
+00:26:27,140 --> 00:26:28,620
+like they're all tenure professors
+
+549
+00:26:28,620 --> 00:26:29,940
+drawing massive salaries.
+
+550
+00:26:29,940 --> 00:26:31,500
+They could just do it for free.
+
+551
+00:26:31,500 --> 00:26:34,900
+But I wouldn't tell that to their face.
+
+552
+00:26:34,900 --> 00:26:37,740
+So the other thing that's weird is,
+
+553
+00:26:37,740 --> 00:26:40,300
+so there are all these people make a big deal about this.
+
+554
+00:26:40,300 --> 00:26:42,260
+They just think, oh, you can never
+
+555
+00:26:42,260 --> 00:26:45,340
+talk about Hegel's lectures from the old Friends of Hegel
+
+556
+00:26:45,340 --> 00:26:45,860
+edition.
+
+557
+00:26:45,860 --> 00:26:47,900
+You have to only cite the Academy edition.
+
+558
+00:26:47,900 --> 00:26:51,540
+But the problem is, almost all of the reception of Hegel
+
+559
+00:26:51,540 --> 00:26:53,060
+through the history of philosophy
+
+560
+00:26:53,060 --> 00:26:55,700
+from his death in 1831 until whenever this was published
+
+561
+00:26:55,700 --> 00:26:59,100
+in the 60s or 70s was based on the old edition.
+
+562
+00:26:59,100 --> 00:27:03,140
+So these poorly edited editions of Hegel's lectures
+
+563
+00:27:03,140 --> 00:27:04,900
+are the things that are really influential.
+
+564
+00:27:04,900 --> 00:27:08,260
+So when people talk about Hegel's philosophy of history,
+
+565
+00:27:08,260 --> 00:27:09,980
+almost everyone who's ever engaged
+
+566
+00:27:09,980 --> 00:27:11,140
+with Hegel's philosophy of history
+
+567
+00:27:11,140 --> 00:27:13,300
+was engaging with the poorly edited edition,
+
+568
+00:27:13,300 --> 00:27:14,700
+including Marx and everyone else.
+
+569
+00:27:14,700 --> 00:27:21,420
+So I think you can't just ignore this one.
+
+570
+00:27:21,420 --> 00:27:25,660
+In many cases, the older edition, the not so good edition,
+
+571
+00:27:25,660 --> 00:27:28,460
+makes the text much more readable and fluent.
+
+572
+00:27:28,460 --> 00:27:31,220
+And so when we come to read some of Hegel's lectures,
+
+573
+00:27:31,220 --> 00:27:33,220
+for instance, his lectures on the philosophy of art,
+
+574
+00:27:33,220 --> 00:27:37,620
+the philosophy of religion, and the history of philosophy,
+
+575
+00:27:37,620 --> 00:27:39,540
+I will assign some of the translations
+
+576
+00:27:39,540 --> 00:27:40,940
+from the older editions because they're
+
+577
+00:27:41,020 --> 00:27:41,900
+just more readable.
+
+578
+00:27:41,900 --> 00:27:43,980
+And they are the things that everyone's been talking about.
+
+579
+00:27:43,980 --> 00:27:46,100
+Ever since, so if you hear someone talking about Hegel
+
+580
+00:27:46,100 --> 00:27:47,860
+and some other book, they're almost certainly
+
+581
+00:27:47,860 --> 00:27:48,660
+talking about this.
+
+582
+00:27:48,660 --> 00:27:50,300
+So what value would it be to you?
+
+583
+00:27:50,300 --> 00:27:53,620
+You're like, oh, well, actually, the Hotho transcript.
+
+584
+00:27:53,620 --> 00:27:54,340
+You don't care.
+
+585
+00:27:54,340 --> 00:27:57,260
+I barely care.
+
+586
+00:27:57,260 --> 00:27:57,980
+OK.
+
+587
+00:27:57,980 --> 00:27:59,900
+Other questions before we start talking
+
+588
+00:27:59,900 --> 00:28:02,580
+about the phenomenology of spirit?
+
+589
+00:28:02,580 --> 00:28:03,060
+Yes.
+
+590
+00:28:03,060 --> 00:28:04,580
+I've heard that three years ago,
+
+591
+00:28:04,580 --> 00:28:06,900
+you called it a people person.
+
+592
+00:28:06,900 --> 00:28:10,980
+That only went through 40 or 50 pages of the phenomenology.
+
+593
+00:28:10,980 --> 00:28:11,460
+Yeah.
+
+594
+00:28:11,460 --> 00:28:14,140
+What would be the content-wise difference
+
+595
+00:28:14,140 --> 00:28:16,660
+between these two persons in terms of yours?
+
+596
+00:28:16,660 --> 00:28:21,140
+More of you will understand what I'm saying in this course.
+
+597
+00:28:21,140 --> 00:28:25,340
+Or no, the problem with that course is, so I got through
+
+598
+00:28:25,340 --> 00:28:27,540
+about, did Siwan tell you that?
+
+599
+00:28:27,540 --> 00:28:28,020
+Yeah.
+
+600
+00:28:28,020 --> 00:28:29,900
+OK.
+
+601
+00:28:29,900 --> 00:28:33,180
+Siwan likes that word.
+
+602
+00:28:33,180 --> 00:28:33,780
+So let's see.
+
+603
+00:28:33,780 --> 00:28:36,460
+If I did 50 pages in that class, I got more than that.
+
+604
+00:28:36,460 --> 00:28:41,060
+I got all the way up to maybe sort of skepticism.
+
+605
+00:28:41,060 --> 00:28:43,300
+But I kind of rushed through some of skepticism.
+
+606
+00:28:43,300 --> 00:28:46,420
+So we did maybe like 70 pages.
+
+607
+00:28:46,420 --> 00:28:47,980
+And the problem with that is you just
+
+608
+00:28:47,980 --> 00:28:50,340
+learn in a lot of detail the early moves
+
+609
+00:28:50,340 --> 00:28:53,180
+of the phenomenology of spirit, which doesn't tell you.
+
+610
+00:28:53,180 --> 00:28:58,340
+That basically taught people 10% of this.
+
+611
+00:28:58,340 --> 00:29:05,380
+This is 10% of this weird, immature, semi-juvenalia
+
+612
+00:29:05,380 --> 00:29:06,660
+introduction to Hegel system.
+
+613
+00:29:06,660 --> 00:29:07,860
+It's not Hegel system.
+
+614
+00:29:07,860 --> 00:29:08,380
+OK.
+
+615
+00:29:08,380 --> 00:29:10,820
+But to say more about why just teaching
+
+616
+00:29:10,820 --> 00:29:15,140
+the phenomenology of spirit would be so inadequate,
+
+617
+00:29:15,140 --> 00:29:17,180
+I mean, certainly this version of 360
+
+618
+00:29:17,180 --> 00:29:21,380
+is an elaborate apology for the last time I taught 360.
+
+619
+00:29:21,380 --> 00:29:23,220
+Let's just dive into the text.
+
+620
+00:29:23,220 --> 00:29:26,340
+So if you do not have a copy of the text,
+
+621
+00:29:26,340 --> 00:29:29,060
+rearrange yourself so that you are sitting next to someone
+
+622
+00:29:29,060 --> 00:29:31,900
+who does have a copy of the text.
+
+623
+00:29:31,900 --> 00:29:34,700
+So I'll give you a few minutes to do that.
+
+624
+00:29:34,700 --> 00:29:36,620
+So if two of you are sitting next to each other
+
+625
+00:29:36,620 --> 00:29:44,380
+and you have copies of the text, yeah, sorry, what?
+
+626
+00:29:44,380 --> 00:29:47,420
+Yeah, I mean, there'll be some differences.
+
+627
+00:29:47,420 --> 00:29:49,300
+But you'll basically know what's going on.
+
+628
+00:29:56,300 --> 00:29:59,580
+Is anyone in a Hegel island isolated
+
+629
+00:29:59,580 --> 00:30:03,740
+from any other copy of the text?
+
+630
+00:30:03,740 --> 00:30:05,860
+I would have brought additional copies of the text
+
+631
+00:30:05,860 --> 00:30:07,060
+if I had thought of that.
+
+632
+00:30:07,060 --> 00:30:09,340
+Yeah, no screen.
+
+633
+00:30:09,340 --> 00:30:11,900
+OK.
+
+634
+00:30:11,900 --> 00:30:16,500
+It is a natural supposition that in philosophy,
+
+635
+00:30:16,500 --> 00:30:20,740
+before one gets down to dealing with what is that issue,
+
+636
+00:30:20,740 --> 00:30:25,060
+namely the actual cognition of what in truth is.
+
+637
+00:30:25,060 --> 00:30:28,620
+So the issue of philosophy is actually
+
+638
+00:30:28,620 --> 00:30:31,180
+cognizing what in truth is.
+
+639
+00:30:31,180 --> 00:30:36,860
+Now, there's two words here in German, erkenen and bissen.
+
+640
+00:30:39,740 --> 00:30:43,900
+Pinker has, in almost all cases, translated erkenen
+
+641
+00:30:43,900 --> 00:30:50,980
+has to cognize, and bissen has to know.
+
+642
+00:30:50,980 --> 00:30:55,820
+But he's, now there is a difference between erkenen
+
+643
+00:30:55,820 --> 00:30:58,100
+and bissen in Hegel.
+
+644
+00:30:58,100 --> 00:31:02,020
+But erkenen and bissen are both totally ordinary words
+
+645
+00:31:02,020 --> 00:31:04,460
+in German for knowledge.
+
+646
+00:31:04,460 --> 00:31:08,820
+So epistemology in German is referred to as erketnesteri,
+
+647
+00:31:08,820 --> 00:31:10,380
+the theory of erketens.
+
+648
+00:31:10,380 --> 00:31:13,060
+That's the noun for erketens.
+
+649
+00:31:13,060 --> 00:31:17,020
+So it would be totally fine to translate both of them
+
+650
+00:31:17,020 --> 00:31:18,460
+as knowledge.
+
+651
+00:31:18,460 --> 00:31:21,500
+But Pinker has decided to just mark in English
+
+652
+00:31:21,500 --> 00:31:23,100
+a distinction in the German.
+
+653
+00:31:23,100 --> 00:31:27,180
+So it would be totally fine if we read this as saying,
+
+654
+00:31:27,180 --> 00:31:29,500
+before one gets down to dealing with what is at issue,
+
+655
+00:31:29,500 --> 00:31:33,780
+namely the actual knowledge, actually knowing what is true.
+
+656
+00:31:33,780 --> 00:31:35,580
+So now, Hegel uses the difference
+
+657
+00:31:35,580 --> 00:31:39,300
+between bissen and erkenen to mark some kind of difference.
+
+658
+00:31:39,300 --> 00:31:41,700
+But it isn't super crucial right now.
+
+659
+00:31:41,700 --> 00:31:44,460
+So we can also just read cognition here as knowledge.
+
+660
+00:31:44,460 --> 00:31:47,020
+It is a natural supposition that in philosophy,
+
+661
+00:31:47,020 --> 00:31:50,020
+before one gets down to dealing with what is at issue,
+
+662
+00:31:50,020 --> 00:31:53,060
+namely the actual knowledge of what in truth is.
+
+663
+00:31:53,060 --> 00:31:54,980
+So the business of philosophy is actually
+
+664
+00:31:54,980 --> 00:31:57,340
+knowing what in truth is.
+
+665
+00:31:57,340 --> 00:32:01,260
+So not potentially knowing or kind of knowing or having faith,
+
+666
+00:32:01,260 --> 00:32:06,820
+but knowing and knowing what is true, what is actually true.
+
+667
+00:32:06,820 --> 00:32:09,860
+It is first necessary to come to an understanding
+
+668
+00:32:09,860 --> 00:32:12,460
+about knowledge, which is regarded
+
+669
+00:32:12,460 --> 00:32:16,620
+as the instrument by which one seizes hold of the absolute
+
+670
+00:32:16,620 --> 00:32:20,540
+or as the means by which one catches sight of it.
+
+671
+00:32:20,540 --> 00:32:22,660
+So the first word you should stumble over here
+
+672
+00:32:22,660 --> 00:32:24,220
+is the absolute.
+
+673
+00:32:24,300 --> 00:32:28,180
+So the absolute is this major topic
+
+674
+00:32:28,180 --> 00:32:34,420
+and preoccupation of German philosophy from Kant to Hegel.
+
+675
+00:32:34,420 --> 00:32:36,940
+So in the context in which Hegel is writing this,
+
+676
+00:32:36,940 --> 00:32:40,380
+roughly Jena in 1807, the absolute
+
+677
+00:32:40,380 --> 00:32:42,860
+is the thing everyone cares about.
+
+678
+00:32:42,860 --> 00:32:46,060
+But I want to put the absolute aside for a moment,
+
+679
+00:32:46,060 --> 00:32:50,180
+because this is kind of provisional.
+
+680
+00:32:50,180 --> 00:32:52,180
+Over the course of today, you'll understand better
+
+681
+00:32:52,180 --> 00:32:53,620
+what I mean by this.
+
+682
+00:32:54,500 --> 00:32:57,180
+Hegel won't, in the introduction to the phenomenology,
+
+683
+00:32:57,180 --> 00:33:00,100
+yet have an argument that the topic of philosophy
+
+684
+00:33:00,100 --> 00:33:03,100
+should be the absolute, or that what the topic of knowledge
+
+685
+00:33:03,100 --> 00:33:04,540
+is is the absolute.
+
+686
+00:33:04,540 --> 00:33:08,020
+He, over the course of the phenomenology and the logic,
+
+687
+00:33:08,020 --> 00:33:09,180
+will develop that.
+
+688
+00:33:09,180 --> 00:33:12,780
+So this is a foreshadowing of something
+
+689
+00:33:12,780 --> 00:33:14,580
+that you usually have to argue for,
+
+690
+00:33:14,580 --> 00:33:17,180
+although his audience in 1807 would assume, of course,
+
+691
+00:33:17,180 --> 00:33:20,020
+what we really wanted to have knowledge of is the absolute.
+
+692
+00:33:20,020 --> 00:33:21,820
+So what the absolute is, I'm going
+
+693
+00:33:21,820 --> 00:33:24,860
+to set aside until we see Hegel's view of the absolute.
+
+694
+00:33:24,860 --> 00:33:27,860
+But if you need a sort of precursor,
+
+695
+00:33:27,860 --> 00:33:30,500
+you can think of it as God a little bit better.
+
+696
+00:33:30,500 --> 00:33:33,500
+You can think of it as the unconditioned in Kant.
+
+697
+00:33:33,500 --> 00:33:37,540
+A little bit better, you can think of it as Spinoza's God.
+
+698
+00:33:37,540 --> 00:33:43,540
+Even better, you could think of it as Spinoza's God,
+
+699
+00:33:43,540 --> 00:33:45,660
+where Spinoza's God is understood neither
+
+700
+00:33:45,660 --> 00:33:48,860
+determinately as a subject or as an object.
+
+701
+00:33:48,860 --> 00:33:52,060
+And if that sounds very weird, that's fine.
+
+702
+00:33:52,060 --> 00:33:54,820
+We'll come back to it.
+
+703
+00:33:54,820 --> 00:33:58,420
+So the important thing about paragraph 73,
+
+704
+00:33:58,420 --> 00:33:59,740
+the beginning of the introduction,
+
+705
+00:33:59,740 --> 00:34:04,780
+is Hegel is playing off various tropes in modern philosophy.
+
+706
+00:34:04,780 --> 00:34:07,020
+So when you read the beginning of the introduction
+
+707
+00:34:07,020 --> 00:34:09,260
+of phenomenology, you should think of the beginning
+
+708
+00:34:09,260 --> 00:34:11,700
+of Locke's essay, concerning the understanding,
+
+709
+00:34:11,700 --> 00:34:13,860
+or the beginning of conscripti capuris.
+
+710
+00:34:13,860 --> 00:34:15,900
+The characteristic move of modern philosophy
+
+711
+00:34:15,900 --> 00:34:18,700
+is before we investigate the object,
+
+712
+00:34:18,780 --> 00:34:21,260
+we have to investigate the cognitive powers
+
+713
+00:34:21,260 --> 00:34:22,660
+of the subject.
+
+714
+00:34:22,660 --> 00:34:25,900
+So what Hegel does now is then riff on various tropes
+
+715
+00:34:25,900 --> 00:34:28,500
+in modern philosophy.
+
+716
+00:34:28,500 --> 00:34:33,460
+So he's presenting this thing that you would normally assume.
+
+717
+00:34:33,460 --> 00:34:35,340
+It is a natural supposition.
+
+718
+00:34:35,340 --> 00:34:37,300
+Although we'll see that in a certain way,
+
+719
+00:34:37,300 --> 00:34:38,940
+Hegel doesn't share this supposition.
+
+720
+00:34:38,940 --> 00:34:40,700
+He's distancing himself from this supposition.
+
+721
+00:34:40,700 --> 00:34:42,420
+So the natural supposition is, before we
+
+722
+00:34:42,420 --> 00:34:45,140
+go about the business of knowing objects,
+
+723
+00:34:45,140 --> 00:34:49,340
+we first have to investigate the power of the knowledge
+
+724
+00:34:49,340 --> 00:34:49,840
+itself.
+
+725
+00:34:49,840 --> 00:34:51,620
+We have to know what knowledge is.
+
+726
+00:34:51,620 --> 00:34:55,260
+So he then riffs on various metaphors
+
+727
+00:34:55,260 --> 00:34:58,260
+that you find in early modern philosophy.
+
+728
+00:34:58,260 --> 00:35:02,660
+For one, there might be one rather than another form
+
+729
+00:35:02,660 --> 00:35:04,700
+of cognition that is better suited to achieving
+
+730
+00:35:04,700 --> 00:35:05,380
+this final end.
+
+731
+00:35:05,380 --> 00:35:08,860
+So the idea is, well, you have to decide,
+
+732
+00:35:08,860 --> 00:35:11,740
+is it the senses that give us knowledge of what is?
+
+733
+00:35:11,740 --> 00:35:13,260
+Or is it the intellect?
+
+734
+00:35:13,260 --> 00:35:14,860
+Or is it reason if there's a difference
+
+735
+00:35:14,860 --> 00:35:16,220
+between the intellect and reason?
+
+736
+00:35:16,220 --> 00:35:18,220
+Is it faith that gives us knowledge of what is?
+
+737
+00:35:18,220 --> 00:35:20,540
+So those are the kinds of issues that he's gesturing.
+
+738
+00:35:23,020 --> 00:35:26,340
+If cognition is a faculty of a determinant kind and scope,
+
+739
+00:35:26,340 --> 00:35:28,100
+then without a more precise determination
+
+740
+00:35:28,100 --> 00:35:30,940
+of its nature and limits, one ends up grasping clouds of error
+
+741
+00:35:30,940 --> 00:35:32,500
+rather than the heaven of truth.
+
+742
+00:35:32,500 --> 00:35:35,420
+So if knowledge is a particular human ability
+
+743
+00:35:35,420 --> 00:35:37,780
+among other abilities, then there
+
+744
+00:35:37,780 --> 00:35:40,700
+are things that that ability can be exercised with respect to
+
+745
+00:35:40,700 --> 00:35:42,940
+and things that it cannot be exercised with respect to.
+
+746
+00:35:42,940 --> 00:35:45,220
+So we have to get clarity on that before we
+
+747
+00:35:45,220 --> 00:35:48,060
+try to go about knowing objects.
+
+748
+00:35:48,060 --> 00:35:49,980
+If cognition is the instrument for seizing hold
+
+749
+00:35:49,980 --> 00:35:52,620
+of the absolute, then we don't get the absolute
+
+750
+00:35:52,620 --> 00:35:55,060
+as it is in itself, but we form and change.
+
+751
+00:35:55,060 --> 00:35:58,860
+So the idea of, if cognition is something like a tool,
+
+752
+00:35:58,860 --> 00:36:02,460
+then what it gets us is not the object in itself,
+
+753
+00:36:02,460 --> 00:36:05,540
+but the object introverse that's shaped by the tool.
+
+754
+00:36:05,540 --> 00:36:07,660
+So once again, these are not things
+
+755
+00:36:07,660 --> 00:36:10,900
+I think Hegel needs to put a lot of argumentative weight on.
+
+756
+00:36:10,900 --> 00:36:14,980
+What he's doing is pointing out that these standard moves
+
+757
+00:36:14,980 --> 00:36:19,380
+in modern epistemology bring with them these kinds of thoughts.
+
+758
+00:36:19,380 --> 00:36:24,460
+And he's raising this as a way you could begin in philosophy,
+
+759
+00:36:24,460 --> 00:36:26,460
+but then also distancing himself by them
+
+760
+00:36:26,460 --> 00:36:30,940
+by pointing out that those kinds of moves in modern philosophy
+
+761
+00:36:30,940 --> 00:36:35,380
+bring with them very familiar concerns about whether we'll
+
+762
+00:36:35,380 --> 00:36:38,580
+ever be able to know reality as it is in itself.
+
+763
+00:36:38,580 --> 00:36:40,620
+Most importantly, in 1807, the thing that's
+
+764
+00:36:40,660 --> 00:36:45,460
+always in the back of Hegel's mind is Kant and the idea
+
+765
+00:36:45,460 --> 00:36:48,620
+that Kant's investigation to the powers of human mind
+
+766
+00:36:48,620 --> 00:36:51,220
+in the critique of pure reason winds up
+
+767
+00:36:51,220 --> 00:36:54,740
+proving that we don't know reality as it is in itself.
+
+768
+00:36:54,740 --> 00:36:57,220
+So he's riffing on all these various thoughts
+
+769
+00:36:57,220 --> 00:37:01,900
+that if you begin by investigating knowledge
+
+770
+00:37:01,900 --> 00:37:07,660
+itself, you'll always wind up being distanced from the object
+
+771
+00:37:07,660 --> 00:37:10,460
+as it is in itself.
+
+772
+00:37:10,580 --> 00:37:13,180
+Likewise, if we think of knowledge as a passive medium,
+
+773
+00:37:13,180 --> 00:37:15,740
+well, if you really think through the idea of a passive medium,
+
+774
+00:37:15,740 --> 00:37:19,580
+a medium kind of changes what passes through it.
+
+775
+00:37:19,580 --> 00:37:21,420
+And so then you can kind of remove.
+
+776
+00:37:21,420 --> 00:37:31,580
+So the metaphor is, well, if it's a medium changes,
+
+777
+00:37:31,580 --> 00:37:33,380
+the light passes into glass.
+
+778
+00:37:33,380 --> 00:37:35,140
+There's an angle of refraction.
+
+779
+00:37:35,140 --> 00:37:41,500
+So if we know this, maybe we can infer exactly where
+
+780
+00:37:41,500 --> 00:37:43,020
+the thing came from.
+
+781
+00:37:43,020 --> 00:37:45,100
+But then all we'll know is the direction
+
+782
+00:37:45,100 --> 00:37:47,140
+from which the ray came from.
+
+783
+00:37:47,140 --> 00:37:52,860
+So Hegel is just riffing on standard metaphors
+
+784
+00:37:52,860 --> 00:37:54,980
+about knowledge in modern philosophy
+
+785
+00:37:54,980 --> 00:37:57,980
+and very familiar reasons for thinking
+
+786
+00:37:57,980 --> 00:38:00,780
+that if you think of knowledge that way,
+
+787
+00:38:00,780 --> 00:38:02,860
+you will wind up with a conclusion
+
+788
+00:38:02,860 --> 00:38:05,460
+that you don't know reality as it is itself,
+
+789
+00:38:05,460 --> 00:38:07,300
+you know it only as it appears to you,
+
+790
+00:38:07,300 --> 00:38:10,740
+or you know it only in relation to the human mind,
+
+791
+00:38:10,740 --> 00:38:11,580
+et cetera, et cetera.
+
+792
+00:38:11,580 --> 00:38:12,060
+Yeah.
+
+793
+00:38:12,060 --> 00:38:18,940
+So how much we have prior knowledge of the world,
+
+794
+00:38:18,940 --> 00:38:23,140
+and how he gets to the absoluteness?
+
+795
+00:38:23,140 --> 00:38:28,380
+Is it relative to us, or is it universal?
+
+796
+00:38:28,380 --> 00:38:30,860
+We're way too early to get there.
+
+797
+00:38:30,860 --> 00:38:34,100
+We're at super, super preliminary steps here.
+
+798
+00:38:34,100 --> 00:38:36,940
+So now I'm going to just, because this is not the last time
+
+799
+00:38:36,940 --> 00:38:39,060
+I'm on 2016 where I only got 370 pages,
+
+800
+00:38:39,060 --> 00:38:41,060
+I'm not going to go through sentence by sentence.
+
+801
+00:38:41,060 --> 00:38:43,260
+I'm going to jump through to particular passages
+
+802
+00:38:43,260 --> 00:38:46,060
+that I think are eliminated.
+
+803
+00:38:46,060 --> 00:38:50,660
+So then paragraph 74 begins, and he says, well, look,
+
+804
+00:38:50,660 --> 00:38:59,300
+if this we could just as well, so let me just read this passage.
+
+805
+00:38:59,300 --> 00:39:01,660
+If the common concern about falling into error
+
+806
+00:39:01,660 --> 00:39:04,660
+sets up a mistrust of science, which itself,
+
+807
+00:39:04,660 --> 00:39:07,900
+untroubled by such scruples, simply sets itself to work
+
+808
+00:39:07,900 --> 00:39:10,020
+and actually cognizes it, it is still
+
+809
+00:39:10,020 --> 00:39:12,140
+difficult to say why on the contrary,
+
+810
+00:39:12,140 --> 00:39:15,380
+a mistrust of this mistrust should not be set up,
+
+811
+00:39:15,380 --> 00:39:17,180
+and why one should not be concerned
+
+812
+00:39:17,180 --> 00:39:21,420
+that this fear of erring is already the error itself.
+
+813
+00:39:21,420 --> 00:39:24,500
+So what he's pointing out is the things that
+
+814
+00:39:24,500 --> 00:39:27,580
+get us into a mistrust or skepticism
+
+815
+00:39:27,580 --> 00:39:31,020
+about our ability to know are themselves something
+
+816
+00:39:31,020 --> 00:39:33,020
+that we could be skeptical about.
+
+817
+00:39:33,020 --> 00:39:36,660
+In particular, we don't have to assume
+
+818
+00:39:36,660 --> 00:39:42,140
+that knowledge is an instrument or a tool or a passive media
+
+819
+00:39:42,140 --> 00:39:46,380
+or one ability among others, that those themselves,
+
+820
+00:39:46,380 --> 00:39:50,540
+those standard assumptions that structure modern epistemology
+
+821
+00:39:50,540 --> 00:39:53,340
+and that lead to the conclusion that we don't know realities
+
+822
+00:39:53,420 --> 00:39:58,980
+of itself are themselves something that is questionable.
+
+823
+00:39:58,980 --> 00:40:03,660
+Skipping a little bit, but above all, this picture
+
+824
+00:40:03,660 --> 00:40:06,580
+that he's been somewhat satirically riffing on
+
+825
+00:40:06,580 --> 00:40:10,580
+presupposes that the absolute stands on one side
+
+826
+00:40:10,580 --> 00:40:13,780
+and that cognition stands on the other or itself
+
+827
+00:40:13,780 --> 00:40:16,820
+and separated from the absolute, though cognition is
+
+828
+00:40:16,820 --> 00:40:18,660
+nevertheless something real.
+
+829
+00:40:18,660 --> 00:40:20,980
+So what he's saying is the assumption here
+
+830
+00:40:20,980 --> 00:40:25,940
+in all of this stuff, let's just once again, for now,
+
+831
+00:40:25,940 --> 00:40:30,020
+treat the absolute as the object of knowledge.
+
+832
+00:40:30,020 --> 00:40:37,900
+The assumption is I'm over here, the object is a distinct being,
+
+833
+00:40:37,900 --> 00:40:45,020
+and then somehow I have to overcome this distinctness
+
+834
+00:40:45,020 --> 00:40:46,740
+in order to know.
+
+835
+00:40:46,740 --> 00:40:48,620
+And the standard early modern thought
+
+836
+00:40:48,620 --> 00:40:52,900
+is, well, how could I know an object that's distinct for me?
+
+837
+00:40:52,900 --> 00:40:57,420
+Well, it would have to affect me, have to affect my senses.
+
+838
+00:40:57,420 --> 00:40:59,180
+And I would have to have some capacity
+
+839
+00:40:59,180 --> 00:41:02,380
+to be affected sensorily by it.
+
+840
+00:41:02,380 --> 00:41:06,020
+And then all of these early modern worries
+
+841
+00:41:06,020 --> 00:41:08,980
+from Locke, Hume, Kant, Descartes, everyone else,
+
+842
+00:41:08,980 --> 00:41:15,220
+arise, namely, would that allow us to know the object as it is
+
+843
+00:41:15,220 --> 00:41:17,580
+or only as it affects us?
+
+844
+00:41:17,580 --> 00:41:20,380
+Would it allow us to know the way the object really is
+
+845
+00:41:20,380 --> 00:41:22,740
+or only as it appears to our senses?
+
+846
+00:41:22,740 --> 00:41:27,860
+So he's pointing out that that very standard picture
+
+847
+00:41:27,860 --> 00:41:32,300
+of knowledge as a particular relation of one being
+
+848
+00:41:32,300 --> 00:41:36,940
+to another, or let's say, a capacity that one being has
+
+849
+00:41:36,940 --> 00:41:39,860
+to know another being or other beings,
+
+850
+00:41:39,860 --> 00:41:43,140
+is itself something we can question.
+
+851
+00:41:43,140 --> 00:41:45,580
+We're not stuck with that.
+
+852
+00:41:45,580 --> 00:41:47,660
+OK.
+
+853
+00:41:47,660 --> 00:41:49,980
+I'm going to skip 73.
+
+854
+00:41:49,980 --> 00:41:50,940
+OK.
+
+855
+00:41:50,940 --> 00:41:54,980
+So now he says, look, instead of fussing around with answers
+
+856
+00:41:54,980 --> 00:41:57,780
+to all of this, that is to say, instead of fussing around
+
+857
+00:41:57,780 --> 00:42:03,540
+with the whole problem space of early modern epistemology,
+
+858
+00:42:03,540 --> 00:42:06,300
+empiricism, rationalism, sensibility, understanding,
+
+859
+00:42:06,300 --> 00:42:08,920
+reason, instead of all of that, instead of fussing around
+
+860
+00:42:08,920 --> 00:42:10,700
+with answers to all of this, it is
+
+861
+00:42:10,700 --> 00:42:12,940
+possible to reject these outright
+
+862
+00:42:12,940 --> 00:42:16,420
+as contingent and arbitrary representations
+
+863
+00:42:16,420 --> 00:42:18,540
+and to regard the affiliated use of words,
+
+864
+00:42:18,540 --> 00:42:22,100
+such as absolute cognition, and also objective and subjective,
+
+865
+00:42:22,100 --> 00:42:24,020
+and countless others, whose meaning is assumed
+
+866
+00:42:24,020 --> 00:42:27,020
+to be generally known as even a kind of deceit.
+
+867
+00:42:27,020 --> 00:42:29,060
+So one thing we can do is step back and say,
+
+868
+00:42:29,060 --> 00:42:32,900
+the meaning of subject, object, cognition, absolutely,
+
+869
+00:42:32,900 --> 00:42:35,660
+they themselves are things that have to be determined.
+
+870
+00:42:35,660 --> 00:42:37,860
+It's not self-evident what these things mean,
+
+871
+00:42:37,860 --> 00:42:41,980
+and it's not self-evident that we have to begin philosophy
+
+872
+00:42:41,980 --> 00:42:44,220
+by assuming a particular meaning of them
+
+873
+00:42:44,220 --> 00:42:46,660
+or a particular set up for epistemology, namely,
+
+874
+00:42:46,660 --> 00:42:50,620
+that one, skipping a little bit.
+
+875
+00:42:50,620 --> 00:42:53,060
+They constitute only an empty appearance
+
+876
+00:42:53,060 --> 00:42:55,340
+of a knowing, which immediately vanishes
+
+877
+00:42:55,340 --> 00:42:58,860
+in the face of the science, which comes onto the scene.
+
+878
+00:42:58,860 --> 00:42:59,380
+OK.
+
+879
+00:42:59,380 --> 00:43:02,820
+So just a little note about language.
+
+880
+00:43:02,820 --> 00:43:04,220
+Bissen is to know.
+
+881
+00:43:07,420 --> 00:43:11,860
+Bissenschaft is science.
+
+882
+00:43:11,860 --> 00:43:14,980
+But that means just etymologically in German,
+
+883
+00:43:14,980 --> 00:43:19,020
+there's a very close connection between Bissen and Bissenschaft.
+
+884
+00:43:19,020 --> 00:43:24,740
+So for now, Hegel has a very distinctive notion
+
+885
+00:43:24,740 --> 00:43:26,740
+of what a Bissenschaft is.
+
+886
+00:43:26,740 --> 00:43:28,020
+He hasn't developed it yet.
+
+887
+00:43:28,020 --> 00:43:30,580
+So let's just take on board the idea
+
+888
+00:43:30,580 --> 00:43:35,820
+that if the aim of philosophy is to know, to have Bissen,
+
+889
+00:43:35,820 --> 00:43:38,500
+the aim of philosophy is to be a Bissenschaft,
+
+890
+00:43:38,500 --> 00:43:42,460
+that is to say, to be a science, a body of knowing.
+
+891
+00:43:42,460 --> 00:43:44,660
+Now, this is unnatural in English
+
+892
+00:43:44,660 --> 00:43:46,340
+because we have two different words.
+
+893
+00:43:46,340 --> 00:43:48,660
+And because we have this, frankly,
+
+894
+00:43:48,660 --> 00:43:52,100
+stupid tendency in English to assume that the word science
+
+895
+00:43:52,100 --> 00:43:55,340
+only applies to the natural sciences.
+
+896
+00:43:55,340 --> 00:43:57,260
+That just doesn't make sense in German.
+
+897
+00:43:57,260 --> 00:43:59,060
+In German, the study of literature
+
+898
+00:43:59,060 --> 00:44:01,020
+is the Tsozwe Bissenschaft, the study of politics
+
+899
+00:44:01,020 --> 00:44:03,100
+is Politische Bissenschaft.
+
+900
+00:44:03,100 --> 00:44:07,940
+Any systematically ordered body of knowledge is Bissenschaft.
+
+901
+00:44:07,940 --> 00:44:10,460
+So the introduction of science at this point
+
+902
+00:44:10,460 --> 00:44:13,980
+is not as arbitrary as it seems, although over the course
+
+903
+00:44:13,980 --> 00:44:17,140
+of the system, we'll get a much, much richer notion of science.
+
+904
+00:44:17,140 --> 00:44:20,700
+So all that Hegel is doing is saying, look,
+
+905
+00:44:20,700 --> 00:44:22,380
+it's standard to begin by assuming
+
+906
+00:44:22,380 --> 00:44:26,140
+that we want in philosophy is knowledge,
+
+907
+00:44:26,140 --> 00:44:28,740
+that is to say, scientific knowing, science,
+
+908
+00:44:28,740 --> 00:44:30,380
+of what actually is.
+
+909
+00:44:30,380 --> 00:44:33,340
+And the standard way we begin is by assuming this.
+
+910
+00:44:33,340 --> 00:44:35,980
+But this leads very quickly by arguments
+
+911
+00:44:36,020 --> 00:44:38,420
+that are familiar from early modern philosophy
+
+912
+00:44:38,420 --> 00:44:41,140
+to the conclusion that we don't know objects
+
+913
+00:44:41,140 --> 00:44:42,260
+as they are in themselves.
+
+914
+00:44:42,260 --> 00:44:46,380
+We only know their appearances or other structural features.
+
+915
+00:44:46,380 --> 00:44:48,700
+Or even more radically, in Hume, in some way,
+
+916
+00:44:48,700 --> 00:44:51,020
+we don't really know anything other than our own impressions
+
+917
+00:44:51,020 --> 00:44:53,300
+of objects.
+
+918
+00:44:53,300 --> 00:44:56,660
+But we don't have to assume that because it's not obvious
+
+919
+00:44:56,660 --> 00:44:59,340
+what any of these terms mean.
+
+920
+00:44:59,340 --> 00:45:00,660
+OK.
+
+921
+00:45:00,660 --> 00:45:03,540
+But then he says, all of this vanishes
+
+922
+00:45:03,540 --> 00:45:04,860
+when science comes on the scene.
+
+923
+00:45:04,860 --> 00:45:09,340
+So when someone who has scientific knowing,
+
+924
+00:45:09,340 --> 00:45:12,300
+who knows what, in actuality, is the case,
+
+925
+00:45:12,300 --> 00:45:15,020
+and does so scientifically, when they show up,
+
+926
+00:45:15,020 --> 00:45:17,860
+all of the rest of this is revealed to be deceit.
+
+927
+00:45:17,860 --> 00:45:22,660
+But science, insofar as it comes on the scene,
+
+928
+00:45:22,660 --> 00:45:24,660
+is itself an appearance.
+
+929
+00:45:24,660 --> 00:45:28,140
+Science is coming onto the scene is not yet science
+
+930
+00:45:28,140 --> 00:45:31,260
+as it is carried out and unfolded in its truth.
+
+931
+00:45:31,260 --> 00:45:36,740
+So if I don't have knowledge, I just
+
+932
+00:45:36,740 --> 00:45:41,220
+have various beliefs involving these concepts.
+
+933
+00:45:41,220 --> 00:45:44,540
+I'm just a standard early modern epistemology person.
+
+934
+00:45:44,540 --> 00:45:47,780
+And someone comes on the scene who does have knowing,
+
+935
+00:45:47,780 --> 00:45:50,700
+that's just one more claim to knowledge among others.
+
+936
+00:45:50,700 --> 00:45:53,700
+We don't yet know who has knowledge.
+
+937
+00:45:53,700 --> 00:45:56,900
+Merely, the first appearance of knowing,
+
+938
+00:45:56,900 --> 00:45:59,180
+the first person who knows, doesn't necessarily
+
+939
+00:45:59,180 --> 00:46:01,100
+know that they know.
+
+940
+00:46:01,100 --> 00:46:03,820
+So Hegel goes on to say, for with regard
+
+941
+00:46:03,820 --> 00:46:05,980
+to a knowing that is not truthful,
+
+942
+00:46:05,980 --> 00:46:09,700
+science cannot simply reject it as just a common view of things
+
+943
+00:46:09,700 --> 00:46:12,420
+while giving out the assurance that it is itself
+
+944
+00:46:12,420 --> 00:46:14,620
+a completely different kind of cognition
+
+945
+00:46:14,620 --> 00:46:17,060
+and that the other knowing counts as absolutely nothing
+
+946
+00:46:17,060 --> 00:46:19,260
+for science.
+
+947
+00:46:19,260 --> 00:46:22,620
+Skip the rest of the sentence, through such an assurance,
+
+948
+00:46:22,620 --> 00:46:25,420
+science declares its being to be its power.
+
+949
+00:46:25,420 --> 00:46:28,540
+But untrue knowing, just as much appeals to the fact
+
+950
+00:46:28,700 --> 00:46:33,100
+that it is, and it gives out the assurance that science counts
+
+951
+00:46:33,100 --> 00:46:36,820
+as nothing to it, but one bear assurance
+
+952
+00:46:36,820 --> 00:46:38,500
+is just as valid as another.
+
+953
+00:46:38,500 --> 00:46:40,300
+So bear assurance is the old translation.
+
+954
+00:46:40,300 --> 00:46:42,540
+It just sounds better.
+
+955
+00:46:42,540 --> 00:46:43,820
+It's perfectly fine.
+
+956
+00:46:43,820 --> 00:46:44,780
+So what does that mean?
+
+957
+00:46:44,780 --> 00:46:49,620
+What it means is, if you don't know but have mere opinion,
+
+958
+00:46:49,620 --> 00:46:56,380
+and I come on the scene and I know,
+
+959
+00:46:56,380 --> 00:47:01,220
+my assertion that I know is worth just as much
+
+960
+00:47:01,220 --> 00:47:06,260
+as your assertion that you know, even if I know.
+
+961
+00:47:06,260 --> 00:47:10,860
+So the issue here is how we know what knowledge is,
+
+962
+00:47:10,860 --> 00:47:15,180
+or how we justify our epistemic standard.
+
+963
+00:47:15,180 --> 00:47:19,740
+So the issue is not knowledge of objects.
+
+964
+00:47:19,740 --> 00:47:22,580
+It's knowledge of what knowledge is.
+
+965
+00:47:22,580 --> 00:47:26,780
+So the idea is, it's not enough simply to know,
+
+966
+00:47:26,780 --> 00:47:30,380
+because your claim to know is just a mere assertion,
+
+967
+00:47:30,380 --> 00:47:34,980
+a bear assurance, just as valid and just as invalid
+
+968
+00:47:34,980 --> 00:47:38,980
+as the person who doesn't actually know their claim to know.
+
+969
+00:47:38,980 --> 00:47:41,020
+So we need to find somewhere to adjudicate
+
+970
+00:47:41,020 --> 00:47:46,660
+between the mere claim to knowledge, mere opinion,
+
+971
+00:47:46,660 --> 00:47:48,420
+and knowledge.
+
+972
+00:47:48,460 --> 00:47:51,940
+So knowing is agreement?
+
+973
+00:47:51,940 --> 00:47:53,260
+Argument?
+
+974
+00:47:53,260 --> 00:47:54,180
+Agreement.
+
+975
+00:47:54,180 --> 00:47:55,740
+Agreement, no.
+
+976
+00:47:55,740 --> 00:47:57,500
+OK.
+
+977
+00:47:57,500 --> 00:47:59,260
+Skipping a bit, 77.
+
+978
+00:47:59,260 --> 00:48:03,100
+Because this exposition has for its object only
+
+979
+00:48:03,100 --> 00:48:05,780
+knowing as it appears.
+
+980
+00:48:05,780 --> 00:48:07,420
+So what we're going to do is we're
+
+981
+00:48:07,420 --> 00:48:09,620
+going to look at appearances of knowledge.
+
+982
+00:48:09,620 --> 00:48:12,460
+That is to say, claims to know.
+
+983
+00:48:12,460 --> 00:48:15,660
+But once again, we're not interested in particular.
+
+984
+00:48:15,660 --> 00:48:19,020
+I claim to know that Bismarck is the capital of South Dakota.
+
+985
+00:48:19,020 --> 00:48:22,780
+I claim to know that Fargo is not the capital of South Dakota.
+
+986
+00:48:22,780 --> 00:48:26,420
+Maybe someone, some poor, benated, Canadian,
+
+987
+00:48:26,420 --> 00:48:30,900
+ignorant of the geography of the Upper Midwest, my homeland,
+
+988
+00:48:30,900 --> 00:48:34,980
+might claim to know falsely that Fargo is the capital of South
+
+989
+00:48:34,980 --> 00:48:35,660
+Dakota.
+
+990
+00:48:35,660 --> 00:48:38,300
+It is not.
+
+991
+00:48:38,300 --> 00:48:40,140
+We're not interested in that.
+
+992
+00:48:40,140 --> 00:48:45,420
+We're interested in the sort of one level more general
+
+993
+00:48:45,500 --> 00:48:50,060
+about what you think knowledge is.
+
+994
+00:48:50,060 --> 00:48:54,340
+So the exposition has for its object only knowing as it appears.
+
+995
+00:48:54,340 --> 00:49:00,260
+That is to say, appearances of conceptions of knowledge.
+
+996
+00:49:00,260 --> 00:49:02,340
+So you have a conception of what knowledge is.
+
+997
+00:49:02,340 --> 00:49:05,300
+I have a conception of what knowledge is.
+
+998
+00:49:05,300 --> 00:49:10,580
+Even if my conception is right, let's just assume yours is right.
+
+999
+00:49:10,580 --> 00:49:13,860
+My claim about what knowledge is is just as valid as yours.
+
+1000
+00:49:13,860 --> 00:49:16,740
+One is just to bear assurance just as much as the other.
+
+1001
+00:49:16,740 --> 00:49:19,180
+It does not itself seem to be the science, which
+
+1002
+00:49:19,180 --> 00:49:23,100
+is free and self-moving within its own proper shape.
+
+1003
+00:49:23,100 --> 00:49:27,620
+So this exposition does not itself seem to be the science.
+
+1004
+00:49:27,620 --> 00:49:32,100
+So when Hegel says something doesn't appear or merely appears,
+
+1005
+00:49:32,100 --> 00:49:33,620
+that's really important.
+
+1006
+00:49:33,620 --> 00:49:37,340
+So he's saying you would think at the beginning
+
+1007
+00:49:37,340 --> 00:49:39,820
+this exposition is not going to be science
+
+1008
+00:49:39,820 --> 00:49:41,660
+because we don't know what science is yet.
+
+1009
+00:49:41,660 --> 00:49:43,660
+We don't know what knowledge is.
+
+1010
+00:49:43,780 --> 00:49:46,820
+It will actually turn out to be more complicated than that later on.
+
+1011
+00:49:46,820 --> 00:49:49,500
+But let's just take the appearance at face value for now.
+
+1012
+00:49:49,500 --> 00:49:54,420
+So this exposition where there's an appearance of knowing
+
+1013
+00:49:54,420 --> 00:49:57,940
+is just someone's claim to knowing backed up
+
+1014
+00:49:57,940 --> 00:50:00,540
+by some conception of knowledge.
+
+1015
+00:50:00,540 --> 00:50:02,700
+That doesn't look to be knowing yet because they
+
+1016
+00:50:02,700 --> 00:50:04,940
+don't know that they know.
+
+1017
+00:50:04,940 --> 00:50:06,700
+But from this standpoint can instead
+
+1018
+00:50:06,700 --> 00:50:10,540
+be taken to be the path of natural consciousness,
+
+1019
+00:50:10,540 --> 00:50:13,300
+pressing forward towards true knowing.
+
+1020
+00:50:13,820 --> 00:50:17,420
+It can be taken to be the path of the soul wandering
+
+1021
+00:50:17,420 --> 00:50:19,900
+through this series of ways it takes shape,
+
+1022
+00:50:19,900 --> 00:50:23,340
+as if these were stations put forward in advance to it
+
+1023
+00:50:23,340 --> 00:50:27,900
+by its own nature so that it purifies itself into spirit
+
+1024
+00:50:27,900 --> 00:50:31,980
+by arriving at a cognition of what it is in itself
+
+1025
+00:50:31,980 --> 00:50:35,420
+through the complete experience of its own self.
+
+1026
+00:50:35,420 --> 00:50:39,940
+So that description, 77 is a description of this book.
+
+1027
+00:50:39,980 --> 00:50:44,660
+It's an exposition, which appears not to be science
+
+1028
+00:50:44,660 --> 00:50:46,780
+itself yet, and let's stick with the appearance.
+
+1029
+00:50:46,780 --> 00:50:50,220
+Let's assume that this is from the first page not yet science,
+
+1030
+00:50:50,220 --> 00:50:52,740
+but merely the appearance of science.
+
+1031
+00:50:52,740 --> 00:50:56,180
+But what it really is is it's the path of natural consciousness.
+
+1032
+00:50:56,180 --> 00:50:57,700
+So what is natural consciousness?
+
+1033
+00:50:57,700 --> 00:51:00,860
+It's something like the conception of knowledge
+
+1034
+00:51:00,860 --> 00:51:03,860
+we begin with pre-philosophically.
+
+1035
+00:51:03,860 --> 00:51:06,660
+Very roughly, it's this.
+
+1036
+00:51:06,660 --> 00:51:08,900
+It's the idea that there's a distinction
+
+1037
+00:51:08,900 --> 00:51:13,380
+between consciousness, the subject,
+
+1038
+00:51:13,380 --> 00:51:16,500
+and its other, the object, and that consciousness
+
+1039
+00:51:16,500 --> 00:51:19,060
+has to somehow overcome that, maybe
+
+1040
+00:51:19,060 --> 00:51:22,300
+by the object affecting its senses, et cetera, et cetera.
+
+1041
+00:51:22,300 --> 00:51:25,340
+This is natural consciousness.
+
+1042
+00:51:30,660 --> 00:51:32,780
+So the exposition, this book is going
+
+1043
+00:51:32,780 --> 00:51:37,820
+to be an exposition of the path of natural consciousness
+
+1044
+00:51:37,820 --> 00:51:42,140
+pressing forwards towards true known, towards science.
+
+1045
+00:51:42,140 --> 00:51:44,980
+Or it can be taken to be the path of the soul wandering
+
+1046
+00:51:44,980 --> 00:51:47,460
+through the series of ways it takes shape.
+
+1047
+00:51:47,460 --> 00:51:49,660
+So the phenomenology of this will
+
+1048
+00:51:49,660 --> 00:51:52,940
+be an exposition of different shapes or forms
+
+1049
+00:51:52,940 --> 00:51:56,940
+of consciousness, which means different conceptions
+
+1050
+00:51:56,940 --> 00:51:59,740
+of what knowledge is, different conceptions
+
+1051
+00:51:59,740 --> 00:52:04,540
+of the relationship between consciousness and its object.
+
+1052
+00:52:04,540 --> 00:52:07,780
+As if these were stations put forward in advance to it
+
+1053
+00:52:07,780 --> 00:52:09,340
+by its own nature.
+
+1054
+00:52:09,340 --> 00:52:12,420
+So these stations, these different forms of consciousness,
+
+1055
+00:52:12,420 --> 00:52:14,380
+are not given to it from outside,
+
+1056
+00:52:14,380 --> 00:52:18,460
+but they develop out of it itself,
+
+1057
+00:52:18,460 --> 00:52:21,780
+so that it purifies itself into spirit
+
+1058
+00:52:21,780 --> 00:52:25,140
+by arriving at a cognition of what it is in itself
+
+1059
+00:52:25,140 --> 00:52:28,140
+through the complete experience of its own self.
+
+1060
+00:52:28,140 --> 00:52:31,140
+So this is going to be the exposition
+
+1061
+00:52:31,140 --> 00:52:34,980
+of how natural consciousness becomes spirit,
+
+1062
+00:52:34,980 --> 00:52:40,300
+and therefore truly knows itself and has scientific knowledge.
+
+1063
+00:52:40,300 --> 00:52:42,340
+Now, what is this exposition?
+
+1064
+00:52:42,340 --> 00:52:46,820
+What is the character of the exposition of the phenomenology?
+
+1065
+00:52:46,820 --> 00:52:50,060
+So one very standard way of reading the phenomenology
+
+1066
+00:52:50,060 --> 00:52:53,780
+that I think is totally wrong is to think of it
+
+1067
+00:52:53,780 --> 00:53:01,740
+as an historical description of various shapes of human
+
+1068
+00:53:01,740 --> 00:53:03,100
+consciousness over time.
+
+1069
+00:53:03,100 --> 00:53:05,220
+So on this reading, some of the beginning of the book
+
+1070
+00:53:05,220 --> 00:53:07,740
+is like Stone Age consciousness, and by the end
+
+1071
+00:53:07,740 --> 00:53:10,380
+we have like early 19th century German consciousness.
+
+1072
+00:53:10,380 --> 00:53:13,820
+This has various problems, one of which
+
+1073
+00:53:13,820 --> 00:53:16,900
+is it gets the chronology as out of order.
+
+1074
+00:53:16,900 --> 00:53:21,980
+So somehow like Newtonian science comes before the Greeks.
+
+1075
+00:53:22,180 --> 00:53:23,940
+There are other problems with it, namely,
+
+1076
+00:53:23,940 --> 00:53:26,020
+it makes the whole book completely incoherent.
+
+1077
+00:53:26,020 --> 00:53:32,540
+It turns it into the world's most incoherently written
+
+1078
+00:53:32,540 --> 00:53:34,100
+piece of intellectual history.
+
+1079
+00:53:34,100 --> 00:53:38,380
+It's like Will Durant, as written by Hegel.
+
+1080
+00:53:38,380 --> 00:53:40,100
+And it also completely undermines
+
+1081
+00:53:40,100 --> 00:53:43,460
+the philosophical account, because what happened does not
+
+1082
+00:53:43,460 --> 00:53:46,020
+in and of itself have any necessity.
+
+1083
+00:53:46,020 --> 00:53:47,660
+So I don't think that it's historical.
+
+1084
+00:53:47,660 --> 00:53:49,700
+I think that this exposition is a purely
+
+1085
+00:53:49,700 --> 00:53:52,300
+philosophical or logical.
+
+1086
+00:53:52,300 --> 00:53:56,180
+So what we do is we start with natural consciousness, which
+
+1087
+00:53:56,180 --> 00:53:58,220
+is a conception of what knowing is.
+
+1088
+00:53:58,220 --> 00:54:00,380
+It's roughly this.
+
+1089
+00:54:00,380 --> 00:54:02,540
+As we'll see, it's going to start even more minimally
+
+1090
+00:54:02,540 --> 00:54:03,020
+than this.
+
+1091
+00:54:13,420 --> 00:54:15,500
+We're going to start with this, and then we're
+
+1092
+00:54:15,500 --> 00:54:19,500
+going to develop out of this other shapes of consciousness,
+
+1093
+00:54:19,620 --> 00:54:22,540
+other conceptions of what knowledge is,
+
+1094
+00:54:22,540 --> 00:54:27,940
+till we get to what Hegel identifies as science, what
+
+1095
+00:54:27,940 --> 00:54:31,980
+he identifies as the knowing of the absolute,
+
+1096
+00:54:31,980 --> 00:54:36,540
+and what he here identifies as consciousness becoming spirit.
+
+1097
+00:54:36,540 --> 00:54:40,620
+Now, all of those things are going to be the same.
+
+1098
+00:54:40,620 --> 00:54:43,020
+They're all going to be identical.
+
+1099
+00:54:43,020 --> 00:54:45,140
+But let me just say something about the latter.
+
+1100
+00:54:45,140 --> 00:54:47,740
+What does it mean that consciousness becomes spirit?
+
+1101
+00:54:47,740 --> 00:54:50,460
+As Hegel says at the end of 77, it's
+
+1102
+00:54:50,460 --> 00:54:54,620
+not that consciousness wasn't spirit and then becomes spirit.
+
+1103
+00:54:54,620 --> 00:54:58,660
+It's that consciousness becomes aware of itself as spirit.
+
+1104
+00:54:58,660 --> 00:55:01,420
+So one way of thinking about the phenomenology, the one
+
+1105
+00:55:01,420 --> 00:55:05,180
+that I'm going to emphasize, is its consciousness developing
+
+1106
+00:55:05,180 --> 00:55:07,660
+out of itself a series of shapes of consciousness,
+
+1107
+00:55:07,660 --> 00:55:10,140
+conceptions of knowing, until it gets to one
+
+1108
+00:55:10,140 --> 00:55:13,660
+that is knowing, full stop.
+
+1109
+00:55:13,660 --> 00:55:16,940
+True scientific knowing of what in actuality is.
+
+1110
+00:55:16,940 --> 00:55:20,860
+That will turn out also to be knowledge of the absolute.
+
+1111
+00:55:20,860 --> 00:55:24,780
+For the preview of incredibly weird Hegel stuff to come,
+
+1112
+00:55:24,780 --> 00:55:28,020
+it will turn out that that is the absolute.
+
+1113
+00:55:28,020 --> 00:55:30,580
+The absolute is the absolute knowing itself.
+
+1114
+00:55:30,580 --> 00:55:31,860
+And you can be part of it too.
+
+1115
+00:55:35,740 --> 00:55:39,020
+But the thing I just want to mention now
+
+1116
+00:55:39,020 --> 00:55:41,220
+is it will also be consciousness coming
+
+1117
+00:55:41,220 --> 00:55:44,980
+to know what it itself is, namely, spirit.
+
+1118
+00:55:47,300 --> 00:55:50,620
+Now we're going to talk a lot more about spirit in this class
+
+1119
+00:55:50,620 --> 00:55:52,660
+because it's one of the three parts of the system.
+
+1120
+00:55:52,660 --> 00:55:59,060
+And we'll spend roughly half this whole semester on spirit.
+
+1121
+00:55:59,060 --> 00:56:06,660
+What exactly spirit is in Hegel is if you gave me a pop quiz
+
+1122
+00:56:06,660 --> 00:56:08,980
+and gave me a blue book and said you have three hours to say
+
+1123
+00:56:08,980 --> 00:56:11,100
+what spirit is for Hegel, I think
+
+1124
+00:56:11,100 --> 00:56:12,660
+I would throw myself out of a window.
+
+1125
+00:56:12,660 --> 00:56:14,740
+I don't really know how I would do that.
+
+1126
+00:56:14,740 --> 00:56:20,340
+But let me just say very briefly something about the word.
+
+1127
+00:56:20,340 --> 00:56:24,660
+The word in German is geist.
+
+1128
+00:56:24,660 --> 00:56:25,500
+OK.
+
+1129
+00:56:25,500 --> 00:56:28,460
+Now, sometimes that gets translated in English
+
+1130
+00:56:28,460 --> 00:56:32,900
+as spirit, sometimes it gets translated as mind.
+
+1131
+00:56:32,900 --> 00:56:34,460
+So in particular, the translation
+
+1132
+00:56:34,460 --> 00:56:35,960
+of the philosophy of spirit that we're
+
+1133
+00:56:35,960 --> 00:56:39,300
+going to read, the only one ever published in English
+
+1134
+00:56:39,300 --> 00:56:42,660
+because Cambridge underpaid the editorial board,
+
+1135
+00:56:42,740 --> 00:56:45,700
+translated as the philosophy of mind.
+
+1136
+00:56:45,700 --> 00:56:50,540
+Now, what is the relationship between spirit and mind?
+
+1137
+00:56:50,540 --> 00:56:53,060
+They're the same word in German.
+
+1138
+00:56:53,060 --> 00:56:55,580
+If you want to say that someone lost his mind in German,
+
+1139
+00:56:55,580 --> 00:56:58,060
+you say, he hasein geistfel.
+
+1140
+00:56:58,060 --> 00:57:02,260
+So we have two words where the Germans have won.
+
+1141
+00:57:02,260 --> 00:57:06,540
+Now, Hegel is exploiting a feature of German, which
+
+1142
+00:57:06,540 --> 00:57:12,220
+is that the word that you would use for my individual mind,
+
+1143
+00:57:12,820 --> 00:57:14,740
+is also the word that you would use
+
+1144
+00:57:14,740 --> 00:57:19,260
+for collective mental phenomena, like the spirit of the age.
+
+1145
+00:57:19,260 --> 00:57:24,660
+If you say in English, the mind of the 19th century,
+
+1146
+00:57:24,660 --> 00:57:26,340
+people will be like, what?
+
+1147
+00:57:26,340 --> 00:57:27,020
+What's that like?
+
+1148
+00:57:27,020 --> 00:57:28,220
+That sounds like the board.
+
+1149
+00:57:28,220 --> 00:57:29,940
+Everyone in the 19th century was hooked up
+
+1150
+00:57:29,940 --> 00:57:32,420
+into some big telepathic worldwide web.
+
+1151
+00:57:32,420 --> 00:57:37,100
+Now, if you say zeitgeist, the spirit of the age in German,
+
+1152
+00:57:37,100 --> 00:57:38,300
+that sounds totally normal.
+
+1153
+00:57:38,300 --> 00:57:40,460
+So what Hegel is playing on the fact
+
+1154
+00:57:40,460 --> 00:57:44,660
+that there's one word for individual mental phenomena
+
+1155
+00:57:44,660 --> 00:57:46,380
+and collective mental phenomena.
+
+1156
+00:57:46,380 --> 00:57:49,340
+Because what he wants us to see is
+
+1157
+00:57:49,340 --> 00:57:52,140
+that those aren't really separate things.
+
+1158
+00:57:52,140 --> 00:57:55,660
+Not that there's only one mind and we're all parts of it,
+
+1159
+00:57:55,660 --> 00:58:00,060
+or that the collective mind is just the combination
+
+1160
+00:58:00,060 --> 00:58:02,220
+of the little minds, as Margaret Thatcher famously said,
+
+1161
+00:58:02,220 --> 00:58:03,860
+there's no such thing as society.
+
+1162
+00:58:03,860 --> 00:58:05,860
+But neither of those views.
+
+1163
+00:58:05,860 --> 00:58:09,860
+As always in Hegel, a third weirder thing.
+
+1164
+00:58:09,860 --> 00:58:13,300
+But just very briefly, what matters
+
+1165
+00:58:13,300 --> 00:58:16,180
+in the phenomenology of spirit is
+
+1166
+00:58:16,180 --> 00:58:19,100
+that over the course of the phenomenology,
+
+1167
+00:58:19,100 --> 00:58:23,540
+consciousness comes to realize that it's spirit.
+
+1168
+00:58:23,540 --> 00:58:25,780
+Consciousness comes to realize that it's a mind.
+
+1169
+00:58:25,780 --> 00:58:26,740
+No, no, no.
+
+1170
+00:58:26,740 --> 00:58:30,380
+He means spirit in a more technical sense.
+
+1171
+00:58:30,380 --> 00:58:32,540
+Consciousness will come to realize
+
+1172
+00:58:32,540 --> 00:58:36,740
+that there is no difference between it and its author.
+
+1173
+00:58:36,740 --> 00:58:41,700
+Spirit is mind in so far as it understands
+
+1174
+00:58:41,700 --> 00:58:43,780
+that it has no other.
+
+1175
+00:58:43,780 --> 00:58:46,780
+Now that is not going to mean that everything is spirit.
+
+1176
+00:58:46,780 --> 00:58:50,500
+So Hegel's view is not like this is spirit.
+
+1177
+00:58:50,500 --> 00:58:54,660
+Hegel's fully aware that there is no spirit on the moon.
+
+1178
+00:58:54,660 --> 00:58:57,740
+The view that the phenomenology is building up towards
+
+1179
+00:58:57,740 --> 00:59:03,820
+is that the other of spirit, nature, things that have reality
+
+1180
+00:59:03,820 --> 00:59:07,260
+but aren't minds, are not fundamentally
+
+1181
+00:59:07,260 --> 00:59:08,940
+different from spirit.
+
+1182
+00:59:08,940 --> 00:59:12,420
+So that although spirit has another,
+
+1183
+00:59:12,420 --> 00:59:14,860
+its other isn't fundamentally other to it.
+
+1184
+00:59:14,860 --> 00:59:18,780
+Or it's the same structurally as spirit.
+
+1185
+00:59:18,780 --> 00:59:20,060
+Now this is all provisional.
+
+1186
+00:59:20,060 --> 00:59:22,060
+All of this is going to be worked out
+
+1187
+00:59:22,060 --> 00:59:23,220
+in the rest of the system.
+
+1188
+00:59:23,220 --> 00:59:27,740
+But the basic idea is that spirit is consciousness
+
+1189
+00:59:27,740 --> 00:59:30,660
+raised to the point where it understands
+
+1190
+00:59:30,660 --> 00:59:35,460
+that the basic structure in which consciousness thinks
+
+1191
+00:59:35,460 --> 00:59:38,620
+is the same structure as what it thinks about.
+
+1192
+00:59:38,620 --> 00:59:41,660
+So although there's a difference between myself and the object,
+
+1193
+00:59:41,660 --> 00:59:43,180
+it's not an ultimate difference.
+
+1194
+00:59:43,180 --> 00:59:47,900
+The way I think about things is fundamentally the way they are.
+
+1195
+00:59:47,900 --> 00:59:49,660
+And what's important for Hegel is
+
+1196
+00:59:49,660 --> 00:59:51,620
+that we're going to prove that.
+
+1197
+00:59:51,620 --> 00:59:53,740
+We're not going to presuppose it.
+
+1198
+00:59:53,740 --> 00:59:56,900
+Hegel's way of thinking about this, preconti and rationalism
+
+1199
+00:59:56,900 --> 01:00:00,700
+just presupposes that the categories of thought,
+
+1200
+01:00:00,700 --> 01:00:03,500
+basically subject, predicate, and logic,
+
+1201
+01:00:03,500 --> 01:00:05,860
+are the metaphysical structure of being.
+
+1202
+01:00:05,860 --> 01:00:07,620
+Or they assume something even worse,
+
+1203
+01:00:07,620 --> 01:00:10,500
+which is that God just decided, because he's
+
+1204
+01:00:10,500 --> 01:00:12,980
+nice, to set things up that way.
+
+1205
+01:00:12,980 --> 01:00:14,500
+Because what God really cares about
+
+1206
+01:00:14,500 --> 01:00:17,340
+is that we do metaphysics properly.
+
+1207
+01:00:17,340 --> 01:00:20,100
+The murder of innocence and the complete slaughter field
+
+1208
+01:00:20,100 --> 01:00:22,740
+that is history was relatively different to him.
+
+1209
+01:00:22,740 --> 01:00:24,580
+He was figuring out how to create the world.
+
+1210
+01:00:24,580 --> 01:00:26,980
+But he was like, wait, if I do it this way,
+
+1211
+01:00:26,980 --> 01:00:29,540
+there's going to be all these genocides and all this slavery
+
+1212
+01:00:29,540 --> 01:00:30,620
+and all this horrible shit.
+
+1213
+01:00:30,620 --> 01:00:32,740
+But they'll be able to do metaphysics.
+
+1214
+01:00:32,740 --> 01:00:33,660
+Yes, I'll do that.
+
+1215
+01:00:33,660 --> 01:00:35,980
+So Hegel thinks that's even worse.
+
+1216
+01:00:35,980 --> 01:00:40,100
+So what we need to do over the course of the system
+
+1217
+01:00:40,100 --> 01:00:43,740
+is show that consciousness has to be spirit.
+
+1218
+01:00:43,740 --> 01:00:46,540
+That is to say, there can't be a fundamental difference
+
+1219
+01:00:46,540 --> 01:00:51,980
+between the categories in which thought thinks and the beings
+
+1220
+01:00:51,980 --> 01:00:52,980
+that it thinks about.
+
+1221
+01:00:52,980 --> 01:00:54,860
+And so that's going to mean that there's
+
+1222
+01:00:54,860 --> 01:00:56,900
+a structural identity between spirit and nature.
+
+1223
+01:00:56,900 --> 01:00:58,180
+Yes?
+
+1224
+01:00:58,180 --> 01:01:00,940
+The individual mental phenomena,
+
+1225
+01:01:00,940 --> 01:01:03,740
+collective mental phenomena, are key names
+
+1226
+01:01:03,740 --> 01:01:07,580
+or is it too much experience?
+
+1227
+01:01:07,580 --> 01:01:09,740
+You're getting ahead of us.
+
+1228
+01:01:09,740 --> 01:01:10,980
+We're not there yet.
+
+1229
+01:01:10,980 --> 01:01:11,940
+Yeah, Isaac, right.
+
+1230
+01:01:11,940 --> 01:01:12,740
+Yeah.
+
+1231
+01:01:12,740 --> 01:01:15,140
+So is there any comparable traits
+
+1232
+01:01:15,140 --> 01:01:16,980
+between the non-monetary atmosphere
+
+1233
+01:01:16,980 --> 01:01:20,180
+and the non-monology of this technology in 20th century?
+
+1234
+01:01:20,180 --> 01:01:22,740
+Is there any connection at all?
+
+1235
+01:01:22,820 --> 01:01:24,340
+I will answer that question when we
+
+1236
+01:01:24,340 --> 01:01:26,980
+get to a particular passage.
+
+1237
+01:01:26,980 --> 01:01:30,900
+Notice the word phenomenology has not been used yet.
+
+1238
+01:01:30,900 --> 01:01:34,140
+Maybe a bit naive, but why start with natural consciousness?
+
+1239
+01:01:34,140 --> 01:01:35,660
+We will get there.
+
+1240
+01:01:35,660 --> 01:01:36,140
+Yeah?
+
+1241
+01:01:36,140 --> 01:01:38,620
+What is the concept of what is the notion?
+
+1242
+01:01:38,620 --> 01:01:42,620
+Oh, it's the bad old English translation of the concept.
+
+1243
+01:01:42,620 --> 01:01:44,740
+To the next question, what is the concept?
+
+1244
+01:01:44,740 --> 01:01:48,460
+That's, we will, it's going to take us a couple weeks.
+
+1245
+01:01:48,460 --> 01:01:49,460
+But it doesn't use it here.
+
+1246
+01:01:49,460 --> 01:01:52,060
+He uses it here, but he uses it in a non-technical sense
+
+1247
+01:01:52,060 --> 01:01:54,460
+here to mean something like one's conception.
+
+1248
+01:01:54,460 --> 01:01:55,460
+OK.
+
+1249
+01:01:55,460 --> 01:01:56,460
+Yeah.
+
+1250
+01:01:56,460 --> 01:01:59,700
+I know you said consciousness realizes that it's spirit.
+
+1251
+01:01:59,700 --> 01:02:04,420
+Maybe it's a silly question, but what's the difference
+
+1252
+01:02:04,420 --> 01:02:07,260
+before we know, before I as a consciousness realize
+
+1253
+01:02:07,260 --> 01:02:08,740
+that I am spirit?
+
+1254
+01:02:08,740 --> 01:02:11,780
+What is the difference between spirit and consciousness?
+
+1255
+01:02:11,780 --> 01:02:15,220
+It's the difference between being something
+
+1256
+01:02:15,220 --> 01:02:17,940
+and being aware of yourself as being that.
+
+1257
+01:02:17,940 --> 01:02:20,500
+So your spirit all along.
+
+1258
+01:02:20,540 --> 01:02:22,660
+Where consciousness is always spirit,
+
+1259
+01:02:22,660 --> 01:02:25,300
+but it doesn't grasp itself as spirit.
+
+1260
+01:02:25,300 --> 01:02:28,060
+Or I mean, once again, it's important not
+
+1261
+01:02:28,060 --> 01:02:29,980
+to think of this temporally.
+
+1262
+01:02:29,980 --> 01:02:32,620
+This is not about a guy named consciousness
+
+1263
+01:02:32,620 --> 01:02:35,020
+who realizes at the end that he's spirit.
+
+1264
+01:02:35,020 --> 01:02:36,780
+It's about consciousness.
+
+1265
+01:02:36,780 --> 01:02:40,380
+And consciousness is spirit, but at the level
+
+1266
+01:02:40,380 --> 01:02:44,180
+at which we describe consciousness at the beginning,
+
+1267
+01:02:44,180 --> 01:02:47,220
+that is not a description of consciousness as spirit.
+
+1268
+01:02:47,220 --> 01:02:49,820
+What we're going to do is unfold from that description
+
+1269
+01:02:49,820 --> 01:02:52,100
+of consciousness, just from what consciousness is so
+
+1270
+01:02:52,100 --> 01:02:54,460
+described that it must be spirit.
+
+1271
+01:02:54,460 --> 01:02:56,140
+OK.
+
+1272
+01:02:56,140 --> 01:02:56,900
+Moving on.
+
+1273
+01:02:56,900 --> 01:02:58,660
+Natural consciousness will prove
+
+1274
+01:02:58,660 --> 01:03:00,860
+to be only the concept of knowing,
+
+1275
+01:03:00,860 --> 01:03:02,580
+or it will prove to be not real knowing.
+
+1276
+01:03:02,580 --> 01:03:03,100
+OK, good.
+
+1277
+01:03:03,100 --> 01:03:05,340
+So this is a non-technical use of concept.
+
+1278
+01:03:05,340 --> 01:03:06,740
+This is something like what we mean
+
+1279
+01:03:06,740 --> 01:03:08,220
+by concept in the ordinary sense.
+
+1280
+01:03:08,220 --> 01:03:09,500
+It's a conception of knowing.
+
+1281
+01:03:09,500 --> 01:03:12,500
+So natural consciousness thinks of itself as knowing,
+
+1282
+01:03:12,500 --> 01:03:15,100
+and it has a conception of knowing, namely this one.
+
+1283
+01:03:15,100 --> 01:03:17,780
+But it will prove to be not real knowing.
+
+1284
+01:03:17,780 --> 01:03:19,580
+He also said already for that.
+
+1285
+01:03:19,660 --> 01:03:22,940
+While it immediately regards itself rather as real knowing,
+
+1286
+01:03:22,940 --> 01:03:25,380
+this path has negative meaning for it.
+
+1287
+01:03:25,380 --> 01:03:27,380
+And what is the realization of the concept
+
+1288
+01:03:27,380 --> 01:03:30,500
+will count instead to it as the loss of itself,
+
+1289
+01:03:30,500 --> 01:03:34,460
+for on this path, it loses its truth.
+
+1290
+01:03:34,460 --> 01:03:36,900
+In this exposition, consciousness
+
+1291
+01:03:36,900 --> 01:03:40,860
+is going to realize that what it thinks knowing is is not
+
+1292
+01:03:40,860 --> 01:03:41,740
+knowing.
+
+1293
+01:03:41,740 --> 01:03:45,420
+So the truth that it thinks it knows, it doesn't know.
+
+1294
+01:03:45,420 --> 01:03:47,380
+This path could accordingly be regarded
+
+1295
+01:03:47,380 --> 01:03:50,220
+as the path of doubt, or more properly,
+
+1296
+01:03:50,220 --> 01:03:52,500
+as the path of despair.
+
+1297
+01:03:52,500 --> 01:03:55,140
+On this path, what happens is not
+
+1298
+01:03:55,140 --> 01:03:57,620
+what is customarily understood as doubt,
+
+1299
+01:03:57,620 --> 01:04:00,180
+a shaking of this or that supposed truth,
+
+1300
+01:04:00,180 --> 01:04:02,500
+followed by the disappearance again of the doubt,
+
+1301
+01:04:02,500 --> 01:04:05,300
+and then a return to the former, so that in the end,
+
+1302
+01:04:05,300 --> 01:04:07,940
+the thing at issue is taken as it was before.
+
+1303
+01:04:07,940 --> 01:04:10,780
+Rather, this path is the conscious insight
+
+1304
+01:04:10,780 --> 01:04:13,540
+into the untruth of knowing as it appears.
+
+1305
+01:04:13,540 --> 01:04:16,860
+A knowing for which that which is the most real
+
+1306
+01:04:16,860 --> 01:04:21,540
+is rather in truth only the unrealized concept.
+
+1307
+01:04:21,540 --> 01:04:24,660
+So what that means is consciousness
+
+1308
+01:04:24,660 --> 01:04:27,620
+is going to realize, not that it's wrong about it
+
+1309
+01:04:27,620 --> 01:04:29,980
+thought it knew something, but it didn't know that thing.
+
+1310
+01:04:29,980 --> 01:04:32,620
+It thought it knew that Fargo is the capital of North Dakota,
+
+1311
+01:04:32,620 --> 01:04:33,140
+but it isn't.
+
+1312
+01:04:36,020 --> 01:04:39,900
+Or it's nor is it going to doubt, it's
+
+1313
+01:04:39,900 --> 01:04:42,860
+going to say, well, there's a bunch of stuff I don't know.
+
+1314
+01:04:42,860 --> 01:04:45,300
+I don't know anything about how things are in themselves.
+
+1315
+01:04:45,380 --> 01:04:47,060
+I didn't know the external world.
+
+1316
+01:04:47,060 --> 01:04:50,860
+What it's going to doubt is its conception of knowledge.
+
+1317
+01:04:50,860 --> 01:04:54,900
+And that is the loss of itself, because a conception
+
+1318
+01:04:54,900 --> 01:04:57,340
+of knowledge is a conception by consciousness
+
+1319
+01:04:57,340 --> 01:04:59,180
+of what consciousness is.
+
+1320
+01:04:59,180 --> 01:05:02,420
+So in losing that, it loses itself.
+
+1321
+01:05:02,420 --> 01:05:05,180
+So there's this kind of existential dimension.
+
+1322
+01:05:05,180 --> 01:05:08,780
+These are losses of self-conceptions.
+
+1323
+01:05:08,780 --> 01:05:13,140
+So the phenomenology is also an exposition
+
+1324
+01:05:13,140 --> 01:05:15,100
+of a sequence of self-conceptions
+
+1325
+01:05:15,100 --> 01:05:18,740
+that consciousness might have of itself.
+
+1326
+01:05:18,740 --> 01:05:20,940
+I'm going to skip a bunch.
+
+1327
+01:05:20,940 --> 01:05:23,300
+So we know where we start, natural consciousness.
+
+1328
+01:05:23,300 --> 01:05:25,740
+Although we don't really know what natural consciousness is,
+
+1329
+01:05:25,740 --> 01:05:27,900
+this is my preliminary sketch of it.
+
+1330
+01:05:27,900 --> 01:05:30,540
+He hasn't really told us what natural consciousness is.
+
+1331
+01:05:30,540 --> 01:05:33,500
+We know roughly where things are going to end.
+
+1332
+01:05:33,500 --> 01:05:38,100
+They're going to end with scientific knowledge,
+
+1333
+01:05:38,100 --> 01:05:41,500
+where whatever doubt is generated
+
+1334
+01:05:41,500 --> 01:05:43,580
+about these models of knowledge,
+
+1335
+01:05:43,580 --> 01:05:45,900
+that will not be able to be generated anymore.
+
+1336
+01:05:45,900 --> 01:05:48,540
+We don't really know why.
+
+1337
+01:05:48,540 --> 01:05:52,140
+The completeness of the forms of non-real consciousness
+
+1338
+01:05:52,140 --> 01:05:54,380
+will emerge through the very necessity
+
+1339
+01:05:54,380 --> 01:05:56,860
+of their progression and their interrelations.
+
+1340
+01:05:56,860 --> 01:05:59,700
+The progression of one form of consciousness,
+
+1341
+01:05:59,700 --> 01:06:01,780
+one conception of knowledge to another,
+
+1342
+01:06:01,780 --> 01:06:04,700
+is going to be necessary, not contingent.
+
+1343
+01:06:04,700 --> 01:06:06,340
+To make this comprehensible, it can
+
+1344
+01:06:06,340 --> 01:06:08,620
+be noted in general at the outset
+
+1345
+01:06:08,740 --> 01:06:11,540
+that the exposition of non-truthful consciousness
+
+1346
+01:06:11,540 --> 01:06:15,220
+in its untruth is not merely a negative movement.
+
+1347
+01:06:15,220 --> 01:06:19,020
+So Hegel now needs to explain why we transition
+
+1348
+01:06:19,020 --> 01:06:21,660
+from one shape of consciousness to the next.
+
+1349
+01:06:21,660 --> 01:06:26,100
+Now, rereading the introduction today,
+
+1350
+01:06:26,100 --> 01:06:29,740
+I think this is, I came to the conclusion
+
+1351
+01:06:29,740 --> 01:06:32,300
+this text is not actually in the best order
+
+1352
+01:06:32,300 --> 01:06:35,740
+that it could be in, because only a little bit later
+
+1353
+01:06:35,780 --> 01:06:39,180
+will he explain exactly how consciousness
+
+1354
+01:06:39,180 --> 01:06:41,220
+undermines a shape of consciousness.
+
+1355
+01:06:41,220 --> 01:06:42,660
+But let's set that aside.
+
+1356
+01:06:42,660 --> 01:06:44,620
+Let's assume there's some notion of consciousness
+
+1357
+01:06:44,620 --> 01:06:48,420
+realizing that its conception of knowledge is wrong.
+
+1358
+01:06:48,420 --> 01:06:52,700
+Now we need to understand how it moves to the next one.
+
+1359
+01:06:52,700 --> 01:06:55,340
+Now, I just want to emphasize one thing,
+
+1360
+01:06:55,340 --> 01:07:00,180
+that this is a process, or this development,
+
+1361
+01:07:00,180 --> 01:07:02,500
+is not about particular knowledge claims.
+
+1362
+01:07:02,500 --> 01:07:04,700
+We're not interested in particular knowledge
+
+1363
+01:07:04,740 --> 01:07:06,740
+claims about particular objects.
+
+1364
+01:07:06,740 --> 01:07:09,220
+It's at the level of a whole epistemology,
+
+1365
+01:07:09,220 --> 01:07:11,540
+a whole conception of what knowledge is.
+
+1366
+01:07:11,540 --> 01:07:13,380
+That's what's getting under it.
+
+1367
+01:07:13,380 --> 01:07:16,260
+That's why doubt about that is the loss
+
+1368
+01:07:16,260 --> 01:07:18,340
+of consciousness itself.
+
+1369
+01:07:18,340 --> 01:07:20,620
+If you find out that you thought you knew
+
+1370
+01:07:20,620 --> 01:07:22,860
+that South Dakota was the capital of,
+
+1371
+01:07:22,860 --> 01:07:25,260
+sorry, that Fargo was the capital of South Dakota,
+
+1372
+01:07:25,260 --> 01:07:27,180
+and then you find out you're wrong,
+
+1373
+01:07:27,180 --> 01:07:28,300
+you don't lose yourself in that,
+
+1374
+01:07:28,300 --> 01:07:29,700
+unless you have way more invested
+
+1375
+01:07:29,700 --> 01:07:32,900
+in the geography of the Upper Midwest than you should.
+
+1376
+01:07:32,900 --> 01:07:34,740
+Assuming that we're counting as the Dakotas
+
+1377
+01:07:34,740 --> 01:07:36,420
+as part of the Midwest, which, okay,
+
+1378
+01:07:36,420 --> 01:07:37,620
+we can debate about that.
+
+1379
+01:07:39,860 --> 01:07:41,500
+You guys are probably not as invested
+
+1380
+01:07:41,500 --> 01:07:43,860
+in inter-Midwest rivalry as I am.
+
+1381
+01:07:45,820 --> 01:07:49,540
+But that's how we learn from each other.
+
+1382
+01:07:49,540 --> 01:07:53,260
+Okay, so it's not merely a negative movement.
+
+1383
+01:07:53,260 --> 01:07:56,300
+So when consciousness realizes
+
+1384
+01:07:56,300 --> 01:07:59,500
+that its conception of knowledge is false,
+
+1385
+01:07:59,500 --> 01:08:01,660
+that isn't, it doesn't merely reject it.
+
+1386
+01:08:02,620 --> 01:08:05,100
+It's not just like not that.
+
+1387
+01:08:05,100 --> 01:08:07,980
+However, only when taken as the nothing
+
+1388
+01:08:07,980 --> 01:08:12,340
+of that from which it is, from which it emerges,
+
+1389
+01:08:12,340 --> 01:08:14,940
+is the nothing, in fact, the true result.
+
+1390
+01:08:14,940 --> 01:08:17,580
+Thus, it is itself a determinate nothing,
+
+1391
+01:08:17,580 --> 01:08:19,420
+and it has a content.
+
+1392
+01:08:19,420 --> 01:08:22,460
+So when consciousness undermines
+
+1393
+01:08:22,460 --> 01:08:25,220
+some shape of consciousness, some conception of knowledge,
+
+1394
+01:08:25,220 --> 01:08:27,900
+the result is not just pure,
+
+1395
+01:08:27,900 --> 01:08:29,860
+just the abandonment of knowing.
+
+1396
+01:08:29,860 --> 01:08:31,660
+Not just pure nothing.
+
+1397
+01:08:31,660 --> 01:08:34,700
+It's a specific or determinate negative nothing.
+
+1398
+01:08:34,700 --> 01:08:37,980
+It's the rejection of that previous shape,
+
+1399
+01:08:37,980 --> 01:08:40,580
+which is itself its own shape.
+
+1400
+01:08:40,580 --> 01:08:44,820
+So what Hegel needs to do is give us a principled reason
+
+1401
+01:08:44,820 --> 01:08:48,860
+or a function for why one shape of consciousness
+
+1402
+01:08:48,860 --> 01:08:51,860
+undermines itself and gives rise to the next.
+
+1403
+01:08:51,860 --> 01:08:54,420
+So there has to be, so to speak, a law of the series.
+
+1404
+01:08:54,420 --> 01:08:56,260
+So we have an account of where we start,
+
+1405
+01:08:56,260 --> 01:08:57,340
+we have a kind of preliminary account
+
+1406
+01:08:57,340 --> 01:08:58,500
+of where we're gonna end,
+
+1407
+01:08:58,500 --> 01:09:02,260
+but we also have an account of why we move
+
+1408
+01:09:02,260 --> 01:09:04,020
+to the next one that we do move to.
+
+1409
+01:09:05,580 --> 01:09:07,580
+By contrast, while the result is graphed,
+
+1410
+01:09:07,580 --> 01:09:10,820
+as it is in its truth, as determinate negation,
+
+1411
+01:09:10,820 --> 01:09:13,460
+a new form has thereby immediately arisen.
+
+1412
+01:09:13,460 --> 01:09:16,340
+And in the negation, the transition is made
+
+1413
+01:09:16,340 --> 01:09:19,140
+whereby the progression through the complete series
+
+1414
+01:09:19,140 --> 01:09:22,300
+of shapes comes about on its own accord.
+
+1415
+01:09:22,300 --> 01:09:24,540
+So to say that a shape of consciousness
+
+1416
+01:09:24,540 --> 01:09:28,140
+is a determinate negation is to say that it isn't something,
+
+1417
+01:09:28,140 --> 01:09:30,460
+but it's not nothing in general.
+
+1418
+01:09:30,460 --> 01:09:31,740
+It's not just nothing.
+
+1419
+01:09:31,740 --> 01:09:33,620
+There's a specific thing it isn't,
+
+1420
+01:09:33,620 --> 01:09:35,900
+namely the previous shape of consciousness.
+
+1421
+01:09:35,900 --> 01:09:38,420
+In particular, it's a shape of consciousness
+
+1422
+01:09:38,420 --> 01:09:42,340
+that arises in a principled way out of the failure
+
+1423
+01:09:42,340 --> 01:09:44,180
+of the previous shape of consciousness.
+
+1424
+01:09:44,180 --> 01:09:46,460
+And Hegel is now going to give us an account
+
+1425
+01:09:46,460 --> 01:09:49,700
+of exactly what that function is
+
+1426
+01:09:49,700 --> 01:09:52,060
+that gets you from one shape of consciousness
+
+1427
+01:09:52,060 --> 01:09:53,620
+that fails to the next.
+
+1428
+01:09:54,860 --> 01:09:56,660
+But again, rather than doing that,
+
+1429
+01:09:56,660 --> 01:10:00,220
+he then skips to the next topic, which is where it ends.
+
+1430
+01:10:00,220 --> 01:10:04,540
+So what we need is an account of where we start,
+
+1431
+01:10:04,540 --> 01:10:06,140
+how we move, and where we end.
+
+1432
+01:10:06,140 --> 01:10:07,700
+We've seen a little about where we start,
+
+1433
+01:10:07,700 --> 01:10:09,620
+a little about how we move,
+
+1434
+01:10:09,620 --> 01:10:12,060
+and now Hegel's gonna tell us more about how we end.
+
+1435
+01:10:12,060 --> 01:10:17,060
+However, to knowing the goal is necessarily fixed
+
+1436
+01:10:17,260 --> 01:10:19,500
+as the series of the progression
+
+1437
+01:10:19,500 --> 01:10:22,020
+is as necessarily fixed as the series of the progression,
+
+1438
+01:10:22,020 --> 01:10:23,620
+although you haven't really told us exactly
+
+1439
+01:10:23,620 --> 01:10:25,380
+what the series of the progression is, Hegel.
+
+1440
+01:10:25,380 --> 01:10:26,420
+The goal is the point.
+
+1441
+01:10:26,420 --> 01:10:28,780
+The goal is the point at which knowing
+
+1442
+01:10:28,780 --> 01:10:32,340
+no longer needs to go beyond its own self.
+
+1443
+01:10:32,340 --> 01:10:35,540
+Where knowing itself finds itself,
+
+1444
+01:10:35,540 --> 01:10:38,500
+and where the concept corresponds to the object,
+
+1445
+01:10:38,500 --> 01:10:40,780
+and the object to the concept.
+
+1446
+01:10:40,780 --> 01:10:43,100
+The progression towards this goal
+
+1447
+01:10:43,100 --> 01:10:45,460
+is thus also unrelenting,
+
+1448
+01:10:45,460 --> 01:10:50,460
+and at no earlier stage dissatisfaction to be felt.
+
+1449
+01:10:51,820 --> 01:10:54,420
+So this process will end
+
+1450
+01:10:54,420 --> 01:10:57,700
+when there's so little distinction
+
+1451
+01:10:57,700 --> 01:10:59,820
+between subject and object,
+
+1452
+01:10:59,820 --> 01:11:02,820
+between knowing and the object of knowing,
+
+1453
+01:11:02,820 --> 01:11:06,580
+that no skepticism about that shape of consciousness
+
+1454
+01:11:06,580 --> 01:11:07,420
+is possible.
+
+1455
+01:11:08,420 --> 01:11:12,140
+So it's going to end only with such a complete coincidence
+
+1456
+01:11:12,140 --> 01:11:14,180
+of knowing at its object
+
+1457
+01:11:14,180 --> 01:11:16,540
+that the skeptical problem
+
+1458
+01:11:16,540 --> 01:11:21,540
+about these conceptions of knowledge cannot arise.
+
+1459
+01:11:22,540 --> 01:11:24,460
+Now what exactly that is,
+
+1460
+01:11:24,460 --> 01:11:27,460
+is only described at the end of the book.
+
+1461
+01:11:27,460 --> 01:11:29,700
+It's very, very hard to understand.
+
+1462
+01:11:29,700 --> 01:11:31,900
+But that's where we're supposed to go.
+
+1463
+01:11:31,900 --> 01:11:35,700
+Okay, now why can consciousness not stop
+
+1464
+01:11:35,700 --> 01:11:37,860
+anywhere short of the entity?
+
+1465
+01:11:37,860 --> 01:11:40,180
+Consciousness therefore suffers this violence
+
+1466
+01:11:40,180 --> 01:11:41,780
+at its own hands,
+
+1467
+01:11:41,780 --> 01:11:45,820
+and brings to ruin its own restricted satisfaction.
+
+1468
+01:11:45,820 --> 01:11:49,460
+So the failure of these forms of consciousness,
+
+1469
+01:11:49,460 --> 01:11:50,500
+these shapes of consciousness,
+
+1470
+01:11:50,660 --> 01:11:51,980
+these conceptions of knowledge,
+
+1471
+01:11:51,980 --> 01:11:53,540
+is not something external.
+
+1472
+01:11:54,380 --> 01:11:57,180
+Consciousness itself realizes
+
+1473
+01:11:57,180 --> 01:11:59,420
+that its conception of knowledge is wrong.
+
+1474
+01:11:59,420 --> 01:12:00,860
+It does it to itself.
+
+1475
+01:12:01,980 --> 01:12:03,860
+With the feeling of this violence,
+
+1476
+01:12:03,860 --> 01:12:07,020
+anxiety over the truth might well withdraw
+
+1477
+01:12:07,020 --> 01:12:10,540
+and strive to hold onto what it is in danger of losing.
+
+1478
+01:12:10,540 --> 01:12:13,260
+But this anxiety can find no rest.
+
+1479
+01:12:13,260 --> 01:12:16,260
+Even if it wants to remain in thoughtless indolence,
+
+1480
+01:12:16,260 --> 01:12:18,780
+thought spoils the thoughtlessness,
+
+1481
+01:12:18,820 --> 01:12:21,740
+and its unrest disturbs the indolence.
+
+1482
+01:12:21,740 --> 01:12:24,860
+So as Hegel says on the next page,
+
+1483
+01:12:27,700 --> 01:12:29,140
+where can I never find this?
+
+1484
+01:12:38,380 --> 01:12:40,300
+I know I have this underlined.
+
+1485
+01:12:40,300 --> 01:12:42,420
+Okay, as he says in the next couple of pages,
+
+1486
+01:12:42,420 --> 01:12:43,620
+which we will come to,
+
+1487
+01:12:43,620 --> 01:12:48,620
+it is an issue for consciousness
+
+1488
+01:12:50,220 --> 01:12:51,980
+whether or not its knowing of the object
+
+1489
+01:12:51,980 --> 01:12:53,860
+corresponds to the object, that's 56.
+
+1490
+01:12:53,860 --> 01:12:56,540
+So consciousness, it cannot be indifferent
+
+1491
+01:12:56,540 --> 01:12:59,220
+to consciousness whether it knows.
+
+1492
+01:12:59,220 --> 01:13:03,940
+So consciousness purports to no objects.
+
+1493
+01:13:03,940 --> 01:13:07,220
+It has a conception of what knowledge is.
+
+1494
+01:13:07,220 --> 01:13:12,220
+And Hegel says it is not indifferent to consciousness.
+
+1495
+01:13:12,380 --> 01:13:15,060
+Consciousness can't just not care
+
+1496
+01:13:15,060 --> 01:13:18,340
+about whether what it thinks knowing is, is knowing.
+
+1497
+01:13:19,300 --> 01:13:23,940
+Now, you might think, well,
+
+1498
+01:13:23,940 --> 01:13:27,180
+knowledge is just one thing in life.
+
+1499
+01:13:27,180 --> 01:13:29,100
+Like I have a lot of family members
+
+1500
+01:13:29,100 --> 01:13:31,860
+who don't care that much about what knowledge is.
+
+1501
+01:13:31,860 --> 01:13:35,500
+They do, only philosophers are so,
+
+1502
+01:13:35,500 --> 01:13:39,900
+only a philosopher could say consciousness
+
+1503
+01:13:39,900 --> 01:13:41,260
+with feeling of this violence,
+
+1504
+01:13:41,260 --> 01:13:43,340
+anxiety over the truth might well withdraw
+
+1505
+01:13:43,340 --> 01:13:45,260
+and strive to hold on to what is in danger of losing.
+
+1506
+01:13:45,260 --> 01:13:47,220
+This anxiety can find no rest.
+
+1507
+01:13:47,220 --> 01:13:48,980
+Even if it wants to remain in thoughtless indolence,
+
+1508
+01:13:48,980 --> 01:13:50,420
+thought spoils the thoughtlessness
+
+1509
+01:13:50,420 --> 01:13:52,820
+that its unrest disturbs the indolence.
+
+1510
+01:13:52,820 --> 01:13:56,780
+A lot of people, their anxiety does find a rest.
+
+1511
+01:13:56,780 --> 01:13:59,780
+They don't, they wanna remain in thoughtless indolence
+
+1512
+01:13:59,780 --> 01:14:02,860
+and thought doesn't spoil their thoughtlessness
+
+1513
+01:14:02,860 --> 01:14:05,060
+and unrest does not disturb their indolence.
+
+1514
+01:14:05,060 --> 01:14:07,940
+They're very happy to not think or not know.
+
+1515
+01:14:07,940 --> 01:14:12,300
+So this is not supposed to be a psychological claim
+
+1516
+01:14:12,300 --> 01:14:15,020
+about particular conscious subjects.
+
+1517
+01:14:15,020 --> 01:14:17,620
+So whatever Hegel's claim is here,
+
+1518
+01:14:17,620 --> 01:14:20,740
+is not supposed to be contrary to
+
+1519
+01:14:20,740 --> 01:14:22,980
+and therefore not refutable to psychological claims
+
+1520
+01:14:22,980 --> 01:14:24,500
+about particular human beings.
+
+1521
+01:14:26,140 --> 01:14:28,180
+As we'll see over the course of the phenomenology
+
+1522
+01:14:28,180 --> 01:14:29,940
+or if we were to read the whole phenomenology
+
+1523
+01:14:29,940 --> 01:14:31,860
+as we would see, knowledge,
+
+1524
+01:14:31,860 --> 01:14:35,140
+Hegel thinks of as a very, very general phenomenon.
+
+1525
+01:14:35,140 --> 01:14:37,860
+It's sort of ubiquitous or structural
+
+1526
+01:14:38,660 --> 01:14:39,500
+in human life.
+
+1527
+01:14:39,500 --> 01:14:44,100
+So doing something, action is also a kind of knowledge.
+
+1528
+01:14:44,100 --> 01:14:47,740
+It's a representation of the object
+
+1529
+01:14:47,740 --> 01:14:50,460
+as being in conformity with your representation of it,
+
+1530
+01:14:50,460 --> 01:14:51,700
+as being choice worthy.
+
+1531
+01:14:52,660 --> 01:14:55,820
+So there's no way of being indifferent to knowledge.
+
+1532
+01:14:55,820 --> 01:15:00,820
+Any acting, any willing, any belief about the world
+
+1533
+01:15:03,380 --> 01:15:06,820
+is making a claim to knowledge.
+
+1534
+01:15:06,820 --> 01:15:10,500
+So notice I haven't said that knowledge here
+
+1535
+01:15:10,500 --> 01:15:12,380
+is this thing that analytic philosophers
+
+1536
+01:15:12,380 --> 01:15:14,620
+are kind of pointlessly obsessed with.
+
+1537
+01:15:14,620 --> 01:15:15,660
+S knows that P.
+
+1538
+01:15:21,660 --> 01:15:25,460
+This is a much more general structure.
+
+1539
+01:15:25,460 --> 01:15:28,340
+This is the structure of your relationship with the world.
+
+1540
+01:15:29,700 --> 01:15:31,060
+This you might not care about.
+
+1541
+01:15:31,060 --> 01:15:32,460
+You probably shouldn't care about it.
+
+1542
+01:15:32,460 --> 01:15:34,340
+Stop caring about it.
+
+1543
+01:15:34,340 --> 01:15:38,700
+This you walk around life
+
+1544
+01:15:38,700 --> 01:15:41,220
+carrying with you a conception of this.
+
+1545
+01:15:41,220 --> 01:15:43,340
+It cannot be indifferent to you
+
+1546
+01:15:43,340 --> 01:15:45,660
+whether the world does actually relate to you
+
+1547
+01:15:45,660 --> 01:15:48,340
+the way you conceive it as related to you.
+
+1548
+01:15:48,340 --> 01:15:51,940
+Okay, a little bit further and then we'll take a break.
+
+1549
+01:15:51,940 --> 01:15:55,180
+Just as these preliminary and general remarks
+
+1550
+01:15:55,180 --> 01:15:57,700
+about the manner and the necessity of the progression
+
+1551
+01:15:57,700 --> 01:16:02,060
+have been made, so too it might be useful to recall something
+
+1552
+01:16:02,060 --> 01:16:04,740
+about the method of the way it is carried out.
+
+1553
+01:16:04,740 --> 01:16:07,380
+So Hegel is now gonna tell us more about
+
+1554
+01:16:07,380 --> 01:16:10,140
+how consciousness undermines
+
+1555
+01:16:10,140 --> 01:16:15,140
+its own conception of knowledge or the law of the series.
+
+1556
+01:16:16,620 --> 01:16:17,900
+Sorry, not the law of the series.
+
+1557
+01:16:17,900 --> 01:16:19,740
+The law of the series is how we go from
+
+1558
+01:16:19,740 --> 01:16:21,660
+shape of consciousness and the shape of consciousness
+
+1559
+01:16:21,660 --> 01:16:24,740
+and plus one, but why we have to move on.
+
+1560
+01:16:24,740 --> 01:16:26,980
+Why one shape of consciousness fails.
+
+1561
+01:16:28,380 --> 01:16:30,380
+Just as these preliminary and general remarks
+
+1562
+01:16:30,380 --> 01:16:31,500
+about the manner and the necessity
+
+1563
+01:16:31,500 --> 01:16:32,740
+of the progression have been made,
+
+1564
+01:16:32,740 --> 01:16:34,220
+so too it might be useful to recall something
+
+1565
+01:16:34,220 --> 01:16:35,900
+about the method of the way it is carried out.
+
+1566
+01:16:35,900 --> 01:16:39,340
+This exposition represented as the conduct of science
+
+1567
+01:16:39,340 --> 01:16:41,700
+in relation to knowing as it appears
+
+1568
+01:16:41,700 --> 01:16:44,220
+and represented as the investigation and testing
+
+1569
+01:16:44,220 --> 01:16:47,140
+of the reality of cognition seems incapable
+
+1570
+01:16:47,140 --> 01:16:50,140
+of taking place without some kind of presupposition
+
+1571
+01:16:50,140 --> 01:16:52,780
+with underlies it as a stem.
+
+1572
+01:16:52,780 --> 01:16:56,420
+So it looks like, once again, it appears.
+
+1573
+01:16:56,420 --> 01:16:59,500
+That means he's suggesting this is something you might think
+
+1574
+01:16:59,540 --> 01:17:00,980
+he's ultimately gonna undermine it.
+
+1575
+01:17:00,980 --> 01:17:02,500
+You might think that what we need to do
+
+1576
+01:17:02,500 --> 01:17:04,820
+is have a standard of what knowing is
+
+1577
+01:17:04,820 --> 01:17:06,780
+and then investigate each shape of consciousness
+
+1578
+01:17:06,780 --> 01:17:08,700
+and say, that doesn't meet the standard.
+
+1579
+01:17:08,700 --> 01:17:10,500
+That's not what knowing is.
+
+1580
+01:17:10,500 --> 01:17:13,220
+For the testing consists in the application
+
+1581
+01:17:13,220 --> 01:17:17,140
+of an accepted standard and in the resulting equality
+
+1582
+01:17:17,140 --> 01:17:22,020
+or inequality between the standard and what is tested
+
+1583
+01:17:22,020 --> 01:17:25,220
+lays the decision as to what is tested
+
+1584
+01:17:25,220 --> 01:17:27,540
+is correct or incorrect.
+
+1585
+01:17:27,540 --> 01:17:30,500
+The standard, likewise, science itself,
+
+1586
+01:17:30,500 --> 01:17:32,660
+if science were to be the standard,
+
+1587
+01:17:32,660 --> 01:17:35,220
+is thereby accepted as the essence or as the in itself.
+
+1588
+01:17:35,220 --> 01:17:37,860
+Ignore, we'll come back to essence and in itself.
+
+1589
+01:17:37,860 --> 01:17:39,340
+But here, at the point where science
+
+1590
+01:17:39,340 --> 01:17:40,900
+first comes on the scene,
+
+1591
+01:17:40,900 --> 01:17:43,540
+where someone makes a claim to scientific knowledge,
+
+1592
+01:17:43,540 --> 01:17:45,620
+neither science itself nor anything else
+
+1593
+01:17:45,620 --> 01:17:48,980
+has justified itself as the essence or as the in itself.
+
+1594
+01:17:48,980 --> 01:17:51,340
+And without something like that taking place,
+
+1595
+01:17:51,340 --> 01:17:54,940
+it seems that no examination could take place at all.
+
+1596
+01:17:56,020 --> 01:17:57,360
+So there's this problem.
+
+1597
+01:17:57,480 --> 01:18:00,000
+It looks like we need to apply a standard.
+
+1598
+01:18:00,000 --> 01:18:01,840
+Where does the standard come from?
+
+1599
+01:18:01,840 --> 01:18:04,240
+One can have a more determinant grasp of this contradiction
+
+1600
+01:18:04,240 --> 01:18:06,000
+and the removal of the contradiction.
+
+1601
+01:18:06,000 --> 01:18:07,280
+If, first of all, one is reminded
+
+1602
+01:18:07,280 --> 01:18:09,800
+of the abstract determinations of knowing and truth
+
+1603
+01:18:09,800 --> 01:18:12,840
+as they come before consciousness.
+
+1604
+01:18:12,840 --> 01:18:16,600
+Okay, so what Hegel is doing in 81
+
+1605
+01:18:16,600 --> 01:18:20,280
+is he's making a reference
+
+1606
+01:18:20,280 --> 01:18:24,040
+to something called the dilemma of the criterion.
+
+1607
+01:18:24,040 --> 01:18:26,200
+I'm going to erase Hegel's system.
+
+1608
+01:18:28,360 --> 01:18:29,960
+It's actually very Hegelian.
+
+1609
+01:18:31,800 --> 01:18:34,120
+When we get into Hegel's logic,
+
+1610
+01:18:34,120 --> 01:18:35,840
+there's going to be a lot of erasure.
+
+1611
+01:18:35,840 --> 01:18:38,000
+That's going to be like a main metaphor.
+
+1612
+01:18:38,000 --> 01:18:41,560
+Hegel's a great philosopher to teach on the blackboard.
+
+1613
+01:18:41,560 --> 01:18:42,400
+Okay.
+
+1614
+01:18:44,640 --> 01:18:46,520
+The dilemma of the criterion
+
+1615
+01:18:48,280 --> 01:18:53,040
+comes from a work of ancient philosophy
+
+1616
+01:18:53,040 --> 01:18:55,040
+by Sextus empiricus.
+
+1617
+01:18:57,680 --> 01:18:59,920
+Called outlines of purism.
+
+1618
+01:19:04,760 --> 01:19:06,280
+Here's the basic idea.
+
+1619
+01:19:09,080 --> 01:19:12,000
+Or this is how Hegel is thinking of the idea in Sextus.
+
+1620
+01:19:12,000 --> 01:19:13,840
+That's what matters for our purposes.
+
+1621
+01:19:14,840 --> 01:19:17,880
+Someone makes a claim to knowledge.
+
+1622
+01:19:17,880 --> 01:19:20,100
+We have to have a standard
+
+1623
+01:19:20,100 --> 01:19:22,480
+for whether that counts as knowledge or not.
+
+1624
+01:19:22,480 --> 01:19:23,760
+Whether that's a valid knowledge group.
+
+1625
+01:19:23,760 --> 01:19:26,440
+Whether that person in fact knows what they claim to know.
+
+1626
+01:19:26,440 --> 01:19:29,160
+Now either that standard
+
+1627
+01:19:29,160 --> 01:19:31,920
+is that person's own conception of knowledge.
+
+1628
+01:19:32,780 --> 01:19:34,080
+In which case it's circular.
+
+1629
+01:19:35,800 --> 01:19:36,640
+Very easy.
+
+1630
+01:19:36,640 --> 01:19:38,440
+Now, totally useless.
+
+1631
+01:19:38,440 --> 01:19:41,280
+Everyone's conception of knowledge agrees with itself,
+
+1632
+01:19:41,280 --> 01:19:44,160
+so everyone meets their own standard.
+
+1633
+01:19:44,160 --> 01:19:47,040
+Or the standard has to be external
+
+1634
+01:19:47,040 --> 01:19:48,140
+to their conception of knowledge.
+
+1635
+01:19:48,140 --> 01:19:49,640
+But then it's question-making.
+
+1636
+01:19:51,680 --> 01:19:53,520
+So, what Hegel is doing
+
+1637
+01:19:53,960 --> 01:19:56,640
+is raising this as a problem for his own project.
+
+1638
+01:19:58,000 --> 01:19:59,120
+What we don't want to do
+
+1639
+01:19:59,120 --> 01:20:02,560
+is apply external standards or criterions.
+
+1640
+01:20:02,560 --> 01:20:03,400
+Criteria.
+
+1641
+01:20:06,320 --> 01:20:09,280
+We'll also call it the dilemma of the standard.
+
+1642
+01:20:09,280 --> 01:20:10,120
+Maschab.
+
+1643
+01:20:12,840 --> 01:20:17,040
+So, what he's going to do is develop a way
+
+1644
+01:20:17,040 --> 01:20:19,680
+of how consciousness can undermine
+
+1645
+01:20:19,680 --> 01:20:21,440
+its own conception of knowledge
+
+1646
+01:20:21,480 --> 01:20:24,120
+that doesn't run into the dilemma of the criteria.
+
+1647
+01:20:26,760 --> 01:20:30,360
+One can have a more determinate grasp of this contradiction
+
+1648
+01:20:30,360 --> 01:20:32,400
+and the removal of the contradiction
+
+1649
+01:20:32,400 --> 01:20:34,640
+if first of all, one is reminded
+
+1650
+01:20:34,640 --> 01:20:37,600
+of the abstract determinations of knowing their truth
+
+1651
+01:20:37,600 --> 01:20:39,520
+as they come before consciousness.
+
+1652
+01:20:39,520 --> 01:20:42,040
+Okay, abstract determinations means
+
+1653
+01:20:42,040 --> 01:20:44,000
+these are sort of,
+
+1654
+01:20:44,000 --> 01:20:47,080
+Hegel's now going to give us a very abstract model
+
+1655
+01:20:47,080 --> 01:20:49,300
+of what consciousness acknowledges.
+
+1656
+01:20:49,300 --> 01:20:51,620
+Now, if we were reading the whole phenomenology,
+
+1657
+01:20:51,620 --> 01:20:53,780
+one question would be whether this model
+
+1658
+01:20:53,780 --> 01:20:56,260
+in the introduction actually applies to the whole book.
+
+1659
+01:20:56,260 --> 01:20:57,940
+I don't think it does,
+
+1660
+01:20:57,940 --> 01:21:00,300
+but I think it's fine for our purposes
+
+1661
+01:21:00,300 --> 01:21:01,660
+because it applies to the parts of the book
+
+1662
+01:21:01,660 --> 01:21:02,820
+that we're going to read.
+
+1663
+01:21:02,820 --> 01:21:06,940
+So, consciousness distinguishes something from itself
+
+1664
+01:21:06,940 --> 01:21:09,660
+while at the same time it relates itself to it.
+
+1665
+01:21:09,660 --> 01:21:14,140
+Okay, so I'm going to remove the term subject and object
+
+1666
+01:21:14,140 --> 01:21:17,360
+because those are not yet Hegel's terms.
+
+1667
+01:21:19,300 --> 01:21:23,540
+So we have consciousness.
+
+1668
+01:21:26,700 --> 01:21:30,980
+It has a relation to something distinct from itself
+
+1669
+01:21:31,980 --> 01:21:34,580
+and it also distinguishes itself from it.
+
+1670
+01:21:34,580 --> 01:21:36,500
+Or, as it is expressed,
+
+1671
+01:21:36,500 --> 01:21:39,660
+the something is something for consciousness.
+
+1672
+01:21:43,540 --> 01:21:46,940
+This is for consciousness.
+
+1673
+01:21:47,020 --> 01:21:49,860
+Something consciousness is of.
+
+1674
+01:21:51,780 --> 01:21:53,380
+This something is something for consciousness
+
+1675
+01:21:53,380 --> 01:21:55,900
+and the determinate aspect of this relating
+
+1676
+01:21:55,900 --> 01:21:59,040
+or of the being of something for a consciousness is known.
+
+1677
+01:22:01,340 --> 01:22:05,300
+So knowing is a relation of consciousness to the object.
+
+1678
+01:22:07,000 --> 01:22:09,620
+In this direction, this object is for consciousness.
+
+1679
+01:22:09,620 --> 01:22:12,820
+In this direction, consciousness knows this object.
+
+1680
+01:22:12,820 --> 01:22:15,740
+However, we distinguish the being for another
+
+1681
+01:22:15,740 --> 01:22:17,380
+from being in itself.
+
+1682
+01:22:26,860 --> 01:22:28,820
+That which is related to knowing
+
+1683
+01:22:28,820 --> 01:22:31,180
+is just as much distinguished from knowing
+
+1684
+01:22:31,180 --> 01:22:35,340
+and is positive as being also external to this relation.
+
+1685
+01:22:35,340 --> 01:22:40,100
+The aspect of this in itself is called truth.
+
+1686
+01:22:40,100 --> 01:22:43,280
+So the aspect of being in itself
+
+1687
+01:22:43,280 --> 01:22:48,280
+that it can be if outstanding in this relationship is truth.
+
+1688
+01:22:48,480 --> 01:22:49,320
+Now what does that mean?
+
+1689
+01:22:49,320 --> 01:22:52,640
+What it means is this is a super abstract structural
+
+1690
+01:22:52,640 --> 01:22:55,000
+description of consciousness and knowledge.
+
+1691
+01:22:55,000 --> 01:22:58,580
+Consciousness distinguishes itself from something,
+
+1692
+01:22:58,580 --> 01:23:00,240
+the object of consciousness,
+
+1693
+01:23:00,240 --> 01:23:03,240
+but also relates itself to knowing.
+
+1694
+01:23:03,240 --> 01:23:04,320
+And remember, knowing here
+
+1695
+01:23:04,320 --> 01:23:06,400
+is not necessarily propositional knowledge.
+
+1696
+01:23:06,400 --> 01:23:07,400
+Don't worry about that.
+
+1697
+01:23:07,400 --> 01:23:10,080
+It could be acquaintance, perceiving something.
+
+1698
+01:23:10,080 --> 01:23:13,080
+That's a kind of note, willing something.
+
+1699
+01:23:13,120 --> 01:23:17,060
+But what it knows has some kind of independence
+
+1700
+01:23:17,060 --> 01:23:18,920
+of its relationship to it.
+
+1701
+01:23:18,920 --> 01:23:22,040
+That is to say that being,
+
+1702
+01:23:22,040 --> 01:23:25,600
+what it knows is not identical to its knowledge.
+
+1703
+01:23:25,600 --> 01:23:27,120
+Now that doesn't mean
+
+1704
+01:23:27,120 --> 01:23:30,320
+that this thing is completely independent of this.
+
+1705
+01:23:31,440 --> 01:23:35,160
+It means that it isn't simply identical to this.
+
+1706
+01:23:35,160 --> 01:23:38,020
+It means that if we got rid of this entirely,
+
+1707
+01:23:38,020 --> 01:23:40,600
+we would have a completely different model.
+
+1708
+01:23:40,600 --> 01:23:42,960
+Okay, that's all Hegel is assuming.
+
+1709
+01:23:42,960 --> 01:23:45,540
+Now, Rota's truth here does not mean P.
+
+1710
+01:23:50,040 --> 01:23:53,280
+analytic philosophy is very into P's and Q's and R's.
+
+1711
+01:23:53,280 --> 01:23:56,060
+It is, as I like to call it, philosophy in the key of P.
+
+1712
+01:23:57,840 --> 01:24:00,520
+Hegel is not a philosopher in the key of P.
+
+1713
+01:24:00,520 --> 01:24:03,600
+As we'll see over the course of this semester,
+
+1714
+01:24:03,600 --> 01:24:06,640
+I think it's actually super crucial to understanding Hegel
+
+1715
+01:24:06,640 --> 01:24:09,440
+that Hegel cannot be put in the form of P.
+
+1716
+01:24:09,440 --> 01:24:11,480
+There is no P, there's no value of P,
+
+1717
+01:24:11,480 --> 01:24:13,480
+especially Hegel's view is P.
+
+1718
+01:24:13,480 --> 01:24:14,880
+Yes.
+
+1719
+01:24:14,880 --> 01:24:17,640
+Knowing determines consciousness
+
+1720
+01:24:17,640 --> 01:24:21,080
+or consciousness determines knowing.
+
+1721
+01:24:21,080 --> 01:24:23,600
+Consciousness, for now we're assuming
+
+1722
+01:24:23,600 --> 01:24:26,020
+that knowing is the relationship
+
+1723
+01:24:26,020 --> 01:24:28,080
+of consciousness to the object.
+
+1724
+01:24:28,080 --> 01:24:31,240
+Knowing is a relation that consciousness has to the object.
+
+1725
+01:24:31,240 --> 01:24:33,960
+We only call something consciousness right now
+
+1726
+01:24:33,960 --> 01:24:36,200
+insofar as it stands in a knowing relation
+
+1727
+01:24:36,200 --> 01:24:38,800
+to the object, to the in itself.
+
+1728
+01:24:38,840 --> 01:24:43,640
+Okay, skip a paragraph, but the nature of the object
+
+1729
+01:24:43,640 --> 01:24:47,960
+which we are investigating goes beyond this division
+
+1730
+01:24:47,960 --> 01:24:51,640
+or to this semblance of division and presupposition.
+
+1731
+01:24:51,640 --> 01:24:54,320
+So it looks like we have a distinction
+
+1732
+01:24:54,320 --> 01:24:58,600
+between consciousness and our conception of consciousness.
+
+1733
+01:24:58,600 --> 01:25:02,240
+This thing on the blackboard is a conception of consciousness.
+
+1734
+01:25:04,560 --> 01:25:07,800
+But the nature of this object is that distinction
+
+1735
+01:25:08,880 --> 01:25:13,880
+between this and the whole thing is overcome.
+
+1736
+01:25:16,280 --> 01:25:20,800
+Consciousness in its own self provides its own standard
+
+1737
+01:25:20,800 --> 01:25:24,320
+and the investigation will therefore be a comparison
+
+1738
+01:25:24,320 --> 01:25:28,520
+of itself, of it with itself, for the difference
+
+1739
+01:25:28,520 --> 01:25:33,000
+which has just been made falls within consciousness.
+
+1740
+01:25:33,000 --> 01:25:36,320
+That is to say, consciousness itself
+
+1741
+01:25:37,320 --> 01:25:38,880
+has a conception of this.
+
+1742
+01:25:44,820 --> 01:25:48,280
+So this difference between consciousness
+
+1743
+01:25:48,280 --> 01:25:51,640
+and being in itself falls within consciousness
+
+1744
+01:25:51,640 --> 01:25:54,360
+because consciousness is consciousness.
+
+1745
+01:25:54,360 --> 01:25:56,380
+We can also know if I was a better drawer,
+
+1746
+01:25:56,380 --> 01:25:59,320
+I could have put this thought bubble inside consciousness.
+
+1747
+01:25:59,320 --> 01:26:00,520
+Hard to draw with chalk.
+
+1748
+01:26:02,320 --> 01:26:06,200
+Consciousness is its own self, provides its own standard.
+
+1749
+01:26:07,020 --> 01:26:08,560
+So consciousness brings with it a standard
+
+1750
+01:26:08,560 --> 01:26:09,720
+of what knowledge is.
+
+1751
+01:26:11,800 --> 01:26:15,160
+Therefore, skipping again a few sentences,
+
+1752
+01:26:15,160 --> 01:26:19,120
+therefore in what consciousness declares within itself
+
+1753
+01:26:19,120 --> 01:26:23,120
+to be the in itself or the true, we have the standard
+
+1754
+01:26:23,120 --> 01:26:26,920
+which consciousness itself sets up to measure its known.
+
+1755
+01:26:26,920 --> 01:26:31,060
+So consciousness has a standard, it has to know this.
+
+1756
+01:26:32,120 --> 01:26:33,400
+That sets a standard.
+
+1757
+01:26:34,240 --> 01:26:37,600
+If we designate knowing as the concept,
+
+1758
+01:26:37,600 --> 01:26:42,140
+but designate the essence or the true over here
+
+1759
+01:26:42,140 --> 01:26:45,900
+as what is or the object, then the examining consists
+
+1760
+01:26:45,900 --> 01:26:48,860
+in whether the concept corresponds to the object.
+
+1761
+01:26:48,860 --> 01:26:52,840
+Does this correspond to that?
+
+1762
+01:26:52,840 --> 01:26:56,500
+Is this a way of knowingly relating to that?
+
+1763
+01:26:56,500 --> 01:26:59,920
+Well remember, what relation knowing is also,
+
+1764
+01:26:59,920 --> 01:27:01,680
+it's up to consciousness to say.
+
+1765
+01:27:01,680 --> 01:27:03,560
+So don't assume that it's true justified belief
+
+1766
+01:27:03,560 --> 01:27:04,600
+or whatever.
+
+1767
+01:27:04,600 --> 01:27:06,160
+Let me just go a little bit further.
+
+1768
+01:27:06,160 --> 01:27:08,540
+Oh, 84.
+
+1769
+01:27:10,280 --> 01:27:11,560
+End of 84.
+
+1770
+01:27:16,120 --> 01:27:19,640
+What is essential throughout the whole investigation
+
+1771
+01:27:19,640 --> 01:27:22,440
+is to hold fast to this, that both of these moments,
+
+1772
+01:27:22,440 --> 01:27:25,720
+concept and object, being for another,
+
+1773
+01:27:25,720 --> 01:27:27,800
+being for consciousness and being in itself,
+
+1774
+01:27:27,800 --> 01:27:31,320
+themselves fall within the knowing that we are investigating.
+
+1775
+01:27:31,360 --> 01:27:33,400
+They fall within consciousness.
+
+1776
+01:27:33,400 --> 01:27:35,280
+They fall within consciousness's conception
+
+1777
+01:27:35,280 --> 01:27:36,760
+of itself as known.
+
+1778
+01:27:36,760 --> 01:27:39,960
+And that we thus do not need to bring standards with us
+
+1779
+01:27:39,960 --> 01:27:43,220
+and in the investigation to apply our ideas and thoughts.
+
+1780
+01:27:44,200 --> 01:27:45,120
+But now you might think, okay,
+
+1781
+01:27:45,120 --> 01:27:47,660
+isn't Hegel running into one horn
+
+1782
+01:27:47,660 --> 01:27:49,480
+of the dilemma of the criterion?
+
+1783
+01:27:49,480 --> 01:27:51,780
+Every conception of knowing is just going to agree
+
+1784
+01:27:51,780 --> 01:27:53,580
+with its own standard.
+
+1785
+01:27:53,580 --> 01:27:55,680
+No, Hegel's about target.
+
+1786
+01:27:55,680 --> 01:27:57,920
+That actually shapes of consciousness in general
+
+1787
+01:27:57,920 --> 01:28:00,120
+do not agree with their own standard.
+
+1788
+01:28:00,120 --> 01:28:02,200
+However, from this aspect,
+
+1789
+01:28:02,200 --> 01:28:05,620
+not only will it be superfluous for us to add anything,
+
+1790
+01:28:05,620 --> 01:28:07,460
+and not only because concept and object,
+
+1791
+01:28:07,460 --> 01:28:08,920
+the standard and what is to be examined
+
+1792
+01:28:08,920 --> 01:28:11,580
+are present in consciousness itself,
+
+1793
+01:28:11,580 --> 01:28:16,580
+the only thing that remains is for us to purely look on.
+
+1794
+01:28:16,580 --> 01:28:19,360
+So now this is a super important aspect
+
+1795
+01:28:19,360 --> 01:28:21,000
+of the way Hegel does philosophy.
+
+1796
+01:28:21,000 --> 01:28:22,440
+And this is the first instance of it
+
+1797
+01:28:22,440 --> 01:28:24,360
+that we've seen in the phenomenology.
+
+1798
+01:28:24,360 --> 01:28:27,780
+Hegel's philosophy is supposed to always be imminent.
+
+1799
+01:28:28,780 --> 01:28:33,780
+That means there's some subject matter
+
+1800
+01:28:35,520 --> 01:28:38,620
+and the further development of the claims
+
+1801
+01:28:38,620 --> 01:28:41,300
+about that subject matter in Hegel's philosophy
+
+1802
+01:28:41,300 --> 01:28:43,540
+arise from the subject matter itself.
+
+1803
+01:28:44,740 --> 01:28:48,160
+That means at no point in the phenomenology
+
+1804
+01:28:48,160 --> 01:28:52,000
+can Hegel say, look, it's plausible that this,
+
+1805
+01:28:52,000 --> 01:28:55,320
+or I think that, or in my view this,
+
+1806
+01:28:55,320 --> 01:28:58,520
+everything has to come out of consciousness itself.
+
+1807
+01:28:58,520 --> 01:29:00,080
+And since the beginning of the phenomenology
+
+1808
+01:29:00,080 --> 01:29:01,280
+is natural consciousness,
+
+1809
+01:29:01,280 --> 01:29:03,720
+it has to arise from natural consciousness itself.
+
+1810
+01:29:03,720 --> 01:29:05,400
+So what we do in the phenomenology
+
+1811
+01:29:05,400 --> 01:29:08,440
+is we just observe natural consciousness
+
+1812
+01:29:08,440 --> 01:29:12,180
+developing itself through these shapes of consciousness
+
+1813
+01:29:12,180 --> 01:29:13,480
+to absolute knowing.
+
+1814
+01:29:15,560 --> 01:29:19,880
+It is consciousness of what to it is the true.
+
+1815
+01:29:19,880 --> 01:29:21,960
+So it's consciousness of this
+
+1816
+01:29:21,960 --> 01:29:26,220
+as well as consciousness of its knowing of the truth.
+
+1817
+01:29:26,220 --> 01:29:28,540
+So it's conscious not only of this,
+
+1818
+01:29:28,540 --> 01:29:30,360
+but of this whole thing.
+
+1819
+01:29:30,360 --> 01:29:32,140
+So it's object consciousness,
+
+1820
+01:29:32,140 --> 01:29:35,720
+but also consciousness of itself as knowing
+
+1821
+01:29:35,720 --> 01:29:38,320
+under a particular description of what knowing is.
+
+1822
+01:29:39,920 --> 01:29:41,880
+It is an issue for that consciousness
+
+1823
+01:29:41,880 --> 01:29:43,760
+whether or not it's knowing of the object
+
+1824
+01:29:43,760 --> 01:29:45,760
+corresponds to the object.
+
+1825
+01:29:45,760 --> 01:29:48,160
+So consciousness cannot be indifferent
+
+1826
+01:29:48,160 --> 01:29:50,420
+to whether this agrees with that.
+
+1827
+01:29:51,420 --> 01:29:53,940
+Because it itself has supplied the criteria.
+
+1828
+01:29:55,540 --> 01:30:00,100
+Okay, so we're gonna somehow argue
+
+1829
+01:30:00,100 --> 01:30:02,820
+that various shapes of consciousness
+
+1830
+01:30:02,820 --> 01:30:05,020
+fail their own criteria.
+
+1831
+01:30:05,020 --> 01:30:08,460
+That they think this is a knowing of that,
+
+1832
+01:30:08,460 --> 01:30:10,700
+but this as they themselves conceive it
+
+1833
+01:30:10,700 --> 01:30:12,820
+is not a knowing of that.
+
+1834
+01:30:12,820 --> 01:30:15,740
+Okay, we'll take one a little bit
+
+1835
+01:30:15,740 --> 01:30:16,840
+and then we'll take a break
+
+1836
+01:30:16,840 --> 01:30:18,940
+and then we'll read the last three paragraphs
+
+1837
+01:30:18,940 --> 01:30:19,780
+really carefully.
+
+1838
+01:30:21,140 --> 01:30:23,380
+This dialectical movement.
+
+1839
+01:30:23,380 --> 01:30:25,900
+Ah, okay, so you've been wondering,
+
+1840
+01:30:25,900 --> 01:30:26,860
+you're taking a Hegel class
+
+1841
+01:30:26,860 --> 01:30:28,100
+and he's been doing it for two hours.
+
+1842
+01:30:28,100 --> 01:30:29,500
+He hasn't said the word dialectic yet.
+
+1843
+01:30:29,500 --> 01:30:30,340
+Okay.
+
+1844
+01:30:32,700 --> 01:30:33,540
+Dialectic.
+
+1845
+01:30:37,860 --> 01:30:38,700
+Hegel.
+
+1846
+01:30:41,660 --> 01:30:45,940
+In some sense, all of Hegel's philosophy
+
+1847
+01:30:45,940 --> 01:30:48,460
+works by something called the dialectic
+
+1848
+01:30:48,460 --> 01:30:50,100
+or dialectical progression.
+
+1849
+01:30:51,380 --> 01:30:53,540
+I think the structure of the dialectic
+
+1850
+01:30:53,540 --> 01:30:55,860
+in phenomenology is different
+
+1851
+01:30:55,860 --> 01:30:58,980
+than the structure of the dialectic in the larger.
+
+1852
+01:30:58,980 --> 01:31:00,760
+I don't understand the dialectic
+
+1853
+01:31:00,760 --> 01:31:01,740
+of the philosophy of nature
+
+1854
+01:31:01,740 --> 01:31:03,220
+or really the philosophy of spirit either,
+
+1855
+01:31:03,220 --> 01:31:04,140
+but I really don't understand
+
+1856
+01:31:04,140 --> 01:31:05,420
+the dialectic philosophy of nature.
+
+1857
+01:31:05,420 --> 01:31:07,620
+No one really understands the dialectic philosophy of nature.
+
+1858
+01:31:07,620 --> 01:31:10,340
+But what does Hegel mean by the word dialectic?
+
+1859
+01:31:11,860 --> 01:31:14,260
+There's two historical sources that are relevant.
+
+1860
+01:31:14,260 --> 01:31:16,980
+One, in ancient philosophy,
+
+1861
+01:31:17,020 --> 01:31:19,740
+dialectic, very simply put,
+
+1862
+01:31:19,740 --> 01:31:23,480
+is the science of refuting what other people say.
+
+1863
+01:31:23,480 --> 01:31:26,740
+So it's a negative logical art
+
+1864
+01:31:26,740 --> 01:31:27,900
+where you say something
+
+1865
+01:31:27,900 --> 01:31:29,460
+and I reduce you to absurdity.
+
+1866
+01:31:30,900 --> 01:31:35,500
+In Kant, there's something called the transcendental dialect.
+
+1867
+01:31:37,180 --> 01:31:40,260
+Now the transcendental dialectic actually has three parts,
+
+1868
+01:31:40,260 --> 01:31:44,380
+but Hegel always associates the dialectic with the antinomies.
+
+1869
+01:31:44,380 --> 01:31:47,860
+The idea of the antinomies of pure reason
+
+1870
+01:31:47,860 --> 01:31:51,740
+in the first critique is that reason itself
+
+1871
+01:31:51,740 --> 01:31:53,580
+is subject to a dialectic.
+
+1872
+01:31:53,580 --> 01:31:57,020
+So it's not that someone comes along and refutes reason,
+
+1873
+01:31:57,020 --> 01:31:59,180
+reason refutes itself.
+
+1874
+01:31:59,180 --> 01:32:03,560
+It refutes itself and so far as it assumes
+
+1875
+01:32:03,560 --> 01:32:06,460
+that objects in space and time are things in themselves
+
+1876
+01:32:07,420 --> 01:32:09,860
+because it forms this conception
+
+1877
+01:32:09,860 --> 01:32:12,300
+of something called the unconditioned.
+
+1878
+01:32:12,340 --> 01:32:14,860
+So you take something, you take its conditions
+
+1879
+01:32:14,860 --> 01:32:17,900
+and then you take the complete sequence of its conditions.
+
+1880
+01:32:17,900 --> 01:32:22,660
+And it has a proof that that sequence of conditions
+
+1881
+01:32:22,660 --> 01:32:25,300
+terminates in an unconditioned first condition
+
+1882
+01:32:25,300 --> 01:32:27,640
+and it has a proof that it cannot terminate,
+
+1883
+01:32:27,640 --> 01:32:29,020
+that it goes on infinitely.
+
+1884
+01:32:29,020 --> 01:32:30,340
+That's a contradiction.
+
+1885
+01:32:30,340 --> 01:32:33,020
+And so the resolution to that contradiction, Kant thinks,
+
+1886
+01:32:33,020 --> 01:32:34,780
+is to recognize that objects in space and time
+
+1887
+01:32:34,780 --> 01:32:37,220
+are appearances and so there is no such thing
+
+1888
+01:32:37,220 --> 01:32:39,740
+as the unconditioned totality of their conditions.
+
+1889
+01:32:39,740 --> 01:32:40,940
+If you haven't taken 3.14,
+
+1890
+01:32:40,940 --> 01:32:42,980
+that wouldn't really make a lot of sense to you,
+
+1891
+01:32:42,980 --> 01:32:44,580
+but you should all just take 3.14.
+
+1892
+01:32:44,580 --> 01:32:46,840
+Okay, who's taking 3.14?
+
+1893
+01:32:48,100 --> 01:32:49,780
+Good, the rest of you should model yourselves
+
+1894
+01:32:49,780 --> 01:32:51,300
+on those who are taking 3.14.
+
+1895
+01:32:53,300 --> 01:32:56,540
+So what Hegel means by a dialectic
+
+1896
+01:32:56,540 --> 01:32:59,000
+is as in ancient philosophy,
+
+1897
+01:33:00,160 --> 01:33:04,880
+refutation is a negative, it's negative.
+
+1898
+01:33:05,940 --> 01:33:10,260
+But as with Kant, it's not refutation by some other person.
+
+1899
+01:33:11,940 --> 01:33:15,220
+It's not external refutation, it's self-refutation.
+
+1900
+01:33:15,220 --> 01:33:18,140
+It's the self-refutation here in the phenomenology
+
+1901
+01:33:18,140 --> 01:33:19,940
+of shapes of consciousness,
+
+1902
+01:33:19,940 --> 01:33:22,380
+of conceptions of what knowledge is.
+
+1903
+01:33:22,380 --> 01:33:27,340
+The difference between both ancient dialectic,
+
+1904
+01:33:27,340 --> 01:33:29,580
+Kantian dialectic and Hegelian dialectic
+
+1905
+01:33:29,580 --> 01:33:33,020
+is as we saw earlier, Hegel thinks that dialectic
+
+1906
+01:33:33,020 --> 01:33:35,180
+is not purely negative.
+
+1907
+01:33:35,180 --> 01:33:37,500
+It's productive or positive.
+
+1908
+01:33:37,620 --> 01:33:39,820
+So when we dialectically undermine
+
+1909
+01:33:39,820 --> 01:33:41,260
+the shape of consciousness,
+
+1910
+01:33:41,260 --> 01:33:44,460
+we don't go, oh fuck, we have a contradiction.
+
+1911
+01:33:44,460 --> 01:33:47,180
+That generates positive content.
+
+1912
+01:33:48,580 --> 01:33:50,940
+What Hegel calls the determinant negation
+
+1913
+01:33:50,940 --> 01:33:52,500
+of the refuted shape of consciousness,
+
+1914
+01:33:52,500 --> 01:33:55,660
+which is the successor shape of consciousness,
+
+1915
+01:33:55,660 --> 01:33:59,540
+which in a principled fashion, non-orbitarily,
+
+1916
+01:33:59,540 --> 01:34:02,360
+attempts to resolve the contradiction
+
+1917
+01:34:02,360 --> 01:34:04,620
+in the earlier shape of consciousness.
+
+1918
+01:34:04,620 --> 01:34:05,660
+So no, that's why.
+
+1919
+01:34:05,660 --> 01:34:08,620
+So that means the phenomenology of spirit
+
+1920
+01:34:08,620 --> 01:34:11,520
+is the inner dialectic of knowing.
+
+1921
+01:34:11,520 --> 01:34:14,660
+But it's not just refutation, it's also position.
+
+1922
+01:34:14,660 --> 01:34:16,120
+It's also positive.
+
+1923
+01:34:16,120 --> 01:34:18,660
+The self-refutation of one shape of consciousness
+
+1924
+01:34:18,660 --> 01:34:21,180
+generates the next shape of consciousness.
+
+1925
+01:34:21,180 --> 01:34:23,500
+And that's why it's important
+
+1926
+01:34:23,500 --> 01:34:26,260
+that Hegel give us a principled function
+
+1927
+01:34:26,260 --> 01:34:28,140
+from shape of consciousness n
+
+1928
+01:34:28,140 --> 01:34:30,340
+to shape of consciousness n plus one.
+
+1929
+01:34:30,340 --> 01:34:33,020
+Because otherwise, the imminence
+
+1930
+01:34:33,020 --> 01:34:36,460
+of the phenomenology of spirit would be wrecked.
+
+1931
+01:34:36,460 --> 01:34:39,460
+That is to say, we would have to supply it.
+
+1932
+01:34:39,460 --> 01:34:40,980
+We'd be like, what's a reasonable
+
+1933
+01:34:40,980 --> 01:34:42,220
+next shape of consciousness?
+
+1934
+01:34:42,220 --> 01:34:44,180
+Well, this seems good.
+
+1935
+01:34:44,180 --> 01:34:47,940
+And it would no longer be consciousness developing itself.
+
+1936
+01:34:47,940 --> 01:34:50,860
+And so in a certain way, it would fall a foul
+
+1937
+01:34:50,860 --> 01:34:52,980
+of the problem of the criterion.
+
+1938
+01:34:52,980 --> 01:34:56,060
+Something external to consciousness
+
+1939
+01:34:56,060 --> 01:34:59,060
+would be telling it what its next standard should be.
+
+1940
+01:34:59,060 --> 01:35:01,420
+And consciousness would not be rationally obliged
+
+1941
+01:35:01,420 --> 01:35:02,260
+to accept that.
+
+1942
+01:35:03,220 --> 01:35:08,220
+So we require an in-principle account
+
+1943
+01:35:08,500 --> 01:35:11,220
+of how one shape of consciousness
+
+1944
+01:35:11,220 --> 01:35:14,260
+gives rise to the next shape of consciousness.
+
+1945
+01:35:14,260 --> 01:35:19,260
+Okay, why don't we take a 10-minute break
+
+1946
+01:35:20,620 --> 01:35:22,940
+and come back at 54 past?
+
+1947
+01:35:22,940 --> 01:35:24,900
+If you are auditing this class
+
+1948
+01:35:24,900 --> 01:35:27,620
+and you have not yet been added to Quirkus,
+
+1949
+01:35:27,620 --> 01:35:28,860
+please come speak to me
+
+1950
+01:35:28,860 --> 01:35:31,100
+and I will add you to Quirkus right now.
+
+1951
+01:35:37,780 --> 01:35:38,620
+Hello.
+
+1952
+01:35:38,620 --> 01:35:39,460
+Can I add it?
+
+1953
+01:35:39,460 --> 01:35:40,620
+Yes, you just.
+
+1954
+01:35:44,060 --> 01:35:45,980
+It makes me so warm.
+
+1955
+01:35:45,980 --> 01:35:46,820
+Dial in.
+
