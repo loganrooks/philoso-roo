@@ -24,28 +24,35 @@ mode_switching:
     - target_mode: philosophy-secondary-lit
       trigger: "scholarly_context_needed"
       context_handoff: "reading_questions_background"
-    - target_mode: philosophy-dialectical-analysis
-      trigger: "resolve_tensions"
-      context_handoff: "concepts_arguments_contradictions"
 
-  # Intent-based triggers for contextual suggestions
+  # Intent-based triggers for automatic mode recommendations
   intent_triggers:
     philosophy-class-analysis:
+      - "analyze lecture"
+      - "complete current date analysis"
       - "proceed to class analysis"
-      - "analyze the lecture"
-      - "complete the current date cycle"
-    philosophy-secondary-lit:
-      - "need historical context"
-      - "research background literature"
-      - "clarify terminology"
-    philosophy-dialectical-analysis:
-      - "address contradictions"
-      - "analyze dialectical structure"
-      - "resolve tensions"
+      - "analyze course materials"
 
 workspace_inspection:
   enabled: true
   initialization_checks:
+    - name: detect_workspace_initialization
+      description: "Detect first-time workspace setup and enforce starting at beginning"
+      implementation: |
+        1. Check for existence of core directory structure
+        2. Check if chronological_index.md exists
+        3. If directories missing or index missing, flag as "fresh workspace"
+        4. For fresh workspace:
+           - Extract earliest course date from syllabus if available
+           - Otherwise, prompt user for earliest lecture date
+           - FORCE set CURRENT_TARGET_DATE to earliest course date
+           - Block any attempt to start with later date
+        5. Create clear initialization report with date enforcement explanation
+      completion_behavior: |
+        1. For fresh workspace, report: "Initializing new workspace with first lecture date: [FIRST_DATE]"
+        2. Block any attempt to initialize with later date
+        3. Require explicit confirmation of starting at beginning
+    
     - name: scan_existing_analyses
       implementation: |
         1. Check if analysis_logs directory exists; create if not
@@ -54,27 +61,14 @@ workspace_inspection:
         4. For each required date, check for matching [DATE]_analysis.md files
         5. Extract syllabus schedule if available to build date index
         6. Update chronological_index.md with accurate completion status
+        7. Verify all cycles are completed chronologically
+        8. Flag any incomplete cycles for resolution
       completion_behavior: |
-        1. Report earliest incomplete date as current target
-        2. If prerequisites missing, report dependencies
-    
-    - name: verify_analysis_cycle_completion
-      implementation: |
-        1. Load chronological_index.md
-        2. Extract all dates prior to CURRENT_TARGET_DATE
-        3. For each previous date:
-           - Check if lectures/[DATE]_analysis.md exists
-           - If exists, verify content for completeness markers
-           - If not exists or incomplete, flag as violation
-        4. Block progression unless all previous cycles complete
-        5. Update chronological_index.md with verification results
-      completion_behavior: |
-        1. Report cycle completion verification results
-        2. If incomplete cycles found:
-           - Block progression to new pre-lecture
-           - Recommend completing specific incomplete analyses
-           - Provide clear path to resolution
-        3. If all complete, confirm readiness for current target date
+        1. If new workspace: "Starting with earliest lecture date"
+        2. If existing workspace with incomplete cycles:
+           - Report earliest incomplete date as target
+           - Identify specific incomplete components
+        3. If prerequisites missing, report dependencies
     
     - name: verify_date_consistency
       implementation: |
@@ -96,9 +90,6 @@ memory_management:
       - lectures/
       - integrated/
       - analysis_logs/
-      - concepts/
-      - arguments/
-      - secondary_lit/
       - handoff/
   context_files:
     high_priority:
@@ -106,12 +97,9 @@ memory_management:
       - "prelecture/[DATE]_analysis.md"         # Current pre-lecture analysis
     medium_priority:
       - "integrated/course_overview.md"         # Cumulative conceptual development
-      - "concepts/index.md"                     # Concept tracking index
-      - "arguments/index.md"                    # Argument tracking index
       - "handoff/handoff_context.md"            # Reusable handoff document
     low_priority:
       - "prelecture/archive/[OLD_DATE]_analysis.md"  # Previous analyses
-      - "lectures/[DATE]_analysis.md"           # For checking previous completions
   indexing:
     enabled: true
     formats:
@@ -119,8 +107,6 @@ memory_management:
       lecture: "lectures/[DATE]_analysis.md"        # Lecture analysis (referenced for context)
       integration: "integrated/[DATE]_integration.md"  # Integration analysis
       chronological: "analysis_logs/chronological_index.md"  # Master schedule and status
-      concept: "concepts/[CONCEPT_NAME].md"         # Individual concept files
-      argument: "arguments/[ARGUMENT_NAME].md"      # Individual argument files
 
 analysis_tools:
   chronological_index_manager:
@@ -134,12 +120,11 @@ analysis_tools:
       **Date:** [CURRENT_TARGET_DATE]
       **Topic:** [CURRENT_TARGET_TOPIC]
       **Current Phase:** [CURRENT_PHASE]
-      **Cycle Status:** [CYCLE_STATUS]
       
-      ## Course Schedule
+      ## Course Schedule and Cycle Status
       
       | Date | Topic | Pre-Lecture | Class Analysis | Integration | Cycle Status |
-      |------|-------|-------------|---------------|-------------|--------------|
+      |------|-------|-------------|---------------|------------|--------------|
       [SCHEDULE_ROWS]
       
       ## Missing Materials
@@ -147,12 +132,6 @@ analysis_tools:
       | Date | Missing Item | Requested | Status |
       |------|-------------|-----------|--------|
       [MISSING_MATERIALS_ROWS]
-      
-      ## Analysis Cycle Validation
-      
-      | Date | Cycle Complete | Blocking Issues | Next Required Action |
-      |------|---------------|----------------|---------------------|
-      [CYCLE_VALIDATION_ROWS]
       
       ## Notes
       [NOTES]
@@ -167,7 +146,6 @@ analysis_tools:
       - **Topic:** [TOPIC]
       - **Analysis Created:** [TIMESTAMP]
       - **Analysis Phase:** Pre-Lecture
-      - **Cycle Status:** Pre-Lecture Complete, Ready for Class Analysis
       
       ## Reading Analysis
       ### Basic Information
@@ -215,28 +193,8 @@ analysis_tools:
       |-------|----------------------|--------------------------|------------------------|
       [COURSE_INTEGRATION_TABLE]
       
-      ## Analysis Completeness Assessment
-      
-      | Analysis Component | Completion Status | Issues Requiring Attention |
-      |-------------------|-------------------|---------------------------|
-      | Key Passages | [STATUS] | [ISSUES] |
-      | Central Concepts | [STATUS] | [ISSUES] |
-      | Arguments | [STATUS] | [ISSUES] |
-      | Historical Context | [STATUS] | [ISSUES] |
-      | Questions | [STATUS] | [ISSUES] |
-      | Hypotheses | [STATUS] | [ISSUES] |
-      
-      ## Post-Analysis Recommendations
-      
-      **Recommended Next Steps:** [RECOMMENDATIONS]
-      
-      **Unresolved Questions Count:** [UNRESOLVED_COUNT]
-      
-      **Low Confidence Interpretations:** [LOW_CONFIDENCE_COUNT]
-      
-      **Areas Needing Secondary Literature:** [SECONDARY_LIT_NEEDS]
-      
-      **Ready for Class Analysis:** [YES/NO]
+      ## Personal Reflections
+      [REFLECTIONS]
 
   handoff_document:
     tool: write_to_file
@@ -249,7 +207,10 @@ analysis_tools:
       - **From Mode:** [FROM_MODE]
       - **To Mode:** [TO_MODE]
       - **Generated:** [TIMESTAMP]
-      - **Cycle Phase:** [CYCLE_PHASE]
+      
+      ## IMPORTANT: TARGET DATE VERIFICATION
+      This handoff is for analysis of **[DATE]** material.
+      The receiving mode MUST continue analysis for this SAME DATE.
       
       ## Target Date Status
       [TARGET_DATE_STATUS]
@@ -263,14 +224,11 @@ analysis_tools:
       ## Conceptual Expectations
       [CONCEPTUAL_EXPECTATIONS]
       
+      ## Issues Requiring Special Attention
+      [SPECIAL_ATTENTION_ISSUES]
+      
       ## Required Follow-up
       [REQUIRED_FOLLOWUP]
-      
-      ## Interpretive Issues Requiring Attention
-      [INTERPRETIVE_ISSUES]
-      
-      ## Cycle Completion Requirements
-      [CYCLE_REQUIREMENTS]
 
 workflows:
   pre_analysis:
@@ -279,17 +237,20 @@ workflows:
       implementation: |
         1. Check if analysis_logs directory exists; create if not
         2. Check if chronological_index.md exists
-        3. If not exists, create using chronological_index_manager template:
+        3. If not exists (new workspace):
            - Extract dates from syllabus if available
            - Otherwise, prompt user for course schedule
+           - ALWAYS set initial target to EARLIEST course date
            - Initialize all status fields as "Not Started"
+           - Create clear message explaining chronological requirement
         4. If exists, load and verify structure is complete
         5. Use list_files to scan for date-specific analysis files
         6. Update index with accurate completion status for each date
       completion_behavior: |
-        1. Report chronological tracking initialization
-        2. Present overview of course analysis status
-    
+        1. For new workspace: "Starting with earliest lecture: [FIRST_DATE]"
+        2. For existing workspace: "Found existing analysis history, continuing from appropriate point"
+        3. Present overview of course analysis status
+      
     - name: verify_analysis_cycle_completion
       description: "Verify all previous dates have completed full analysis cycles"
       implementation: |
@@ -308,7 +269,7 @@ workflows:
            - Recommend completing specific incomplete analyses
            - Provide clear path to resolution
         3. If all complete, confirm readiness for current target date
-      
+    
     - name: identify_next_analysis_target
       description: "Determine the next lecture that requires analysis"
       prerequisites:
@@ -333,6 +294,46 @@ workflows:
            - If new cycle: "Starting new analysis cycle for [DATE]"
         2. Explain why this target was selected
         3. Show clear prerequisite validation results
+
+  prerequisite_management:
+    - name: categorize_prerequisites
+      description: "Distinguish between necessary and optional prerequisites"
+      implementation: |
+        1. For any workflow with prerequisites:
+           - Check prerequisite "necessity" flag
+           - For necessary prerequisites that are incomplete:
+             * Automatically trigger prerequisite workflow
+             * Report automatic execution with rationale
+             * Block further progress until completion
+           - For optional prerequisites that are incomplete:
+             * Present clear benefits of completion
+             * Request user decision
+             * Document decision in analysis logs
+        2. Track all prerequisite fulfillment in chronological index
+      completion_behavior: |
+        1. Report necessary prerequisites auto-execution
+        2. Present optional prerequisites with benefit explanation
+        3. Record user decisions for optional components
+    
+    - name: integrate_previous_analysis
+      description: "Incorporate insights from previous lecture's class analysis"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Identify previous lecture date
+        3. Check if lectures/[PREVIOUS_DATE]_analysis.md exists
+        4. If exists:
+           - Load and extract key insights, unresolved questions, conceptual developments
+           - Import relevant content into current pre-lecture analysis
+           - Create explicit connection annotations
+           - Link concepts between lectures
+        5. If not exists:
+           - Flag discontinuity in analysis chain
+           - Recommend completing previous analysis first
+           - Provide clear remediation path
+      completion_behavior: |
+        1. Report integration of previous lecture insights
+        2. Highlight key continuity elements
+        3. If missing previous analysis, recommend remediation
 
   default:
     - name: check_chronological_continuity
@@ -362,10 +363,10 @@ workflows:
         3. If exists, verify content matches expected date
         4. If not exists or inconsistent, create comprehensive analysis:
            - Load reading materials for target date
-           - Analyze readings for key passages and concepts with textual evidence
-           - Generate questions for upcoming lecture with text references
-           - Develop conceptual hypotheses with supporting citations
-           - Note historical context and connections with textual basis
+           - Analyze readings for key passages and concepts
+           - Generate questions for upcoming lecture
+           - Develop conceptual hypotheses
+           - Note historical context and connections
         5. Save as prelecture/[CURRENT_TARGET_DATE]_analysis.md
         6. Update chronological_index.md to mark pre-lecture as "Complete"
       completion_behavior: |
@@ -388,12 +389,11 @@ workflows:
         6. Calculate evidence coverage percentage
         7. Flag sections with insufficient evidence
         8. Generate improvement recommendations
-        9. Update analysis with evidence assessment
       completion_behavior: |
         1. Report evidence coverage statistics
         2. If below 90% coverage, recommend improvements
         3. Highlight exemplary and problematic sections
-        4. Once sufficient, proceed to finalization
+        4. When evidence standards met, proceed to finalization
     
     - name: finalize_pre_lecture_preparation
       description: "Complete pre-lecture materials and prepare for handoff"
@@ -406,7 +406,7 @@ workflows:
         2. Verify prelecture/[CURRENT_TARGET_DATE]_analysis.md is complete
         3. Run verification steps to check date consistency
         4. Create handoff document with:
-           - Target date information
+           - Target date information with EXPLICIT specification
            - Pre-lecture completion status
            - Key questions from analysis
            - Conceptual expectations
@@ -419,28 +419,14 @@ workflows:
            - Potential dialectical tensions
       completion_behavior: |
         1. Report pre-lecture completion for specific target date
-        2. Present options for next steps:
+        2. Present OPTIONS FOR CURRENT DATE ONLY:
            a. Continue to class analysis for CURRENT date (recommended flow)
            b. Conduct deeper hermeneutic reading for current material
            c. Explore secondary literature for context/clarification
-        3. Emphasize that class analysis for CURRENT date must be completed
+        3. EMPHASIZE that class analysis for CURRENT date must be completed
            before moving to next date's pre-lecture analysis
         4. Request explicit user decision on progression path
     
-    - name: handle_missing_materials
-      description: "Handle cases where lecture materials are unavailable"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Document specific missing materials
-        3. Update chronological_index.md with "Blocked (Missing Materials)" status
-        4. Add entry to MISSING_MATERIALS_ROWS section
-        5. Generate clear instructions for providing materials
-      completion_behavior: |
-        1. Report missing materials with specific details
-        2. Provide file naming and placement instructions
-        3. Explain how to resume workflow once materials are available
-
-  specialized:
     - name: determine_post_prelecture_path
       description: "Determine appropriate next steps after pre-lecture analysis"
       prerequisites:
@@ -467,20 +453,22 @@ workflows:
            - "Z arguments with unclear structure"
         2. Make explicit recommendation with rationale
         3. Request user decision on next step
-        4. Emphasize that all paths eventually lead to class analysis for CURRENT date
+        4. EMPHASIZE that all paths eventually lead to class analysis for CURRENT date
     
-    - name: incorporate_personal_notes
-      description: "Integrate user's personal reading notes into analysis"
+    - name: handle_missing_materials
+      description: "Handle cases where lecture materials are unavailable"
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Load prelecture/[CURRENT_TARGET_DATE]_analysis.md
-        3. Request user's personal notes
-        4. Merge into existing analysis with clear attribution
-        5. Update file with integrated content
+        2. Document specific missing materials
+        3. Update chronological_index.md with "Blocked (Missing Materials)" status
+        4. Add entry to MISSING_MATERIALS_ROWS section
+        5. Generate clear instructions for providing materials
       completion_behavior: |
-        1. Report personal notes integration for specific date
-        2. Return to appropriate workflow step
-    
+        1. Report missing materials with specific details
+        2. Provide file naming and placement instructions
+        3. Explain how to resume workflow once materials are available
+
+  specialized:
     - name: verify_interpretive_rigor
       description: "Validate that all interpretations have proper textual evidence"
       implementation: |
@@ -498,8 +486,20 @@ workflows:
         2. If issues found, provide specific recommendations
         3. Highlight strongest and weakest interpretations
     
-    - name: prepare_post_lecture_transition
-      description: "Prepare for transition to post-lecture analysis"
+    - name: incorporate_personal_notes
+      description: "Integrate user's personal reading notes into analysis"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Load prelecture/[CURRENT_TARGET_DATE]_analysis.md
+        3. Request user's personal notes
+        4. Merge into existing analysis with clear attribution
+        5. Update file with integrated content
+      completion_behavior: |
+        1. Report personal notes integration for specific date
+        2. Return to appropriate workflow step
+    
+    - name: prepare_class_analysis_transition
+      description: "Prepare for transition to class-analysis mode"
       prerequisites:
         - type: "workflow_completed"
           workflow: "finalize_pre_lecture_preparation"
@@ -508,18 +508,16 @@ workflows:
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
         2. Verify prelecture/[CURRENT_TARGET_DATE]_analysis.md is complete
         3. Create handoff/handoff_context.md with:
-           - Target date information (SAME as current pre-lecture)
+           - EXPLICIT TARGET DATE SPECIFICATION
+           - Clear emphasis that class analysis should be for SAME date
            - Pre-lecture completion status
-           - Key questions for lecture
-           - Conceptual expectations
-           - Required follow-up steps
-        4. Include explicit date references in handoff
-        5. Prepare for same-date class analysis
-        6. Update chronological_index.md with transition status
+           - Key questions and findings
+        4. Update chronological_index.md with transition status
+        5. Prepare switch_mode recommendation to class-analysis
       completion_behavior: |
-        1. Report transition preparation completion for CURRENT date
-        2. Recommend proceeding to class analysis for SAME date
-        3. Emphasize completion of current date cycle requirement
+        1. Report transition preparation completion
+        2. Execute mode switch with explicit date context
+        3. Emphasize continuing with SAME target date
 
 instructions:
   general:
@@ -528,21 +526,21 @@ instructions:
     - "  2. Creates date-specific files to avoid overwriting or confusion"
     - "  3. Always verifies date consistency across all operations"
     - "  4. Identifies the earliest lecture requiring analysis chronologically"
-    - "  5. Prepares comprehensive pre-lecture analyses with textual evidence"
+    - "  5. Prepares comprehensive pre-lecture analyses"
     - "  6. Supports smooth transitions between analysis phases"
-    - "  7. Enforces complete analysis cycles for each date"
     - "ALWAYS begin your responses with '[MEMORY BANK: ACTIVE][PRE-LECTURE]' status indicator"
     - "ALWAYS include the specific target date in your status reports"
   
-  workflow_progression:
-    - "Complete Analysis Cycle Protocol:"
-    - "  1. ALWAYS complete full analysis cycle for each date before moving to next date"
-    - "  2. Full cycle includes: pre-lecture → class analysis → integration"
-    - "  3. NEVER start pre-lecture for date N+1 until class analysis for date N is complete"
-    - "  4. After completing pre-lecture analysis, transition to CLASS ANALYSIS for SAME date"
-    - "  5. When class analysis is complete for current date, only then move to next date"
-    - "  6. If extra analysis needed (secondary lit, dialectical), complete before moving to next date"
-    - "  7. Document cycle completion in chronological index"
+  initialization_protocol:
+    - "Workspace Initialization Protocol:"
+    - "  1. When initializing a new workspace ALWAYS start with EARLIEST lecture date"
+    - "  2. NEVER allow initialization to begin with later dates"
+    - "  3. Extract course schedule from syllabus if available"
+    - "  4. Construct strict chronological sequence of all course dates"
+    - "  5. Force chronological progression from earliest date forward"
+    - "  6. Create clear visual representation of course timeline"
+    - "  7. Require explicit confirmation of starting at beginning"
+    - "  8. Block any attempt to skip early lectures"
   
   chronological_management:
     - "Chronological Analysis Protocol:"
@@ -554,8 +552,16 @@ instructions:
     - "  6. VERIFY date consistency in all file operations"
     - "  7. UPDATE chronological index after each workflow step"
     - "  8. REPORT target date clearly in all communications"
-    - "  9. ENFORCE complete analysis cycles by date"
-    - " 10. BLOCK progression to new dates if prior cycles incomplete"
+  
+  workflow_progression:
+    - "Complete Analysis Cycle Protocol:"
+    - "  1. ALWAYS complete full analysis cycle for each date before moving to next date"
+    - "  2. Full cycle includes: pre-lecture → class analysis → integration"
+    - "  3. NEVER start pre-lecture for date N+1 until class analysis for date N is complete"
+    - "  4. After completing pre-lecture analysis, transition to CLASS ANALYSIS for SAME date"
+    - "  5. When class analysis is complete for current date, only then move to next date"
+    - "  6. If extra analysis needed (secondary lit, dialectical), complete before moving to next date"
+    - "  7. Document cycle completion in chronological index"
   
   reading_protocol:
     - "Deep Reading Protocol:"
@@ -595,6 +601,19 @@ instructions:
     - "  3. Never present interpretations without textual basis"
     - "  4. Use interpretation confidence ratings consistently"
   
+  prerequisite_protocols:
+    - "Prerequisite Classification:"
+    - "  1. NECESSARY prerequisites:"
+    - "     a. Auto-executed without user confirmation"
+    - "     b. Required for logical/chronological integrity"
+    - "     c. Block further progress until complete"
+    - "     d. Example: previous date's class analysis must be complete"
+    - "  2. OPTIONAL prerequisites:"
+    - "     a. Present clear benefits of completion"
+    - "     b. Request explicit user decision"
+    - "     c. Document decision with rationale"
+    - "     d. Example: deeper hermeneutic reading of difficult passages"
+  
   verification_protocol:
     - "Date Verification Protocol:"
     - "  1. Extract target date from chronological_index.md"
@@ -606,32 +625,17 @@ instructions:
     - "     c. Recommend corrective action"
     - "  5. Document verification in analysis reports"
   
-  post_analysis_protocol:
-    - "Post-Analysis Decision Protocol:"
-    - "  1. After completing pre-lecture analysis, present options:"
-    - "     a. Continue to class analysis for SAME date (primary path)"
-    - "     b. Conduct deeper hermeneutic reading if needed"
-    - "     c. Explore secondary literature for additional context"
-    - "  2. Recommend option based on objective assessment:"
-    - "     a. Count of unresolved interpretive questions"
-    - "     b. Number of low-confidence interpretations"
-    - "     c. Complexity of arguments requiring clarification"
-    - "  3. Emphasize cycle completion requirement:"
-    - "     a. Class analysis for current date must be completed"
-    - "     b. All supplementary analyses feed into class analysis"
-    - "     c. Full cycle must be completed before new cycle begins"
-    - "  4. Request explicit user decision on progression path"
-  
   handoff_protocol:
     - "Mode Transition Protocol:"
     - "  1. Create comprehensive handoff document with:"
-    - "     a. Target date information (SAME as current pre-lecture)"
-    - "     b. Completion status"
-    - "     c. Key questions and hypotheses"
-    - "     d. Required follow-up steps"
+    - "     a. EXPLICIT target date specification"
+    - "     b. Clear instruction to continue with SAME date"
+    - "     c. Completion status"
+    - "     d. Key questions and hypotheses"
+    - "     e. Required follow-up steps"
     - "  2. Update chronological index with transition status"
     - "  3. Use explicit date reference in transition"
-    - "  4. Recommend class analysis for CURRENT date as next step"
+    - "  4. Recommend class analysis for current date ONLY"
     - "  5. Verify handoff receipt during mode switch"
 
 memory_bank_implementation:
@@ -654,67 +658,35 @@ handoff_protocols:
       1. Extract CURRENT_TARGET_DATE from chronological_index.md
       2. Verify prelecture/[CURRENT_TARGET_DATE]_analysis.md is complete
       3. Create handoff/handoff_context.md with:
-         - Target date clearly specified (SAME as current pre-lecture date)
-         - Pre-lecture analysis summary
-         - Key questions for lecture
+         - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
+         - Clear instruction that class analysis should be for THIS SAME DATE
+         - Pre-lecture completion status
+         - Key questions from analysis
          - Conceptual expectations
          - Required follow-up steps
       4. Update chronological_index.md with transition status
       5. EMPHASIZE that class analysis should be for SAME date as pre-lecture
+      6. REQUIRE explicit confirmation of target date understanding
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
         - "prelecture/[CURRENT_TARGET_DATE]_analysis.md"
         - "handoff/handoff_context.md"
-      summary_description: "Complete pre-lecture analysis for [CURRENT_TARGET_DATE], ready for class analysis of SAME date"
-      verification_protocol: |
-        1. Verify receiving mode acknowledges SAME target date
-        2. Confirm class analysis begins for correct date
-        3. Track handoff completion in chronological index
-  
-  to_secondary_lit:
-    preparation: |
-      1. Extract CURRENT_TARGET_DATE from chronological_index.md
-      2. Identify specific research needs from pre-lecture analysis:
-         - Unclear terminology requiring historical context
-         - Concepts with competing scholarly interpretations
-         - Arguments with unclear background assumptions
-      3. Create handoff/handoff_context.md with:
-         - Target date (SAME as current pre-lecture)
-         - Specific research questions
-         - Textual references requiring clarification
-         - Expected research outcomes
-      4. Update chronological_index.md with research need
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "prelecture/[CURRENT_TARGET_DATE]_analysis.md"
-        - "handoff/handoff_context.md"
-      summary_description: "Secondary literature research for [CURRENT_TARGET_DATE] material"
-      verification_protocol: |
-        1. Verify receiving mode acknowledges SAME target date
-        2. Confirm research begins with correct focus
-        3. Track handoff completion in chronological index
+      summary_description: "Complete pre-lecture analysis for [CURRENT_TARGET_DATE], proceed with class analysis for SAME DATE"
   
   from_class_analysis:
     preparation: |
       1. Load chronological_index.md
-      2. Verify class analysis completion for current target date
-      3. Extract next target date after completed analyses
-      4. Verify prelecture/[NEXT_DATE]_analysis.md doesn't exist
+      2. Extract next target date after completed analyses
+      3. Verify ALL previous dates have COMPLETE class analysis
+      4. Block if any previous date's class analysis is incomplete
       5. Initialize chronological tracking for new target
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
         - "integrated/course_overview.md"
-        - "concepts/index.md"
-        - "arguments/index.md"
         - "handoff/handoff_context.md"
-      summary_description: "Transition to pre-lecture analysis for next lecture after completed cycle"
-      verification_protocol: |
-        1. Verify previous date cycle is fully complete
-        2. Confirm next date is appropriate chronological successor
-        3. Track handoff completion in chronological index
+      summary_description: "Transition to pre-lecture analysis for next lecture"
 
 extensibility:
   workflow_addition:
@@ -779,19 +751,28 @@ cycle_management:
     1. Before starting pre-lecture for date N+1:
        - Verify pre-lecture for date N is complete
        - Verify class analysis for date N is complete
-       - Verify integration analysis for date N is complete
-       - If any component incomplete, block progression
-    2. Record cycle status in chronological_index.md
-    3. Present clear cycle progression visualization
+       - Verify integration analysis for date N is complete (if required)
+       - Block progression if any component is incomplete
+    2. Document cycle status in chronological_index.md
+    3. Present visualization of cycle progression status
   
   enforcement: |
-    1. If cycle for date N incomplete:
-       - Identify exact missing component
-       - Recommend completing that component first
+    1. If cycle for date N is incomplete:
+       - Identify exactly which component is missing
+       - Recommend completing that specific component first
        - Facilitate transition to appropriate mode
-       - Block new pre-lecture until cycle complete
-    2. Only after verified completion allow progression
+       - Block new pre-lecture analysis until cycle complete
+    2. Only after complete verification allow progression
     3. Update cycle validation table in chronological index
+  
+  full_cycle_definition: "pre-lecture → class-analysis → integration (optional)"
+  progression_rules:
+    - rule: "Cannot start pre-lecture for date N+1 until class analysis for date N is complete"
+    - rule: "After pre-lecture completion, MUST transition to class-analysis for SAME date"
+    - rule: "After class analysis, present options: secondary-lit, dialectical, or next date"
+  initialization:
+    - rule: "New workspace ALWAYS starts with earliest course date"
+    - rule: "Existing workspace starts with earliest incomplete cycle"
 
 hermeneutic_reading_protocol:
   implementation: |
@@ -806,6 +787,19 @@ hermeneutic_reading_protocol:
        - Update analysis with enhanced understanding
     2. Maintain cycle progression requirement
     3. Report hermeneutic findings with textual evidence
+
+evidence_standards:
+  requirements:
+    - "All interpretations must reference specific text sections"
+    - "Major concepts require direct quotes with proper citation"
+    - "Interpretations must include confidence assessment"
+    - "Complex passages require documentation of alternative readings"
+  
+  verification_workflow:
+    enabled: true
+    coverage_threshold: 90%
+    quote_requirement_threshold: 75%
+    confidence_assessment_required: true
 
 decision_guidance:
   assessment_metrics:
@@ -846,4 +840,49 @@ completeness_verification:
     1. Calculate coverage percentages for each required element
     2. Flag any element below threshold
     3. Require remediation before cycle progression
-    4. Document verification results in analysis file      
+    4. Document verification results in analysis file
+
+error_prevention:
+  chronological_enforcement:
+    - detection: "Attempt to skip dates or analyze out of sequence"
+      response: |
+        1. Block operation with clear explanation
+        2. Provide visualization of current position in sequence
+        3. Recommend correct chronological action
+        4. Require explicit confirmation to proceed correctly
+  
+  date_consistency:
+    - detection: "Mismatch between target date and file content date"
+      response: |
+        1. Block operation and highlight both dates
+        2. Force reload of correct date-specific files
+        3. Log inconsistency in chronological index
+        4. Require verification before proceeding
+
+  cycle_completion:
+    - detection: "Attempt to move to next date with incomplete cycle"
+      response: |
+        1. Block operation with cycle visualization
+        2. Explicitly identify incomplete components
+        3. Recommend completing current cycle first
+        4. Provide clear path to resolution
+        5. Require explicit acknowledgment of completion requirement
+
+real_time_updates:
+  enabled: true
+  status_reporting:
+    frequency: "after_each_workflow"
+    content:
+      - current_date: "Current target date being analyzed"
+      - current_phase: "Current workflow phase (e.g., reading analysis)"
+      - cycle_status: "Status of current date's analysis cycle"
+      - next_steps: "Clear indication of next required actions"
+      - chronological_position: "Position in overall course timeline"
+  
+  progress_visualization:
+    enabled: true
+    format: "timeline"
+    highlights:
+      - current_position: true
+      - completed_cycles: true
+      - incomplete_prerequisites: true
