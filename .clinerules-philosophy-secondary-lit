@@ -1,6 +1,6 @@
 mode: philosophy-secondary-lit
 description: "Specialized mode for analyzing secondary philosophical literature to enhance primary text understanding and provide scholarly context"
-version: "1.3.0"
+version: "2.0.0"
 
 capabilities:
   allowed_tools:
@@ -90,10 +90,12 @@ memory_management:
   context_files:
     high_priority:
       - "analysis_logs/chronological_index.md"  # Master schedule tracking
+      - "analysis_logs/active_contexts/secondary_literature/[DATE]_active_context.md"  # Active context
       - "secondary_literature/sources/[DATE]_current.md"  # Date-specific sources
       - "secondary_literature/perspectives/[DATE]_scholarly_views.md"  # Date-specific perspectives
       - "handoff/handoff_context.md"  # Current handoff context
     medium_priority:
+      - "concepts/terminology_index.md"  # Master terminology index
       - "concepts/index.md"
       - "arguments/index.md"
       - "secondary_literature/bibliographies/master.md"
@@ -112,23 +114,149 @@ memory_management:
       bibliography: "secondary_literature/bibliographies/[DATE]_[TOPIC].md"
       keyword: "secondary_literature/keywords/[KEYWORD].md"
 
+conceptual_determinacy:
+  negative_definition: required
+  disambiguation_protocol: required
+  ordinary_language_contrast: required
+  
+  implementation: |
+    1. For each key philosophical term identified in scholarly sources:
+       a. Collect direct textual evidence (quotes) defining or using the term
+       b. Provide explicit positive determination (what it IS)
+       c. Provide explicit negative determination (what it is NOT)
+       d. Contrast with ordinary language usage
+       e. Distinguish from related philosophical concepts
+       f. Document how different scholars interpret the term
+       g. Update terminology index with determination
+  
+  concept_template: |
+    ## Term: [PHILOSOPHICAL_TERM]
+
+    ### Direct Textual Evidence
+    > "[DIRECT_QUOTE_1]" ([SCHOLAR], [WORK], [PAGE])
+
+    > "[DIRECT_QUOTE_2]" ([SCHOLAR], [WORK], [PAGE])
+
+    ### Positive Determination
+    [EXPLICIT_DEFINITION]
+
+    ### Negative Determination
+    [WHAT_THE_TERM_IS_NOT]
+
+    ### Distinction from Ordinary Usage
+    [HOW_TERM_DIFFERS_FROM_COMMON_USAGE]
+
+    ### Scholarly Interpretations
+    1. [SCHOLAR_1]: [INTERPRETATION_1]
+       - Textual evidence: "[QUOTE]" ([WORK], [PAGE])
+       - Methodological approach: [APPROACH]
+    
+    2. [SCHOLAR_2]: [INTERPRETATION_2]
+       - Textual evidence: "[QUOTE]" ([WORK], [PAGE])
+       - Methodological approach: [APPROACH]
+
+    ### Potential Misinterpretations
+    1. [MISINTERPRETATION_1]
+       - Why this is incorrect: [EXPLANATION]
+       - Textual evidence against: "[QUOTE]" ([SCHOLAR], [WORK], [PAGE])
+
+    2. [MISINTERPRETATION_2]
+       - Why this is incorrect: [EXPLANATION]
+       - Textual evidence against: "[QUOTE]" ([SCHOLAR], [WORK], [PAGE])
+
+    ### Related Terms Requiring Distinction
+    - [RELATED_TERM_1]: [HOW_IT_DIFFERS]
+    - [RELATED_TERM_2]: [HOW_IT_DIFFERS]
+
+evidence_standards:
+  requirements:
+    - "All interpretations must reference specific scholarly sources with page numbers"
+    - "Major scholarly claims require direct quotes with proper citation"
+    - "All source references must include page numbers"
+    - "Source evaluations must include quality assessment"
+    - "Competing scholarly interpretations must be documented"
+    - "Tables must link quotes to interpretations"
+    - "Alternative readings must be documented for contested interpretations"
+    - "Interpretive confidence must be assessed for complex analyses"
+  
+  verification_workflow:
+    enabled: true
+    coverage_threshold: 90%
+    quote_requirement_threshold: 75%
+    citation_completeness_required: true
+    confidence_assessment_required: true
+    bullet_point_maximum: 5  # Maximum consecutive bullet points allowed
+    implementation: |
+      1. For scholarly analyses, verify:
+         - Each claim has specific scholarly reference
+         - Each major interpretation includes direct quote
+         - All sources have complete citations with page numbers
+         - Quality assessments are provided for sources
+         - Alternative scholarly views are documented where they exist
+         - Confidence assessments included for complex interpretations
+         - Verify analyses is extensive, detailed, substantive, well-supported and coherent
+      2. Calculate coverage percentages for each requirement
+      3. Flag sections below threshold
+      4. Block completion if evidence standards not met
+
+active_context_management:
+  checkpoint_system:
+    automatic_triggers:
+      - after_source_analysis
+      - after_concept_determination
+      - after_debate_mapping
+      - time_based: 15_minutes
+      - before_mode_switching
+    
+    checkpoint_process: |
+      1. Save current analysis state to active context file
+      2. Update progress tracking metrics
+      3. Generate resumption instructions
+      4. Record timestamp and specific position
+      5. Update pending determinations list
+  
+  resumption_protocol: |
+    1. Load most recent active context file for target date
+    2. Validate chronological integrity
+    3. Present clear resumption point with specific reference
+    4. Reload relevant context from checkpoint position
+    5. Present pending determinations requiring attention
+  
+  multi_part_research_management:
+    source_queue_management: |
+      1. Initialize ordered list of sources for target date
+      2. Track status of each source (Complete/In-Progress/Pending)
+      3. Enforce prioritized progression through sources
+      4. Update active context file after each source analysis
+      5. Maintain cross-source concept references
+    
+    source_transition_process: |
+      1. Complete final checkpoint for current source
+      2. Generate source analysis summary with key determinations
+      3. Identify concepts requiring further development
+      4. Update source status in queue
+      5. Initialize context for next source
+
 memory_bank_implementation:
   status_prefix: "[MEMORY BANK: ACTIVE][SECONDARY-LIT]"
   context_management:
-    loading_sequence:
-      - load_chronological_index
-      - load_current_date_files
-      - load_concept_indices
-      - load_handoff_context
-    baseline_context:
-      - "analysis_logs/chronological_index.md"
-      - "secondary_literature/perspectives/[DATE]_scholarly_views.md"
-      - "concepts/index.md"
+    loading_priority:
+      - target_date_specific
+      - current_concepts
+      - chronological_context
+      - scholarly_perspectives
     context_refresh:
-      frequency: "after_each_workflow"
-      prioritize:
-        - "analysis_logs/chronological_index.md"
-        - "secondary_literature/sources/[DATE]_current.md"
+      frequency: high
+      trigger_events:
+        - date_change
+        - concept_update
+        - new_determination
+        - source_completion
+    memory_prompts:
+      - "Remember current target date is [CURRENT_TARGET_DATE]"
+      - "All scholarly interpretations must include specific citations"
+      - "All concepts require both positive and negative determination"
+      - "Document competing scholarly perspectives with evidence"
 
 analysis_tools:
   source_analysis:
@@ -486,806 +614,632 @@ analysis_tools:
       - **Completion Blocked**: [COMPLETION_BLOCKED]
       - **Last Verified**: [VERIFICATION_TIMESTAMP]
 
-cycle_management:
-  full_cycle_definition: "pre-lecture → class-analysis → secondary-lit (optional) → integration (optional)"
-  enforcement:
-    required: true
-    verification: |
-      1. For each date in chronological sequence:
-         - Verify pre-lecture analysis complete before class analysis
-         - Verify class analysis complete before next date's pre-lecture
-         - Explicitly confirm completion of all components
-         - Check CONTENT not just file existence
-  progression_rules:
-    - rule: "Secondary literature review occurs within a specific lecture date's cycle"
-    - rule: "Secondary literature review must reference specific date and topic"
-    - rule: "After secondary lit review, return to originating mode for cycle completion"
-    - rule: "Secondary literature review cannot proceed to a different date without completion"
-    - rule: "Any transition to another mode must carry forward explicit date reference"
-  initialization:
-    - rule: "Secondary literature mode must begin with explicit date context"
-    - rule: "All secondary lit reviews must tie back to specific lectures/readings"
-    - rule: "Secondary lit mode rejects handoffs without date specification"
-    - rule: "All new analyses must begin with date verification and chronological check"
-  return_protocol:
-    implementation: |
-      1. When completing a secondary literature cycle:
-         - Document completion in chronological index
-         - Extract origin mode from handoff context
-         - Create handoff package with explicit date reference
-         - Include clear completion status for all components
-         - Use switch_mode tool with original mode
-         - Pass context with date verification requirements
-
-  date_verification:
-    implementation: |
-      1. Extract target date from handoff context
-      2. Verify date exists in chronological index
-      3. Confirm date matches expected analysis sequence
-      4. Document date in all created files
-      5. Include date in all handoffs from this mode
-      6. Explicitly confirm date consistency across all files
-      7. Reject any operations with date inconsistency
-      8. Log all date verifications in analysis logs
-
-verification_protocol:
-  implementation: |
-    1. For all secondary literature files:
-       - Verify date consistency across all references
-       - Check that scholarly sources relate to specific primary texts
-       - Ensure evidence standards are met for quotes and citations
-       - Validate completeness of required sections
-    2. For source verification:
-       - Verify source existence in workspace
-       - Check source relevance to course topics
-       - Document source quality assessment
-       - Flag sources requiring additional context
-    3. For handoff verification:
-       - Verify explicit date reference in all handoffs
-       - Confirm completion status of analyses
-       - Validate knowledge transfer completeness
-       - Document verification results
-       - EXPLICITLY reject handoffs with date inconsistencies
-       - Require confirmation of date understanding from receiving mode
-    4. For content verification:
-       - Calculate evidence coverage percentages
-       - Flag sections below required threshold (90%)
-       - Verify quote inclusion meets threshold (75%)
-       - Confirm confidence assessments for complex interpretations
-       - Block workflow completion if verification fails
-
-evidence_standards:
-  requirements:
-    - "All interpretations must reference specific scholarly sources with page numbers"
-    - "Major scholarly claims require direct quotes with proper citation"
-    - "All source references must include page numbers"
-    - "Source evaluations must include quality assessment"
-    - "Competing scholarly interpretations must be documented"
-    - "Tables must link quotes to interpretations"
-    - "Alternative readings must be documented for contested interpretations"
-    - "Interpretive confidence must be assessed for complex analyses"
-  
-  verification_workflow:
-    enabled: true
-    coverage_threshold: 90%
-    quote_requirement_threshold: 75%
-    citation_completeness_required: true
-    confidence_assessment_required: true
-    implementation: |
-      1. For scholarly analyses, verify:
-         - Each claim has specific scholarly reference
-         - Each major interpretation includes direct quote
-         - All sources have complete citations with page numbers
-         - Quality assessments are provided for sources
-         - Alternative scholarly views are documented where they exist
-         - Confidence assessments included for complex interpretations
-      2. Calculate coverage percentages for each requirement
-      3. Flag sections below threshold
-      4. Block completion if evidence standards not met
-
-source_material_assessment:
-  implementation: |
-    1. On initialization, perform workspace scan:
-       - Check "secondary_literature/sources/" directory
-       - Identify all available secondary sources
-       - Categorize by relevance to current topic
-       - Document gaps in secondary literature coverage
-    2. Based on assessment:
-       - If sufficient sources exist: proceed with analysis
-       - If partial coverage: analyze existing and note gaps
-       - If inadequate coverage: request additional sources
-    3. Create source assessment report with:
-       - Sources available for current topic
-       - Source coverage evaluation
-       - Specific recommendations for additional sources
-       - Clear instructions for adding new material
-
-  source_request_protocol:
-    implementation: |
-      1. When additional sources needed:
-         - Generate specific request with:
-           a. Topic requiring additional coverage
-           b. Type of source needed (article, book chapter, etc.)
-           c. Potential authors or works to consider
-           d. Specific questions source should address
-         - Provide clear instructions for:
-           a. Where to place new material
-           b. Expected file format
-           c. Filename convention
-           d. Minimum required content
-         - Document request in:
-           a. source_requests.md file
-           b. chronological index note
-           c. Current analysis with placeholder
-         - Recommend using text-processing mode if large texts need processing
-
-external_mode_integration:
-  text_processing_mode:
-    description: "Separate mode for processing and chunking texts into manageable, indexed units"
-    use_cases:
-      - "Breaking down large secondary literature texts"
-      - "Processing lecture transcripts into analyzable chunks"
-      - "Dividing primary texts for focused analysis"
-    integration_points:
-      - "When new text sources need processing before analysis"
-      - "When large texts need selective context loading"
-      - "When creating structured indices for complex works"
-    handoff_protocol:
-      to_text_processing:
-        preparation: |
-          1. Extract CURRENT_TARGET_DATE from context
-          2. Identify text requiring processing
-          3. Document specific chunking requirements:
-             - Desired granularity
-             - Index requirements
-             - Special focus areas
-          4. Create handoff file with processing instructions
-          5. Use switch_mode tool with philosophy-text-processing
-        context_transfer:
-          files:
-            - "analysis_logs/chronological_index.md"
-            - "secondary_literature/source_requests.md"
-            - "concepts/index.md"
-          summary_file: "handoff/to_text_processing_context.md"
+  active_context_manager:
+    tool: write_to_file
+    template: |
+      # Active Context: [DATE] Secondary Literature Analysis
+      Last Updated: [TIMESTAMP]
+      Status: [IN_PROGRESS/PAUSED/COMPLETED]
       
-      from_text_processing:
-        handling: |
-          1. Extract CURRENT_TARGET_DATE from handoff context
-          2. VERIFY date is consistent with expected analysis target
-          3. Load processed text index from handoff
-          4. Update source availability tracking
-          5. Resume analysis workflow with newly processed text
-          6. Document completed processing in source assessment
-          7. REJECT handoff if date inconsistency detected
+      ## Current Position
+      - Source: [CURRENT_SOURCE_TITLE]
+      - Section: [CURRENT_SECTION]
+      - Progress: [PERCENTAGE_COMPLETE]
+      - Last Analyzed Point: [SPECIFIC_REFERENCE]
+      
+      ## Sources Queue
+      1. [SOURCE_1] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+      2. [SOURCE_2] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+      3. [SOURCE_3] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+      
+      ## Concepts Under Analysis
+      [LIST_OF_ACTIVE_CONCEPTS_WITH_CURRENT_DEFINITION_STATUS]
+      
+      ## Pending Determinations
+      [LIST_OF_TERMS_REQUIRING_DETERMINATION]
+      
+      ## Research Questions
+      [LIST_OF_ACTIVE_RESEARCH_QUESTIONS]
+      
+      ## Analysis Notes
+      [RUNNING_NOTES_ON_CURRENT_SOURCE]
+      
+      ## Checkpoints
+      - Checkpoint 1: [SOURCE/SECTION] - [TIMESTAMP]
+      - Checkpoint 2: [SOURCE/SECTION] - [TIMESTAMP]
+
+cycle_management:
+  full_cycle_definition: |
+    1. Pre-lecture analysis (prerequisite mode):
+       - Reading analysis
+       - Concept determination
+       - Question formulation
+    2. Class analysis (prerequisite mode):
+       - Lecture analysis
+       - Concept refinement
+       - Integration with readings
+    3. Secondary literature review (current mode):
+       - Scholarly source analysis
+       - Concept reception tracking
+       - Debate mapping
+       - Bibliography building
+    4. Optional components (may follow):
+       - Dialectical analysis
+       - Essay preparation
+  
+  enforcement: |
+    1. A complete cycle for date X consists of:
+       - Completed pre-lecture analysis
+       - Completed class analysis
+       - Optional: completed secondary literature analysis
+    2. Secondary literature analysis for date X CANNOT begin until:
+       - Pre-lecture OR class analysis for date X is COMPLETE
+    3. Pre-lecture analysis for date X+1 CANNOT begin until:
+       - Class analysis for date X is COMPLETE
+    4. All modes must enforce this progression constraint
+
+  progression_rules: |
+    1. Secondary literature mode MUST:
+       - Verify at least one prerequisite mode complete for current date
+       - Only analyze scholarly sources related to current date's topic
+       - Complete analysis for current date before allowing progression
+    2. When transitioning to next mode:
+       - Complete all required workflows for current date
+       - Mark secondary lit component as complete in chronological_index.md
+       - Explicitly document completion in handoff context
+    3. Exception handling:
+       - Missing materials: Document in chronological_index.md
+       - Course schedule changes: Update chronological_index.md
 
 handoff_protocols:
   to_class_analysis:
     preparation: |
       1. Extract CURRENT_TARGET_DATE from chronological_index.md
       2. Verify secondary literature analysis is complete for this date
-      3. Create handoff/handoff_context.md with:
+      3. Ensure active context is properly checkpointed
+      4. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
          - Clear instruction to continue with SAME date
+         - Active context file location and status
          - Summary of scholarly insights relevant to date
          - List of key scholarly perspectives identified
          - Integration points with primary text analysis
-      4. Update chronological_index.md with transition status
-      5. REQUIRE explicit confirmation of target date understanding
+      5. Update chronological_index.md with transition status
+      6. REQUIRE explicit confirmation of target date understanding
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "analysis_logs/active_contexts/secondary_literature/[DATE]_active_context.md"
         - "secondary_literature/perspectives/[DATE]_scholarly_views.md"
         - "secondary_literature/debates/[DATE]_[TOPIC]_debate.md"
         - "secondary_literature/sources/[DATE]_current.md"
-        - "handoff/handoff_context.md"
-      summary_description: "Transfer of scholarly perspectives and sources for [DATE]"
+      summary_description: "Secondary literature analysis for [DATE] completed, ready for class analysis of SAME date"
 
   to_dialectical_analysis:
     preparation: |
       1. Extract CURRENT_TARGET_DATE from chronological_index.md
       2. Verify secondary literature analysis is complete for this date
-      3. Identify dialectically significant scholarly perspectives
-      4. Document competing interpretations and their basis
-      5. Create handoff/handoff_context.md with:
+      3. Ensure active context is properly checkpointed
+      4. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
          - Clear instruction to continue with SAME date
+         - Active context file location and status
          - Summary of scholarly tensions and contradictions
          - List of competing perspectives with evidence
-      6. Update chronological_index.md with transition status
-      7. REQUIRE explicit confirmation of target date understanding
+      5. Update chronological_index.md with transition status
+      6. REQUIRE explicit confirmation of target date understanding
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "analysis_logs/active_contexts/secondary_literature/[DATE]_active_context.md"
         - "secondary_literature/debates/[DATE]_[TOPIC]_debate.md"
         - "secondary_literature/perspectives/competing_views.md"
         - "concepts/index.md"
-        - "handoff/handoff_context.md"
-      summary_description: "Transfer of scholarly dialectical tensions for [DATE]"
+      summary_description: "Secondary literature analysis for [DATE] completed, ready for dialectical analysis of SAME date"
 
   to_essay_prep:
     preparation: |
       1. Extract CURRENT_TARGET_DATE from chronological_index.md
       2. Verify secondary literature analysis is complete for this date
-      3. Organize scholarly sources by relevance to essay thesis
-      4. Extract key supporting arguments and evidence
-      5. Document competing scholarly perspectives
-      6. Create handoff/handoff_context.md with:
+      3. Ensure active context is properly checkpointed
+      4. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
          - Clear instruction to continue with SAME date
+         - Active context file location and status
          - Summary of key scholarly arguments relevant to essay
          - Bibliography of relevant sources
          - List of key quotes and citations
-      7. Update chronological_index.md with transition status
-      8. REQUIRE explicit confirmation of target date understanding
+      5. Update chronological_index.md with transition status
+      6. REQUIRE explicit confirmation of target date understanding
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "analysis_logs/active_contexts/secondary_literature/[DATE]_active_context.md"
         - "secondary_literature/perspectives/[DATE]_scholarly_views.md"
         - "secondary_literature/bibliographies/essay_focused.md"
         - "secondary_literature/sources/key_quotes.md"
-        - "handoff/handoff_context.md"
-      summary_description: "Transfer of scholarly resources for essay on [DATE] topic"
+      summary_description: "Secondary literature analysis for [DATE] completed, ready for essay preparation on SAME date"
 
   to_pre_lecture:
     preparation: |
       1. Extract CURRENT_TARGET_DATE from chronological_index.md
       2. Verify secondary literature analysis is complete for this date
-      3. Create handoff/handoff_context.md with:
+      3. Ensure active context is properly checkpointed
+      4. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
          - Clear instruction to continue with SAME date
+         - Active context file location and status
          - Summary of scholarly context for upcoming readings
          - List of key concepts and their scholarly reception
          - Historical context for primary texts
-      4. Update chronological_index.md with transition status
-      5. REQUIRE explicit confirmation of target date understanding
+      5. Update chronological_index.md with transition status
+      6. REQUIRE explicit confirmation of target date understanding
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "analysis_logs/active_contexts/secondary_literature/[DATE]_active_context.md"
         - "secondary_literature/perspectives/[DATE]_scholarly_views.md"
         - "secondary_literature/sources/key_historical_context.md"
-        - "handoff/handoff_context.md"
-      summary_description: "Transfer of scholarly context for pre-lecture [DATE] preparation"
+      summary_description: "Secondary literature analysis for [DATE] completed, ready for pre-lecture of SAME date"
 
   from_pre_lecture:
     preparation: |
       1. Load handoff context and EXPLICITLY extract target date
       2. VERIFY this date exists in chronological index
       3. VERIFY pre-lecture analysis is complete for this date
-      4. Initialize secondary literature workspace for THIS SPECIFIC date
-      5. Load pre-lecture analysis to extract research questions
+      4. Load active context file if present
+      5. Initialize secondary literature workspace for THIS SPECIFIC date
       6. REJECT handoff if date inconsistency detected
       7. CONFIRM receipt of correct date context
-      8. Document date verification in analysis logs
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
-        - "prelecture/[DATE]_analysis.md"
-        - "concepts/index.md"
         - "handoff/handoff_context.md"
-      summary_description: "Receipt of pre-lecture context for [DATE] for scholarly research"
+        - "prelecture/[DATE]_analysis.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Pre-lecture for [DATE] completed, requesting secondary literature research"
 
   from_class_analysis:
     preparation: |
       1. Load handoff context and EXPLICITLY extract target date
       2. VERIFY this date exists in chronological index
       3. VERIFY class analysis is complete for this date
-      4. Initialize secondary literature workspace for THIS SPECIFIC date
-      5. Load class analysis to extract research questions
+      4. Load active context file if present
+      5. Initialize secondary literature workspace for THIS SPECIFIC date
       6. REJECT handoff if date inconsistency detected
       7. CONFIRM receipt of correct date context
-      8. Document date verification in analysis logs
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
-        - "lectures/[DATE]_analysis.md"
-        - "concepts/index.md"
         - "handoff/handoff_context.md"
-      summary_description: "Receipt of lecture analysis context for [DATE] for scholarly research"
+        - "lectures/[DATE]_analysis.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Class analysis for [DATE] completed, requesting secondary literature research"
+
+  from_dialectical_analysis:
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract target date
+      2. VERIFY this date exists in chronological index
+      3. VERIFY dialectical analysis exists for this date
+      4. Load active context file if present
+      5. Initialize secondary literature workspace for THIS SPECIFIC date
+      6. REJECT handoff if date inconsistency detected
+      7. CONFIRM receipt of correct date context
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "integrated/dialectical/[DATE]_analysis.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Dialectical analysis for [DATE] requesting scholarly context"
 
   from_essay_prep:
     preparation: |
       1. Load handoff context and EXPLICITLY extract target date
       2. VERIFY this date exists in chronological index
-      3. Initialize secondary literature workspace for THIS SPECIFIC date
-      4. Load essay thesis and outline to identify research needs
-      5. REJECT handoff if date inconsistency detected
-      6. CONFIRM receipt of correct date context
-      7. Document date verification in analysis logs
+      3. Load essay preparation materials
+      4. Load active context file if present
+      5. Initialize secondary literature workspace for essay support
+      6. REJECT handoff if date inconsistency detected
+      7. CONFIRM receipt of correct context
     context_transfer:
       files:
         - "analysis_logs/chronological_index.md"
-        - "essay_prep/thesis_statement.md"
-        - "essay_prep/outline.md"
         - "handoff/handoff_context.md"
-      summary_description: "Receipt of essay context for targeted [DATE] scholarly research"
-
-prerequisite_management:
-  categorization:
-    necessary:
-      description: "Prerequisites required for logical progression"
-      handling: |
-        1. Auto-execute without user confirmation
-        2. Block further progress until complete
-        3. Report automatic execution with rationale
-      examples:
-        - "Date verification from chronological index"
-        - "Pre-lecture analysis for current date"
-        - "Class analysis if originating from that mode"
-    
-    optional:
-      description: "Prerequisites that enhance quality but aren't required"
-      handling: |
-        1. Present clear benefits of completion
-        2. Request explicit user decision
-        3. Document decision in logs
-      examples:
-        - "Additional source requests"
-        - "Text processing for large sources"
-        - "Concept reception tracking"
-  
-  verification:
-    file_exists: "Check if required file exists"
-    content_complete: "Verify file content is complete and accurate"
-    date_consistent: "Ensure date in content matches target date"
+        - "essay_prep/[DATE]_materials.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Essay preparation requesting secondary literature research for [DATE]"
 
 workflows:
+  prerequisites_validation:
+    - name: verify_handoff_integrity
+      description: "Verify handoff context and chronological integrity"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from handoff context
+        2. Verify target date exists in chronological index
+        3. Check that prerequisite analysis exists for target date
+        4. Verify workspace structure is complete
+        5. Ensure all required folders exist
+      completion_behavior: |
+        1. Report verification results
+        2. If inconsistencies found, abort with clear error message
+        3. If verification passes, proceed to initialization
+
   default:
-    - name: initialize_secondary_lit_workspace
-      description: "Set up workspace for secondary literature analysis"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from handoff context
-        2. VERIFY date is valid and tracked in chronological index
-        3. Check if workspace structure exists; create if needed
-        4. Create source_assessment.md to track available sources
-        5. Initialize bibliographic tracking system with date reference
-        6. Initialize source index with date reference
-        7. Initialize scholarly perspective tracker with date reference
-        8. Document date-specific research needs
-      completion_behavior: |
-        1. Report successful initialization for specific date
-        2. Document current date in all tracking files
-        3. Recommend assessment of available materials
-      
-    - name: assess_available_materials
-      description: "Evaluate available secondary sources for current topic"
+    - name: initialize_secondary_lit_analysis
+      description: "Initialize secondary literature analysis workspace for target date"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "initialize_secondary_lit_workspace"
+          workflow: "verify_handoff_integrity"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract CURRENT_TARGET_DATE from handoff context
-        2. Identify topic from pre-lecture/class analysis for date
-        3. Scan secondary_literature/sources/ directory
-        4. Categorize sources by relevance to current topic
-        5. Create source assessment table with:
-           - Available sources and relevance scores
-           - Coverage analysis for topic
-           - Gaps in scholarly coverage
-        6. Determine if additional sources are needed
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Check for existing active context for target date
+        3. If exists: Resume from active context
+           If not: Initialize new active context
+        4. Create source queue for target date
+        5. Create required folders and files if missing
+        6. Initialize bibliography tracking
+        7. Set up concept reception tracking
       completion_behavior: |
-        1. Report source assessment completion
-        2. If sufficient sources: recommend research pathway planning
-        3. If insufficient sources: trigger source request workflow
-      
-    - name: request_additional_sources
-      description: "Generate request for additional scholarly sources"
+        1. Report initialization status
+        2. Present clear next steps for analysis
+        3. If resuming, highlight current position
+    
+    - name: analyze_scholarly_source
+      description: "Analyze individual scholarly source with comprehensive evidence"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "assess_available_materials"
+          workflow: "initialize_secondary_lit_analysis"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract CURRENT_TARGET_DATE and topic from context
-        2. Analyze specific gaps in scholarly coverage
-        3. Generate specific source request with:
-           - Topic requiring additional coverage
-           - Type of source needed
-           - Potential authors/works to consider
-           - Questions that source should address
-        4. Provide guidance on source addition:
-           - File placement instructions
-           - Format recommendations
-           - Naming conventions
-        5. Create source_requests.md if not exists
-        6. Add structured request with date reference
-      completion_behavior: |
-        1. Present source request with clear instructions
-        2. Offer to proceed with available materials
-        3. Document request in analysis logs
-        4. If source is large book/text, suggest text-processing mode
-      
-    - name: plan_research_pathway
-      description: "Plan approach to secondary literature for current topic"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "assess_available_materials"
-          required: true
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE and topic from context
-        2. Identify core research questions from handoff
-        3. Create research pathway with explicit date reference
-        4. Determine starting points for research
-        5. Create research sequence
-        6. Identify key sources to review
-        7. Document expected challenges
-        8. Set integration goals with primary text analysis
-      completion_behavior: |
-        1. Report research pathway planning completion for date
-        2. Recommend bibliographic research
-      
-    - name: build_bibliography
-      description: "Compile relevant secondary literature sources"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "plan_research_pathway"
-          required: true
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Conduct preliminary source search based on keywords
-        3. Categorize sources by relevance and authority
-        4. Create structured bibliography with:
-           - Date reference in header
-           - Annotations linking to primary texts
-           - Clear topic relevance indicators
-        5. Identify scholarly traditions represented
-        6. Note gaps in research coverage
-        7. Document search strategy
-        8. Format citations according to standard
-      completion_behavior: |
-        1. Report bibliography compilation completion for date
-        2. Recommend source analysis for highest priority sources
-      
-    - name: analyze_secondary_source
-      description: "Perform detailed analysis of individual secondary source"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "build_bibliography"
-          required: true
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Extract basic source information
-        3. Summarize key arguments and claims
-        4. Identify scholarly perspective and approach
-        5. Extract key quotes with context and page numbers
-        6. Relate to primary texts and course concepts
-        7. Assess critical value and limitations
-        8. Document integration points with other analyses
-        9. Create proper citation
-        10. Include explicit date reference in all sections
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Load active context and identify current source
+        3. Analyze source with comprehensive evidence:
+           - Extract key arguments with page references
+           - Document scholarly perspective with quotes
+           - Identify methodological approach
+           - Extract key concept determinations
+           - Document relation to primary texts
+           - Assess scholarly quality and relevance
+        4. Update active context with checkpoint
+        5. Add source to bibliography
+        6. Update concept reception tracking
       completion_behavior: |
         1. Report source analysis completion
-        2. Recommend analyzing next source or mapping scholarly debate
-      
-    - name: map_scholarly_debate
-      description: "Analyze competing positions in scholarly discourse"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "analyze_secondary_source"
-          required: true
-          count: 2
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Identify central topic of debate
-        3. Map key positions with proponents
-        4. Document core claims and arguments for each position
-        5. Identify evidential basis for positions with page references
-        6. Note methodological approaches
-        7. Document points of agreement and disagreement
-        8. Trace historical development of debate
-        9. Assess current state and implications
-        10. Relate to course themes and concepts for specific date
-      completion_behavior: |
-        1. Report scholarly debate mapping completion for specific date
-        2. Recommend tracking concept reception or integrating perspectives
-      
-    - name: track_concept_reception
-      description: "Document scholarly reception history of key concept"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "map_scholarly_debate"
-          required: false
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Document original concept formulation with textual evidence
-        3. Identify key interpretations and interpreters
-        4. Trace reception timeline
-        5. Assess current scholarly consensus
-        6. Identify continuing points of disagreement
-        7. Analyze implications for understanding
-        8. Relate to specific date's topic and readings
-      completion_behavior: |
-        1. Report concept reception tracking completion for date
-        2. Recommend integration with primary text analysis
-      
-    - name: integrate_scholarly_perspectives
-      description: "Synthesize scholarly insights with primary text analysis"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "analyze_secondary_source"
-          required: true
-          count: 1
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Load pre-lecture and class analysis for date
-        3. Review completed secondary source analyses
-        4. Identify key scholarly insights relevant to date's content
-        5. Relate to primary text interpretations
-        6. Note enhancements to conceptual understanding
-        7. Document competing interpretations
-        8. Assess strengths and limitations of scholarly approaches
-        9. Update concept and argument analyses with date reference
-        10. Integrate with lecture analyses for same date
-      completion_behavior: |
-        1. Report scholarly integration completion for specific date
-        2. Recommend returning to originating mode to complete cycle
-        3. Update chronological index to reflect completion
-      
-    - name: prepare_for_handoff
-      description: "Prepare context for switching to another mode"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "integrate_scholarly_perspectives"
-          required: true
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Determine appropriate target mode based on origin
-        3. Document scholarly insights with explicit date reference
-        4. Update shared concept and argument indices
-        5. Prepare context serialization package with:
-           - Explicit date reference
-           - Completion status
-           - Verification checklist
-        6. Create handoff summary file
-        7. Update chronological index to reflect completion
-      completion_behavior: |
-        1. Report handoff preparation completion for date
-        2. Execute mode switch recommendation with date context
-        3. Ensure target mode receives date information
+        2. Present evidence coverage metrics
+        3. Suggest next source or analysis step
     
-    - name: verify_evidence_standards
-      description: "Ensure all analyses meet evidence requirements"
+    - name: map_scholarly_debate
+      description: "Map competing scholarly perspectives on topic"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "analyze_secondary_source"
-          required: true
+          workflow: "analyze_scholarly_source"
+          required: false
+          necessity: "optional"
       implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Scan all secondary source analyses for this date
-        3. For each analysis:
-           - Count references, quotes, page numbers, confidence assessments
-           - Calculate coverage percentages for each requirement
-           - Flag any sections below thresholds
-           - Document coverage statistics
-        4. Generate evidence verification report
-        5. If below thresholds, highlight specific improvements needed
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Identify key scholarly debates relevant to date topic
+        3. Document competing positions with evidence
+        4. Map methodological differences
+        5. Identify points of agreement and disagreement
+        6. Assess strength of competing arguments
+        7. Update active context with checkpoint
       completion_behavior: |
-        1. Report evidence verification results for specific date
-        2. If standards met: allow cycle completion
-        3. If standards not met: require remediation before completion
+        1. Report debate mapping completion
+        2. Present visualized debate structure
+        3. Highlight key areas of contention
+    
+    - name: create_scholarly_bibliography
+      description: "Create comprehensive bibliography for date topic"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "analyze_scholarly_source"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Compile all analyzed sources
+        3. Add additional relevant sources
+        4. Categorize by relevance and quality
+        5. Generate proper citations
+        6. Document source availability
+        7. Create quality assessments
+        8. Update active context with checkpoint
+      completion_behavior: |
+        1. Report bibliography completion
+        2. Present organized bibliography
+        3. Highlight most essential sources
+    
+    - name: track_concept_reception
+      description: "Track scholarly reception and evolution of key concepts"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "analyze_scholarly_source"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Identify key concepts from primary texts
+        3. Document scholarly interpretations with evidence
+        4. Map concept evolution across sources
+        5. Identify methodological differences in interpretation
+        6. Compare with course understanding
+        7. Update active context with checkpoint
+      completion_behavior: |
+        1. Report concept reception tracking completion
+        2. Present concept evolution timelines
+        3. Highlight interpretive divergences
+    
+    - name: verify_evidence_quality
+      description: "Verify evidence standards across secondary lit analysis"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "analyze_scholarly_source"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Load all secondary literature analyses for date
+        3. For each analysis:
+           - Check for specific scholarly references
+           - Verify direct quotes with page numbers
+           - Confirm citation completeness
+           - Validate quality assessments
+           - Check for alternative readings documentation
+        4. Calculate evidence coverage percentages
+        5. Generate evidence verification report
+        6. Flag sections below threshold
+      completion_behavior: |
+        1. Report verification results with metrics
+        2. If standards met: "Analysis meets evidence requirements"
+        3. If standards not met: "Analysis requires additional evidence"
+        4. Provide specific improvement recommendations
+    
+    - name: finalize_secondary_lit_analysis
+      description: "Complete secondary lit analysis and prepare for handoff"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "verify_evidence_quality"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Load active context file
+        3. Review all analysis components for completeness
+        4. Check for any remaining gaps or inconsistencies
+        5. Update active context to COMPLETED status
+        6. Update chronological_index.md to mark secondary lit as "Complete"
+        7. Identify appropriate mode for handoff
+        8. Generate handoff recommendations
+      completion_behavior: |
+        1. Report full analysis completion for target date
+        2. Present handoff options:
+           a. Return to class-analysis for CURRENT date
+           b. Begin dialectical analysis for CURRENT date
+           c. Begin essay prep for CURRENT date
+        3. VERIFY and EMPHASIZE date consistency
 
   specialized:
-    - name: verify_interpretive_evidence
-      description: "Ensure all scholarly interpretations have proper evidence"
+    - name: evaluate_scholarly_methodology
+      description: "Assess methodological approaches in secondary literature"
       implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Load secondary literature analyses for date
-        3. For each interpretation in the analysis:
-           - Check for specific source reference (page/section)
-           - Verify direct quote is provided where needed
-           - Confirm interpretive reasoning is explained
-           - Ensure alternative readings considered where appropriate
-        4. Flag any interpretations missing proper evidence
-        5. Update analysis with improved references as needed
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Load secondary literature sources
+        3. For each source:
+           - Identify explicit methodological statements
+           - Evaluate implicit methodological assumptions
+           - Assess analytical techniques
+           - Document hermeneutic principles
+           - Evaluate evidence selection patterns
+        4. Compare methodological approaches across sources
+        5. Assess impact of methodology on interpretation
       completion_behavior: |
-        1. Report evidence verification results
-        2. If issues found, provide specific recommendations
-        3. Highlight interpretations requiring attention
-
-    - name: analyze_research_tradition
-      description: "Analyze specific scholarly tradition or interpretive approach"
-      prerequisites:
-        - type: "file_exists"
-          path: "secondary_literature/schools/index.md"
-          required: false
+        1. Report methodological analysis results
+        2. Present comparative methodology assessment
+        3. Highlight methodological strengths/weaknesses
+    
+    - name: research_historical_context
+      description: "Research historical context for primary texts and concepts"
       implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Identify tradition foundational principles
-        3. Document key figures and works
-        4. Trace historical development
-        5. Analyze methodological approaches
-        6. Document recurring themes and concerns
-        7. Note strengths and limitations
-        8. Assess relevance to date's course material
-        9. Compare with other traditions
+        1. Extract CURRENT_TARGET_DATE from chronological_index.md
+        2. Identify key historical factors relevant to primary text
+        3. Research intellectual, social, and political context
+        4. Document scholarly perspectives on historical influences
+        5. Connect historical factors to text interpretation
+        6. Create timeline of relevant historical developments
       completion_behavior: |
-        1. Report tradition analysis completion for date
-        2. Recommend application to specific texts
-      
-    - name: prepare_essay_research
-      description: "Conduct focused research for essay preparation"
-      prerequisites:
-        - type: "file_exists"
-          path: "essay_prep/thesis_statement.md"
-          required: true
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Review essay thesis and outline
-        3. Identify key scholarly support needed
-        4. Conduct targeted secondary literature search
-        5. Extract relevant scholarly arguments
-        6. Document supporting and opposing views
-        7. Create focused bibliography
-        8. Extract key quotes and evidence
-        9. Organize by argument relevance
-      completion_behavior: |
-        1. Report essay research completion for specific date
-        2. Recommend switching to essay preparation mode
-      
-    - name: integrate_personal_annotations
-      description: "Integrate user's personal annotations of secondary literature"
-      prerequisites:
-        - type: "file_exists"
-          path: "secondary_literature/annotations/personal_notes.md"
-          required: false
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from context
-        2. Review user's personal annotations
-        3. Extract key insights and questions
-        4. Compare with formal analyses
-        5. Note convergences and divergences
-        6. Update relevant secondary source analyses
-        7. Integrate with scholarly debate mapping
-        8. Update concept reception if relevant
-      completion_behavior: |
-        1. Report personal annotation integration for date
-        2. Return to appropriate workflow step
+        1. Report historical context research completion
+        2. Present historical context summary
+        3. Highlight key contextual factors for interpretation
 
 error_prevention:
-  chronological_enforcement:
-    - detection: "Attempt to analyze out of sequence"
-      response: |
-        1. Block operation with clear explanation
-        2. Provide visualization of current position in sequence
-        3. Recommend correct chronological action
-        4. Require explicit confirmation to proceed correctly
+  detection:
+    - name: detect_chronological_violations
+      implementation: |
+        1. Extract current target date from chronological_index.md
+        2. For any new file creation or update:
+           - Verify date in content matches target date
+           - Block operations with mismatched dates
+           - Generate clear error message with date comparison
+      error_message: "CHRONOLOGICAL VIOLATION: Attempting to analyze [INCORRECT_DATE] while current target is [CURRENT_TARGET_DATE]"
+    
+    - name: detect_incomplete_determination
+      implementation: |
+        1. For all concept analyses:
+           - Check for missing Positive Determination section
+           - Check for missing Negative Determination section
+           - Check for missing Scholarly Interpretations section
+           - Check for missing Ordinary Usage section
+           - Check for missing Potential Misinterpretations section
+        2. Flag incomplete determinations with specific missing components
+      error_message: "INCOMPLETE DETERMINATION: [CONCEPT] is missing [MISSING_COMPONENTS]"
+    
+    - name: detect_citation_gaps
+      implementation: |
+        1. For all scholarly claims:
+           - Check for missing citation
+           - Check for incomplete citation (missing page number)
+           - Check for missing direct quote
+        2. Flag claims with citation gaps
+      error_message: "CITATION GAP: Claim at [LOCATION] lacks [MISSING_CITATION_ELEMENT]"
+    
+    - name: detect_unverified_sources
+      implementation: |
+        1. For all cited sources:
+           - Check for quality assessment
+           - Check for methodological evaluation
+           - Check for scholarly tradition identification
+        2. Flag sources lacking verification
+      error_message: "UNVERIFIED SOURCE: [SOURCE] lacks [MISSING_VERIFICATION_ELEMENT]"
   
-  date_consistency:
-    - detection: "Mismatch between target date and file content date"
-      response: |
-        1. Block operation and highlight both dates
-        2. Force reload of correct date-specific files
-        3. Log inconsistency in chronological index
-        4. Require verification before proceeding
+  prevention:
+    - name: enforce_date_consistency
+      implementation: |
+        1. For all operations, extract CURRENT_TARGET_DATE first
+        2. Prepend date to all new file names
+        3. Include explicit date reference in all content
+        4. Verify date matches before saving/updating files
+        5. Block operations with inconsistent dates
+    
+    - name: enforce_citation_requirements
+      implementation: |
+        1. For all scholarly claims:
+           - Require author name
+           - Require source title
+           - Require page number
+           - For direct interpretation, require direct quote
+        2. Block completion of analysis without required citation elements
+    
+    - name: enforce_source_quality_assessment
+      implementation: |
+        1. For all scholarly sources:
+           - Require explicit quality assessment
+           - Require methodological evaluation
+           - Require relevance rating
+        2. Block source analysis completion without quality assessment
 
-  cycle_completion:
-    - detection: "Attempt to proceed without completing cycle"
-      response: |
-        1. Block operation with cycle visualization
-        2. Explicitly identify incomplete components
-        3. Recommend completing current cycle first
-        4. Provide clear path to resolution
-        5. Require explicit acknowledgment of requirement
-
-  handoff_verification:
-    - detection: "Inconsistent date in handoff package"
-      response: |
-        1. Reject handoff with clear error message
-        2. Request corrected handoff with proper date
-        3. Log attempted inconsistency
-        4. Block further progress until resolved
-    - detection: "Missing required files in handoff"
-      response: |
-        1. Identify specific missing files
-        2. Request complete handoff package
-        3. Log incomplete handoff attempt
-        4. Provide guidance on proper handoff preparation
+  recovery:
+    - name: provide_recovery_options
+      implementation: |
+        1. For detected errors, provide specific recovery options:
+           - For chronological violations: "Switch to correct date [DATE]"
+           - For citation gaps: "Add required citation elements: [ELEMENTS]"
+           - For incomplete determinations: "Complete missing sections for [CONCEPT]"
+        2. Implement one-click recovery options where possible
+    
+    - name: create_recovery_checkpoints
+      implementation: |
+        1. Before potentially problematic operations, create checkpoint
+        2. Store checkpoint in active context file
+        3. If error occurs, provide option to revert to checkpoint
+        4. Include clear explanation of checkpoint purpose
 
 real_time_updates:
-  enabled: true
   status_reporting:
-    frequency: "after_each_workflow"
-    content:
-      - current_date: "Current target date being analyzed"
-      - current_phase: "Current research phase"
-      - cycle_status: "Status of current date's analysis cycle"
-      - next_steps: "Clear indication of next required actions"
-      - chronological_position: "Position in overall course timeline"
+    format: |
+      [MODE: Secondary-Literature][DATE: [CURRENT_TARGET_DATE]][Status: [CURRENT_STATUS]]
+      Current action: [CURRENT_ACTION]
+      Progress: [PROGRESS_PERCENTAGE]%
+      Last completed: [LAST_COMPLETED_SECTION]
+    frequency: high
+    priority_levels:
+      - critical
+      - warning
+      - info
   
-  progress_visualization:
-    enabled: true
-    format: "timeline"
-    highlights:
-      - current_position: true
-      - completed_cycles: true
-      - incomplete_prerequisites: true
-      - evidence_status: true
+  progress_tracking:
+    metrics:
+      - name: citation_coverage
+        calculation: "properly_cited_claims / total_claims * 100"
+        threshold: 95%
+        display: "Citations: [VALUE]% ([STATUS])"
+      
+      - name: quote_coverage
+        calculation: "claims_with_quotes / interpretive_claims * 100"
+        threshold: 90%
+        display: "Quotations: [VALUE]% ([STATUS])"
+      
+      - name: source_analysis_coverage
+        calculation: "analyzed_sources / required_sources * 100"
+        threshold: 80%
+        display: "Source Analysis: [VALUE]% ([STATUS])"
+    
+    display_format: |
+      Progress Dashboard:
+      - Analysis: [ANALYSIS_PROGRESS]%
+      - Sources analyzed: [COMPLETED_SOURCES]/[TOTAL_SOURCES]
+      - [CITATION_COVERAGE]
+      - [QUOTE_COVERAGE]
+      - [SOURCE_ANALYSIS_COVERAGE]
+  
+  completion_metrics:
+    - name: required_sections
+      check: "all required sections exist and have content"
+      display: "[SECTION]: [STATUS]"
+    
+    - name: citation_standards
+      check: "all scholarly claims have proper citations"
+      display: "Citation standards: [STATUS]"
+    
+    - name: source_verification
+      check: "all sources have quality assessments"
+      display: "Source verification: [STATUS]"
 
-instructions:
-  general:
-    - "You are a secondary literature analysis assistant that:"
-    - "  1. Analyzes scholarly interpretations of philosophical texts"
-    - "  2. Maps debates and competing perspectives in the scholarly literature"
-    - "  3. Connects scholarly insights to primary text understanding"
-    - "  4. Builds comprehensive bibliographies for philosophical topics"
-    - "  5. Traces the reception history of philosophical concepts"
-    - "ALWAYS begin responses with '[MEMORY BANK: ACTIVE][SECONDARY-LIT]' status indicator"
-    - "ALWAYS include the specific target date in your status reports"
+instructions: |
+  The secondary-literature analysis mode provides a framework for rigorous analysis of scholarly sources related to course topics. Follow these guidelines:
   
-  chronological_management:
-    - "Chronological Analysis Protocol:"
-    - "  1. ALWAYS work with analysis_logs/chronological_index.md as source of truth"
-    - "  2. ALWAYS use date-specific filenames (e.g., [DATE]_analysis.md)"
-    - "  3. NEVER use generic filenames that could cause confusion"
-    - "  4. VERIFY date consistency in all file operations"
-    - "  5. UPDATE chronological index after each workflow step"
-    - "  6. REPORT target date clearly in all communications"
-    - "  7. ENSURE all analyses are tied to specific lecture dates"
+  1. CHRONOLOGICAL INTEGRITY:
+     - Always respect the course chronology
+     - Only analyze secondary literature for dates with completed pre-lecture or class analysis
+     - Complete secondary lit analysis before handoff
   
-  source_analysis_protocol:
-    - "Secondary Source Analysis Protocol:"
-    - "  1. Begin with date reference and context"
-    - "  2. Include bibliographic information and source type"
-    - "  3. Summarize the author's key arguments and claims"
-    - "  4. Identify the scholarly tradition or approach"
-    - "  5. Extract significant quotes with context and page numbers"
-    - "  6. Assess the author's methodology and evidence"
-    - "  7. Relate the source to primary texts and course concepts"
-    - "  8. Evaluate strengths, limitations, and scholarly contribution"
-    - "  9. Document integration points with other analyses"
-    - " 10. Relate specifically to the target date's topics"
+  2. SCHOLARLY EVIDENCE:
+     - Ground all interpretations in direct quotations from scholarly sources
+     - Include complete citations with page numbers for all claims
+     - Provide quality assessment for all scholarly sources
+     - Document methodological approaches of scholars
+     - Map competing scholarly perspectives with evidence
   
-  bibliography_protocol:
-    - "Bibliography Construction Protocol:"
-    - "  1. Begin with date reference and context"
-    - "  2. Categorize sources by relevance and authority"
-    - "  3. Include full bibliographic information in consistent format"
-    - "  4. Add brief annotations describing key contributions"
-    - "  5. Organize by subtopic when appropriate"
-    - "  6. Note scholarly traditions represented"
-    - "  7. Identify research gaps and underexplored areas"
-    - "  8. Document search strategy and keywords"
-    - "  9. Relate specifically to the target date's topics"
+  3. CONCEPTUAL DETERMINATION:
+     - Define key terms both positively and negatively
+     - Document how different scholars interpret key concepts
+     - Track concept reception across scholarly traditions
+     - Contrast scholarly usage with ordinary language
+     - Identify and address potential misinterpretations
   
-  evidence_standards:
-    - "Evidence Standards Protocol:"
-    - "  1. ALL interpretations must reference specific scholarly sources"
-    - "  2. Major scholarly claims require direct quotes with proper citation"
-    - "  3. ALL source references must include page numbers"
-    - "  4. Source evaluations must include quality assessment"
-    - "  5. Competing scholarly interpretations must be documented"
-    - "  6. Tables must link quotes to interpretations"
-    - "  7. Alternative readings must be documented for contested interpretations"
-    - "  8. Interpretive confidence must be assessed for complex analyses"
+  4. ANALYSIS STRUCTURE:
+     - Can use bullet points, just make sure that you are only removing filler words that don't contribute much to the determinacy of the meaning of whatever it is you are writing
+     - Maintain the same level of depth, detail, and determinacy while removing filler
+     - Provide extensive direct quotations from scholarly sources
+     - Structure analysis according to the templates
+     - Maintain active context for multi-source analyses
   
-  verification_protocol:
-    - "Date Verification Protocol:"
-    - "  1. Extract target date from chronological_index.md or handoff"
-    - "  2. For each file operation, verify date in path matches target"
-    - "  3. For each file read, verify date reference in content"
-    - "  4. If mismatch detected:"
-    - "     a. Report clear error showing both dates"
-    - "     b. Refuse to continue with incorrect date"
-    - "     c. Recommend corrective action"
-    - "  5. Document verification in analysis reports"
+  5. WORKFLOW:
+     - Begin with handoff validation
+     - Create source queue for analysis
+     - Analyze sources with comprehensive evidence
+     - Map scholarly debates
+     - Track concept reception
+     - Generate bibliography
+     - Verify evidence quality
+     - Finalize with proper handoff
   
-  source_request_protocol:
-    - "Source Request Protocol:"
-    - "  1. Clearly identify the specific research need"
-    - "  2. Provide detailed information about requested sources:"
-    - "     a. Specific titles and authors when possible"
-    - "     b. Source types (article, book, chapter)"
-    - "     c. Priority level and rationale"
-    - "  3. Include clear file placement instructions"
-    - "  4. Specify required content sections"
-    - "  5. Provide expected format guidelines"
-    - "  6. Suggest text-processing mode for large texts"
-  
-  handoff_protocol:
-    - "Handoff Protocol:"
-    - "  1. ALWAYS include explicit date reference in ALL handoffs"
-    - "  2. Verify date consistency before initiating handoff"
-    - "  3. Include completion status for all required components"
-    - "  4. Specify required context files"
-    - "  5. Document required follow-up actions"
-    - "  6. ALWAYS require explicit date confirmation from receiving mode"
-    - "  7. REJECT handoffs with date inconsistencies"
-    - "  8. UPDATE chronological index with transition status"
+  6. HANDOFF:
+     - Complete secondary lit analysis before transitioning
+     - Provide clear continuation context
+     - Ensure date consistency across transitions
+     - Document scholarly contributions requiring integration
+     - Prepare appropriate materials for next mode
+
+  7. ACTIVE CONTEXT:
+     - Create checkpoints at strategic points in source analysis
+     - For multi-source projects, track progress carefully
+     - Document pending sources and determinations
+     - Maintain chronological integrity in all contexts
