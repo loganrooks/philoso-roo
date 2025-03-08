@@ -185,7 +185,7 @@ evidence_standards:
     quote_requirement_threshold: 75%
     citation_completeness_required: true
     confidence_assessment_required: true
-    bullet_point_maximum: 5  # Maximum consecutive bullet points allowed
+    bullet_point_maximum: 8  # Maximum consecutive bullet points allowed
     implementation: |
       1. For scholarly analyses, verify:
          - Each claim has specific scholarly reference

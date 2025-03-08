@@ -188,8 +188,8 @@ evidence_standards:
     - "Key philosophical terms must be defined through both positive and negative determination"
     - "Potentially ambiguous terminology must be explicitly disambiguated from ordinary usage"
     - "Interpretations must contrast the author's meaning with potential misinterpretations"
-    - "Analysis must use complete paragraphs, not bullet points, for all substantive content"
-  
+    - "Can use bullet points, just make sure that you are only removing filler words that don't contribute much to the determinacy of the meaning of whatever it is you are writing"
+    - "Maintain the same level of depth, detail, and determinacy while removing filler"
   verification_workflow:
     enabled: true
     coverage_threshold: 90%
@@ -197,7 +197,7 @@ evidence_standards:
     confidence_assessment_required: true
     negative_definition_required: true
     disambiguation_required: true
-    bullet_point_maximum: 5  # Maximum consecutive bullet points allowed
+    bullet_point_maximum: 8  # Maximum consecutive bullet points allowed
   
   implementation: |
     1. For all analysis files:
