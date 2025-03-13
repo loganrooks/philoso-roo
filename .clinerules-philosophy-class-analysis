@@ -117,6 +117,22 @@ workspace_inspection:
         2. For new context: "Initializing new class analysis context for [DATE]"
         3. Present current position or initial starting point
 
+workspace_compatibility:
+  detection: "System detects previous architecture by folder structure"
+  legacy_structures:
+    v3_structure:
+      - "concepts/"
+      - "evidence/"
+      - "analyses/"
+      - "templates/"
+  path_mapping:
+    v3_to_v9:
+      - "concepts/definitions/": "analysis_workspace/concepts/definitions/"
+      - "evidence/readings/": "analysis_workspace/sources/readings/"
+      - "evidence/lectures/": "analysis_workspace/sources/lectures/"
+      - "analyses/pre_lecture/": "analysis_workspace/prelecture/"
+      - "analyses/class/": "analysis_workspace/lectures/"
+
 memory_management:
   workspace:
     root: "analysis_workspace/"
@@ -148,13 +164,30 @@ memory_management:
   indexing:
     enabled: true
     formats:
-      pre_lecture: "prelecture/[DATE]_analysis.md"  # Prerequisite analysis
-      lecture: "lectures/[DATE]_analysis.md"        # Current lecture analysis
-      concept: "concepts/definitions/[CONCEPT_NAME].md"  # Individual concept files
-      argument: "arguments/[ARGUMENT_NAME].md"      # Individual argument files
-      integration: "integrated/[DATE]_integration.md"  # Date-specific integration
-      chronological: "analysis_logs/chronological_index.md"  # Master schedule and status
-      active_context: "analysis_logs/active_contexts/lectures/[DATE]_active_context.md"  # Active context
+      pre_lecture: "prelecture/[DATE]_analysis.md"
+      lecture: "lectures/[DATE]_analysis.md"
+      concept: "concepts/definitions/[CONCEPT_NAME].md"
+      argument: "arguments/[ARGUMENT_NAME].md"
+      integration: "integrated/[DATE]_integration.md"
+      chronological: "analysis_logs/chronological_index.md"
+      active_context: "analysis_logs/active_contexts/lectures/[DATE]_active_context.md"
+
+token_optimization:
+  extraction_format:
+    position_based: "[[EXTRACT:filepath:line_start:word_startw:line_end:word_endw]]"
+    boundary_based: "[[EXTRACT:filepath:\"start_text\"...\"end_text\"]]"
+    special_values:
+      - "word_start=0w: Beginning of line"
+      - "word_end=-1w: End of line"
+  
+  batch_updates:
+    enabled: true
+    update_file: "analysis_logs/pending_updates.json"
+    operations:
+      - replace_section
+      - replace_lines
+      - append
+      - create_file
 
 conceptual_determinacy:
   negative_definition: required
@@ -175,9 +208,9 @@ conceptual_determinacy:
     ## Term: [PHILOSOPHICAL_TERM]
     
     ### Direct Lecture Evidence
-    > "[DIRECT_QUOTE_1]" (Lecture [DATE], [TIMESTAMP])
+    > [[EXTRACT:lecture_transcript.md:45:0w:45:-1w]] (Lecture [DATE], [TIMESTAMP])
     
-    > "[DIRECT_QUOTE_2]" (Lecture [DATE], [TIMESTAMP])
+    > [[EXTRACT:lecture_transcript.md:67:0w:67:-1w]] (Lecture [DATE], [TIMESTAMP])
     
     ### Positive Determination
     [EXPLICIT_DEFINITION]
@@ -191,19 +224,47 @@ conceptual_determinacy:
     ### Potential Misinterpretations
     1. [MISINTERPRETATION_1]
        - Why this is incorrect: [EXPLANATION]
-       - Lecture evidence against: "[QUOTE]"
+       - Lecture evidence against: [[EXTRACT:lecture_transcript.md:78:0w:78:-1w]]
     
     2. [MISINTERPRETATION_2]
        - Why this is incorrect: [EXPLANATION]
-       - Lecture evidence against: "[QUOTE]"
+       - Lecture evidence against: [[EXTRACT:lecture_transcript.md:92:0w:92:-1w]]
     
     ### Related Terms Requiring Distinction
     - [RELATED_TERM_1]: [HOW_IT_DIFFERS]
     - [RELATED_TERM_2]: [HOW_IT_DIFFERS]
 
+counter_interpretation_framework:
+  purpose: "Identify and document alternative interpretations of philosophical concepts and arguments"
+  implementation:
+    identification:
+      - "Identify passages with ambiguous meanings"
+      - "Locate textual evidence that could support alternative views"
+      - "Document sections where the lecturer appears to consider opposing views"
+    analysis:
+      - "Construct strongest possible alternative interpretations"
+      - "Compare evidence supporting primary vs alternative interpretations"
+      - "Assess relative strengths and limitations of each interpretation"
+    resolution:
+      - "Justify preferred interpretation with explicit evidence"
+      - "Document reasoning for rejecting alternative interpretations"
+      - "Acknowledge interpretative limitations where evidence is ambiguous"
+  documentation:
+    format: |
+      ## Alternative Interpretation: [INTERPRETATION_NAME]
+      
+      ### Evidence Supporting This View
+      > [[EXTRACT:lecture_transcript.md:120:0w:120:-1w]] (Lecture [DATE], [TIMESTAMP])
+      
+      ### Evidence Against This View
+      > [[EXTRACT:lecture_transcript.md:135:0w:135:-1w]] (Lecture [DATE], [TIMESTAMP])
+      
+      ### Comparative Assessment
+      [ASSESSMENT_OF_COMPETING_INTERPRETATIONS]
+
 evidence_standards:
   requirements:
-    - "All interpretations must reference specific lecture sections/timestamps with direct quotations"
+    - "All interpretations must reference specific lecture sections/timestamps with direct quotations using extraction markers"
     - "Major concepts require multiple direct quotes with proper citation"
     - "All interpretations must include confidence assessment"
     - "Complex passages require documentation of alternative readings"
@@ -223,7 +284,7 @@ evidence_standards:
     implementation: |
       1. For lecture analysis, verify:
          - Each concept has specific lecture reference (timestamp/section)
-         - Each major concept includes direct quote
+         - Each major concept includes direct quote via extraction marker
          - Each argument includes quoted premises/conclusion
          - Complex interpretations note confidence level
          - Alternative readings are documented where appropriate
@@ -238,9 +299,7 @@ evidence_standards:
 active_context_management:
   checkpoint_system:
     automatic_triggers:
-      - after_section_completion
-      - after_concept_determination
-      - after_argument_reconstruction
+      - after_n_tool_uses: 5
       - time_based: 15_minutes
       - before_mode_switching
     
@@ -293,9 +352,9 @@ analysis_tools:
       ### [CONCEPT_1]
       
       #### Direct Lecture Evidence
-      > "[DIRECT_QUOTE_1]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:45:0w:45:-1w]] (Timestamp: [TIMESTAMP])
       
-      > "[DIRECT_QUOTE_2]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:67:0w:67:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Positive Determination
       [EXPLICIT_DEFINITION]
@@ -309,7 +368,7 @@ analysis_tools:
       #### Potential Misinterpretations
       1. [MISINTERPRETATION_1]
          - Why this is incorrect: [EXPLANATION]
-         - Lecture evidence against: "[QUOTE]"
+         - Lecture evidence against: [[EXTRACT:lecture_transcript.md:78:0w:78:-1w]]
       
       #### Related Concepts
       - [RELATED_CONCEPT_1]: [RELATIONSHIP]
@@ -323,22 +382,22 @@ analysis_tools:
       ### [ARGUMENT_1]
       
       #### Argument Structure
-      > **Premise 1:** "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > **Premise 1:** [[EXTRACT:lecture_transcript.md:105:0w:105:-1w]] (Timestamp: [TIMESTAMP])
       > 
-      > **Premise 2:** "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > **Premise 2:** [[EXTRACT:lecture_transcript.md:112:0w:112:-1w]] (Timestamp: [TIMESTAMP])
       > 
-      > **Conclusion:** "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > **Conclusion:** [[EXTRACT:lecture_transcript.md:120:0w:120:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Reconstruction
       [ARGUMENT_RECONSTRUCTION]
       
       #### Potential Objections
       1. [OBJECTION_1]
-         - Evidence: "[QUOTE]"
+         - Evidence: [[EXTRACT:lecture_transcript.md:135:0w:135:-1w]]
          - Assessment: [ASSESSMENT]
       
       2. [OBJECTION_2]
-         - Evidence: "[QUOTE]"
+         - Evidence: [[EXTRACT:lecture_transcript.md:142:0w:142:-1w]]
          - Assessment: [ASSESSMENT]
       
       ### [ARGUMENT_2]
@@ -349,10 +408,10 @@ analysis_tools:
       ### [READING_CONNECTION_1]
       
       #### Reading Evidence
-      > "[DIRECT_QUOTE]" ([SOURCE], [PAGE])
+      > [[EXTRACT:reading_file.md:25:0w:25:-1w]] ([SOURCE], [PAGE])
       
       #### Lecture Reference
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:156:0w:156:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Analysis
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -365,7 +424,7 @@ analysis_tools:
       ### [QUESTION_1]
       
       #### Direct Answer from Lecture
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:187:0w:187:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Analysis
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -382,7 +441,7 @@ analysis_tools:
       ### [NEW_QUESTION_1]
       
       #### Relevant Lecture Content
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:205:0w:205:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Implications
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -395,10 +454,10 @@ analysis_tools:
       ### [CONNECTION_1]
       
       #### Previous Lecture Content
-      > "[DIRECT_QUOTE]" (Lecture [PREVIOUS_DATE], [TIMESTAMP])
+      > [[EXTRACT:previous_lecture.md:78:0w:78:-1w]] (Lecture [PREVIOUS_DATE], [TIMESTAMP])
       
       #### Current Lecture Reference
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:230:0w:230:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Developmental Analysis
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -411,7 +470,7 @@ analysis_tools:
       ### [TOPIC_1]
       
       #### Lecture Evidence
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:250:0w:250:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Research Need
       [DETAILED_EXPLANATION_PARAGRAPH]
@@ -424,10 +483,10 @@ analysis_tools:
       ### [THEME_1]
       
       #### Lecture Evidence
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:275:0w:275:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Previous References
-      > "[DIRECT_QUOTE]" (Lecture [PREVIOUS_DATE], [TIMESTAMP])
+      > [[EXTRACT:previous_lecture.md:120:0w:120:-1w]] (Lecture [PREVIOUS_DATE], [TIMESTAMP])
       
       #### Interpretation
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -449,7 +508,7 @@ analysis_tools:
       **Negative:** [PREVIOUS_NEGATIVE_DETERMINATION]
       
       #### Lecture Evidence for Update
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:45:0w:45:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Updated Determination
       **Positive:** [UPDATED_DEFINITION]
@@ -466,8 +525,8 @@ analysis_tools:
       ### [CONCEPT_1]
       
       #### Lecture Evidence
-      > "[DIRECT_QUOTE_1]" (Timestamp: [TIMESTAMP])
-      > "[DIRECT_QUOTE_2]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:86:0w:86:-1w]] (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:95:0w:95:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Positive Determination
       [EXPLICIT_DEFINITION]
@@ -490,7 +549,7 @@ analysis_tools:
       ### [CONNECTION_1]
       
       #### Evidence Location
-      > "[DIRECT_QUOTE]" (Timestamp: [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:120:0w:120:-1w]] (Timestamp: [TIMESTAMP])
       
       #### Interpretive Analysis
       [DETAILED_ANALYSIS_PARAGRAPH]
@@ -511,8 +570,8 @@ analysis_tools:
       **Negative:** [CURRENT_NEGATIVE_DETERMINATION]
       
       #### Evidence for Change
-      > "[DIRECT_QUOTE]" (Lecture [PREVIOUS_DATE], [TIMESTAMP])
-      > "[DIRECT_QUOTE]" (Lecture [CURRENT_DATE], [TIMESTAMP])
+      > [[EXTRACT:previous_lecture.md:45:0w:45:-1w]] (Lecture [PREVIOUS_DATE], [TIMESTAMP])
+      > [[EXTRACT:lecture_transcript.md:150:0w:150:-1w]] (Lecture [CURRENT_DATE], [TIMESTAMP])
       
       ### [CONCEPT_2]
       [REPEAT_STRUCTURE]
@@ -628,6 +687,11 @@ workflows:
   default:
     - name: initialize_class_analysis
       description: "Set up class analysis workspace and validate prerequisites"
+      prerequisites: []
+      tools:
+        - read_file
+        - list_files
+        - write_to_file
       implementation: |
         1. Run validate_prerequisite_completion check
         2. Extract CURRENT_TARGET_DATE from chronological_index.md or handoff
@@ -658,6 +722,10 @@ workflows:
           workflow: "initialize_class_analysis"
           required: true
           necessity: "necessary"
+      tools:
+        - read_file
+        - write_to_file
+        - insert_content
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
         2. Load active context file
@@ -665,13 +733,13 @@ workflows:
         4. Load lecture transcript or notes for target date
         5. Analyze transcript structure and content
         6. Compare with pre-lecture expectations
-        7. Document key concepts and arguments WITH EXTENSIVE DIRECT QUOTATION
+        7. Document key concepts and arguments USING EXTRACTION MARKERS
         8. For each key concept:
            - Document positive determination
            - Document negative determination (what it is NOT)
            - Distinguish from ordinary language usage
            - Identify and address potential misinterpretations
-        9. Track question resolutions WITH DIRECT QUOTATION EVIDENCE
+        9. Track question resolutions USING EXTRACTION MARKERS
         10. Note connections to previous material
         11. Create lectures/[CURRENT_TARGET_DATE]_analysis.md
         12. Create checkpoint after each major section
@@ -689,531 +757,266 @@ workflows:
           workflow: "analyze_lecture"
           required: true
           necessity: "necessary"
+      tools:
+        - read_file
+        - write_to_file
+        - insert_content
+        - search_and_replace
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
         2. Load active context file
         3. Load lectures/[CURRENT_TARGET_DATE]_analysis.md
-        4. Identify key concepts and arguments WITH EXTENSIVE DIRECT QUOTATION
+        4. Identify key concepts and arguments USING EXTRACTION MARKERS
         5. For each concept:
-           - Document direct lecture evidence with timestamps
+           - Document direct lecture evidence with extraction markers
            - Provide positive determination
-           - Provide negative determination
-           - Contrast with ordinary language
-           - Distinguish from related concepts
-           - Document potential misinterpretations
-        6. Update concepts/terminology_index.md with determinations
-        7. Update concepts/index.md with new entries
-        8. For each concept, create concepts/definitions/[CONCEPT_NAME].md
-        9. Update arguments/index.md with new entries
-        10. Create concept update document for target date
-        11. Link concepts and arguments to lecture date
-        12. Create checkpoint after each major concept determination
-        13. Update active context file with progress
-        14. Update chronological_index.md to mark concept tracking as "Complete"
+                      - Provide negative determination (what concept is NOT)
+           - Distinguish from ordinary language usage
+           - Document potential misinterpretations with evidence
+           - Create/update concept file in concepts/definitions/[CONCEPT_NAME].md
+        6. For each argument:
+           - Document direct lecture evidence with extraction markers
+           - Reconstruct argument structure formally
+           - Identify potential objections with evidence
+           - Document alternative interpretations
+           - Create/update argument file in arguments/[ARGUMENT_NAME].md
+        7. Update terminology_index.md with new or modified concepts
+        8. Update active context file with:
+           - Extracted concept list with determination status
+           - Extracted argument list with reconstruction status
+           - Update completion percentage
+        9. Create checkpoint after completing all extractions
+        10. Update chronological_index.md with extraction status
       completion_behavior: |
-        1. Report concept extraction completion
-        2. Show updated concept and argument indices
+        1. Report "Completed concept and argument extraction for [DATE]"
+        2. Report number of concepts and arguments extracted
         3. Report active context checkpoint status
-        4. Recommend integration with course themes
-    
-    - name: integrate_with_course
-      description: "Integrate lecture analysis with broader course understanding"
+        4. Recommend verification as next step
+
+    - name: verify_lecture_analysis
+      description: "Verify lecture analysis meets evidence and determinacy standards"
       prerequisites:
         - type: "workflow_completed"
           workflow: "extract_concepts_and_arguments"
           required: true
           necessity: "necessary"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Load active context file
-        3. Load lectures/[CURRENT_TARGET_DATE]_analysis.md
-        4. Load integrated/course_overview.md if exists
-        5. Analyze connections to previous lectures WITH DIRECT QUOTATION
-        6. For each concept evolution:
-           - Document previous determination
-           - Document current determination
-           - Provide direct evidence of change
-        7. Update course themes and narrative
-        8. Create integrated/[CURRENT_TARGET_DATE]_integration.md
-        9. Create checkpoint after integration
-        10. Update active context file with progress
-        11. Update chronological_index.md to mark integration as "Complete"
-      completion_behavior: |
-        1. Report integration completion
-        2. Show course development highlights
-        3. Report active context checkpoint status
-        4. Recommend evidence verification
-    
-    - name: verify_evidence_quality
-      description: "Verify all analyses include proper lecture evidence"
-      prerequisites:
-        - type: "workflow_completed" 
-          workflow: "integrate_with_course"
-          required: true
-          necessity: "optional"
+      tools:
+        - read_file
+        - search_files
+        - search_and_replace
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
         2. Load lectures/[CURRENT_TARGET_DATE]_analysis.md
-        3. For each interpretation in the analysis:
-           - Check for specific lecture reference (timestamp/section)
-           - Verify direct quote is provided where needed 
-           - Confirm interpretive reasoning is explained
-           - Ensure alternative readings considered where appropriate
-           - Verify key concepts include both positive and negative determination
-           - Check for disambiguation of potentially ambiguous terms
-           - Validate contrast between lecturer's usage and ordinary language
-           - Verify analyses use complete paragraphs, not just bullet points
-        4. Calculate evidence coverage percentage
-        5. Calculate quotation percentage
-        6. If below thresholds:
-           - Flag sections needing improvement
-           - Request additional evidence
-           - Block completion until resolved
-        7. Create final checkpoint
-        8. Update active context with verification results
+        3. Load concepts/definitions/*.md files referenced in analysis
+        4. Load arguments/*.md files referenced in analysis
+        5. Verify all concepts have:
+           - Multiple direct lecture references with extraction markers
+           - Both positive and negative determinations
+           - Distinction from ordinary language usage
+           - Addressed potential misinterpretations
+           - Related concept distinctions
+        6. Verify all arguments have:
+           - Extraction markers for premises and conclusions
+           - Formal reconstruction of argument structure
+           - Identified potential objections with evidence
+           - Addressed alternative interpretations
+        7. Calculate verification metrics:
+           - Percentage of concepts with complete determinations
+           - Percentage of concepts with supporting extraction markers
+           - Percentage of arguments with complete reconstructions
+           - Percentage of extraction markers that are valid
+        8. If any verification metric below threshold:
+           - Document specific deficiencies
+           - Generate remediation plan
+           - Block completion until remediated
+        9. Update active context file with verification status
       completion_behavior: |
-        1. Report evidence verification results
-        2. If issues found, provide specific recommendations
-        3. If passed, recommend finalization
-    
-    - name: finalize_class_analysis
-      description: "Complete class analysis and update cycle management"
+        1. Report verification results with specific metrics
+        2. If verification passed: "Analysis passes evidence standards verification"
+        3. If verification failed: "Remediation required for [SPECIFIC_ISSUES]"
+        4. Recommend integration as next step if verification passed
+
+    - name: integrate_lecture_with_course
+      description: "Integrate lecture analysis with broader course themes and previous lectures"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "integrate_with_course" 
+          workflow: "verify_lecture_analysis"
           required: true
           necessity: "necessary"
-        - type: "workflow_completed"
-          workflow: "verify_evidence_quality"
-          required: false
-          necessity: "optional"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Load active context file
-        3. Review all analysis components for completeness
-        4. Check for any remaining gaps or inconsistencies
-        5. Update active context to COMPLETED status
-        6. Update chronological_index.md to mark class analysis as "Complete" 
-        7. Mark full analysis cycle for current date as "Complete"
-        8. Identify next chronological step
-      completion_behavior: |
-        1. Report full analysis completion for target date
-        2. Present ONLY these options:
-           a. Secondary literature exploration for CURRENT date
-           b. Dialectical analysis for CURRENT date
-           c. Begin pre-lecture for NEXT date (only if current cycle complete)
-        3. VERIFY and EMPHASIZE cycle completion before allowing progression
-    
-    - name: handle_missing_materials
-      description: "Handle cases where lecture materials are unavailable"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Document specific missing materials
-        3. Update chronological_index.md with "Blocked (Missing Materials)" status
-        4. Update active context with blocked status
-        5. Add entry to MISSING_MATERIALS_ROWS section
-        6. Generate clear instructions for providing materials
-      completion_behavior: |
-        1. Report missing materials with specific details
-        2. Provide file naming and placement instructions
-        3. Explain how to resume workflow once materials are available
-
-  specialized:
-    - name: verify_conceptual_determination
-      description: "Assess quality and completeness of concept determinations from lecture"
+      tools:
+        - read_file
+        - write_to_file
+        - search_files
+        - insert_content
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
         2. Load lectures/[CURRENT_TARGET_DATE]_analysis.md
-        3. For each key philosophical term:
-           - Verify positive determination is explicit and substantive
-           - Verify negative determination is comprehensive
-           - Check for ordinary language contrast
-           - Assess clarity of related term distinctions
-           - Evaluate quality of potential misinterpretation documentation
-        4. Score each determination on 1-5 scale for each criterion
-        5. Generate improvement recommendations for low scores
+        3. Load previous lecture analyses in chronological order
+        4. Identify conceptual developments:
+           - Compare current concept determinations with previous
+           - Document evolution of key concepts
+           - Identify dialectical movements across lectures
+        5. Identify thematic connections:
+           - Map current lecture content to course themes
+           - Document new theme emergence
+           - Track theme development across material
+        6. Create/update integrated/[CURRENT_TARGET_DATE]_integration.md
+        7. Update active context file with integration status
+        8. Update chronological_index.md to mark lecture cycle as "Complete"
       completion_behavior: |
-        1. Present determination quality assessment:
-           - "Positive determination quality: X/5"
-           - "Negative determination quality: X/5"
-           - "Ordinary language contrast: X/5"
-           - "Related term distinctions: X/5"
-           - "Misinterpretation documentation: X/5"
-        2. Provide concrete examples of strong and weak determinations
-        3. Recommend specific improvements for low-scoring areas
-    
-    - name: compare_lecture_with_readings
-      description: "Conduct detailed comparison between lecture content and assigned readings"
+        1. Report "Integration complete for [CURRENT_TARGET_DATE]"
+        2. Report key conceptual developments identified
+        3. Report thematic connections established
+        4. Recommend either:
+           - "Proceed to next chronological date's pre-lecture analysis"
+           - "Complete dialectical analysis" (if optional component desired)
+
+    - name: handle_missing_lecture_material
+      description: "Implement alternative analysis path when lecture transcript is unavailable"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "initialize_class_analysis"
+          required: true
+          necessity: "necessary"
+      tools:
+        - read_file
+        - write_to_file
+        - search_files
+        - switch_mode
       implementation: |
         1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Load prelecture/[CURRENT_TARGET_DATE]_analysis.md
-        3. Load lectures/[CURRENT_TARGET_DATE]_analysis.md
-        4. For each key concept in both:
-           - Compare determinations from reading vs. lecture
-           - Document convergences and divergences
-           - Note clarifications provided in lecture
-           - Note expansions or limitations
-        5. Analyze how lecturer's interpretation compares to reading
-        6. Document concepts present in readings but not addressed in lecture
-        7. Document concepts introduced in lecture but not present in readings
-        8. Update concept definitions with integrated understanding
+        2. Confirm lecture transcript is unavailable
+        3. Document missing material in chronological_index.md
+        4. Prepare handoff to philosophy-secondary-lit mode:
+           - Include pre-lecture analysis content
+           - Specify target date for consistent chronology
+           - Document key concepts requiring development
+        5. Update active context file with substitution path
+        6. Create lectures/[CURRENT_TARGET_DATE]_analysis.md with missing material note
+        7. Prepare mode transition recommendation
       completion_behavior: |
-        1. Report comparison results with specific examples
-        2. Highlight significant differences between readings and lecture
-        3. Provide integrated understanding of key concepts
-
-    - name: track_concept_evolution
-      description: "Track the evolution of concepts across multiple lectures"
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from chronological_index.md
-        2. Identify key concepts in current lecture
-        3. For each concept:
-           - Search previous lectures for appearances
-           - Document chronological development
-           - Track changes in determination
-           - Identify pattern of conceptual evolution
-        4. Create concept evolution timeline for each major concept
-        5. Document shifts in language, emphasis, or definition
-        6. Identify conceptual tensions across lectures
-      completion_behavior: |
-        1. Present concept evolution timelines
-        2. Highlight significant developments
-        3. Show determinate progression of each concept
-
-error_prevention:
-  detection:
-    - name: detect_chronological_violations
-      implementation: |
-        1. Extract current target date from chronological_index.md
-        2. For any new file creation or update:
-           - Verify date in content matches target date
-           - Block operations with mismatched dates
-           - Generate clear error message with date comparison
-      error_message: "CHRONOLOGICAL VIOLATION: Attempting to analyze [INCORRECT_DATE] while current target is [CURRENT_TARGET_DATE]"
-    
-    - name: detect_incomplete_determination
-      implementation: |
-        1. For all concept analyses:
-           - Check for missing Positive Determination section
-           - Check for missing Negative Determination section
-           - Check for missing Ordinary Usage section
-           - Check for missing Potential Misinterpretations section
-        2. Flag incomplete determinations with specific missing components
-      error_message: "INCOMPLETE DETERMINATION: [CONCEPT] is missing [MISSING_COMPONENTS]"
-    
-    - name: detect_handoff_inconsistencies
-      implementation: |
-        1. For handoffs from other modes:
-           - Verify date consistency between modes
-           - Ensure prerequisite completions are accurate
-           - Validate chronological continuity
-        2. Flag inconsistencies with detailed explanation
-      error_message: "HANDOFF INCONSISTENCY: [SPECIFIC_ISSUE]"
-    
-    - name: detect_insufficient_quotation
-      implementation: |
-        1. For lecture analyses:
-           - Calculate direct quotation percentage
-           - Check if below threshold (75%)
-           - Identify sections with insufficient quotation
-        2. Flag analysis sections requiring more direct evidence
-      error_message: "INSUFFICIENT QUOTATION: Section [SECTION] below quotation threshold"
-  
-  prevention:
-    - name: enforce_date_consistency
-      implementation: |
-        1. For all operations, extract CURRENT_TARGET_DATE first
-        2. Prepend date to all new file names
-        3. Include explicit date reference in all content
-        4. Verify date matches before saving/updating files
-        5. Block operations with inconsistent dates
-    
-    - name: enforce_evidence_requirements
-      implementation: |
-        1. Maintain running evidence coverage metrics
-        2. For concepts, require:
-           - At least 2 direct quotes before definition
-           - Both positive and negative determination
-           - Distinction from ordinary language
-        3. For interpretations, require:
-           - Specific lecture timestamp
-           - Direct quotation
-           - Confidence assessment
-        4. Flag insufficient evidence during creation
-    
-    - name: enforce_prerequisite_completion
-      implementation: |
-        1. Before allowing class analysis:
-           - Verify pre-lecture is complete for same date
-           - Check for available lecture materials
-        2. Block progression if prerequisites not met
-        3. Provide clear path to prerequisite completion
-
-  recovery:
-    - name: provide_recovery_options
-      implementation: |
-        1. For detected errors, provide specific recovery options:
-           - For chronological violations: "Switch to correct date [DATE]"
-           - For evidence gaps: "Add required evidence at [LOCATION]"
-           - For incomplete determinations: "Complete missing sections for [CONCEPT]"
-        2. Implement one-click recovery options where possible
-    
-    - name: create_recovery_checkpoints
-      implementation: |
-        1. Before potentially problematic operations, create checkpoint
-        2. Store checkpoint in active context file
-        3. If error occurs, provide option to revert to checkpoint
-        4. Include clear explanation of checkpoint purpose
-
-real_time_updates:
-  status_reporting:
-    format: |
-      [MODE: Class-Analysis][DATE: [CURRENT_TARGET_DATE]][Status: [CURRENT_STATUS]]
-      Current action: [CURRENT_ACTION]
-      Progress: [PROGRESS_PERCENTAGE]%
-      Last completed: [LAST_COMPLETED_SECTION]
-    frequency: high
-    priority_levels:
-      - critical
-      - warning
-      - info
-  
-  progress_tracking:
-    metrics:
-      - name: evidence_coverage
-        calculation: "direct_quotes / interpretive_claims * 100"
-        threshold: 90%
-        display: "Evidence: [VALUE]% ([STATUS])"
-      
-      - name: determination_coverage
-        calculation: "concepts_with_full_determination / total_concepts * 100"
-        threshold: 95%
-        display: "Determination: [VALUE]% ([STATUS])"
-      
-      - name: disambiguation_coverage
-        calculation: "disambiguated_terms / ambiguous_terms * 100"
-        threshold: 90%
-        display: "Disambiguation: [VALUE]% ([STATUS])"
-    
-    display_format: |
-      Progress Dashboard:
-      - Analysis: [ANALYSIS_PROGRESS]%
-      - Lecture sections analyzed: [COMPLETED_SECTIONS]/[TOTAL_SECTIONS]
-      - [EVIDENCE_COVERAGE]
-      - [DETERMINATION_COVERAGE]
-      - [DISAMBIGUATION_COVERAGE]
-  
-  completion_metrics:
-    - name: required_sections
-      check: "all required sections exist and have content"
-      display: "[SECTION]: [STATUS]"
-    
-    - name: evidence_standards
-      check: "all interpretations have required evidence"
-      display: "Evidence standards: [STATUS]"
-    
-    - name: determination_standards
-      check: "all concepts have complete determination"
-      display: "Determination standards: [STATUS]"
-
-handoff_protocols:
-  to_pre_lecture_next:
-    preparation: |
-      1. Extract CURRENT_TARGET_DATE from chronological_index.md
-      2. Verify class analysis is complete for this date
-      3. Calculate NEXT_TARGET_DATE from chronological index
-      4. Create handoff/handoff_context.md with:
-         - EXPLICIT statement: "Target date: [NEXT_TARGET_DATE]"
-         - Clear instruction to continue with NEXT date
-         - Key concepts requiring attention
-         - Reading recommendations based on current lecture
-         - Questions raised for next lecture
-      5. Update chronological_index.md with transition status
-      6. REQUIRE explicit confirmation of target date understanding
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "handoff/handoff_context.md"
-        - "lectures/[CURRENT_TARGET_DATE]_analysis.md"
-        - "concepts/terminology_index.md"
-      summary_description: "Class analysis for [CURRENT_TARGET_DATE] completed, ready for pre-lecture of NEXT date"
-  
-  to_secondary_lit:
-    preparation: |
-      1. Extract CURRENT_TARGET_DATE from chronological_index.md
-      2. Verify class analysis exists for this date
-      3. Create handoff/handoff_context.md with:
-         - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
-         - Clear instruction to research for SAME date
-         - Specific research questions
-         - Concepts requiring scholarly context
-         - Arguments needing historical perspective
-      4. Update chronological_index.md with research initiation
-      5. REQUIRE explicit confirmation of target date understanding
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "handoff/handoff_context.md"
-        - "lectures/[CURRENT_TARGET_DATE]_analysis.md"
-        - "concepts/terminology_index.md"
-      summary_description: "Class analysis for [CURRENT_TARGET_DATE] requires secondary literature research"
-  
-  to_dialectical_analysis:
-    preparation: |
-      1. Extract CURRENT_TARGET_DATE from chronological_index.md
-      2. Verify class analysis is complete for this date
-      3. Create handoff/handoff_context.md with:
-         - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
-         - Clear instruction to analyze for SAME date
-         - Identified conceptual tensions
-         - Arguments with potential contradictions
-         - Dialectical moments requiring analysis
-      4. Update chronological_index.md with dialectical initiation
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "handoff/handoff_context.md"
-        - "lectures/[CURRENT_TARGET_DATE]_analysis.md"
-        - "concepts/terminology_index.md"
-      summary_description: "Class analysis for [CURRENT_TARGET_DATE] ready for dialectical analysis"
-  
-  to_essay_prep:
-    preparation: |
-      1. Extract CURRENT_TARGET_DATE from chronological_index.md
-      2. Verify class analysis is complete for this date
-      3. Create handoff/handoff_context.md with:
-         - EXPLICIT statement: "Target date: [CURRENT_TARGET_DATE]"
-         - Key arguments developed in lecture
-         - Determinate concepts defined
-         - Potential thesis statements
-         - Supporting evidence from lecture
-      4. Update chronological_index.md with essay prep initiation
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "handoff/handoff_context.md"
-        - "lectures/[CURRENT_TARGET_DATE]_analysis.md"
-        - "concepts/terminology_index.md"
-      summary_description: "Class analysis for [CURRENT_TARGET_DATE] ready for essay preparation"
-  
-  from_pre_lecture:
-    preparation: |
-      1. Load handoff context and EXPLICITLY extract target date
-      2. VERIFY this matches expected chronological progression
-      3. Verify pre-lecture for this date is complete
-      4. Load active context file if present
-      5. Initialize workspace for THIS SPECIFIC date
-      6. REJECT handoff if date inconsistency detected
-      7. CONFIRM receipt of correct date context
-    context_transfer:
-      files:
-        - "analysis_logs/chronological_index.md"
-        - "handoff/handoff_context.md"
-        - "prelecture/[DATE]_analysis.md"
-      summary_description: "Pre-lecture for [DATE] completed, ready for class analysis of SAME date"
+        1. Report "Lecture material unavailable for [CURRENT_TARGET_DATE]"
+        2. Report "Prepared alternative analysis path via secondary literature"
+        3. Recommend mode switch to philosophy-secondary-lit
 
 cycle_management:
-  full_cycle_definition: |
-    1. Pre-lecture analysis (prerequisite mode):
-       - Reading analysis
-       - Concept determination
-       - Question formulation
-    2. Class analysis (current mode):
-       - Lecture analysis
-       - Concept refinement
-       - Integration with readings
-    3. Optional components (may be included):
-       - Secondary literature review
-       - Dialectical analysis
-       - Essay preparation
-  
-  enforcement: |
-    1. A complete cycle for date X consists of:
-       - Completed pre-lecture analysis
-       - Completed class analysis
-    2. Class analysis for date X CANNOT begin until:
-       - Pre-lecture analysis for date X is COMPLETE
-    3. Pre-lecture analysis for date X+1 CANNOT begin until:
-       - Class analysis for date X is COMPLETE
-    4. All modes must enforce this progression constraint
+  full_cycle_definition: "Pre-lecture analysis → Class analysis → (Optional: Secondary literature review) → (Optional: Dialectical analysis) → (Optional: Integration)"
+  enforcement:
+    required: true
+  progression_rules:
+    - rule: "Pre-lecture analysis must be completed before class analysis"
+    - rule: "Class analysis must be completed before integration"
+    - rule: "Dates must be analyzed in chronological order"
+    - rule: "Missing lecture materials trigger alternative cycle path"
+  initialization:
+    - rule: "First analysis must start with earliest course date"
+    - rule: "New workspace requires confirmation of target date"
+    - rule: "Must verify handoff integrity when starting from handoff"
 
-  progression_rules: |
-    1. Class analysis mode MUST:
-       - Verify pre-lecture complete for current date
-       - Only analyze lectures for which pre-lecture is complete
-       - Complete analysis for current date before allowing progression
-    2. When transitioning to next date:
-       - Complete all required workflows for current date
-       - Mark cycle as complete in chronological_index.md
-       - Explicitly document completion in handoff context
-    3. Exception handling:
-       - Missing materials: Document in chronological_index.md
-       - Course schedule changes: Update chronological_index.md
+  alternative_paths:
+    missing_lecture:
+      sequence: "Pre-lecture analysis → Secondary literature analysis (as substitute) → Integration"
+      implementation: |
+        1. Complete pre-lecture analysis as normal
+        2. Detect missing lecture transcript during initialization
+        3. Document in chronological index with "Missing Material" note
+        4. Switch to secondary literature mode with full context handoff
+        5. Complete secondary analysis as class analysis substitute
+        6. Mark cycle as complete with substitution notation
+        7. Allow progression to next date's pre-lecture analysis
 
-memory_bank_implementation:
-  status_prefix: "[MEMORY BANK: ACTIVE][CLASS-ANALYSIS]"
-  context_management:
-    loading_priority:
-      - target_date_specific
-      - current_concepts
-      - chronological_context
-      - course_integration
-    context_refresh:
-      frequency: high
-      trigger_events:
-        - date_change
-        - concept_update
-        - new_determination
-    memory_prompts:
-      - "Remember current target date is [CURRENT_TARGET_DATE]"
-      - "All analyses must include direct lecture evidence"
-      - "All concepts require both positive and negative determination"
+handoff_protocols:
+  standardized_verification:
+    steps:
+      - "Verify handoff document contains target date field"
+      - "Confirm target date matches chronological expectations"
+      - "Verify previous cycle components are complete per requirements"
+      - "Load active context for target date if resuming"
+      - "Block acceptance if chronological integrity violated"
+  
+  handoff_package:
+    required_elements:
+      - "target_date": "Specific date being analyzed"
+      - "from_mode": "Originating mode"
+      - "to_mode": "Destination mode"
+      - "cycle_status": "Current completion status of analysis cycle"
+      - "key_concepts": "Concepts requiring determination or evolution"
 
-instructions: |
-  The class-analysis mode provides a framework for rigorous analysis of philosophy lectures in relation to course readings. Follow these guidelines:
+  to_secondary_literature:
+    specific_requirements:
+      - "List of key concepts requiring development"
+      - "List of specific questions to address"
+      - "Pre-lecture analysis summary"
+    implementation: |
+      1. Package pre-lecture expectations
+      2. Document missing lecture material status
+      3. Provide specific research questions
+      4. Include chronological position enforcement
   
-  1. CHRONOLOGICAL INTEGRITY:
-     - Always respect the course chronology
-     - Verify pre-lecture completion before beginning class analysis
-     - Complete class analysis before progressing to next date
-  
-  2. LECTURE EVIDENCE:
-     - Ground all interpretations in direct quotations from the lecture
-     - Include timestamp references for all claims
-     - Provide multiple quotes for key concepts
-     - Prioritize the lecturer's exact words for determinations
-  
-  3. CONCEPTUAL DETERMINATION:
-     - Define key terms both positively and negatively
-     - Contrast philosophical usage with ordinary language
-     - Identify and address potential misinterpretations
-     - Compare lecture definitions with reading definitions
-     - Track conceptual evolution across lectures
-  
-  4. ANALYSIS STRUCTURE:
-     - Can use bullet points, just make sure that you are only removing filler words that don't contribute much to the determinacy of the meaning of whatever it is you are writing
-     - Maintain the same level of depth, detail, and determinacy while removing filler
-     - Provide extensive direct quotations from lecture
-     - Structure analysis according to the templates
-     - Maintain active context for multi-part lectures
-  
-  5. WORKFLOW:
-     - Begin with prerequisite verification
-     - Analyze lecture with extensive quotation
-     - Extract and determine concepts rigorously
-     - Compare with pre-lecture expectations
-     - Integrate with course themes
-     - Finalize with evidence verification
-  
-  6. HANDOFF:
-     - Complete class analysis before transitioning
-     - Provide clear continuation context
-     - Ensure date consistency across transitions
-     - Document concepts requiring further development
-     - Prepare appropriate materials for next mode
+  from_secondary_literature:
+    specific_requirements:
+      - "Concept determinations made through secondary sources"
+      - "Evidence standards documentation"
+      - "Integration with course progression"
+    implementation: |
+      1. Verify concept determinations meet standards
+      2. Confirm chronological position maintained
+      3. Update cycle completion status
 
-  7. ACTIVE CONTEXT:
-     - Create checkpoints at strategic points in lecture analysis
-     - For multi-part lectures, track progress carefully
-     - Document pending determinations for continuation
-     - Maintain chronological integrity in all contexts
+verification_protocol:
+  evidence_verification:
+    process: |
+      1. For each interpretative claim:
+         - Check for supporting extraction marker
+         - Verify marker resolves to relevant content
+         - Confirm multiple markers for major concepts
+      2. Calculate percentage of claims with adequate evidence
+      3. Flag claims below evidence threshold
+
+  concept_verification:
+    process: |
+      1. For each philosophical term:
+         - Check for positive determination
+         - Check for negative determination
+         - Verify ordinary language distinction
+         - Confirm potential misinterpretations addressed
+      2. Calculate percentage of concepts with complete determination
+      3. Flag concepts below determinacy threshold
+
+  counter_interpretation_verification:
+    process: |
+      1. For each major interpretation:
+         - Check for documented alternative readings
+         - Verify evidence supporting alternatives
+         - Confirm evidence-based resolution
+      2. Calculate percentage of interpretations with counter-analysis
+      3. Flag interpretations missing counter-analysis
+
+  chronological_verification:
+    process: |
+      1. Extract current target date
+      2. Extract completed dates from chronological index
+      3. Verify current date follows chronological progression
+      4. Block out-of-sequence analysis
+      5. Confirm previous date's required cycle components complete
+
+instructions:
+  general:
+    - "Maintain strict chronological progression through course material"
+    - "Ensure all concept determinations are both positively and negatively defined"
+    - "Support all interpretations with direct quotations using extraction markers"
+    - "Create checkpoints after completing major analytical sections"
+    - "Verify all analyses meet evidence and determinacy standards before completion"
+    - "Document all analytical decisions and interpretation choices"
+    - "Address the strongest possible counter-interpretations for all major concepts"
+    - "Distinguish philosophical usage from ordinary language for all key terms"
+    - "Maintain active context with clear resumption points across sessions"
+    - "Optimize token usage through extraction-based content management"
+    - "Follow prescribed alternative paths when materials are unavailable"
+    - "Use batch updates for related file changes to minimize token usage"
+  
+  missing_materials:
+    - "Document missing materials in chronological index"
+    - "Implement appropriate alternative analysis path"
+    - "Maintain chronological integrity despite missing materials"
+    - "Package complete context for mode transitions"
