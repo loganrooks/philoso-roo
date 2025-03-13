@@ -31,7 +31,6 @@ mode_switching:
       trigger: "analyze_contradictions"
       context_handoff: "concepts_arguments_tensions"
 
-  # Intent-based triggers for automatic mode recommendations
   intent_triggers:
     philosophy-pre-lecture:
       - "prepare for next lecture"
