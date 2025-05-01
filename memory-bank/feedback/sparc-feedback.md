@@ -1,3 +1,18 @@
+### [2025-05-01 19:21:04] User Intervention: Major New Requirements & Process Correction
+- **Source**: User Input
+- **Issue**:
+    1.  **Context Calculation:** SPARC failed to manually calculate context % (Tokens / 1,000,000) and include it in delegations, leading to premature handover [2025-05-01 17:33:07].
+    2.  **Flawed Handover:** The premature handover lacked proper initialization instructions, potentially causing the subsequent instance to operate without full context (e.g., not reading `architecture_v11.md`).
+    3.  **Review Needed:** Work done by the intermediate instance(s) (approx. 17:33 - 17:49) needs review for potential errors due to lack of context. (Files potentially affected: `clinerules_revision_plan_v1.md`, `clinerules_template_v1.md`, generated orchestrator rules content).
+    4.  **New Mode Req: `philosophy-text-processor`:** Need a new mode to recursively break down large Markdown source documents (books, lectures >20k tokens) into an indexed tree structure (max 20k tokens/leaf). Should use scripts/commands for splitting, handle formatting errors, and extract citation info. Structure should be generic (Level 0, Level 1, etc.) not tied to specific terms like "Chapter".
+    5.  **New Req: Version Control:** System needs integration with version control.
+    6.  **Documentation Req:** New requirements need detailed documentation, fleshing out details and considering integration.
+- **Action**:
+    1.  Acknowledged feedback and new requirements.
+    2.  Logging intervention now across relevant MB files.
+    3.  Will strictly adhere to manual context calculation (Tokens / 1,000,000 = %) and include in all delegations.
+    4.  Adjusting plan: Pause `.clinerules` corrective actions. Prioritize documenting new requirements, revising architecture/plan, reviewing intermediate work, then resuming implementation.
+- **Follow-up**: Delegate documentation of new requirements to Architect. Delegate architecture/plan revision to Architect. Review intermediate files (`clinerules_revision_plan_v1.md`, `clinerules_template_v1.md`) after architecture update.
 # SPARC Orchestrator Feedback Log
 <!-- Add new feedback entries below this line (most recent first) -->
 ### [2025-05-01 16:57:41] User Feedback on Phase 2/3 Outputs & Delegation
