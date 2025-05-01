@@ -519,7 +519,7 @@ workflows:
           workflow: "integrate_dialectical_insights" # Or other relevant final step
           required: true
       implementation: |
-        1. Finalize any local state or temporary files.
+        1. Finalize any local state or temporary files
         2. Confirm all analysis results have been stored via `philosophy-evidence-manager`.
         3. Determine the appropriate next step or target mode based on the overall goal (e.g., essay prep, class analysis).
         4. Formulate completion message for the orchestrator, including:
