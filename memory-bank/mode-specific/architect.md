@@ -39,6 +39,17 @@
 - **Status**: V13 design complete. Ready to propose V3 implementation plan. Cross-ref: [Global Context System Patterns: 2025-05-02 00:44:45], [Global Context Decision Log: 2025-05-02 00:44:45], [Global Context Progress: 2025-05-02 00:44:45]
 
 ## Component Specifications
+### Component Specification: philosophy-kb-manager (V14 Enhanced) - [2025-05-02 05:20:19]
+- **Responsibility**: Sole interface to `philosophy-knowledge-base/`. Handles CRUD, querying, linking, and integrity for structured philosophical data. **V14:** Accepts context tags list from `text-processor`, stores them in entry YAML `tags` list using `context:key:value` format, and supports querying/filtering based on these tags. Executes approved KB modifications.
+- **Dependencies**: `philosophy-orchestrator` (for modification approvals), All modes requiring KB access, `philosophy-evidence-manager` (for SPARC context if needed).
+- **Interfaces Exposed**: Provides structured data from `philosophy-knowledge-base/` upon request (supports context filters). Accepts structured data for storage (including context tags list). Accepts approved modification instructions.
+- **Internal Structure (High-Level)**: Logic for parsing queries (including context tag filters), managing file I/O for `philosophy-knowledge-base/`, handling unique IDs, parsing/creating links, storing/merging tags, executing changes.
+
+### Component Specification: philosophy-text-processor (V14 Enhanced) - [2025-05-02 05:20:19]
+- **Responsibility**: Pre-processes source texts from `source_materials/raw/` via external scripts (chunking, indexing, citation extraction). **V14:** Parses input path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`).
+- **Dependencies**: External scripts, `philosophy-orchestrator`, `philosophy-kb-manager`.
+- **Interfaces Exposed**: Accepts task delegation. Outputs processed chunks to `source_materials/processed/`. Outputs data package (index, citations, **list of context tags**) to `philosophy-kb-manager`.
+- **Internal Structure (High-Level)**: Logic to invoke external scripts, parse file paths for context extraction, format context tags into a list, package outputs for `kb-manager`.
 ### Component Specification: philosophy-kb-manager (V13 New) - [2025-05-02 00:45:10]
 - **Responsibility**: Sole interface for CRUD operations and querying on the `philosophers-index/`. Manages internal linking and structure within the Index. Executes approved modifications. Ensures data integrity within the Index.
 - **Dependencies**: `philosophy-orchestrator` (for modification approvals), All modes requiring philosophical knowledge (for data requests/submissions), `philosophy-evidence-manager` (for SPARC context).
@@ -227,6 +238,37 @@ graph TD
 - **Internal Structure (High-Level)**: Logic for reading/writing/querying files within `memory-bank/`.
 
 ## Data Models
+### Data Model: Philosophy KB Entry (V14 Context-Aware) - [2025-05-02 05:20:19]
+- **Purpose**: Standard structure for entries within the `philosophy-knowledge-base/`, enhanced to include source context tags.
+- **Structure**:
+  ```yaml
+  ---
+  id: [UUID]
+  type: [Concept | Argument | Quotation | Reference | Question | Thesis | Relationship | Method | Meta-Reflection | Index]
+  timestamp: [YYYY-MM-DD HH:MM:SS]
+  generating_mode: [mode-slug]
+  # --- V14 Context Tags (if applicable) ---
+  tags: [
+    # Context Tags (Extracted by text-processor from source path):
+    "context:type:[course|project|external_lit|personal_note]",
+    "context:id:[course_code|project_name|general_topic]",
+    "context:subtype:[reading|lecture|note|primary|secondary]",
+    # Standard Tags (Added by analysis modes or kb-manager):
+    "hegel", "logic", "critique", "meta", "inquiry", ...
+  ]
+  # --- Optional/Contextual Fields ---
+  source_ref_keys: [[ref_key_1, ...]] # Link to Reference entries
+  extraction_markers: [[marker_1, ...]] # Link to source_materials/processed/
+  related_ids: [[id_1, ...]] # Links to other KB entries
+  # --- Type-Specific Fields ---
+  # (Examples: definition, premises, conclusion, question_text, thesis_statement, reflection_summary, method_description, index_path, chunk_summary, etc.)
+  ---
+
+  # Main Content (Markdown)
+  [Detailed description, analysis, text, etc.]
+  ```
+- **Relationships**: Managed via `related_ids` field and potentially dedicated `Relationship` type entries.
+- **Notes**: Key change is the inclusion of `context:key:value` tags within the `tags` list for entries derived from source material. See `docs/specs/v14_requirements_spec_v1.md`.
 ### Data Model: Philosopher's Index Entry (V13 Initial) - [2025-05-02 00:45:10]
 - **Purpose**: Standard structure for entries within the `philosophers-index/` (using Markdown + YAML frontmatter).
 - **Structure**:
@@ -267,6 +309,177 @@ graph TD
 - **Relationships**: Managed via `related_ids` field and potentially dedicated `Relationship` type entries.
 
 ## System Diagrams
+### Diagram: Hegel Philosophy Suite V14 - [2025-05-02 05:20:19]
+- **Description:** Overall mode interaction and data flow for V14. Integrates V13 KB/Workflows with V14 Source Context Handling (raw source structure, context extraction/tagging, context-aware querying).
+```mermaid
+graph TD
+    subgraph User Interaction
+        User(User)
+    end
+
+    subgraph Orchestration
+        Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph Meta-Reflection
+        MetaReflector(philosophy-meta-reflector)
+    end
+
+    subgraph Text Processing
+        TextProc(philosophy-text-processor) -- Extracts Context & Runs --> Scripts((External Scripts))
+    end
+
+    subgraph Analysis & Inquiry
+        PreLec(philosophy-pre-lecture)
+        ClassAn(philosophy-class-analysis)
+        SecLit(philosophy-secondary-lit)
+        DialAn(philosophy-dialectical-analysis)
+        Quest(philosophy-questioning)
+    end
+
+    subgraph Essay Generation & Verification
+        EssayPrep(philosophy-essay-prep) -- Git Ops --> VCS[(Version Control System<br>(Git))]
+        DraftGen(philosophy-draft-generator)
+        CiteMan(philosophy-citation-manager)
+        Verify(philosophy-verification-agent)
+    end
+
+    subgraph Data Layer
+        subgraph SPARC Memory
+            EvidMan(philosophy-evidence-manager)
+            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+        end
+        subgraph Philosophical Knowledge Base
+            KBMan(philosophy-kb-manager <br> Context-Aware)
+            PhilKB[(Philosophy KB<br>philosophy-knowledge-base/ <br> w/ Context Tags)]
+        end
+        RawSource[(Raw Source Materials<br>source_materials/raw/)]
+        ProcessedSource[(Processed Source<br>source_materials/processed/)]
+        Workspace(analysis_workspace / essay_prep)
+    end
+
+    %% Core Flow & Orchestration
+    User -- Request --> Orchestrator
+    Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Tasks --> PreLec
+    Orchestrator -- Delegate Tasks --> ClassAn
+    Orchestrator -- Delegate Tasks --> SecLit
+    Orchestrator -- Delegate Tasks --> DialAn
+    Orchestrator -- Delegate Tasks --> Quest
+    Orchestrator -- Delegate Tasks --> EssayPrep
+    Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Coordinate Commit? --> EssayPrep
+    Orchestrator -- Route KB/System Mod Proposal --> User
+    Orchestrator -- Relay Approval --> KBMan
+    Orchestrator -- Relay Approval --> Architect
+    Orchestrator -- Relay Approval --> DevOps
+    Orchestrator -- Results --> User
+
+    %% Text Processing Flow (V14 Update)
+    TextProc -- Reads --> RawSource
+    TextProc -- Processed Chunks --> ProcessedSource
+    TextProc -- Store Index/Chunk Info, Citations & Context Tags --> KBMan
+
+    %% Analysis & Inquiry Flow (Context-Aware Queries)
+    PreLec -- Store Analysis/ProtoQs --> KBMan
+    ClassAn -- Store Analysis/ProtoQs --> KBMan
+    SecLit -- Store Analysis/ProtoQs --> KBMan
+    DialAn -- Store Analysis/ProtoQs --> KBMan
+    Quest -- Store RefinedQs --> KBMan
+
+    PreLec -- Query KB w/ Context Filter? --> KBMan
+    ClassAn -- Query KB w/ Context Filter? --> KBMan
+    SecLit -- Query KB w/ Context Filter? --> KBMan
+    DialAn -- Query KB w/ Context Filter? --> KBMan
+    Quest -- Query KB w/ Context Filter? --> KBMan
+
+    %% Essay Flow (Context-Aware Queries)
+    EssayPrep -- Request KB Data w/ Context Filter? --> KBMan
+    EssayPrep -- Store Thesis --> KBMan
+    EssayPrep -- Request Draft --> DraftGen
+    EssayPrep -- Request Citation --> CiteMan
+    EssayPrep -- Request Verification --> Verify
+    EssayPrep -- Manage Files --> Workspace
+
+    DraftGen -- Request KB Data w/ Context Filter? --> KBMan
+    DraftGen -- Draft --> EssayPrep
+    DraftGen -- Trigger Commit --> Orchestrator
+
+    CiteMan -- Request KB Data w/ Context Filter? --> KBMan
+    CiteMan -- Cited Draft/Biblio --> EssayPrep
+    CiteMan -- Trigger Commit --> Orchestrator
+
+    Verify -- Request KB Data/Chunks w/ Context Filter? --> KBMan
+    Verify -- Verification Report --> EssayPrep
+
+    %% Meta-Reflection Flow (Context-Aware Queries)
+    MetaReflector -- Query KB w/ Context Filter? --> KBMan
+    MetaReflector -- Query MB --> EvidMan
+    MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
+    MetaReflector -- Store Meta-Reflections/Qs --> KBMan
+    MetaReflector -- Propose KB Mod --> Orchestrator
+    MetaReflector -- Propose Arch Mod --> Orchestrator
+    MetaReflector -- Propose Method/Git Mod --> Orchestrator
+
+    %% KB Manager Interactions
+    KBMan -- Access/Update --> PhilKB
+    KBMan -- Provide Data/Paths --> TextProc
+    KBMan -- Provide Data/Paths --> PreLec
+    KBMan -- Provide Data/Paths --> ClassAn
+    KBMan -- Provide Data/Paths --> SecLit
+    KBMan -- Provide Data/Paths --> DialAn
+    KBMan -- Provide Data/Paths --> Quest
+    KBMan -- Provide Data/Paths --> EssayPrep
+    KBMan -- Provide Data/Paths --> DraftGen
+    KBMan -- Provide Data/Paths --> CiteMan
+    KBMan -- Provide Data/Paths --> Verify
+    KBMan -- Provide Data/Paths --> MetaReflector
+    KBMan -- Execute Approved Modification --> PhilKB
+
+    %% Evidence Manager Interactions (SPARC Context)
+    EvidMan -- Access/Update --> SPARCMB
+    EvidMan -- Provide SPARC Context --> Orchestrator
+    EvidMan -- Provide SPARC Context --> TextProc
+    EvidMan -- Provide SPARC Context --> PreLec
+    EvidMan -- Provide SPARC Context --> ClassAn
+    EvidMan -- Provide SPARC Context --> SecLit
+    EvidMan -- Provide SPARC Context --> DialAn
+    EvidMan -- Provide SPARC Context --> Quest
+    EvidMan -- Provide SPARC Context --> EssayPrep
+    EvidMan -- Provide SPARC Context --> DraftGen
+    EvidMan -- Provide SPARC Context --> CiteMan
+    EvidMan -- Provide SPARC Context --> Verify
+    EvidMan -- Provide SPARC Context --> KBMan
+    EvidMan -- Provide SPARC Context --> MetaReflector
+
+
+    %% Styling
+    classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
+    class PhilKB kb;
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,EvidMan,KBMan,MetaReflector mode;
+    classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
+    class Scripts script;
+    classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
+    class VCS vcs;
+    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class SPARCMB sparcmb;
+    classDef source fill:#dff0d8,stroke:#3c763d,stroke-width:1px;
+    class RawSource,ProcessedSource source;
+```
+**Notes:** Reflects V14 architecture documented in `docs/architecture/architecture_v14.md`.
+### Diagram: V14 Source Context Extraction & Tagging Flow - [2025-05-02 03:41:12]
+- **Description:** Illustrates how context is extracted from the raw source file path by `philosophy-text-processor` and stored as tags within the corresponding KB entry by `philosophy-kb-manager`.
+```mermaid
+graph LR
+    A[Raw Source File<br>`source_materials/raw/courses/PHL316/readings/Hegel_Work.md`] --> B(philosophy-text-processor);
+    B -- Extracts Path --> C{Context Info<br>type: course<br>id: PHL316<br>subtype: reading};
+    B -- Processed Chunks, Index, Citations --> D(philosophy-kb-manager);
+    C -- Context Tags --> D;
+    D -- Creates/Updates Entry --> E[KB Entry<br>`philosophy-knowledge-base/...`];
+    E -- Contains YAML --> F{YAML Frontmatter<br>...<br>tags: [<br>  "context:type:course",<br>  "context:id:PHL316",<br>  "context:subtype:reading"<br>]<br>...};
+```
+**Notes:** This flow enables context-aware querying of the KB. See `docs/architecture/architecture_v14.md` and `docs/specs/v14_requirements_spec_v1.md`.
 ### Diagram: Hegel Philosophy Suite V13 - [2025-05-02 00:45:10]
 - **Description:** Overall mode interaction and data flow for the enhanced Hegel suite (V13). Introduces `philosophy-kb-manager` as the gateway to the `Philosopher's Index`, separating it from the SPARC Memory Bank managed by `philosophy-evidence-manager`.
 ```mermaid

@@ -8,6 +8,35 @@
 - **Rationale**: Address significant user intervention [See Feedback: 2025-05-01 19:21:04] regarding flawed handover, context calculation, and major new functional requirements before proceeding with detailed implementation. Ensures changes are integrated systematically.
 - **Outcome**: Plan adjusted. Next step is delegating documentation task to Architect.
 ## Decision Log
+### [2025-05-02 12:46:20] - Decision: Adopt V15 Architecture (Direct KB Access) & Halt V14
+- **Decision**: Halt V14 implementation immediately. Initiate design of V15 architecture based on user feedback [See Feedback Log: 2025-05-02 12:46:20]. Key V15 principles:
+    1. Remove `philosophy-kb-manager`.
+    2. Grant modes direct read access to `philosophy-knowledge-base/`.
+    3. Define write access patterns/locations within KB for specific modes.
+    4. Introduce `philosophy-kb-doctor` for maintenance/indexing.
+    5. Embed KB structure knowledge in mode rules.
+- **Rationale**: Addresses user concerns about V14's `kb-manager` gatekeeper model causing inefficiency and handover risks. Aligns architecture with user preference for direct access and reduced delegation overhead.
+- **Outcome**: V14 halted. V15 design phase initiated. Mandatory handover triggered (context 57%). Next step is delegating V15 architecture design to `architect` mode via a new SPARC instance.
+- **Cross-ref:** [SPARC MB Intervention Log: 2025-05-02 12:46:20], [Feedback Log: 2025-05-02 12:46:20]
+### [2025-05-02 05:20:19] - Decision: V14 Architecture Documentation Completed
+- **Decision**: Completed generation of self-contained V14 architecture (`docs/architecture/architecture_v14.md`) and specification (`docs/specs/v14_requirements_spec_v1.md`) documents.
+### [2025-05-02 05:25:09] V14 Architecture Refinement Complete
+- **Status:** Completed
+- **Summary:** Architect mode successfully completed the V14 architectural refinement, addressing source material organization and context handling. `docs/architecture/architecture_v14.md` and `docs/specs/v14_requirements_spec_v1.md` are now complete and self-contained. File writing issues were mitigated.
+- **Next Steps:** SPARC handover due to context limits, then resume implementation based on V14 documents (starting with Phase 1: Implement Core KB & Meta-Reflection Modes).
+- **Link to Decision:** [See Decision Log: 2025-05-02 04:58:33 - Re-delegation Decision]
+- **Link to Intervention:** [See SPARC MB Intervention Log: 2025-05-02 05:24:36 - Handover Trigger]
+- **Rationale**: Fulfills user task to refine V14 architecture, addressing source material organization and context handling, ensuring documents are complete and detailed, overcoming previous truncation issues.
+- **Outcome**: V14 documentation ready for review and subsequent implementation steps. Mitigation strategy (`write_to_file` + `insert_content`) successfully applied for large spec file.
+- **Cross-ref:** [System Patterns: 2025-05-02 05:20:19], [Active Context: 2025-05-02 05:19:58]
+### [2025-05-02 03:40:44] - Decision: Adopt V14 Architecture (Source Context Handling)
+- **Decision**: Implement the V14 architecture as defined in `docs/architecture/architecture_v14.md` and `docs/specs/v14_requirements_spec_v1.md`. Key refinements include:
+    1.  Standardize raw source material organization under `source_materials/raw/` using hierarchical context directories (e.g., `courses/PHL316/readings/`).
+    2.  Mandate `philosophy-text-processor` to extract context (`type`, `id`, `subtype`) from source file paths.
+    3.  Mandate `philosophy-kb-manager` to store extracted context as structured tags (`context:key:value`) in the YAML frontmatter of derived KB entries.
+    4.  Enhance `philosophy-kb-manager` to support querying based on these context tags.
+- **Rationale**: Addresses user feedback [SPARC MB Intervention Log: 2025-05-02 03:27:10] regarding the architectural gap in V13 for handling and contextualizing diverse source materials. Provides a scalable structure for inputs and enables context-aware knowledge retrieval and analysis.
+- **Outcome**: V14 architecture and specifications defined. Relevant modes (`text-processor`, `kb-manager`, analysis modes, essay modes) will require updates to implement context extraction and querying. Cross-ref: [System Patterns: 2025-05-02 03:40:44]
 ### [2025-05-02 02:44:49] - Decision: Adopt V13 Architecture (Corrected Scope)
 - **Decision**: Implement the V13 architecture as defined in `docs/architecture/architecture_v13.md`. Key changes include:
     1.  Introduce the **Philosophy Knowledge Base (KB)** (`philosophy-knowledge-base/`) managed by `philosophy-kb-manager`.
@@ -81,7 +110,92 @@
 - **Status:** Specification for New Requirements Completed.
 - **Details:** Architect mode created `docs/specs/new_requirements_spec_v1.md` detailing the `philosophy-text-processor` mode and version control integration. [See Active Context: 2025-05-01 19:27:08]
 - **Next Step**: Delegate revision of architecture (`docs/architecture/architecture_v12.md`) and plan (`docs/plans/philosophy_mode_improvement_plan_v2.md`) to Architect.
+### [2025-05-02 05:39:26] Progress Update: V14 Implementation - Phase 1, Step 1 Completed
+- **Status:** `philosophy-kb-manager.clinerules` Implemented.
+- **Details:** Code mode created `.roo/rules-philosophy-kb-manager/philosophy-kb-manager.clinerules` based on V14 specification (`docs/specs/v14_requirements_spec_v1.md`). [See Active Context: 2025-05-02 05:39:26]
+- **Next Step**: Proceed with V14 Implementation - Phase 1, Step 2 (Implement `philosophy-meta-reflector.clinerules`).
+### [2025-05-02 12:02:25] Progress Update: V14 Implementation - Phase 2, Step 2 Completed & Handover
+- **Status:** `philosophy-class-analysis.clinerules` Updated to V14. Handover Triggered.
+- **Details:** Code mode updated `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` for V14 context handling. Context reached 105%, triggering mandatory handover. [See Active Context: 2025-05-02 12:02:25]
+- **Next Step**: New SPARC instance to continue V14 Implementation - Phase 2 (Update remaining mode rules, starting with `philosophy-secondary-lit`).
+### [2025-05-02 05:54:09] Progress Update: V14 Implementation - Phase 2, Step 1 Completed
+- **Status:** `philosophy-pre-lecture.clinerules` Updated to V14.
+- **Details:** Code mode updated `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to align with V14 specifications, replacing `evidence-manager` with `kb-manager` for KB interactions and incorporating context-aware querying capabilities. [See Active Context: 2025-05-02 05:53:51]
+- **Next Step**: Continue V14 Implementation - Phase 2 (Update remaining mode rules).
 ## Progress
+### [2025-05-02 12:32:28] Progress Update: V14 Implementation - Phase 2, Step 6 Completed
+- **Status:** `philosophy-essay-prep.clinerules` Updated to V14.
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` for V14 context handling (KB Manager integration, context tags, context-aware querying, thesis storage). [See Code Completion: 2025-05-02 12:32:28]
+- **Next Step**: Handover to new SPARC instance due to high context (88%). New instance to proceed with V14 Implementation - Phase 2, Step 7 (Update `philosophy-evidence-manager.clinerules`).
+### [2025-05-02 13:00:40] Progress Update: V15 Architecture Design Complete, Implementation Phase Initiated
+- **Status:** V15 Architecture Design Complete. V15 Implementation Phase Initiated.
+- **Details:** `architect` mode successfully completed the design of the V15 architecture (Direct KB Access model) and created the revised implementation plan. The system is now ready to proceed with implementing V15 according to `docs/plans/philosophy_mode_improvement_plan_v4.md`.
+- **Next Step**: Review `docs/plans/philosophy_mode_improvement_plan_v4.md` and delegate the first implementation task.
+- **Link to Architecture:** `docs/architecture/architecture_v15.md`
+- **Link to Plan:** `docs/plans/philosophy_mode_improvement_plan_v4.md`
+- **Link to Delegation:** [See SPARC MB Delegations Log: 2025-05-02 12:48:25]
+### [2025-05-02 12:46:20] Progress Update: V14 Halted, V15 Design Initiated
+- **Status:** V14 Implementation Halted. V15 Architecture Design Initiated.
+- **Details:** User intervention [See Feedback Log: 2025-05-02 12:46:20] requested major architectural pivot away from `kb-manager` gatekeeper model towards direct KB access (V15). V14 implementation plan is now invalid and halted. Mandatory handover triggered due to context (57%).
+- **Next Step**: Complete Memory Bank updates. Initiate handover via `new_task`, instructing new SPARC instance to delegate V15 architecture design to `architect` mode.
+- **Link to Decision:** [See Decision Log: 2025-05-02 12:46:20]
+- **Link to Intervention:** [See SPARC MB Intervention Log: 2025-05-02 12:46:20]
+### [2025-05-02 12:30:42] Progress Update: V14 Implementation - Phase 2, Step 6 Completed
+- **Status:** `philosophy-essay-prep.clinerules` Updated to V14.
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` for V14 context handling (KB Manager integration, context tags, context-aware querying, thesis storage, workflow participation). Handled partial `apply_diff` failure. [See Active Context: 2025-05-02 12:30:42]
+- **Next Step**: Proceeding with V14 Implementation - Phase 2, Step 7 (Update `philosophy-evidence-manager.clinerules` - scope reduction).
+### [2025-05-02 12:24:24] Progress Update: V14 Implementation - Phase 2, Step 5 Completed
+- **Status:** `philosophy-questioning.clinerules` Created/Updated to V14.
+- **Details:** Code mode created/updated `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` for V14 context handling (KB Manager integration, context tags, context-aware querying). [See Code Completion: 2025-05-02 12:24:24]
+- **Next Step**: Proceeding with V14 Implementation - Phase 2, Step 6 (Update `philosophy-essay-prep.clinerules`).
+### [2025-05-02 12:22:46] Progress Update: V14 Implementation - Phase 2, Step 5 Completed
+- **Status:** `philosophy-questioning.clinerules` Created (V14 Compliant).
+- **Details:** Code mode created `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` based on V14 architecture and specifications. File includes logic for KB interaction via `kb-manager`, context-aware querying, and tagging refined questions as `inquiry`. [See Active Context: 2025-05-02 12:22:46]
+- **Next Step**: Continue V14 Implementation - Phase 2 (Update remaining mode rules).
+### [2025-05-02 12:17:00] Progress Update: V14 Implementation - Phase 2, Step 4 Completed & Handover
+- **Status:** `philosophy-dialectical-analysis.clinerules` Updated to V14. Handover Triggered.
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` for V14 context handling. Context reached 44%, triggering handover. [See Active Context: 2025-05-02 12:17:00]
+- **Next Step**: New SPARC instance to continue V14 Implementation - Phase 2, Step 5 (Update `philosophy-questioning.clinerules`).
+### [2025-05-02 12:15:30] Progress Update: V14 Implementation - Phase 2, Step 4 Completed
+- **Status:** `philosophy-dialectical-analysis.clinerules` Updated to V14.
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` for V14 context handling (KB Manager integration, context tags, context-aware querying). [See Active Context: 2025-05-02 12:15:30]
+- **Next Step**: Continue V14 Implementation - Phase 2 (Update remaining mode rules).
+### [2025-05-02 12:08:22] Progress Update: V14 Implementation - Phase 2, Step 3 Completed & Handover
+- **Status:** `philosophy-secondary-lit.clinerules` Updated to V14. Handover Triggered.
+- **Details:** Code mode updated `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` for V14 context handling. Context reached 44%, triggering handover. [See Active Context: 2025-05-02 12:08:22]
+- **Next Step**: New SPARC instance to continue V14 Implementation - Phase 2, Step 4 (Update `philosophy-dialectical-analysis.clinerules`).
+### [2025-05-02 12:07:49] Progress Update: V14 Implementation - Phase 2, Step 3 Completed
+- **Status:** `philosophy-secondary-lit.clinerules` Updated to V14.
+- **Details:** Code mode updated `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` for V14 context handling (KB Manager integration). Handled initial `apply_diff` failure. [See Active Context: 2025-05-02 12:07:33]
+- **Next Step**: Continue V14 Implementation - Phase 2 (Update remaining mode rules, starting with `philosophy-dialectical-analysis`).
+### [2025-05-02 05:48:03] Progress Update: V14 Implementation - Phase 1, Step 3 Completed
+- **Status:** `philosophy-text-processor.clinerules` Implemented. Phase 1 Complete.
+- **Details:** Code mode created `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` based on V14 specification (`docs/specs/v14_requirements_spec_v1.md`) and architecture (`docs/architecture/architecture_v14.md`). [See Code Completion: 2025-05-02 05:48:03]
+- **Next Step**: Handover triggered due to context limit (42%). New SPARC instance to proceed with V14 Implementation - Phase 2 (Update Existing Mode Rules for V14 Context Handling).
+### [2025-05-02 05:47:07] Progress Update: V14 Implementation - Phase 1, Step 3 Completed
+- **Status:** `philosophy-text-processor.clinerules` Implemented.
+- **Details:** Code mode created `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` based on V14 specification (`docs/specs/v14_requirements_spec_v1.md`) and architecture (`docs/architecture/architecture_v14.md`). [See Code Completion: 2025-05-02 05:47:07]
+- **Next Step**: This completes Phase 1. Proceed with V14 Implementation - Phase 2 (Update Existing Mode Rules for V14).
+### [2025-05-02 05:43:39] Progress Update: V14 Implementation - Phase 1, Step 2 Completed
+- **Status:** `philosophy-meta-reflector.clinerules` Implemented.
+### [2025-05-02 05:47:19] - System Pattern V14: `philosophy-text-processor` Mode Definition
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-text-processor` mode, aligning with V14 architecture.
+- **Key Aspects:**
+    - **Identity:** Specialized mode for pre-processing source texts.
+    - **Workflow:**
+        1. Receives source file path (in `source_materials/raw/`) from `philosophy-orchestrator`.
+        2. Parses path to extract context (`type`, `id`, `subtype`).
+        3. Executes `scripts/process_source_text.py` via `execute_command`.
+        4. Receives structured output (index, citations) from the script.
+        5. Delegates storage task to `philosophy-kb-manager`, providing index info, citations, and extracted context tags (`context:key:value`).
+    - **Dependencies:** `philosophy-orchestrator`, `scripts/process_source_text.py`, `philosophy-kb-manager`, `execute_command`.
+- **Link:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`
+- **Cross-ref:** [Progress: 2025-05-02 05:47:07], [System Patterns: 2025-05-02 05:20:19 - Source Material Context Handling]
+- **Details:** Code mode created `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` based on V14 specification (`docs/specs/v14_requirements_spec_v1.md`). [See Code Completion: 2025-05-02 05:43:39]
+- **Next Step**: Handover triggered due to context limit (63%). New SPARC instance to proceed with V14 Implementation - Phase 1, Step 3 (Implement `philosophy-text-processor.clinerules`).
+### [2025-05-02 03:20:25] - [DevOps Task] [Completed] - V13 Plan - Phase 0, Step 3: Create KB Directory Structure. Created `philosophy-knowledge-base/` and subdirectories.
+### [2025-05-02 03:11:25] - [DevOps Task] [Completed] - V13 Plan - Phase 0, Step 2: Backup Current State. Created 'v13-development' branch.
 ### [2025-05-01 21:18:50] Progress Update: `.clinerules` Rework Phase Completed
 - **Status:** All `.clinerules` files identified in `clinerules_review_report_v1.md` reworked/updated to V12.
 - **Details:** This instance delegated `orchestrator` and `essay-prep` rework. Handover occurred [See Active Context: 2025-05-01 21:18:50]. Subsequent SPARC instance confirmed completion of `citation-manager`, `draft-generator`, and `verification-agent` rework. Memory Bank logging gaps occurred during handover due to tool errors but core task is complete.
@@ -137,14 +251,204 @@
 - **Next Step**: Proceed with next step in `docs/plans/philosophy_mode_improvement_plan_v2.md` (likely revising the plan and template).
 ### [2025-05-01 19:26:26] Progress Update: New Requirements Documented
 - **Status:** New Requirements Specification V1 Created.
+### [2025-05-02 03:40:44] - System Pattern V14: Source Material Context Handling
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v14.md`.*
+- **Description:** Introduces a standardized structure for raw source materials (`source_materials/raw/`) and a mechanism for capturing, storing, and querying based on source context.
+- **Raw Input Structure:** Hierarchical directories define context (course, project, type, subtype).
+  ```
+  source_materials/
+  └── raw/
+      ├── courses/[CODE]/[SUBTYPE]/...
+      ├── projects/[NAME]/[SUBTYPE]/...
+      ├── external_lit/[PRIMARY|SECONDARY]/...
+      └── personal_notes/...
+  ```
+- **Context Extraction & Tagging Flow:** `philosophy-text-processor` extracts context from the file path and passes it to `philosophy-kb-manager`, which stores it as `context:key:value` tags in the KB entry YAML.
+  ```mermaid
+  graph LR
+      A[Raw Source File<br>`source_materials/raw/courses/PHL316/readings/Hegel_Work.md`] --> B(philosophy-text-processor);
+      B -- Extracts Path --> C{Context Info<br>type: course<br>id: PHL316<br>subtype: reading};
+      B -- Processed Chunks, Index, Citations --> D(philosophy-kb-manager);
+      C -- Context Tags --> D;
+      D -- Creates/Updates Entry --> E[KB Entry<br>`philosophy-knowledge-base/...`];
+      E -- Contains YAML --> F{YAML Frontmatter<br>...<br>tags: [<br>  "context:type:course",<br>  "context:id:PHL316",<br>  "context:subtype:reading"<br>]<br>...};
+  ```
+- **Querying:** `philosophy-kb-manager` supports filtering queries based on `context:key:value` tags.
+- **Link:** `docs/architecture/architecture_v14.md`, `docs/specs/v14_requirements_spec_v1.md`
+- **Cross-ref:** [Decision Log: 2025-05-02 03:40:44]
 - **Details:** Architect mode created `docs/specs/new_requirements_spec_v1.md` detailing specifications for `philosophy-text-processor` mode and version control integration, based on user feedback [2025-05-01 19:21:04].
 - **Next Step**: Proceed with architectural revision (V12) incorporating these specifications. [See Decision Log: 2025-05-01 19:26:26]
 
+### [2025-05-02 05:20:19] - System Pattern V14: Source Material Context Handling
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v14.md`.*
+- **Description:** Introduces a standardized structure for raw source materials (`source_materials/raw/`) and a mechanism for capturing, storing, and querying based on source context.
+- **Raw Input Structure:** Hierarchical directories define context (course, project, type, subtype).
+  ```
+  source_materials/
+  └── raw/
+      ├── courses/[CODE]/[SUBTYPE]/...
+      ├── projects/[NAME]/[SUBTYPE]/...
+      ├── external_lit/[PRIMARY|SECONDARY]/[AUTHOR_TOPIC]/...
+      └── personal_notes/...
+  ```
+- **Context Extraction & Tagging Flow:** `philosophy-text-processor` extracts context from the file path and passes it to `philosophy-kb-manager`, which stores it as `context:key:value` tags in the KB entry YAML `tags` list.
+  ```mermaid
+  graph LR
+      A[Raw Source File<br>`source_materials/raw/courses/PHL316/readings/Hegel_Work.md`] --> B(philosophy-text-processor);
+      B -- Extracts Path --> C{Context Info<br>type: course<br>id: PHL316<br>subtype: reading};
+      B -- Processed Chunks, Index, Citations --> D(philosophy-kb-manager);
+      C -- Context Tags List --> D;
+      D -- Creates/Updates Entry --> E[KB Entry<br>`philosophy-knowledge-base/...`];
+      E -- Contains YAML --> F{YAML Frontmatter<br>...<br>tags: [<br>  "context:type:course",<br>  "context:id:PHL316",<br>  "context:subtype:reading",<br>  ...<br>]<br>...};
+  ```
+- **Querying:** `philosophy-kb-manager` supports filtering queries based on `context:key:value` tags.
+- **Link:** `docs/architecture/architecture_v14.md`, `docs/specs/v14_requirements_spec_v1.md`
+- **Cross-ref:** [Decision Log: 2025-05-02 05:20:19]
 ### [2025-05-01 19:21:04] Progress Update: Intervention & Re-Planning
+### [2025-05-02 12:15:30] - System Pattern V14: `philosophy-dialectical-analysis` Mode Definition (Update)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-dialectical-analysis` mode, updated for V14. Analyzes concepts through dialectical movement, contradictions, and resolutions.
+- **Key V14 Aspects:**
+    - **KB Interaction:** All interactions with the Philosophy Knowledge Base now occur via `philosophy-kb-manager`.
+    - **Contextual Querying:** Queries to `philosophy-kb-manager` can optionally include `context:key:value` filters to retrieve context-specific data (e.g., analysis related to a specific course or text).
+    - **Context Tagging:** Analysis templates updated to reflect V14 KB entry structure, including standard and context tags managed by `kb-manager`.
+- **Dependencies:** `philosophy-orchestrator`, `philosophy-kb-manager`, `philosophy-evidence-manager` (for SPARC context only).
+- **Link:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`
+- **Cross-ref:** [Progress: 2025-05-02 12:15:30], [System Patterns: 2025-05-02 05:20:19 - Source Material Context Handling]
 - **Status:** Implementation Paused. Architectural Revision Required.
 - **Details:** Received major user intervention regarding context calculation, previous handover issues, and significant new requirements (Text Processor mode, Version Control). Pausing `.clinerules` work. [See Feedback: 2025-05-01 19:21:04] [See Decision Log: 2025-05-01 19:21:04]
 - **Next Step**: Delegate documentation of new requirements to Architect.
 # System Patterns
+### [2025-05-02 12:59:00] - System Architecture V15: Hegel Philosophy Suite (Direct KB Access)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v15.md`.*
+- **Description:** Architecture V14 refactored to remove `philosophy-kb-manager` gatekeeper. Modes now access the `philosophy-knowledge-base/` directly using file system tools (`read_file`, `search_files`, etc.) following rules embedded in their `.clinerules`. Write access is restricted to specific modes/directories. Introduces `philosophy-kb-doctor` for KB maintenance and indexing.
+```mermaid
+graph TD
+    subgraph User Interaction
+        User(User)
+    end
+
+    subgraph Orchestration
+        Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph KB Maintenance
+        KBDoctor(philosophy-kb-doctor)
+    end
+
+    subgraph Text Processing
+        TextProc(philosophy-text-processor) -- Runs --> Scripts((External Scripts))
+    end
+
+    subgraph Analysis & Inquiry
+        PreLec(philosophy-pre-lecture)
+        ClassAn(philosophy-class-analysis)
+        SecLit(philosophy-secondary-lit)
+        DialAn(philosophy-dialectical-analysis)
+        Quest(philosophy-questioning)
+        MetaReflector(philosophy-meta-reflector)
+    end
+
+    subgraph Essay Generation & Verification
+        EssayPrep(philosophy-essay-prep) -- Git Ops --> VCS[(Version Control System<br>(Git))]
+        DraftGen(philosophy-draft-generator)
+        CiteMan(philosophy-citation-manager)
+        Verify(philosophy-verification-agent)
+    end
+
+    subgraph Data Layer
+        subgraph SPARC Memory
+            EvidMan(philosophy-evidence-manager)
+            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+        end
+        subgraph Philosophical Knowledge Base
+            style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+            PhilKB[(Philosophy KB<br>philosophy-knowledge-base/)]
+            PhilKB --- Concepts(concepts/)
+            PhilKB --- Arguments(arguments/)
+            PhilKB --- Quotations(quotations/)
+            PhilKB --- References(references/)
+            PhilKB --- Questions(questions/)
+            PhilKB --- Theses(theses/)
+            PhilKB --- Relationships(relationships/)
+            PhilKB --- Methods(methods/)
+            PhilKB --- MetaReflections(meta-reflections/)
+            PhilKB --- Indices(indices/)
+            PhilKB --- ProcessedTexts(processed_texts/)
+            PhilKB --- Analyses(analyses/)
+            PhilKB --- Citations(citations/)
+        end
+        Workspace(analysis_workspace / essay_prep / source_materials/processed)
+    end
+
+    %% Core Flow & Orchestration
+    User -- Request --> Orchestrator
+    Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Tasks --> PreLec
+    Orchestrator -- Delegate Tasks --> ClassAn
+    Orchestrator -- Delegate Tasks --> SecLit
+    Orchestrator -- Delegate Tasks --> DialAn
+    Orchestrator -- Delegate Tasks --> Quest
+    Orchestrator -- Delegate Tasks --> EssayPrep
+    Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Coordinate Commit? --> EssayPrep
+    Orchestrator -- Trigger KB Maintenance? --> KBDoctor
+    Orchestrator -- Results --> User
+
+    %% Direct KB Interactions (Read/Write)
+    TextProc -- Write --> ProcessedTexts
+    TextProc -- Write --> Indices
+    TextProc -- Write --> Citations
+    PreLec -- Read/Write --> PhilKB
+    ClassAn -- Read/Write --> PhilKB
+    SecLit -- Read/Write --> PhilKB
+    DialAn -- Read/Write --> PhilKB
+    Quest -- Read/Write --> PhilKB
+    MetaReflector -- Read/Write --> PhilKB
+    EssayPrep -- Read/Write --> PhilKB
+    DraftGen -- Read --> PhilKB
+    CiteMan -- Read --> PhilKB
+    Verify -- Read --> PhilKB
+
+    %% KB Doctor Interactions
+    KBDoctor -- Read/Write --> Indices
+    KBDoctor -- Read --> PhilKB
+
+    %% Other Interactions
+    TextProc -- Processed Chunks --> Workspace
+    EssayPrep -- Manage Files --> Workspace
+    MetaReflector -- Query MB --> EvidMan
+    MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
+
+    %% SPARC Memory Interactions (Unchanged)
+    EvidMan -- Access/Update --> SPARCMB
+    Orchestrator -- Use Context --> EvidMan
+    TextProc -- Use Context --> EvidMan
+    PreLec -- Use Context --> EvidMan
+    ClassAn -- Use Context --> EvidMan
+    SecLit -- Use Context --> EvidMan
+    DialAn -- Use Context --> EvidMan
+    Quest -- Use Context --> EvidMan
+    EssayPrep -- Use Context --> EvidMan
+    DraftGen -- Use Context --> EvidMan
+    CiteMan -- Use Context --> EvidMan
+    Verify -- Use Context --> EvidMan
+    MetaReflector -- Use Context --> EvidMan
+
+    %% Styling
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,EvidMan,MetaReflector,KBDoctor mode;
+    classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
+    class Scripts script;
+    classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
+    class VCS vcs;
+    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class SPARCMB sparcmb;
+    classDef kbdir fill:#fffacd,stroke:#8a6d3b,stroke-width:1px,stroke-dasharray: 5 5;
+    class Concepts,Arguments,Quotations,References,Questions,Theses,Relationships,Methods,MetaReflections,Indices,ProcessedTexts,Analyses,Citations kbdir;
+```
+- **Link:** `docs/architecture/architecture_v15.md`
+- **Cross-ref:** [Decision Log: 2025-05-02 12:46:20], [Progress: 2025-05-02 12:59:00]
 ### [2025-05-02 00:44:45] - System Architecture V13: Hegel Philosophy Suite
 *Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v13.md`.*
 - **Description:** Architecture V12 enhanced with a dedicated **Philosopher's Index** (`philosophers-index/`) managed by a new `philosophy-kb-manager` mode, separating philosophical knowledge from SPARC process memory. Introduces a **Questioning/Thesis Workflow** integrated across analysis and essay modes. Reduces scope of `philosophy-evidence-manager` to SPARC Memory Bank only.

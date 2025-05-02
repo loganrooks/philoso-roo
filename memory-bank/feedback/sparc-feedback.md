@@ -1,3 +1,40 @@
+### [2025-05-02 13:06:28] User Guidance: Context Truncation Awareness
+- **Source**: User Input
+- **Issue**: User identified that unexpected decreases in reported token counts may indicate erroneous context truncation by the system.
+- **Guidance**: When a significant, unexplained token drop occurs, SPARC must assume potential context loss and proactively re-read essential context files (e.g., latest Memory Bank entries, relevant plans/specs) before proceeding.
+- **Action**: Acknowledged guidance. Will incorporate this check into workflow. Logged intervention.
+- **Follow-up**: Apply this heuristic going forward. Re-read context now due to recent token fluctuations before proceeding with commit.
+### [2025-05-02 13:04:57] User Correction: Premature Handover Attempt & Context Calculation
+- **Source**: User Input
+- **Issue**: SPARC incorrectly interpreted system-reported context size (reporting 82% instead of manually calculating ~16%) and initiated a premature handover after V15 design completion. User reminded SPARC of the need for manual calculation (`Tokens / 1,000,000 * 100`) and adherence to the 40-50% threshold.
+- **Action**: Acknowledged error. Confirmed manual calculation shows context is currently low (~9.5%). Aborted unnecessary handover sequence. Will proceed with user's next instruction (commit changes).
+- **Follow-up**: Ensure consistent manual context calculation before triggering `DELEGATE CLAUSE`. Log intervention. Proceed with `git commit`.
+### [2025-05-02 13:00:40] System Alert: High Context Triggering Mandatory Handover
+- **Source**: SPARC Self-Monitoring (`DELEGATE CLAUSE`)
+- **Issue**: Context window size reached 82% after receiving V15 architecture completion message from `architect` mode. This critically exceeds the 40-50% threshold.
+- **Action**: Initiating mandatory handover to a new SPARC instance as per protocol. Preparing Memory Bank updates to reflect V15 design completion and handover trigger.
+- **Follow-up**: Complete Memory Bank updates. Initiate handover via `new_task` with instructions for the new instance to review V15 docs and begin implementation based on `docs/plans/philosophy_mode_improvement_plan_v4.md`.
+### [2025-05-02 12:46:20] User Intervention: Major Architectural Change Request (V15 - Direct KB Access)
+- **Source**: User Input (Interrupting V14 Phase 2, Step 7 delegation)
+- **Issue**: User expressed strong dissatisfaction with the `philosophy-kb-manager` mode acting as a gatekeeper to the `philosophy-knowledge-base/`. Concerns include unnecessary handovers, inefficiency (modes cannot query directly), increased risk of miscommunication, and task initialization costs.
+- **Proposed Solution (V15 Architecture):**
+    - Remove `philosophy-kb-manager` entirely.
+    - Grant all relevant modes direct read access to `philosophy-knowledge-base/` via standard file tools.
+    - Modes that write to the KB should use designated sections/files within `philosophy-knowledge-base/`.
+    - Introduce a new `philosophy-kb-doctor` mode (analogous to `memory-bank-doctor`) responsible for KB maintenance, cleanup, and indexing.
+    - Embed detailed KB structure knowledge into the `.clinerules` instructions of all interacting modes.
+- **Action**: Acknowledged feedback. Halted V14 implementation plan. Preparing Memory Bank updates and mandatory handover (due to 57% context) to delegate V15 architecture design task to `architect` mode in a new SPARC instance.
+- **Follow-up**: Update Memory Bank logs. Initiate handover via `new_task` delegating V15 architecture design.
+### [2025-05-02 11:56:46] User Intervention: CRITICAL - Repeated Context Calculation Error & False Handover Trigger
+- **Source**: User Input
+- **Issue**: SPARC incorrectly reported context at 49% (actual 15%) due to failing to perform manual calculation (Tokens / 1,000,000 = %) as previously instructed [See Feedback Log: 2025-05-01 21:00:00]. Based on this false high context, SPARC incorrectly triggered the handover protocol and updated Memory Bank logs erroneously.
+- **Action**: Acknowledged critical error. Logging intervention. Will correct erroneous Memory Bank entries ([Active Context: 2025-05-02 05:55:14], [Global Progress: 2025-05-02 05:55:25], [SPARC Intervention: 2025-05-02 05:55:46], [SPARC Workflow: 2025-05-02 05:56:17]) and proceed with the next task in the current instance. Re-committed to performing manual context calculation.
+- **Follow-up**: Correct Memory Bank entries. Update workflow state accurately. Proceed with Phase 2, Step 2 delegation. Implement stricter self-checks for context calculation before considering handover.
+### [2025-05-02 05:41:46] User Intervention: Explicit Feedback/Intervention Recording Instruction
+- **Source**: User Input
+- **Issue**: User explicitly instructed SPARC to record the message "this is feedback / intervention record it" as feedback/intervention.
+- **Action**: Acknowledged and logging the intervention in both the feedback log and the SPARC mode-specific intervention log.
+- **Follow-up**: Proceeding with the next planned task (V14 Implementation Phase 1, Step 2).
 ### [2025-05-01 23:10:20] User Feedback: Major Plan Revision & New Requirements Summary
 - **Source**: User Input (following task interruption)
 - **Issue**: User identified missed modes (`pre-lecture`, `secondary-lit`, `text-processor`) needing V12 updates. Proposed major new V13 requirements: dedicated Philosophy KB (separate from SPARC MB, potentially self-modifying) and a Questioning/Thesis workflow. Emphasized need for documentation organization/versioning *before* V13 design. Refined goal to support both structured essays and original research. Questioned premature testing mention.
