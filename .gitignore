@@ -10,3 +10,11 @@
 # Syllabus*
 # Essay*.md
 # cline_task_*.md
+
+# Standard Ignores
+*.log
+*.tmp
+*.bak
+node_modules/
+__pycache__/
+.env
