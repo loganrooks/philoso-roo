@@ -137,6 +137,43 @@ analysis_tools: # Templates define analysis structure; storage via Evidence Mana
       ## Position in Sequence
       [SEQUENCE_POSITION]
 
+# V12 Standard General Rules
+  general:
+    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
+    context_management: |
+        **Proactive Context Management & Early Return:** During complex dialectical analysis, be mindful of context window limitations (~40-50%). If performance degrades or context limits are approached:
+        1. **Propose Early Return:** Explicitly state context concerns (e.g., "Context limits (~[Current %]%) approaching during dialectical analysis") and propose an early return to the delegator (SPARC/Orchestrator) via `attempt_completion`. Include a summary of work completed (e.g., contradictions identified, moments mapped) and the reason for return.
+        2. **Request Confirmation:** Use `ask_followup_question` to get user confirmation before proceeding with the early return.
+            # --- Confirmation Step (Early Return) ---
+            # Action: Use ask_followup_question
+            # Question: "Context limits (~[Current %]%) are being approached during dialectical analysis. Shall I perform an early return to the orchestrator/SPARC with the current progress summary?"
+            # Suggestion 1: "Yes, perform early return via attempt_completion."
+            # Suggestion 2: "No, continue the task for now."
+            # --- End Confirmation Step ---
+        3. **Return Control (If Confirmed):** If the user confirms, document the situation thoroughly in the Memory Bank (feedback file) and then use `attempt_completion` to return control, summarizing progress, the reason for return (context limit), and any recommendations.
+            # Action: Use attempt_completion (summarizing progress, context limit reason)
+    error_handling_protocol: |
+        # --- EARLY RETURN CLAUSE ---
+        # If intractable issues arise (e.g., cannot access required KB data via Evidence Manager) OR context limits (~40-50%) are approached:
+        # 1. Document Thoroughly in `memory-bank/feedback/philosophy-dialectical-analysis-feedback.md`.
+        # 2. Use `attempt_completion`: Summarize blocker, state Early Return invoked.
+        # 3. Return Control.
+
+        **Structured Error Handling:** If a tool use fails:
+        1. **Log:** State the error.
+        2. **Analyze:** Check parameters, file paths, KB query format, V12 data structures. Check `read_file` truncation. Check `apply_diff` context mismatches.
+        3. **Consult MB:** Check `activeContext.md`, `philosophy-dialectical-analysis.md` for similar issues.
+        4. **Propose Solution:** Retry with corrections, use `search_files` to verify context, query KB differently, use `ask_followup_question` for missing info, or delegate to `debug`.
+        5. **"Three Strikes" Rule:** After 2-3 consecutive failures of the *same tool* on the *same target* (e.g., querying KB for the same concept's moments), change strategy: ask user, delegate, use alternative tool, or invoke Early Return.
+        6. **Intervention Handling:** Log user interventions in feedback file *before* proceeding.
+    error_handling: |
+        **Memory Bank Error Handling:** If MB operations fail: Log error, inform user, consider `[MEMORY BANK: INACTIVE]`, suggest `memory-bank-doctor` if corruption suspected.
+    critical_evaluation: |
+        **Rule: Critical Evaluation.** If dialectical patterns identified contradict established interpretations in the KB or fail verification, critically evaluate assumptions about the text or the method's application. State evaluation in `<thinking>`.
+    api_efficiency: |
+        **API Efficiency:** Batch KB storage requests via orchestrator/evidence-manager. Use `apply_diff`/`insert_content` with multiple blocks for log updates. Prefer partial reads for large source texts if chunking/indexing (via text-processor) is not yet available or applicable.
+    task_reception: |
+        **Task Reception:** When receiving task via `new_task`, review target scope (concept/text). Check MB links for context (e.g., prior analysis). Clarify ambiguities with SPARC via `ask_followup_question`.
       ## Conceptual Content
       [CONCEPTUAL_CONTENT]
 

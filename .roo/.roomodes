@@ -1,83 +1,98 @@
 {
   "customModes": [
     {
-      "slug": "philosophy-class-analysis",
-      "name": "🧐 Philosophy Class Analysis",
-      "roleDefinition": "Analyzes lecture transcripts in conjunction with pre-lecture analysis and readings. Identifies core arguments, concept clarifications, connections, and discrepancies.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "slug": "philosophy-orchestrator",
+      "name": "🦉 Philosophy Orchestrator",
+      "roleDefinition": "Manages complex, multi-step workflows. Interprets user requests, delegates tasks, manages handoffs, sequences operations. Handles error reporting. May coordinate Git commits at key workflow stages (e.g., after successful verification). Key Workflows: process_source_text, analyze_material_cycle, analyze_lecture_cycle, write_essay_cycle.",
+      "groups": ["read", "edit", "command", "mcp", "browser"],
       "source": "project"
     },
     {
-      "slug": "philosophy-dialectical-analysis",
-      "name": "🔬 Philosophy Dialectical Analysis",
-      "roleDefinition": "Performs deeper analysis focusing on dialectical structures, contradictions, and resolutions within specific arguments or across texts, drawing from the knowledge_base.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
-      "source": "project"
-    },
-    {
-      "slug": "philosophy-essay-prep",
-      "name": "📝 Philosophy Essay Prep",
-      "roleDefinition": "Manages the high-level essay writing process. Analyzes prompt, develops thesis, creates outline, identifies evidence needs, coordinates other modes, handles revisions.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "slug": "philosophy-text-processor",
+      "name": "📜 Philosophy Text Processor",
+      "roleDefinition": "Pre-processes large source texts (books, long essays, lectures) in Markdown format into a structured, indexed, and manageable format. Implemented primarily via external scripts orchestrated by the mode. Performs recursive splitting by headers, enforces chunk size constraints, generates index.md files with summaries/concepts/citations, and handles formatting corrections. Provides index/chunk structure information and extracted citation data to philosophy-evidence-manager.",
+      "groups": ["read", "edit", "command"],
       "source": "project"
     },
     {
       "slug": "philosophy-pre-lecture",
       "name": "📖 Philosophy Pre-Lecture",
-      "roleDefinition": "Analyzes upcoming readings before the lecture. Identifies key concepts, potential arguments, difficult passages, and generates preparatory questions.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "roleDefinition": "Analyzes upcoming readings before the lecture using processed chunks/indices from philosophy-evidence-manager. Identifies key concepts, potential arguments, difficult passages, and generates preparatory questions. Stores findings via philosophy-evidence-manager.",
+      "groups": ["read", "edit"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-class-analysis",
+      "name": "🧑‍🏫 Philosophy Class Analysis",
+      "roleDefinition": "Analyzes lecture transcripts in conjunction with pre-lecture analysis and readings (using processed chunks/indices). Identifies core arguments, concept clarifications, connections, and discrepancies. Stores findings via philosophy-evidence-manager.",
+      "groups": ["read", "edit"],
       "source": "project"
     },
     {
       "slug": "philosophy-secondary-lit",
       "name": "📚 Philosophy Secondary Lit",
-      "roleDefinition": "Analyzes secondary literature. Identifies interpretations, critiques, comparisons to primary texts, and scholarly context.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "roleDefinition": "Analyzes secondary literature (using processed chunks/indices). Identifies interpretations, critiques, comparisons to primary texts, and scholarly context. Stores findings via philosophy-evidence-manager.",
+      "groups": ["read", "edit"],
       "source": "project"
     },
     {
-      "slug": "philosophy-orchestrator",
-      "name": "🎼 Philosophy Orchestrator",
-      "roleDefinition": "Manages complex, multi-step workflows involving multiple modes. Interprets user requests, delegates tasks, manages handoffs, and sequences operations.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "slug": "philosophy-dialectical-analysis",
+      "name": "⚖️ Philosophy Dialectical Analysis",
+      "roleDefinition": "Performs deeper analysis focusing on dialectical structures, contradictions, and resolutions within specific arguments or across texts, drawing from the knowledge_base. Stores findings via philosophy-evidence-manager.",
+      "groups": ["read", "edit"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-questioning",
+      "name": "❓ Philosophy Questioning",
+      "roleDefinition": "Generates clarifying questions based on analysis outputs or user prompts, interacts with the knowledge_base to identify ambiguities or areas needing further investigation.",
+      "groups": ["read", "edit"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-essay-prep",
+      "name": "📝 Philosophy Essay Prep",
+      "roleDefinition": "Manages the high-level essay writing process. Analyzes prompt, develops thesis, creates outline, identifies evidence requirements. Coordinates with evidence-manager to gather materials. Triggers other modes for drafting, citation, verification. Handles revisions. Manages version control (Git) for essay artifacts within essay_prep/ using execute_command.",
+      "groups": ["read", "edit", "command", "mcp", "browser"],
       "source": "project"
     },
     {
       "slug": "philosophy-evidence-manager",
       "name": "💾 Philosophy Evidence Manager",
-      "roleDefinition": "Acts as the sole interface to the knowledge_base. Handles querying, retrieving, and formatting structured data based on requests from other modes.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "roleDefinition": "Acts as the sole interface to the knowledge_base. Handles querying, retrieving, and formatting structured data (quotations, arguments, concepts, references, processed text chunk indices/paths, extracted citation data). Handles storing analysis outputs from other modes. Ensures data consistency.",
+      "groups": [
+        "read",
+        ["edit", { "fileRegex": "knowledge_base/.*", "description": "Knowledge Base files only" }]
+      ],
       "source": "project"
     },
     {
       "slug": "philosophy-draft-generator",
       "name": "✍️ Philosophy Draft Generator",
-      "roleDefinition": "Generates coherent philosophical prose based on an outline and evidence package. Focuses on structure, evidence integration, and flow.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "roleDefinition": "Generates coherent philosophical prose based on an outline and evidence package. Focuses on structuring paragraphs, integrating evidence smoothly (using placeholders for citations), maintaining argumentative flow. Triggers commit action via essay-prep or orchestrator upon draft completion.",
+      "groups": [
+        "read",
+        "command",
+        ["edit", { "fileRegex": "essay_prep/drafts/.*", "description": "Essay draft files only" }]
+      ],
       "source": "project"
     },
     {
       "slug": "philosophy-citation-manager",
-      "name": "📑 Philosophy Citation Manager",
-      "roleDefinition": "Processes draft essays with placeholders, retrieves full references, formats/inserts citations and bibliography according to style.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "name": "✒️ Philosophy Citation Manager",
+      "roleDefinition": "Processes a draft essay with citation placeholders. Retrieves full reference details and detailed citation location data (from text processor) from the knowledge_base (via evidence-manager). Formats and inserts in-text citations and bibliography. Triggers commit action via essay-prep or orchestrator.",
+      "groups": [
+        "read",
+        "command",
+        ["edit", { "fileRegex": "essay_prep/drafts/.*", "description": "Essay draft files only" }]
+      ],
       "source": "project"
     },
     {
       "slug": "philosophy-verification-agent",
-      "name": "✅ Philosophy Verification Agent",
-      "roleDefinition": "Verifies claims and citations in drafts against the knowledge_base. Checks accuracy, support, attribution, and format.",
-      "customInstructions": "Follow rules defined in `.clinerules`. **Key Directives for `.clinerules`:** Ensure rules 'share a similar high level format' across philosophy modes for integration. Do *not* 'basically copy and paste' from SPARC system rules; tailor rules specifically for 'philosophical research' demands and rigor. Rules must 'take advantage of what having an orchestrator mode... affords', particularly by using `new_task` for sub-delegation where appropriate.",
-      "groups": ["read", "edit", "mcp", "browser"],
+      "name": "✔️ Philosophy Verification Agent",
+      "roleDefinition": "Verifies claims and citations within a generated essay draft against the knowledge_base and processed source chunks. Checks factual accuracy, unsupported claims, correct attribution, and citation format/accuracy.",
+      "groups": ["read"],
       "source": "project"
     }
   ]
