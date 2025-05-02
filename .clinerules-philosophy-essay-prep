@@ -1,6 +1,6 @@
 mode: philosophy-essay-prep
-description: "Specialized mode for developing philosophical essays from conception through drafting and revision with chronological awareness"
-version: "1.2.0"
+description: "Specialized mode for developing philosophical essays from conception through drafting and revision with chronological integrity, concept determination, evidence-based analysis, and continuous self-improvement"
+version: "3.0.0"
 
 capabilities:
   allowed_tools:
@@ -44,8 +44,11 @@ workspace_inspection:
         2. Check if analysis_logs/chronological_index.md exists
         3. Extract CURRENT_TARGET_DATE from context if date-specific
         4. Verify date exists in chronological index if date-specific
-        5. Check for existing essays in progress
-        6. Create essay tracking file if needed
+        5. Verify date is analyzed in chronological progression
+        6. Check for existing essays in progress
+        7. Create essay tracking file if needed
+        8. Check materials_status.md for available materials
+        9. Verify no references to unanalyzed material
       completion_behavior: |
         1. Report initialization results
         2. If date-specific, report date verification results
@@ -66,19 +69,27 @@ memory_management:
       - feedback/            # Revision notes
       - bibliography/        # Citation tracking
       - final/               # Final essays
+      - critiques/           # Essay critiques and improvement plans
+      - versions/            # Version comparisons and changelogs
+      - metrics/             # Quantitative improvement tracking
   context_files:
     high_priority:
       - "analysis_logs/chronological_index.md"  # Master schedule tracking
+      - "analysis_logs/materials_status.md"     # Materials availability
       - "essay_prep/essay_tracking.md"          # Track all essays in progress
       - "essay_prep/active_essay.md"            # Currently active essay
+      - "analysis_logs/active_contexts/essay_prep/[ESSAY_ID]_active_context.md"  # Active context
     medium_priority:
+      - "concepts/terminology_index.md"         # Master terminology index
       - "concepts/index.md"                     # Shared concept tracking
       - "arguments/index.md"                    # Shared argument tracking
-      - "essay_prep/research/research_notes.md" # Active research notes
+      - "essay_prep/research/[ESSAY_ID]_research.md" # Active research notes
+      - "essay_prep/critiques/[ESSAY_ID]_critique_latest.md" # Latest critique
     low_priority:
       - "prelecture/[DATE]_analysis.md"         # Reading analyses
       - "lectures/[DATE]_analysis.md"           # Lecture analyses
       - "secondary_literature/bibliographies/master.md" # Master bibliography
+      - "handoff/handoff_context.md"            # Transition context
   indexing:
     enabled: true
     formats:
@@ -89,28 +100,178 @@ memory_management:
       outline: "essay_prep/outlines/[ESSAY_ID]_outline_v[VERSION].md"
       research: "essay_prep/research/[ESSAY_ID]_research.md"
       draft: "essay_prep/drafts/[ESSAY_ID]_draft_v[VERSION].md"
+      critique: "essay_prep/critiques/[ESSAY_ID]_critique_v[VERSION].md"
+      improvement: "essay_prep/versions/[ESSAY_ID]_improvements_v[VERSION].md"
       feedback: "essay_prep/feedback/[ESSAY_ID]_feedback_v[VERSION].md"
       bibliography: "essay_prep/bibliography/[ESSAY_ID]_bibliography.md"
       final: "essay_prep/final/[ESSAY_ID]_final.md"
+      metrics: "essay_prep/metrics/[ESSAY_ID]_metrics.md"
 
-memory_bank_implementation:
-  status_prefix: "[MEMORY BANK: ACTIVE][ESSAY-PREP]"
-  context_management:
-    current_essay_tracking:
-      implementation: |
-        1. Track current essay ID in active_essay.md
-        2. Update when switching between essays
-        3. Load essay-specific context files based on active essay
-    chronological_management:
-      implementation: |
-        1. When essay is date-specific:
-           - Track relationship to specific lecture dates
-           - Maintain chronological integrity in references
-           - Verify date-specific evidence is from available material
-        2. When essay spans multiple dates:
-           - Verify chronological accuracy of references
-           - Ensure no references to future material
-           - Track date ranges covered by essay
+conceptual_determinacy:
+  negative_definition: required
+  disambiguation_protocol: required
+  ordinary_language_contrast: required
+  
+  implementation: |
+    1. For each key philosophical term in essay:
+       a. Collect direct textual evidence (quotes) defining or using the term
+       b. Provide explicit positive determination (what it IS)
+       c. Provide explicit negative determination (what it is NOT)
+       d. Contrast with ordinary language usage
+       e. Distinguish from related philosophical concepts
+       f. Document potential misinterpretations
+       g. Track source of determination (lecture/reading/secondary)
+       h. Update terminology index with essay-specific usage
+  
+  concept_template: |
+    ## Term: [PHILOSOPHICAL_TERM]
+
+    ### Direct Textual Evidence
+    > "[DIRECT_QUOTE_1]" ([SOURCE], [PAGE/TIMESTAMP])
+
+    > "[DIRECT_QUOTE_2]" ([SOURCE], [PAGE/TIMESTAMP])
+
+    ### Positive Determination
+    [EXPLICIT_DEFINITION]
+
+    ### Negative Determination
+    [WHAT_THE_TERM_IS_NOT]
+
+    ### Distinction from Ordinary Usage
+    [HOW_TERM_DIFFERS_FROM_COMMON_USAGE]
+
+    ### Potential Misinterpretations
+    1. [MISINTERPRETATION_1]
+       - Why this is incorrect: [EXPLANATION]
+       - Textual evidence against: "[QUOTE]"
+
+    2. [MISINTERPRETATION_2]
+       - Why this is incorrect: [EXPLANATION]
+       - Textual evidence against: "[QUOTE]"
+
+    ### Related Terms Requiring Distinction
+    - [RELATED_TERM_1]: [HOW_IT_DIFFERS]
+    - [RELATED_TERM_2]: [HOW_IT_DIFFERS]
+
+    ### Source Type
+    [PRIMARY_LECTURE/NOTE_BASED/SECONDARY_SUBSTITUTE]
+
+evidence_standards:
+  requirements:
+    - "All interpretations must reference specific text/lecture sections with direct quotations"
+    - "Major concepts require multiple direct quotes with proper citation"
+    - "All interpretations must include confidence assessment"
+    - "Complex passages require documentation of alternative readings"
+    - "Key philosophical terms must be defined through both positive and negative determination"
+    - "Potentially ambiguous terminology must be explicitly disambiguated from ordinary usage"
+    - "Interpretations must contrast the author's meaning with potential misinterpretations"
+    - "All source references must include page numbers or timestamps"
+    - "Source evaluations must include quality assessment"
+    - "Competing interpretations must be documented"
+    - "Tables must link quotes to arguments"
+    - "Analysis can use bullet points, but only to remove filler words while maintaining the same level of depth, detail, and determinacy"
+  
+  verification_workflow:
+    enabled: true
+    coverage_threshold: 95%
+    quote_requirement_threshold: 85%
+    confidence_assessment_required: true
+    negative_definition_required: true
+    disambiguation_required: true
+    bullet_point_quality: "Must maintain determinacy"
+    implementation: |
+      1. For each essay draft:
+         - Verify all claims have supporting evidence
+         - Check that major claims have direct quotes
+         - Ensure all sources have proper citations
+         - Validate that all interpretations acknowledge alternatives
+         - Verify each key concept includes negative determination
+         - Check disambiguation of potentially ambiguous terms
+         - Validate contrast between author's usage and ordinary language
+         - Verify bullet points maintain determinacy and only remove filler words
+         - Check that bullet points preserve required depth and detail
+      2. Calculate evidence coverage percentage
+      3. Flag sections below threshold
+      4. Block completion if evidence standards not met
+      5. Generate verification report
+
+active_context_management:
+  checkpoint_system:
+    automatic_triggers:
+      - after_thesis_development
+      - after_argument_mapping
+      - after_outline_section_completion
+      - after_draft_section_completion
+      - after_source_analysis
+      - after_essay_critique
+      - after_improvement_implementation
+      - time_based: 15_minutes
+      - before_mode_switching
+      - after_materials_status_change
+  
+  checkpoint_process: |
+    1. Save current essay development state to active context file
+    2. Update progress tracking metrics
+    3. Generate resumption instructions
+    4. Record timestamp and specific position
+    5. Update pending determinations list
+    6. Update materials availability status
+    7. Store current improvement iteration if in improvement cycle
+  
+  resumption_protocol: |
+    1. Load most recent active context file for essay ID
+    2. Validate chronological integrity of references
+    3. Present clear resumption point with specific reference
+    4. Reload relevant context from checkpoint position
+    5. Present pending determinations requiring attention
+    6. Update materials status if needed
+    7. Resume improvement cycle if in progress
+  
+  active_context_structure: |
+    # Active Context: [ESSAY_ID] Essay Development
+    Last Updated: [TIMESTAMP]
+    Status: [IN_PROGRESS/PAUSED/COMPLETED]
+    Chronological Range: [DATE_RANGE]
+    Improvement Cycle: [ITERATION_NUMBER/NONE]
+
+    ## Materials Status
+    - Referenced Lectures: [AVAILABLE/PARTIAL/MISSING]
+    - Referenced Readings: [AVAILABLE/PARTIAL/MISSING]
+    - Secondary Sources: [AVAILABLE/NEEDED/PENDING]
+    - Note Quality Assessment: [DESCRIPTION]
+
+    ## Current Position
+    - Development Phase: [ANALYSIS/THESIS/ARGUMENTS/OUTLINE/DRAFT/CRITIQUE/IMPROVEMENT/REVISION]
+    - Current Component: [SPECIFIC_COMPONENT]
+    - Progress: [PERCENTAGE_COMPLETE]
+    - Last Completed: [SPECIFIC_REFERENCE]
+
+    ## Development Queue
+    1. [COMPONENT_1] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+    2. [COMPONENT_2] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+    3. [COMPONENT_3] - Status: [COMPLETE/IN_PROGRESS/PENDING]
+
+    ## Concepts Under Development
+    [LIST_OF_CONCEPTS_WITH_CURRENT_DEFINITION_STATUS]
+
+    ## Pending Determinations
+    [LIST_OF_TERMS_REQUIRING_DETERMINATION]
+
+    ## Source References
+    [LIST_OF_SOURCES_WITH_CITATION_STATUS]
+
+    ## Improvement Cycle Status
+    - Current Iteration: [ITERATION_NUMBER]
+    - Focus Areas: [FOCUS_AREAS]
+    - Pending Improvements: [LIST_OF_PENDING_IMPROVEMENTS]
+    - Completed Improvements: [LIST_OF_COMPLETED_IMPROVEMENTS]
+
+    ## Analysis Notes
+    [RUNNING_NOTES_ON_CURRENT_DEVELOPMENT]
+
+    ## Checkpoints
+    - Checkpoint 1: [COMPONENT] - [TIMESTAMP]
+    - Checkpoint 2: [COMPONENT] - [TIMESTAMP]
 
 analysis_tools:
   prompt_analysis:
@@ -497,13 +658,13 @@ analysis_tools:
       [RELEVANT_LECTURES_TABLE]
       
       ## Key Lecture Insights
-      | Date | Lecture Section | Key Insight | How to Use in Essay |
-      |------|----------------|------------|-------------------|
+      | Date | Lecture Section | Key Insight | How to Use in Essay | Lecture Material Status |
+      |------|----------------|------------|-------------------|----------------------|
       [LECTURE_INSIGHTS_TABLE]
       
       ## Concept Development in Lectures
-      | Concept | First Introduction | Development Path | Current Understanding |
-      |---------|-------------------|----------------|----------------------|
+      | Concept | First Introduction | Development Path | Current Understanding | Source Type |
+      |---------|-------------------|----------------|----------------------|------------|
       [CONCEPT_DEVELOPMENT_TABLE]
       
       ## Argument Analysis from Lectures
@@ -517,41 +678,97 @@ analysis_tools:
       ## Next Steps
       [NEXT_STEPS]
 
-  reading_reference_analyzer:
+  essay_critique:
     tool: write_to_file
     template: |
-      # Reading Reference Analysis: [PROMPT_TITLE]
+      # Essay Critique: [PROMPT_TITLE]
       
       ## Essay Information
       - **Essay ID**: [ESSAY_ID]
-      - **Last Updated**: [UPDATE_DATE]
-      - **Course Topic Range**: [TOPIC_RANGE]
+      - **Draft Version**: [DRAFT_VERSION]
+      - **Critique Version**: [CRITIQUE_VERSION]
+      - **Date**: [DATE]
       
-      ## Relevant Readings
-      | Date | Text | Author | Key Concepts | Arguments | Relevance to Essay |
-      |------|------|--------|-------------|-----------|-------------------|
-      [RELEVANT_READINGS_TABLE]
+      ## Evaluation Summary
+      [OVERALL_EVALUATION_SUMMARY]
       
-      ## Key Textual Evidence
-      | Text | Section/Page | Quote | Analysis | How to Use in Essay |
-      |------|-------------|-------|----------|-------------------|
-      [TEXTUAL_EVIDENCE_TABLE]
+      ## Argument Strength Analysis
+      | Argument | Strength | Issues | Improvement Actions |
+      |----------|----------|--------|---------------------|
+      [ARGUMENT_STRENGTH_TABLE]
       
-      ## Concept Analysis from Readings
-      | Concept | Source | Definition | Context | Use in Essay |
-      |---------|--------|-----------|---------|-------------|
-      [READING_CONCEPTS_TABLE]
+      ## Validity and Soundness Assessment
+      | Argument | Validity | Soundness | Issues | Improvements |
+      |----------|----------|-----------|--------|--------------|
+      [VALIDITY_SOUNDNESS_TABLE]
       
-      ## Argument Analysis from Readings
-      | Argument | Source | Structure | Strengths/Weaknesses | Use in Essay |
-      |----------|--------|----------|-------------------|-------------|
-      [READING_ARGUMENTS_TABLE]
+      ## Conceptual Clarity Assessment
+      | Concept | Clarity Rating | Ambiguities | Improvement Actions |
+      |---------|---------------|------------|---------------------|
+      [CONCEPTUAL_CLARITY_TABLE]
       
-      ## Integration Strategy
-      [INTEGRATION_STRATEGY]
+      ## Technical Terminology Usage
+      | Term | Demonstrated Understanding | Issues | Improvements |
+      |------|---------------------------|--------|--------------|
+      [TERMINOLOGY_USAGE_TABLE]
       
-      ## Next Steps
-      [NEXT_STEPS]
+      ## Originality and Insight Assessment
+      [ORIGINALITY_ASSESSMENT]
+      
+      ## Additional Criteria Evaluation
+      [ADDITIONAL_CRITERIA_EVALUATION]
+      
+      ## Style and Structure Assessment
+      [STYLE_STRUCTURE_ASSESSMENT]
+      
+      ## Improvement Plan
+      ### Priority 1 (Critical Improvements)
+      1. [CRITICAL_ACTION_1]
+      2. [CRITICAL_ACTION_2]
+      
+      ### Priority 2 (Substantial Improvements)
+      1. [SUBSTANTIAL_ACTION_1]
+      2. [SUBSTANTIAL_ACTION_2]
+      
+      ### Priority 3 (Refinements)
+      1. [REFINEMENT_ACTION_1]
+      2. [REFINEMENT_ACTION_2]
+      
+      ## Source Recommendations
+      [SOURCE_RECOMMENDATIONS]
+      
+      ## Next Iteration Focus
+      [NEXT_ITERATION_FOCUS]
+
+  improvement_tracker:
+    tool: write_to_file
+    template: |
+      # Improvement Tracking: [PROMPT_TITLE]
+      
+      ## Essay Information
+      - **Essay ID**: [ESSAY_ID]
+      - **Previous Version**: [PREVIOUS_VERSION]
+      - **New Version**: [NEW_VERSION]
+      - **Date**: [DATE]
+      
+      ## Improvements Implemented
+      | Action Item | Location | Before | After | Rationale |
+      |------------|----------|--------|-------|-----------|
+      [IMPROVEMENTS_TABLE]
+      
+      ## Metrics Comparison
+      | Metric | Previous Value | New Value | Change |
+      |--------|---------------|----------|--------|
+      [METRICS_TABLE]
+      
+      ## User Feedback Integration
+      [USER_FEEDBACK_INTEGRATION]
+      
+      ## Outstanding Items
+      [OUTSTANDING_ITEMS]
+      
+      ## Next Iteration Plan
+      [NEXT_ITERATION_PLAN]
 
 cycle_management:
   full_cycle_definition: "pre-lecture → class-analysis → essay-prep (optional) → secondary-lit (optional) → dialectical-analysis (optional)"
@@ -560,29 +777,34 @@ cycle_management:
     verification: |
       1. For date-specific essays:
          - Verify pre-lecture analysis complete for referenced dates
-         - Verify class analysis complete for referenced dates
+         - Verify class analysis complete for referenced dates OR appropriate substitution
          - Explicitly confirm completion of all date components
          - Check CONTENT not just file existence
+         - Verify appropriate substitution for missing lecture materials
       2. For prompt-specific essays without date:
          - Verify course material referenced is from completed cycles
          - Block references to incomplete cycles
+         - Verify substitutions are properly documented
   progression_rules:
     - rule: "Essay preparation must only reference completed date cycles"
     - rule: "Research for essays must come from analyzed material"
     - rule: "Essays must maintain chronological integrity in references"
     - rule: "Essays spanning multiple dates must be chronologically sound"
+    - rule: "Material from substitution cycles must be clearly marked"
   initialization:
     - rule: "Essay-prep mode must check chronological integrity of references"
     - rule: "Date-specific essays must verify date exists and is analyzed"
     - rule: "Essay-prep mode validates completion status of referenced material"
+    - rule: "Essay-prep checks materials_status.md for availability"
 
   date_verification:
     implementation: |
       1. Extract target date range from essay context
       2. For each referenced date in essay:
          - Verify date exists in chronological index
-         - Verify required analysis exists for date
+         - Verify required analysis exists for date OR valid substitution
          - Confirm date is chronologically valid
+         - Check materials_status.md for availability
       3. Document date verification in essay tracking files
       4. For handoffs to other modes, include date context
 
@@ -593,719 +815,1004 @@ verification_protocol:
        - Check that evidence comes from validated sources
        - Ensure evidence standards are met for quotes and citations
        - Validate completeness of required sections
+       - Verify concept determinations include both positive and negative definition
+       - Check disambiguation of potentially ambiguous terms
+       - Validate contrast between author's usage and ordinary language
+       - Verify bullet points maintain determinacy and only remove filler words
+       - Check that bullet points preserve required depth and detail
     2. For source verification:
        - Verify source existence in workspace
-       - Check source relevance to essay topic
-       - Document source quality assessment
-       - Flag sources requiring additional context
-    3. For handoff verification:
-       - Verify explicit essay ID in all handoffs
-       - Confirm completion status of analyses
-       - Validate knowledge transfer completeness
-       - Document verification results
-
-evidence_standards:
-  requirements:
-    - "All interpretations must reference specific text/lecture sections"
-    - "Major claims require direct quotes with proper citation"
-    - "ALL source references must include page numbers or timestamps"
-    - "Source evaluations must include quality assessment"
-    - "Competing interpretations must be documented"
-    - "Tables must link quotes to arguments"
-    - "Alternative readings must be documented for contested interpretations"
-    - "Interpretive confidence must be assessed for complex analyses"
-  
-  verification_workflow:
-    enabled: true
-    coverage_threshold: 95%
-    quote_requirement_threshold: 85%
-    confidence_assessment_required: true
-    implementation: |
-      1. For each essay draft:
-         - Verify all claims have supporting evidence
-         - Check that major claims have direct quotes
-         - Ensure all sources have proper citations
-         - Validate that all interpretations acknowledge alternatives
-      2. Calculate evidence coverage percentage
-      3. Flag sections below threshold
-      4. Block completion if evidence standards not met
-      5. Generate verification report
-
-error_prevention:
-  chronological_enforcement:
-    - detection: "Attempt to reference unanalyzed material"
-      response: |
-        1. Block operation with clear explanation
-        2. Provide visualization of available analyzed material
-        3. Recommend using only analyzed material
-        4. Require explicit confirmation to proceed correctly
-  
-  thesis_consistency:
-    - detection: "Mismatch between thesis and argument/evidence"
-      response: |
-        1. Block operation and highlight inconsistency
-        2. Force realignment of thesis or argument
-        3. Log inconsistency in essay tracking
-        4. Require verification before proceeding
-
-  evidence_sufficiency:
-    - detection: "Insufficient evidence for major claims"
-      response: |
-        1. Block operation with evidence gap visualization
-        2. Explicitly identify evidence needs
-        3. Recommend specific research to fill gaps
-        4. Provide clear path to resolution
-        5. Require explicit acknowledgment of requirement
+       - Check source completeness
+       - Validate source citation formatting
+       - Match quotes to source locations
+       - Verify secondary sources when used for substitution
+       - Confirm appropriate confidence marking when using lecture notes
+    3. For argument verification:
+       - Check logical validity of argument structure
+       - Verify soundness of premises
+       - Validate inferential connections
+       - Check for informal fallacies
+       - Verify counterarguments are addressed
+    4. For conceptual verification:
+       - Check all technical terms have proper determination
+       - Verify consistency of term usage throughout essay
+       - Confirm distinctions between related concepts
+       - Validate disambiguation from ordinary language
+    5. For improvement verification:
+       - Compare current iteration with previous versions
+       - Verify implementation of identified improvements
+       - Check that critique issues have been addressed
+       - Validate metrics show measurable improvement
+       - Compare against user feedback and requirements
 
 handoff_protocols:
   to_class_analysis:
     preparation: |
-      1. Extract ESSAY_ID from context
-      2. Verify essay topic relates to specific lecture dates
-      3. Create handoff file with:
+      1. Extract ESSAY_ID from active_essay.md
+      2. Identify lecture references requiring deeper analysis
+      3. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Essay ID: [ESSAY_ID]"
-         - Clear instruction to analyze lecture content for essay
-         - Specific essay requirements and questions
+         - Target date for lecture analysis
+         - Key concepts requiring clarification
+         - Specific lecture sections needing analysis
+         - Arguments requiring lecture-based evidence
       4. Update essay_tracking.md with transition status
+      5. Ensure active context is properly checkpointed
+      6. REQUIRE explicit confirmation of target date
     context_transfer:
       files:
+        - "analysis_logs/chronological_index.md"
         - "essay_prep/active_essay.md"
         - "essay_prep/analysis/[ESSAY_ID]_analysis.md"
         - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
+        - "essay_prep/outlines/[ESSAY_ID]_outline_v[VERSION].md"
         - "handoff/essay_prep_to_class_analysis.md"
-      summary_file: "handoff/to_class_analysis_context.md"
-  
+        - "analysis_logs/active_contexts/essay_prep/[ESSAY_ID]_active_context.md"
+      summary_description: "Essay preparation for [ESSAY_ID] requiring additional lecture analysis for [DATE]"
+
   to_pre_lecture:
     preparation: |
-      1. Extract ESSAY_ID from context
-      2. Verify essay topic relates to specific readings
-      3. Create handoff file with:
+      1. Extract ESSAY_ID from active_essay.md
+      2. Identify reading references requiring deeper analysis
+      3. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Essay ID: [ESSAY_ID]"
-         - Clear instruction to analyze reading content for essay
-         - Specific essay requirements and questions
+         - Target date for reading analysis
+         - Key concepts requiring clarification
+         - Specific text sections needing analysis
+         - Arguments requiring text-based evidence
       4. Update essay_tracking.md with transition status
+      5. Ensure active context is properly checkpointed
+      6. REQUIRE explicit confirmation of target date
     context_transfer:
       files:
+        - "analysis_logs/chronological_index.md"
         - "essay_prep/active_essay.md"
         - "essay_prep/analysis/[ESSAY_ID]_analysis.md"
         - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
+        - "essay_prep/outlines/[ESSAY_ID]_outline_v[VERSION].md"
         - "handoff/essay_prep_to_pre_lecture.md"
-      summary_file: "handoff/to_pre_lecture_context.md"
-  
+        - "analysis_logs/active_contexts/essay_prep/[ESSAY_ID]_active_context.md"
+      summary_description: "Essay preparation for [ESSAY_ID] requiring additional reading analysis for [DATE]"
+
   to_secondary_lit:
     preparation: |
-      1. Extract ESSAY_ID from context
-      2. Create handoff file with:
+      1. Extract ESSAY_ID from active_essay.md
+      2. Identify required secondary literature research
+      3. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Essay ID: [ESSAY_ID]"
-         - Clear instruction for scholarly research needs
-         - Specific research questions and requirements
-      3. Update essay_tracking.md with transition status
+         - Research topics requiring scholarly sources
+         - Key concepts needing scholarly interpretation
+         - Evidence gaps requiring secondary support
+         - Research questions to address
+      4. Update essay_tracking.md with transition status
+      5. Ensure active context is properly checkpointed
+      6. REQUIRE explicit confirmation of research focus
     context_transfer:
       files:
+        - "analysis_logs/chronological_index.md"
         - "essay_prep/active_essay.md"
         - "essay_prep/analysis/[ESSAY_ID]_analysis.md"
-        - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
         - "essay_prep/research/[ESSAY_ID]_research.md"
+        - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
         - "handoff/essay_prep_to_secondary_lit.md"
-      summary_file: "handoff/to_secondary_lit_context.md"
-  
+        - "analysis_logs/active_contexts/essay_prep/[ESSAY_ID]_active_context.md"
+      summary_description: "Essay preparation for [ESSAY_ID] requiring secondary literature research"
+
   to_dialectical_analysis:
     preparation: |
-      1. Extract ESSAY_ID from context
-      2. Create handoff file with:
+      1. Extract ESSAY_ID from active_essay.md
+      2. Identify concepts requiring dialectical analysis
+      3. Create handoff/handoff_context.md with:
          - EXPLICIT statement: "Essay ID: [ESSAY_ID]"
-         - Clear instruction for dialectical analysis needs
-         - Specific concepts requiring dialectical treatment
+         - Key concepts requiring dialectical treatment
+         - Specific concepts requiring dialectical analysis
+         - Target dialectical moments to analyze
+         - Relevant contradictions to explore
       3. Update essay_tracking.md with transition status
+      4. Ensure active context is properly checkpointed
+      5. REQUIRE explicit confirmation of essay focus
     context_transfer:
       files:
+        - "analysis_logs/chronological_index.md"
         - "essay_prep/active_essay.md"
         - "essay_prep/analysis/[ESSAY_ID]_analysis.md"
-        - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
         - "essay_prep/arguments/[ESSAY_ID]_[ARGUMENT_NAME].md"
-        - "handoff/essay_prep_to_dialectical.md"
-      summary_file: "handoff/to_dialectical_context.md"
-  
+        - "essay_prep/theses/[ESSAY_ID]_thesis_v[VERSION].md"
+        - "handoff/essay_prep_to_dialectical_analysis.md"
+        - "analysis_logs/active_contexts/essay_prep/[ESSAY_ID]_active_context.md"
+      summary_description: "Essay preparation for [ESSAY_ID] requiring dialectical analysis of key concepts"
+
   from_class_analysis:
-    handling: |
-      1. Extract ESSAY_ID from handoff context
-      2. Load essay-specific files
-      3. Extract lecture insights from handoff
-      4. Update research notes with lecture material
-      5. Document lecture references in essay tracking
-      6. Create lecture reference analysis
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract essay ID
+      2. VERIFY essay ID exists in tracking system
+      3. VERIFY class analysis is complete for referenced date
+      4. Load active context file if present
+      5. Initialize essay workspace with class analysis references
+      6. REJECT handoff if inconsistency detected
+      7. CONFIRM receipt of correct essay context
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "analysis_logs/materials_status.md"
+        - "handoff/handoff_context.md"
+        - "lectures/[DATE]_analysis.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Class analysis for [DATE] completed, continuing essay preparation for [ESSAY_ID]"
   
   from_pre_lecture:
-    handling: |
-      1. Extract ESSAY_ID from handoff context
-      2. Load essay-specific files
-      3. Extract reading insights from handoff
-      4. Update research notes with reading material
-      5. Document reading references in essay tracking
-      6. Create reading reference analysis
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract essay ID
+      2. VERIFY essay ID exists in tracking system
+      3. VERIFY pre-lecture is complete for referenced date
+      4. Load active context file if present
+      5. Initialize essay workspace with pre-lecture references
+      6. REJECT handoff if inconsistency detected
+      7. CONFIRM receipt of correct essay context
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "prelecture/[DATE]_analysis.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Pre-lecture for [DATE] completed, continuing essay preparation for [ESSAY_ID]"
   
   from_secondary_lit:
-    handling: |
-      1. Extract ESSAY_ID from handoff context
-      2. Load essay-specific files
-      3. Extract scholarly insights from handoff
-      4. Update research notes with scholarly material
-      5. Document scholarly references in essay tracking
-      6. Update bibliography with new sources
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract essay ID
+      2. VERIFY essay ID exists in tracking system
+      3. VERIFY secondary literature analysis is complete
+      4. Check if this was for missing lecture substitution
+      5. Load active context file if present
+      6. Initialize essay workspace with secondary literature references
+      7. REJECT handoff if inconsistency detected
+      8. CONFIRM receipt of correct essay context
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "secondary_literature/sources/[SOURCE_NAME].md"
+        - "secondary_literature/bibliographies/[BIBLIOGRAPHY_NAME].md"
+        - "concepts/terminology_index.md"
+      summary_description: "Secondary literature analysis completed, continuing essay preparation for [ESSAY_ID]"
   
   from_dialectical_analysis:
-    handling: |
-      1. Extract ESSAY_ID from handoff context
-      2. Load essay-specific files
-      3. Extract dialectical insights from handoff
-      4. Update argument mappings with dialectical analysis
-      5. Document dialectical structure in essay tracking
-      6. Update thesis if dialectical insights require changes
-
-prerequisite_management:
-  categorization:
-    necessary:
-      description: "Prerequisites required for logical progression"
-      handling: |
-        1. Auto-execute without user confirmation
-        2. Block further progress until complete
-        3. Report automatic execution with rationale
-      examples:
-        - "Essay prompt/topic identification"
-        - "Thesis statement for outline development"
-        - "Outline for draft creation"
-    
-    optional:
-      description: "Prerequisites that enhance quality but aren't required"
-      handling: |
-        1. Present clear benefits of completion
-        2. Request explicit user decision
-        3. Document decision in logs
-      examples:
-        - "Additional scholarly research"
-        - "Dialectical analysis of arguments"
-        - "Reading reference analysis"
-  
-  verification:
-    file_exists: "Check if required file exists"
-    content_complete: "Verify file content is complete and accurate"
-    version_consistent: "Ensure versions are properly tracked and referenced"
+    preparation: |
+      1. Load handoff context and EXPLICITLY extract essay ID
+      2. VERIFY essay ID exists in tracking system
+      3. VERIFY dialectical analysis is complete for referenced concepts
+      4. Load active context file if present
+      5. Initialize essay workspace with dialectical analysis references
+      6. REJECT handoff if inconsistency detected
+      7. CONFIRM receipt of correct essay context
+    context_transfer:
+      files:
+        - "analysis_logs/chronological_index.md"
+        - "handoff/handoff_context.md"
+        - "dialectical/analyses/[CONCEPT]_dialectic.md"
+        - "concepts/terminology_index.md"
+      summary_description: "Dialectical analysis completed, continuing essay preparation for [ESSAY_ID]"
 
 workflows:
+  prerequisites_validation:
+    - name: verify_handoff_integrity
+      description: "Verify handoff context and essay integrity"
+      implementation: |
+        1. Extract ESSAY_ID from handoff context
+        2. Verify essay exists in tracking system
+        3. Check essay_tracking.md for status
+        4. Verify workspace structure is complete
+        5. Ensure all required folders exist
+      completion_behavior: |
+        1. Report verification results
+        2. If inconsistencies found, abort with clear error message
+        3. If verification passes, proceed to initialization
+
   default:
     - name: initialize_essay_project
-      description: "Set up workspace for a new essay"
+      description: "Initialize essay project workspace"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "verify_handoff_integrity"
+          required: false
+          necessity: "optional"
       implementation: |
-        1. Generate unique ESSAY_ID
-        2. Create essay folder structure if needed
+        1. If new essay: Generate unique ESSAY_ID
+           If existing: Extract ESSAY_ID from context
+        2. Create essay_prep directories if not exist
         3. Create active_essay.md with essay ID
-        4. Initialize essay tracking with metadata:
-           - Essay ID
-           - Creation date
-           - Due date (if applicable)
-           - Topic/prompt
-        5. Set up version tracking system
+        4. Initialize essay tracking if new
+        5. Create active context file
+        6. If from prompt: Store prompt
+           If from handoff: Load handoff context
+        7. Check materials_status.md for availability
+        8. Initialize essay bibliography
+        9. Create initial research plan
+        10. Initialize metrics tracking file
       completion_behavior: |
-        1. Report successful initialization with ESSAY_ID
-        2. Recommend prompt analysis as next step
-        3. Create initial entry in essay_tracking.md
-      
+        1. Report initialization status
+        2. Present clear next steps for essay development
+        3. If resuming, highlight current position
+    
     - name: analyze_essay_prompt
-      description: "Analyze requirements and parameters of essay prompt"
+      description: "Analyze essay prompt and develop understanding"
       prerequisites:
         - type: "workflow_completed"
           workflow: "initialize_essay_project"
           required: true
+          necessity: "necessary"
       implementation: |
         1. Extract ESSAY_ID from active_essay.md
-        2. Analyze prompt for key requirements:
-           - Topic boundaries
-           - Required concepts
-           - Expected evidence types
-           - Word/length limits
-           - Due date
-           - Structural requirements
-        3. Identify relevant course material:
-           - Lecture dates
-           - Reading assignments
-           - Concepts
-        4. Create prompt analysis document
+        2. If prompt exists, load it
+           If no prompt, prompt user for one
+        3. Analyze prompt requirements:
+           - Identify key question/task
+           - Identify scope boundaries
+           - Extract explicit requirements
+           - Identify implicit requirements
+           - Determine evaluation criteria
+        4. Check chronological implications:
+           - Identify course topics related to prompt
+           - Check chronological_index.md for completion status
+           - Check materials_status.md for availability
+        5. Map prompt to course materials:
+           - Identify relevant lectures
+           - Identify relevant readings
+           - Identify potential secondary sources
+        6. Document analysis in essay_prep/analysis/[ESSAY_ID]_analysis.md
+        7. Update active context with checkpoint
       completion_behavior: |
         1. Report prompt analysis completion
-        2. Recommend thesis development
-        3. Update essay tracking with analysis status
-      
+        2. Present key prompt requirements and implications
+        3. Suggest next development step
+    
     - name: develop_thesis_statement
-      description: "Create and refine thesis statement"
+      description: "Develop and refine thesis statement"
       prerequisites:
         - type: "workflow_completed"
           workflow: "analyze_essay_prompt"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID and prompt analysis
-        2. Develop candidate thesis statements
-        3. Evaluate theses against prompt requirements
-        4. Identify key supporting concepts and definitions
-        5. Anticipate major objections
-        6. Create thesis document with version tracking
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load prompt analysis
+        3. Create initial thesis options:
+           - Identify key philosophical position
+           - Ensure thesis is argumentative not descriptive
+           - Ensure thesis uses determinately defined concepts
+           - Check thesis scope against prompt requirements
+        4. Evaluate thesis options:
+           - Check defensibility with available evidence
+           - Assess philosophical significance
+           - Consider counter-arguments
+           - Verify concept determinacy
+        5. Refine selected thesis:
+           - Clarify position
+           - Add needed qualifications
+           - Ensure proper scope
+           - Verify determinacy of key terms
+        6. Document thesis in essay_prep/theses/[ESSAY_ID]_thesis_v1.md
+        7. Update active context with checkpoint
       completion_behavior: |
         1. Report thesis development completion
-        2. Recommend argument mapping or outline creation
-        3. Update essay tracking with thesis status and version
-      
-    - name: map_arguments
-      description: "Create detailed maps of essay arguments"
+        2. Present thesis with evaluation
+        3. Suggest next development step
+    
+    - name: map_essay_arguments
+      description: "Map arguments supporting thesis"
       prerequisites:
         - type: "workflow_completed"
           workflow: "develop_thesis_statement"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID and current thesis
-        2. Break thesis into component claims
-        3. Map argumentative structure for each claim:
-           - Identify premises
-           - Document inferential connections
-           - Identify required evidence
-        4. Create argument map document for each major argument
-        5. Cross-reference arguments with course concepts
-        6. Document potential objections and responses
-        7. Include evidence requirements with source types
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load current thesis
+        3. For each main claim in thesis:
+           - Identify supporting arguments
+           - Structure arguments formally
+           - Identify premises requiring support
+           - Map evidence needs to course materials
+           - Check evidence availability in materials_status.md
+           - Document potential counter-arguments
+           - Develop responses to objections
+        4. For each argument:
+           - Document in essay_prep/arguments/[ESSAY_ID]_[ARGUMENT_NAME].md
+           - Include formal structure
+           - Map to available evidence
+           - Note evidence gaps requiring research
+        5. Create argument interdependency map
+        6. Update active context with checkpoint
       completion_behavior: |
         1. Report argument mapping completion
-        2. Recommend outline creation or additional research
-        3. Update essay tracking with argument mapping status
+        2. Present argument structure and evidence status
+        3. Identify research gaps
+        4. Suggest next development step
     
-    - name: analyze_lecture_references
-      description: "Identify and analyze relevant lecture material"
+    - name: create_essay_outline
+      description: "Create structured essay outline"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "analyze_essay_prompt" 
+          workflow: "map_essay_arguments"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID and prompt analysis
-        2. Identify relevant lecture dates from course schedule
-        3. For each relevant date:
-           - Verify lecture analysis exists and is complete
-           - Extract key concepts and arguments from lecture
-           - Identify supporting evidence for essay thesis
-           - Document lecture references with timestamps
-        4. Create lecture reference analysis
-        5. Update research notes with lecture material
-      completion_behavior: |
-        1. Report lecture reference analysis completion
-        2. Recommend reading reference analysis if needed
-        3. Update essay tracking with lecture reference status
-    
-    - name: analyze_reading_references
-      description: "Identify and analyze relevant reading material"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "analyze_essay_prompt"
-          required: true
-      implementation: |
-        1. Extract ESSAY_ID and prompt analysis
-        2. Identify relevant reading assignments from course schedule
-        3. For each relevant reading:
-           - Verify pre-lecture analysis exists and is complete
-           - Extract key passages, concepts, and arguments
-           - Identify supporting evidence for essay thesis
-           - Document reading references with page numbers
-        4. Create reading reference analysis
-        5. Update research notes with reading material
-      completion_behavior: |
-        1. Report reading reference analysis completion
-        2. Recommend secondary literature research if needed
-        3. Update essay tracking with reading reference status
-    
-    - name: conduct_research
-      description: "Gather and organize research for essay"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "develop_thesis_statement"
-          required: true
-      implementation: |
-        1. Extract ESSAY_ID and current thesis
-        2. Identify research needs:
-           - Conceptual clarifications required
-           - Evidence gaps
-           - Counter-argument sources
-        3. Create structured research questions
-        4. Document primary and secondary sources
-        5. Extract key quotes and arguments
-        6. Organize research by relevance to thesis parts
-        7. Create research notes document
-      completion_behavior: |
-        1. Report research completion
-        2. Recommend argument mapping or outline creation
-        3. Update essay tracking with research status
-        4. Flag if secondary literature review needed
-    
-    - name: create_outline
-      description: "Develop structured outline for essay"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "develop_thesis_statement"
-          required: true
-        - type: "workflow_completed"
-          workflow: "map_arguments"
-          required: false
-      implementation: |
-        1. Extract ESSAY_ID, current thesis, and argument maps
-        2. Create outline structure with:
-           - Introduction framework
-           - Thesis placement
-           - Section organization
-           - Argument sequence
-           - Evidence distribution
-           - Objection placement
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load thesis and arguments
+        3. Develop structural approach:
+           - Determine logical progression
+           - Map arguments to sections
+           - Plan evidence presentation sequence
+           - Structure objections and responses
+        4. Create hierarchical outline:
+           - Introduction strategy
+           - Body sections with arguments and evidence
+           - Objection handling
            - Conclusion approach
-        3. Document evidence needs for each section
-        4. Include cross-references to argument maps
-        5. Create outline document with version tracking
+        5. For each section:
+           - Map to specific arguments
+           - Link to specific evidence sources
+           - Note concept determinations needed
+           - Document transitions between sections
+        6. Document outline in essay_prep/outlines/[ESSAY_ID]_outline_v1.md
+        7. Verify evidence availability for each section
+        8. Update active context with checkpoint
       completion_behavior: |
         1. Report outline completion
-        2. Recommend draft creation
-        3. Update essay tracking with outline status and version
+        2. Present outline structure
+        3. Identify potential structural issues
+        4. Suggest next development step
     
-    - name: create_draft
-      description: "Generate essay draft from outline"
+    - name: conduct_essay_research
+      description: "Conduct targeted research for essay"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "create_outline"
-          required: true
+          workflow: "create_essay_outline"
+          required: false
+          necessity: "optional"
       implementation: |
-        1. Extract ESSAY_ID and current outline
-        2. Transform outline into structured prose:
-           - Create introduction with thesis
-           - Develop each section following outline
-           - Incorporate arguments with supporting evidence
-           - Address objections with responses
-           - Create conclusion
-        3. Document citations needed
-        4. Flag areas needing further development
-        5. Create draft document with version tracking
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load arguments and outline
+        3. Identify research needs:
+           - Evidence gaps
+           - Concept clarification needs
+           - Counter-argument sources
+           - Historical context needs
+        4. For each research need:
+           - Check available course materials
+           - Identify potential secondary sources
+           - Formulate specific research questions
+        5. For each source:
+           - Document key insights and quotes
+           - Map to specific arguments and sections
+           - Assess source quality and relevance
+           - Extract concept determinations
+        6. Document research in essay_prep/research/[ESSAY_ID]_research.md
+        7. Update bibliography with sources
+        8. Update active context with checkpoint
+      completion_behavior: |
+        1. Report research completion
+        2. Present research findings mapped to outline
+        3. Identify any remaining gaps
+        4. Suggest next development step
+    
+    - name: write_essay_draft
+      description: "Write full essay draft based on outline and research"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "create_essay_outline"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load thesis, arguments, outline and research
+        3. For each outline section:
+           - Convert structure to prose
+           - Incorporate supporting evidence with direct quotes
+           - Include concept determinations
+           - Ensure argument clarity
+           - Maintain academic style
+           - Use transitional elements between sections
+        4. Create introduction:
+           - Introduce topic and context
+           - Present thesis clearly
+           - Preview main arguments
+        5. For body sections:
+           - Present arguments with evidence
+           - Use concept determination template for key terms
+           - Include objections and responses
+           - Maintain clear thesis connection
+        6. Create conclusion:
+           - Restate thesis
+           - Summarize key arguments
+           - Address significance and implications
+        7. Document draft in essay_prep/drafts/[ESSAY_ID]_draft_v1.md
+        8. Update active context with checkpoint
       completion_behavior: |
         1. Report draft completion
-        2. Recommend revision or bibliography creation
-        3. Update essay tracking with draft status and version
+        2. Present draft overview
+        3. Identify areas for improvement
+        4. Suggest next development step
     
-    - name: create_bibliography
-      description: "Compile complete bibliography for essay"
+    - name: initiate_improvement_cycle
+      description: "Begin continuous improvement cycles"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "create_draft"
+          workflow: "write_essay_draft"
+          required: true
+          necessity: "necessary"
+      implementation: |
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load current draft
+        3. Initialize improvement metrics baseline:
+           - Argument strength metrics
+           - Validity and soundness scores
+           - Conceptual clarity ratings
+           - Technical term usage scores
+           - Originality assessment
+           - Style consistency rating
+        4. Create initial critique document:
+           - Comprehensive evaluation across all criteria
+           - Specific examples of issues identified
+           - Actionable improvement recommendations
+           - Prioritized improvement plan
+        5. Document initial improvement plan
+        6. Update active context to track improvement cycles
+      completion_behavior: |
+        1. Report initialization of improvement cycle
+        2. Present initial critique summary
+        3. Outline first improvement iteration plan
+        4. Request user feedback on priorities
+    
+    - name: perform_essay_critique
+      description: "Critique essay draft comprehensively"
+      prerequisites:
+        - type: "workflow_completed"
+          workflow: "initiate_improvement_cycle"
           required: false
+          necessity: "optional"
         - type: "workflow_completed"
-          workflow: "conduct_research"
-          required: true
+          workflow: "implement_improvements"
+          required: false
+          necessity: "optional"
       implementation: |
-        1. Extract ESSAY_ID and research notes
-        2. Collect all sources referenced in draft
-        3. Categorize by source type:
-           - Primary course materials
-           - Secondary literature
-           - Lecture references
-        4. Format according to required citation style
-        5. Create bibliography document
-        6. Include in-text citation guide
+        1. Extract ESSAY_ID from active_essay.md
+        2. Determine current draft version
+        3. Perform comprehensive critique:
+           - Argument strength analysis:
+             * Evaluate persuasiveness of arguments
+             * Assess evidence support adequacy
+             * Check argument relevance to thesis
+           - Validity and soundness check:
+             * Evaluate formal logical structure
+             * Check for fallacies
+             * Verify premise truth/support
+           - Conceptual clarity assessment:
+             * Check determinacy of key concepts
+             * Identify ambiguous terminology
+             * Verify proper technical term usage
+           - Technical terminology evaluation:
+             * Verify demonstrated understanding of terms
+             * Check for misapplication of concepts
+             * Ensure proper disambiguation
+           - Originality and insight evaluation:
+             * Identify unique perspectives
+             * Assess philosophical contribution
+             * Evaluate creative connections
+           - Style and structure assessment:
+             * Check flow and readability
+             * Verify academic tone consistency
+             * Evaluate paragraph structure
+        4. Generate prioritized improvement plan
+        5. Document critique in essay_prep/critiques/[ESSAY_ID]_critique_v[VERSION].md
+        6. Update metrics tracking with current evaluation
+        7. Update active context with critique checkpoint
       completion_behavior: |
-        1. Report bibliography completion
-        2. Recommend draft revision
-        3. Update essay tracking with bibliography status
+        1. Report critique completion
+        2. Present key findings across evaluation criteria
+        3. Display prioritized improvement plan
+        4. Request user confirmation or modification of plan
     
-    - name: analyze_feedback
-      description: "Analyze feedback and plan revisions"
+    - name: implement_improvements
+      description: "Implement improvements based on critique"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "create_draft"
+          workflow: "perform_essay_critique"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID and current draft
-        2. Process feedback:
-           - Categorize issues by type
-           - Identify structural problems
-           - Flag argument weaknesses
-           - Note evidence gaps
-           - Document language issues
-        3. Create revision plan with priorities
-        4. Document feedback analysis
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load current critique and draft version
+        3. For each improvement area:
+           - Implement specific changes
+           - Document before/after for each modification
+           - Track rationale for each change
+           - Update references as needed
+        4. Create new draft version with incremented number
+        5. Document all changes in improvement tracking file:
+           - What was changed (specific location)
+           - How it was changed (before/after)
+           - Why it was changed (improvement rationale)
+           - Impact on overall quality metrics
+        6. Update version history with detailed changelog
+        7. Update active context with implementation checkpoint
       completion_behavior: |
-        1. Report feedback analysis completion
-        2. Recommend specific revision actions
-        3. Update essay tracking with feedback status
+        1. Report improvement implementation completion
+        2. Present summary of changes made
+        3. Display before/after metrics
+        4. Request user satisfaction assessment
     
-    - name: revise_draft
-      description: "Implement revisions based on feedback"
+    - name: user_satisfaction_checkpoint
+      description: "Evaluate user satisfaction with current draft"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "analyze_feedback"
+          workflow: "implement_improvements"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID, current draft, and feedback
-        2. Implement revisions according to plan:
-           - Address structural issues
-           - Strengthen arguments
-           - Add missing evidence
-           - Improve language and style
-        3. Update citations as needed
-        4. Create new draft version
-        5. Document changes from previous version
+        1. Extract ESSAY_ID from active_essay.md
+        2. Present current metrics and improvements
+        3. Request user satisfaction assessment
+        4. If satisfied:
+           - Mark current version as user-approved
+           - Prepare for essay finalization
+        5. If not satisfied:
+           - Collect specific user feedback
+           - Integrate feedback into next improvement cycle
+           - Initialize next improvement iteration
+        6. Document user feedback in essay_prep/feedback/[ESSAY_ID]_user_feedback_v[VERSION].md
+        7. Update active context with user satisfaction status
       completion_behavior: |
-        1. Report revision completion
-        2. Recommend finalization or additional revision
-        3. Update essay tracking with revision status and version
+        1. If satisfied: "Proceeding to finalization"
+        2. If not satisfied: "Initiating next improvement cycle with iteration [ITERATION+1]"
+        3. Present updated improvement plan
     
-    - name: prepare_final_essay
-      description: "Finalize essay for submission"
+    - name: finalize_essay
+      description: "Finalize essay and prepare for submission"
       prerequisites:
         - type: "workflow_completed"
-          workflow: "create_draft"
+          workflow: "user_satisfaction_checkpoint"
           required: true
+          necessity: "necessary"
       implementation: |
-        1. Extract ESSAY_ID and latest draft
-        2. Perform final verification:
-           - Check all citations are complete
-           - Verify all evidence meets standards
-           - Confirm thesis is fully supported
-           - Check formatting requirements
-        3. Create final document
-        4. Update essay tracking with completion
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load latest draft and verification report
+        3. Verify all issues are addressed
+        4. Format final document:
+           - Apply required formatting
+           - Format citations correctly
+           - Create bibliography
+           - Check structural requirements
+        5. Document in essay_prep/final/[ESSAY_ID]_final.md
+        6. Update essay_tracking.md to mark essay as complete
+        7. Update active context to COMPLETED status
       completion_behavior: |
-        1. Report essay completion
-        2. Document essay in chronological index if date-specific
-        3. Update essay tracking with final status
-    
-    - name: verify_evidence_standards
-      description: "Ensure all essay claims meet evidence requirements"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "create_draft"
-          required: true
-      implementation: |
-        1. Extract ESSAY_ID and current draft
-        2. For each major claim:
-           - Verify specific reference to source
-           - Check for direct quote where needed
-           - Verify page numbers/timestamps included
-           - Ensure proper citation format
-        3. Calculate evidence coverage percentage
-        4. Flag sections below threshold
-        5. Generate evidence verification report
-      completion_behavior: |
-        1. Report evidence verification results
-        2. If standards met: allow finalization
-        3. If standards not met: require revision
-        4. Update essay tracking with verification status
+        1. Report finalization completion
+        2. Present final essay overview
+        3. Highlight key strengths
+        4. Provide usage instructions
 
   specialized:
-    - name: chronological_verification
-      description: "Verify chronological integrity of essay references"
+    - name: analyze_materials_availability
+      description: "Analyze material availability for essay"
       implementation: |
-        1. Extract ESSAY_ID and current draft
-        2. For each course material reference:
-           - Extract referenced date
-           - Verify date exists in chronological index
-           - Confirm analysis complete for that date
-           - Verify no references to future material
-        3. Document chronological verification results
-        4. Flag any chronological inconsistencies
+        1. Extract ESSAY_ID from active_essay.md
+        2. Identify all referenced course dates
+        3. For each date:
+           - Check materials_status.md for availability
+           - Document availability status for each material type
+           - Identify substitution needs
+           - Plan alternative approaches for missing materials
+        4. Create availability report
+        5. Update essay_tracking.md with availability status
+        6. If critical materials missing, trigger research recommendations
+        7. Update active context with availability status
       completion_behavior: |
-        1. Report chronological verification results
-        2. Block completion if chronological violations found
-        3. Recommend specific fixes for violations
+        1. Report availability analysis results
+        2. Present material status by date
+        3. Recommend adaptations for missing materials
     
-    - name: integrate_dialectical_analysis
-      description: "Integrate dialectical analysis into essay"
-      prerequisites:
-        - type: "file_exists"
-          path: "essay_prep/research/[ESSAY_ID]_dialectical.md"
-          required: true
+    - name: integrate_substitution_materials
+      description: "Integrate secondary literature substitutions for missing materials"
       implementation: |
-        1. Extract ESSAY_ID and dialectical analysis
-        2. Identify integration points in current draft
-        3. Incorporate dialectical moments:
-           - Add contradiction analysis
-           - Include moment transitions
-           - Document synthetic resolutions
-        4. Update argument maps with dialectical structure
-        5. Revise affected draft sections
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load materials_status.md
+        3. For each missing lecture with substitution:
+           - Load secondary literature analyses
+           - Extract relevant concept determinations
+           - Map to essay arguments
+           - Document substitution source clearly
+           - Apply confidence markers appropriate to source type
+        4. Update research notes with substitution integration
+        5. Update active context with substitution status
+        6. Ensure all substituted content is clearly marked
       completion_behavior: |
-        1. Report dialectical integration completion
-        2. Recommend draft revision
-        3. Update essay tracking with dialectical status
+        1. Report substitution integration results
+        2. Present substituted materials by concept
+        3. Identify any remaining gaps
     
-    - name: integrate_scholarly_research
-      description: "Integrate scholarly research into essay"
-      prerequisites:
-        - type: "file_exists"
-          path: "essay_prep/research/[ESSAY_ID]_scholarly.md"
-          required: true
+    - name: integrate_lecture_notes
+      description: "Integrate lecture notes when transcript is unavailable"
       implementation: |
-        1. Extract ESSAY_ID and scholarly research
-        2. Identify integration points in current draft
-        3. Incorporate scholarly perspectives:
-           - Add supporting scholarly arguments
-           - Include opposing scholarly views
-           - Document scholarly debates
-        4. Update bibliography with scholarly sources
-        5. Revise affected draft sections
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load materials_status.md
+        3. For dates with only notes available:
+           - Load note quality assessment
+           - Extract usable content with appropriate confidence markers
+           - Document reliability limitations explicitly
+           - Supplement with secondary sources as needed
+        4. For each concept from notes:
+           - Mark determination confidence level based on note quality
+           - Note potential interpretation limitations
+           - Supplement with additional evidence where possible
+        5. Update research with note-based insights
+        6. Update active context with note usage status
       completion_behavior: |
-        1. Report scholarly integration completion
-        2. Recommend draft revision
-        3. Update essay tracking with scholarly status
+        1. Report note integration results
+        2. Present note-based materials with confidence levels
+        3. Identify verification needs
     
-    - name: thesis_evolution_tracking
-      description: "Track and manage thesis statement evolution"
-      prerequisites:
-        - type: "workflow_completed"
-          workflow: "develop_thesis_statement"
-          required: true
+    - name: continuous_improvement_cycle
+      description: "Implement iterative self-critique and improvement process"
       implementation: |
-        1. Extract ESSAY_ID and thesis history
-        2. Document thesis evolution:
-           - Compare versions
-           - Track conceptual refinements
-           - Document scope changes
-           - Note objection integrations
-        3. Create thesis evolution document
-        4. Update current thesis if needed
+        1. Extract ESSAY_ID from active_essay.md
+        2. Load current draft version
+        3. Execute comprehensive essay critique:
+           - Argument strength analysis
+           - Validity and soundness verification
+           - Conceptual determinacy assessment
+           - Technical terminology usage review
+           - Originality and insight evaluation
+           - Custom criteria specified in instructions
+        4. Generate prioritized improvement plan with specific actions
+        5. Document critique and plan in essay_prep/critiques/[ESSAY_ID]_critique_v[VERSION].md
+        6. For each improvement action:
+           - Implement specific changes
+           - Document rationale for each change
+           - Track difference from previous version
+        7. Create new draft version with implementation notes
+        8. Update version history with detailed changelog
+        9. Request user satisfaction assessment
+        10. If user satisfied: proceed to finalization
+             If not satisfied: initiate new improvement cycle
       completion_behavior: |
-        1. Report thesis tracking completion
-        2. Recommend thesis revision if needed
-        3. Update essay tracking with thesis evolution
+        1. Report improvement cycle completion
+        2. Present before/after metrics for key criteria
+        3. Highlight most significant improvements
+        4. Request user feedback for next iteration
+
+error_prevention:
+  detection:
+    - name: detect_chronological_violations
+      implementation: |
+        1. For date-specific essay development:
+           - Verify all referenced dates exist in chronological index
+           - Block references to unanalyzed dates
+           - Generate clear error message with date comparison
+      error_message: "CHRONOLOGICAL VIOLATION: Attempting to reference [INCORRECT_DATE] which has not been analyzed"
+    
+    - name: detect_incomplete_determination
+      implementation: |
+        1. For all concept analyses in essays:
+           - Check for missing Positive Determination section
+           - Check for missing Negative Determination section
+           - Check for missing Ordinary Usage section
+           - Check for missing Potential Misinterpretations section
+        2. Flag incomplete determinations with specific missing components
+      error_message: "INCOMPLETE DETERMINATION: [CONCEPT] is missing [MISSING_COMPONENTS]"
+    
+    - name: detect_evidence_gaps
+      implementation: |
+        1. For all argumentative claims:
+           - Check for missing textual evidence
+           - Check for missing direct quotes
+           - Check for incomplete citation
+        2. Flag claims with evidence gaps
+      error_message: "EVIDENCE GAP: Claim at [LOCATION] lacks supporting evidence"
+    
+    - name: detect_thesis_issues
+      implementation: |
+        1. For all thesis statements:
+           - Check for descriptive rather than argumentative structure
+           - Check for ambiguous terminology
+           - Check for scope inconsistency with prompt
+           - Check for defensibility with available evidence
+        2. Flag thesis issues with specific recommendations
+      error_message: "THESIS ISSUE: [SPECIFIC_ISSUE]"
+    
+    - name: detect_improvement_cycle_issues
+      implementation: |
+        1. For all improvement implementations:
+           - Verify each action item from critique is addressed
+           - Check for regression in quality metrics
+           - Confirm improvement rationales match critique recommendations
+        2. Flag unaddressed issues or metric regressions
+      error_message: "IMPROVEMENT ISSUE: [SPECIFIC_ISSUE]"
+  
+  prevention:
+    - name: enforce_chronological_integrity
+      implementation: |
+        1. For all essay development:
+           - Verify chronological status before allowing references
+           - Prepend date context to all date-specific content
+           - Include explicit date validation in all workflows
+           - Verify status in chronological index
+    
+    - name: enforce_evidence_requirements
+      implementation: |
+        1. For all essay arguments:
+           - Require direct textual evidence for all claims
+           - Require positive and negative determination for concepts
+           - Maintain running evidence coverage metrics
+           - Block completion if evidence threshold not met
+    
+    - name: enforce_material_availability_checks
+      implementation: |
+        1. For all material references:
+           - Check materials_status.md before allowing reference
+           - Require explicit substitution for missing materials
+           - Mark confidence levels for note-based content
+           - Trigger appropriate workflows for missing materials
+    
+    - name: enforce_improvement_tracking
+      implementation: |
+        1. For all essay revisions:
+           - Require documentation of before/after states
+           - Enforce version number incrementation
+           - Mandate explicit improvement rationales
+           - Require metrics updates with each revision
+
+  recovery:
+    - name: provide_recovery_options
+      implementation: |
+        1. For detected errors, provide specific recovery options:
+           - For chronological violations: "Reference only analyzed dates: [DATES]"
+           - For evidence gaps: "Add required evidence for claim: [CLAIM]"
+           - For incomplete determinations: "Complete missing sections for [CONCEPT]"
+           - For improvement issues: "Address critique item: [ITEM]"
+        2. Implement one-click recovery options where possible
+    
+    - name: create_recovery_checkpoints
+      implementation: |
+        1. Before potentially problematic operations, create checkpoint
+        2. Store checkpoint in active context file
+        3. If error occurs, provide option to revert to checkpoint
+        4. Include clear explanation of checkpoint purpose
 
 real_time_updates:
-  enabled: true
   status_reporting:
-    frequency: "after_each_workflow"
-    content:
-      - current_essay: "Current essay being developed"
-      - essay_phase: "Current development phase"
-      - completion_status: "Status of current essay components"
-      - next_steps: "Clear indication of next required actions"
-      - references_status: "Status of evidence and references"
+    format: |
+      [MODE: Essay-Prep][ESSAY_ID: [ESSAY_ID]][Status: [CURRENT_STATUS]]
+      Current action: [CURRENT_ACTION]
+      Progress: [PROGRESS_PERCENTAGE]%
+      Last completed: [LAST_COMPLETED_SECTION]
+    frequency: high
+    priority_levels:
+      - critical
+      - warning
+      - info
   
-  progress_visualization:
-    enabled: true
-    format: "essay_development_path"
-    highlights:
-      - current_position: true
-      - completed_components: true
-      - incomplete_prerequisites: true
-      - evidence_status: true
-      - chronological_status: true
+  progress_tracking:
+    metrics:
+      - name: evidence_coverage
+        calculation: "claims_with_evidence / total_claims * 100"
+        threshold: 90%
+        display: "Evidence: [VALUE]% ([STATUS])"
+      
+      - name: determination_coverage
+        calculation: "concepts_with_full_determination / total_concepts * 100"
+        threshold: 95%
+        display: "Determination: [VALUE]% ([STATUS])"
+      
+      - name: structural_completion
+        calculation: "completed_sections / total_sections * 100"
+        threshold: 100%
+        display: "Structure: [VALUE]% ([STATUS])"
+      
+      - name: argument_strength
+        calculation: "strong_arguments / total_arguments * 100"
+        threshold: 90%
+        display: "Argument Strength: [VALUE]% ([STATUS])"
+      
+      - name: conceptual_clarity
+        calculation: "clear_concepts / total_concepts * 100"
+        threshold: 95%
+        display: "Conceptual Clarity: [VALUE]% ([STATUS])"
+      
+      - name: originality_score
+        calculation: "unique_insights / essay_sections * 100"
+        threshold: 70%
+        display: "Originality: [VALUE]% ([STATUS])"
+    
+    display_format: |
+      Progress Dashboard:
+      - Essay Development: [DEVELOPMENT_PROGRESS]%
+      - Components completed: [COMPLETED_COMPONENTS]/[TOTAL_COMPONENTS]
+      - [EVIDENCE_COVERAGE]
+      - [DETERMINATION_COVERAGE]
+      - [STRUCTURAL_COMPLETION]
+      - [ARGUMENT_STRENGTH]
+      - [CONCEPTUAL_CLARITY]
+      - [ORIGINALITY_SCORE]
+  
+  completion_metrics:
+    - name: required_sections
+      check: "all required sections exist and have content"
+      display: "[SECTION]: [STATUS]"
+    
+    - name: evidence_standards
+      check: "all claims have required evidence"
+      display: "Evidence standards: [STATUS]"
+    
+    - name: determination_standards
+      check: "all concepts have complete determination"
+      display: "Determination standards: [STATUS]"
+    
+    - name: improvement_metrics
+      check: "all improvement actions from critique implemented"
+      display: "Improvement implementation: [STATUS]"
+    
+    - name: user_satisfaction
+      check: "user has confirmed satisfaction with current iteration"
+      display: "User satisfaction: [STATUS]"
 
-instructions:
-  general:
-    - "You are an essay preparation assistant that:"
-    - "  1. Analyzes philosophical essay prompts"
-    - "  2. Develops and refines thesis statements"
-    - "  3. Maps arguments with supporting evidence"
-    - "  4. Creates structured essay outlines"
-    - "  5. Generates draft essays with proper citations"
-    - "ALWAYS begin responses with '[MEMORY BANK: ACTIVE][ESSAY-PREP]' status indicator"
-    - "ALWAYS include the current ESSAY_ID in your status reports"
-  
-  chronological_management:
-    - "Essay Chronological Protocol:"
-    - "  1. ALWAYS verify references against analysis_logs/chronological_index.md"
-    - "  2. NEVER reference course material that hasn't been analyzed"
-    - "  3. VERIFY chronological integrity of all references"
-    - "  4. For date-specific essays, use [DATE]_essay_[ESSAY_ID] format"
-    - "  5. UPDATE essay tracking with date references"
-    - "  6. REPORT chronological status of references clearly"
-    - "  7. ENSURE all references respect course progression"
-  
-  thesis_development_protocol:
-    - "Thesis Development Protocol:"
-    - "  1. Begin with clear position statement"
-    - "  2. Define all key concepts precisely"
-    - "  3. Establish appropriate scope boundaries"
-    - "  4. Identify supporting arguments needed"
-    - "  5. Anticipate major objections"
-    - "  6. Track thesis versions with change rationale"
-    - "  7. Evaluate thesis against prompt requirements"
-    - "  8. Ensure thesis is properly arguable"
-    - "  9. Verify thesis can be supported with available evidence"
-  
-  argument_mapping_protocol:
-    - "Argument Mapping Protocol:"
-    - "  1. Identify main claim of argument"
-    - "  2. Break down into component premises"
-    - "  3. Document inferential structure"
-    - "  4. Identify evidence needed for each premise"
-    - "  5. Consider alternative argument structures"
-    - "  6. Anticipate and address objections"
-    - "  7. Evaluate argument strength and validity"
-    - "  8. Document argument's relation to thesis"
-  
-  evidence_standards:
-    - "Evidence Standards Protocol:"
-    - "  1. ALL interpretations must reference specific sources"
-    - "  2. Major claims require direct quotes with proper citation"
-    - "  3. ALL source references must include page numbers or timestamps"
-    - "  4. Primary course material must be from analyzed dates"
-    - "  5. Secondary sources require proper academic citations"
-    - "  6. Claims must document confidence level"
-    - "  7. Contested interpretations require alternative viewpoints"
-    - "  8. Evidence must meet 95% coverage threshold for major claims"
-  
-  outline_development_protocol:
-    - "Outline Development Protocol:"
-    - "  1. Structure must support thesis effectively"
-    - "  2. Introduction must establish context and thesis"
-    - "  3. Body sections must follow logical progression"
-    - "  4. Each section must connect clearly to thesis"
-    - "  5. Evidence must be distributed appropriately"
-    - "  6. Objections must be placed strategically"
-    - "  7. Conclusion must synthesize arguments effectively"
-    - "  8. Document evidence needs for each section"
-  
-  draft_development_protocol:
-    - "Draft Development Protocol:"
-    - "  1. Follow outline structure carefully"
-    - "  2. Develop each section with appropriate detail"
-    - "  3. Include all required evidence with citations"
-    - "  4. Transition smoothly between sections"
-    - "  5. Address objections substantively"
-    - "  6. Maintain focus on thesis throughout"
-    - "  7. Track areas needing further development"
-    - "  8. Version all drafts with change documentation"
-  
-  feedback_analysis_protocol:
-    - "Feedback Analysis Protocol:"
-    - "  1. Categorize feedback by type and severity"
-    - "  2. Identify structural issues for priority"
-    - "  3. Flag argument weaknesses with specific fixes"
-    - "  4. Document evidence gaps with research needs"
-    - "  5. Note language and style improvements needed"
-    - "  6. Create prioritized revision plan"
-    - "  7. Document all feedback with specific locations"
-  
-  citation_protocol:
-    - "Citation Protocol:"
-    - "  1. For course lectures: Cite date and timestamp"
-    - "  2. For course readings: Cite author, title, page number"
-    - "  3. For secondary sources: Use complete academic citation"
-    - "  4. In-text citations must follow consistent format"
-    - "  5. Bibliography must be categorized by source type"
-    - "  6. Each citation must be verified for accuracy"
-    - "  7. Citation format must match course requirements"
-
-extensibility:
-  custom_essay_types:
+cost_optimization:
+  reference_system:
     enabled: true
-    definition_format: |
-      ```yaml
-      essay_type:
-        description: "Essay type description"
-        workflow_modifications:
-          - [Modified workflows]
-        templates:
-          - [Specialized templates]
-      ```
-    integration_protocol: |
-      1. Register new essay type in essay_prep/essay_types.md
-      2. Create specialized templates for type
-      3. Modify workflows as needed for type
-      4. Add detection in initialize_essay_project
+    reference_format: "{{REF:filepath:section}}"
+    unique_identifiers: true
+  
+  section_markers:
+    enabled: true
+    format: "<!-- SECTION:unique_id:start -->...<!-- SECTION:unique_id:end -->"
+    usage: "All major content sections must use section markers for targeted updates"
+  
+  content_reuse:
+    implementation: |
+      1. For concepts already defined in other analyses:
+         - Reference existing definition instead of duplicating
+         - Use section references to specific determinations
+      2. For evidence already quoted elsewhere:
+         - Reference evidence repository instead of duplicating quotes
+         - Include minimal context with reference to full quote
+      3. For argument structures reused:
+         - Reference canonical argument rather than duplicating
+         - Use argument references with unique identifiers
+      4. For critique elements applicable to multiple drafts:
+         - Create reusable critique components
+         - Reference standard improvement patterns
+
+  update_strategies:
+    - name: "targeted_section_update"
+      tool: update_section
+      usage: "For modifying specific essay sections"
+      implementation: |
+        1. Locate section by unique identifier
+        2. Replace only that section's content
+        3. Leave rest of file untouched
+    
+    - name: "append_research"
+      tool: append_to_file
+      usage: "For adding new research findings to research notes"
+      implementation: |
+        1. Format new research as self-contained section
+        2. Append to research file with section marker
+    
+    - name: "incremental_draft_update" 
+      tool: apply_diff
+      usage: "For minor updates to essay drafts"
+      implementation: |
+        1. Calculate diff between current and updated draft
+        2. Apply only changes rather than rewriting entire draft
+    
+    - name: "critique_update"
+      tool: update_section
+      usage: "For updating specific critique sections"
+      implementation: |
+        1. Identify critique section needing update
+        2. Apply targeted update to only that section
+        3. Maintain version history with minimal duplication
+
+memory_bank_implementation:
+  status_prefix: "[MEMORY BANK: ACTIVE][ESSAY-PREP]"
+  context_management:
+    loading_priority:
+      - essay_specific
+      - referenced_concepts
+      - referenced_arguments
+      - improvement_cycle
+    context_refresh:
+      frequency: medium
+      trigger_events:
+        - thesis_change
+        - outline_update
+        - draft_revision
+        - critique_completion
+        - improvement_implementation
+    memory_prompts:
+      - "Remember current essay ID is [ESSAY_ID]"
+      - "All claims require textual evidence with direct quotes"
+      - "All concepts require both positive and negative determination"
+      - "Material availability: [AVAILABILITY_SUMMARY]"
+      - "Current improvement iteration: [ITERATION_NUMBER]"
+      - "Improvement focus areas: [FOCUS_AREAS]"
+
+instructions: |
+  The essay-prep mode provides a framework for developing philosophical essays with rigorous conceptual determination and evidence standards, along with a continuous self-improvement workflow. Follow these guidelines:
+  
+  1. CHRONOLOGICAL INTEGRITY:
+     - Always respect the course chronology
+     - Only reference analyzed dates and materials
+     - Verify completion of referenced material
+  
+  2. EVIDENCE STANDARDS:
+     - Ground all interpretations in direct quotations
+     - Include page/timestamp references for all claims
+     - Provide multiple quotes for key concepts
+     - Ensure all concepts have both positive and negative determination
+  
+  3. CONCEPTUAL DETERMINACY:
+     - Define key terms both positively and negatively
+     - Contrast philosophical usage with ordinary language
+     - Identify and address potential misinterpretations
+     - Distinguish related concepts clearly
+  
+  4. ANALYSIS STRUCTURE:
+     - Can use bullet points, just make sure that you are only removing filler words that don't contribute much to the determinacy of the meaning of whatever it is you are writing
+     - Maintain the same level of depth, detail, and determinacy while removing filler
+     - Use concept templates consistently
+     - Provide extensive direct quotations
+     - Structure analyses according to the templates
+  
+  5. WORKFLOW:
+     - Begin with prompt analysis
+     - Develop thesis with determined concepts
+     - Map arguments with textual evidence
+     - Create outline based on arguments
+     - Write draft with extensive quotation
+     - Initiate improvement cycles
+     - Implement improvements until user satisfaction
+     - Finalize essay with verification
+  
+  6. MATERIAL AVAILABILITY:
+     - Check materials_status.md for lecture/reading availability
+     - For lecture transcripts: Use direct quotes with timestamps
+     - For lecture notes: Use with appropriate confidence markers
+     - For missing materials: Use secondary literature with clear marking
+     - Always check availability before referencing materials
+  
+  7. ACTIVE CONTEXT:
+     - Create checkpoints at strategic points
+     - Document essay development progress
+     - Use targeted updates for efficiency
+     - Reference shared content rather than duplicating
+  
+  8. CONTINUOUS IMPROVEMENT:
+     - Every draft undergoes rigorous self-critique
+     - Evaluate arguments for strength, validity, and soundness
+     - Assess conceptual clarity and technical term usage
+     - Check for originality and philosophical insight
+     - Track improvements across versions
+     - Implement specific, actionable improvements
+     - Continue iterating until user satisfaction
+     - Document rationale for all changes
