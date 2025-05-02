@@ -1,0 +1,33 @@
+Questions and Answers on Hegel's Science of Logic (pp. 59-82)
+
+Q1: Given that Hegel characterizes pure being as "without further determination" and having "no difference within it," why does he argue that being and nothing are ultimately the same? What philosophical insight is he trying to convey? [Section a. being, p. 59]
+
+A1: Hegel argues that pure being, precisely because it is completely indeterminate and without any distinguishing features, is identical to nothing. This is because when we try to think of pure being without any determinations or qualities, we find ourselves thinking of a complete absence - which is nothing. The philosophical insight is that absolute abstractions (like pure being or pure nothing) collapse into each other because they lack the determinations and differences that would make them distinct and conceivable. Only when concepts have specific determinations can they be meaningfully distinguished from each other.
+
+Q2: Throughout the text, Hegel discusses the concept of "becoming" as the unity of being and nothing. Given his explanation that "the truth is neither being nor nothing, but rather that being has passed over into nothing and nothing into being," what role does movement or transition play in his understanding of reality? [Section c. becoming, 1. Unity of being and nothing, pp. 59-60]
+
+A2: For Hegel, movement and transition are fundamental to understanding reality. He sees becoming as the first concrete truth because it captures how being and nothing are not static opposites but are constantly passing over into each other. This movement is not just a subjective way of thinking about being and nothing, but represents their actual nature. The emphasis on transition shows Hegel's view that reality itself is inherently dynamic and that understanding anything requires grasping how it emerges through change and transformation rather than trying to fix it as something purely static.
+
+Q3: Hegel strongly critiques those who maintain an "absolute separation of being and nothing." In light of his discussion of mathematical infinitesimals and the concept of becoming, why does he argue that maintaining such a rigid separation leads to contradictions and misunderstandings? [Remark 4, pp. 91-92]
+
+A3: Hegel argues that maintaining an absolute separation between being and nothing makes it impossible to understand real processes of change and becoming. Using examples like mathematical infinitesimals (which are neither simply existent nor non-existent but capture a moment of transition), he shows how rigidly separating being from nothing leads to paradoxes and prevents us from understanding how things actually change and develop. The key insight is that real processes always involve moments where being and nothing interpenetrate - thus any view that keeps them absolutely separate will fail to capture the true nature of change and development.
+
+Q4: In discussing the German word "aufheben" (to sublate), Hegel emphasizes its dual meaning of both "to preserve" and "to cancel." Given his analysis of becoming as the unity of being and nothing, how does this concept of sublation help explain the relationship between opposing philosophical concepts? [Remark following Section 3. Sublation of becoming, pp. 94-95]
+
+A4: The concept of sublation helps explain how opposing philosophical concepts can be both canceled and preserved in a higher unity. Just as becoming contains both being and nothing but transforms them into moments of a more complex unity, sublation describes how contradictory concepts can be reconciled without simply eliminating their opposition. The dual meaning of preservation and cancellation is crucial because it shows how higher philosophical concepts don't simply negate lower ones but preserve their truth while transforming their meaning. This reflects Hegel's broader view that philosophical progress occurs through recognizing and resolving contradictions rather than merely avoiding them.
+
+Q5: Hegel discusses the ancient philosophers' approaches to being and nothing. How does he contrast Parmenides' view with that of Heraclitus, and what does this reveal about his own philosophical method? [Remark 1, p. 70]
+
+A5: Hegel contrasts Parmenides' insistence that "only being is, and nothing is not absolutely" with Heraclitus' "loftier, total concept of becoming." He shows how Parmenides remained fixed in one-sided abstraction, while Heraclitus grasped the deeper truth that all is becoming. This contrast reveals Hegel's own method of finding truth not in fixed, isolated concepts but in their dynamic unity and movement.
+
+Q6: How does Hegel critique Kant's famous example of the hundred dollars in the ontological proof of God's existence? What distinction does Hegel draw between finite and infinite being in this context? [Remark 1, pp. 73-75]
+
+A6: Hegel argues that Kant's example confuses determinate being (the hundred dollars as a specific amount) with pure being. While the concept of a hundred dollars differs from their actual existence, this distinction applies only to finite things. For God or the infinite, Hegel argues, concept and being cannot be separated. This shows how Kant's criticism, while valid for finite objects, fails to grasp the special nature of the infinite where concept and reality are necessarily united.
+
+Q7: What role does contradiction play in Hegel's understanding of becoming, and why does he insist that this contradiction must be embraced rather than avoided? [2. The moments of becoming, pp. 92-93]
+
+A7: Hegel argues that becoming contains an inherent contradiction: it unifies being and nothing while maintaining their distinction. Rather than seeing this as a fatal flaw, Hegel views this contradiction as essential to becoming's nature. The contradiction drives the movement of becoming forward, showing how philosophical truth requires embracing rather than eliminating contradictions.
+
+Q8: How does Hegel's analysis of "determinate being" differ from pure being, and what role does negation play in this difference? [Section following 3. Sublation of becoming, pp. 94-96]
+
+A8: Hegel shows that determinate being contains negation within itself - it is being with specific characteristics that distinguish it from other things. Unlike pure being, which has no determinations, determinate being includes limitation and difference. This demonstrates how negation is not merely opposed to being but is essential for anything to have definite character or reality.
