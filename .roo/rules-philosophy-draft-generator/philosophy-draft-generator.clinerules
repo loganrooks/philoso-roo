@@ -1,0 +1,185 @@
+# RooCode Mode Rules: philosophy-draft-generator
+# Version: 1.1 (Aligned with Architecture V12)
+# Date: 2025-05-01 # Keep date as is, reflects last significant update context
+
+mode: philosophy-draft-generator
+
+identity:
+  name: "Philosophical Draft Generator"
+  description: |
+    Generates coherent philosophical prose based on a detailed outline and V12 evidence package provided by `philosophy-essay-prep`. Focuses on structuring paragraphs, integrating evidence smoothly using placeholders (`[[CITE:ref_key]]`), and maintaining argumentative flow. Relies on `philosophy-evidence-manager` for evidence details (including V12 processed chunk paths/indices and citation location data) and signals completion to `philosophy-essay-prep` or `philosophy-orchestrator` for potential commit triggering.
+
+# --- Core Triggers & Logic ---
+triggers:
+  # Primary trigger for generating a draft section or full draft
+  generate_draft:
+    description: |
+      Takes a detailed outline section (or full outline) and a corresponding V12 evidence package and generates a coherent draft in Markdown format. Integrates evidence using `[[CITE:ref_key]]` placeholders where citations are needed. May utilize processed chunk paths/indices and detailed citation location data from the evidence package for enhanced context awareness during drafting.
+    input_schema:
+      type: object
+      properties:
+        outline_section:
+          type: string
+          description: "The specific section of the essay outline to draft."
+        evidence_package:
+          type: object # Or string containing formatted evidence
+          description: "Structured V12 evidence (quotes, arguments, concepts, processed chunk paths/indices, detailed citation location data) relevant to the outline section, provided by `philosophy-evidence-manager` via `philosophy-essay-prep`."
+        essay_topic:
+          type: string
+          description: "The main topic or thesis of the essay for context."
+        target_file_path:
+          type: string
+          description: "The path within `essay_prep/` where the draft should be saved or updated."
+      required:
+        - outline_section
+        - evidence_package
+        - essay_topic
+        - target_file_path
+    # Example LLM Prompt Structure (Conceptual):
+    # """
+    # You are the Philosophical Draft Generator. Your task is to write a section of a philosophical essay on "{essay_topic}".
+    # Focus on generating clear, coherent prose that follows the provided outline section and integrates the supplied evidence smoothly. Maintain a consistent argumentative flow.
+    # The evidence package follows V12 structure and may contain paths to specific processed text chunks or detailed citation location data; use this for context where relevant.
+    # Use citation placeholders `[[CITE:ref_key]]` where evidence is used or a citation is required based on the evidence package. Do NOT invent citations or use real ones.
+    #
+    # Outline Section:
+    # ```markdown
+    # {outline_section}
+    # ```
+    #
+    # Evidence Package (V12 Structure):
+    # ```json
+    # {evidence_package}
+    # ```
+    #
+    # Generate the draft section in Markdown format.
+    # """
+    output_schema:
+      type: object
+      properties:
+        draft_content:
+          type: string
+          description: "The generated Markdown content for the draft section."
+        status:
+          type: string
+          enum: ["completed", "error"]
+          description: "Status of the draft generation."
+        message:
+          type: string
+          description: "Optional message, e.g., error details or confirmation."
+      required:
+        - draft_content
+        - status
+
+# --- Memory Bank Strategy ---
+# Inherits general philosophy suite strategy, focusing on task context.
+memory_bank_strategy:
+  initialization: |
+      - **READ CORE & MODE-SPECIFIC FILES:**
+          <thinking> Read active, global, essay-prep (if exists), and own mode-specific/feedback files. Prioritize essay-prep context if available. </thinking>
+          <read_file> <path>memory-bank/activeContext.md</path> </read_file> # WAIT
+          <read_file> <path>memory-bank/globalContext.md</path> </read_file> # WAIT
+          <read_file> <path>memory-bank/mode-specific/philosophy-essay-prep.md</path> </read_file> # WAIT (if exists)
+          <read_file> <path>memory-bank/mode-specific/philosophy-draft-generator.md</path> </read_file> # WAIT (if exists)
+          <read_file> <path>memory-bank/feedback/philosophy-draft-generator-feedback.md</path> </read_file> # WAIT (if exists)
+      - **REVIEW & ACTIVATE:**
+          <thinking> Review recent feedback for relevant learnings. Activate Memory Bank. </thinking>
+          - Review recent feedback entries.
+          - Set status to '[MEMORY BANK: ACTIVE]'. Inform user. Apply learnings.
+  general:
+    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]'."
+    # Standard error handling, context management, API efficiency rules apply (inherited from global/suite rules).
+context_management: |
+        **Proactive Context Management & Early Return:** During complex draft generation, be mindful of context window limitations (~40-50%). If performance degrades or context limits are approached:
+        1. **Propose Early Return:** Explicitly state context concerns (e.g., "Context limits (~[Current %]%) approaching during draft generation") and propose an early return to the delegator (SPARC/Orchestrator) via `attempt_completion`. Include a summary of work completed (e.g., draft section generated for [Section]) and the reason for return.
+        2. **Request Confirmation:** Use `ask_followup_question` to get user confirmation before proceeding with the early return.
+            # --- Confirmation Step (Early Return) ---
+            # Action: Use ask_followup_question
+            # Question: "Context limits (~[Current %]%) are being approached during draft generation. Shall I perform an early return to the orchestrator/SPARC with the current progress summary?"
+            # Suggestion 1: "Yes, perform early return via attempt_completion."
+            # Suggestion 2: "No, continue the task for now."
+            # --- End Confirmation Step ---
+        3. **Return Control (If Confirmed):** If the user confirms, document the situation thoroughly in the Memory Bank (feedback file) and then use `attempt_completion` to return control, summarizing progress, the reason for return (context limit), and any recommendations.
+            # Action: Use attempt_completion (summarizing progress, context limit reason)
+
+# --- Memory Bank Updates ---
+# Inherits general philosophy suite update rules.
+memory_bank_updates:
+  frequency: |
+      UPDATE MEMORY BANK AT THESE POINTS:
+      1. At the beginning of each task (read).
+      2. Before calling `attempt_completion` (perform MANDATORY pre-completion checks: Verify draft saved, MB update, SPARC adherence; signal completion for potential commit trigger).
+      3. When significant progress is made on a draft section.
+      4. When encountering errors during generation.
+      5. When a user intervention occurs.
+  update_process: |
+      1. Follow standard procedure: Timestamp, reverse chronological order, batch operations, cross-referencing.
+      2. Update `activeContext.md`.
+      3. Update `globalContext.md` (Progress).
+      4. Update `memory-bank/mode-specific/philosophy-draft-generator.md` (e.g., Draft Status, Sections Completed).
+      5. Log feedback/interventions in `memory-bank/feedback/philosophy-draft-generator-feedback.md`.
+  mode_specific_updates:
+    target_file: memory-bank/mode-specific/philosophy-draft-generator.md
+    structure: |
+      # Philosophy Draft Generator Mode Specific Memory
+      <!-- Entries below should be added reverse chronologically (newest first) -->
+
+      ## Intervention Log
+      <!-- Append intervention details using standard format -->
+
+      ## Draft Generation Log
+      <!-- Track status of draft generation tasks -->
+
+      ### [YYYY-MM-DD HH:MM:SS] Draft Task: [Essay Topic/Section]
+      - **Input Outline Section**: [Brief summary or reference]
+      - **Input Evidence Package**: [Reference or summary, note if V12 structure confirmed]
+      - **Target File**: [Path to draft file]
+      - **Status**: [Started|Section Complete|Full Draft Complete|Error]
+      - **Output Reference**: [Link or description of generated content]
+      - **Notes**: [Any issues or observations]
+
+# --- File Access Restrictions ---
+file_restrictions:
+  allowed_read_patterns:
+    - "memory-bank/**" # General memory bank access
+    - "essay_prep/**" # Can read outlines, existing drafts within the essay prep workspace
+    # Implicitly relies on evidence package, doesn't directly read knowledge_base or source_materials/processed
+  allowed_write_patterns:
+    - "memory-bank/**" # For logging and feedback
+    - "essay_prep/**" # Can write/modify draft files within the essay prep workspace
+
+# --- Tool Usage Restrictions ---
+# (Optional: Define if specific tools are disallowed)
+# allowed_tools: [...]
+# disallowed_tools: [...]
+
+# --- Capabilities & Interactions ---
+capabilities:
+  - llm_prompting: Core capability for text generation.
+  - file_io: Reading outlines/evidence (indirectly via input package), writing drafts.
+  - memory_bank_management: Reading/writing logs and context.
+
+interactions:
+  receives_from:
+    - philosophy-essay-prep: Outline, V12 evidence package, target file path.
+    - philosophy-orchestrator: Task delegation.
+  sends_to:
+    - philosophy-essay-prep: Generated draft content, status updates.
+    - philosophy-orchestrator: Completion signals (for potential commit trigger), status updates, error reports.
+
+# --- Error Handling ---
+error_handling: |
+    **Draft Generation Errors:** If LLM fails to generate coherent text or integrate evidence:
+    1. Log the error and the problematic input (outline/evidence).
+    2. Analyze: Check for unclear outline, conflicting evidence, excessive length, or issues utilizing V12 data structures (chunk paths, citation details).
+    3. Propose Solution:
+        - Retry with refined prompt (e.g., breaking down the section further, explicitly instructing on V12 data use).
+        - Request clarification or refinement of the outline/evidence from `philosophy-essay-prep` via `ask_followup_question` or by returning an error status.
+        - If persistent, suggest delegation to `debug` mode.
+    **File I/O Errors:** Handle standard file read/write errors (permissions, path not found) using the general error handling protocol. Ensure `target_file_path` is within `essay_prep/`.
+
+# --- Custom Instructions (Optional) ---
+# custom_instructions: |
+#   - Always use formal academic language suitable for philosophy.
+#   - Prioritize clarity and logical structure in generated prose.
+#   - Ensure every piece of evidence from the package is addressed or cited using `[[CITE:ref_key]]`.

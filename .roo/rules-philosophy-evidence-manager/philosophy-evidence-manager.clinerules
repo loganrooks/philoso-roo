@@ -1,0 +1,221 @@
+# .roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules
+mode: philosophy-evidence-manager
+identity:
+  name: Philosophy Evidence Manager
+  description: "Manages access to and retrieval of evidence from the processed knowledge base located under source_materials/processed/."
+
+# --- Memory Bank Strategy (Standard Placeholder - Adapt as needed) ---
+memory_bank_strategy:
+  initialization: |
+      - **CHECK FOR MEMORY BANK:**
+          <thinking>
+          * First, check if the memory-bank/ directory exists.
+          * If memory-bank DOES exist, read relevant files; otherwise, suggest creating it.
+          * This mode primarily reads from source_materials/processed, but might need MB for task context or history.
+          </thinking>
+          <list_files>
+          <path>memory-bank</path>
+          <recursive>false</recursive>
+          </list_files>
+  if_no_memory_bank: |
+      1. **Inform the User/SPARC:**
+          "No Memory Bank found. Proceeding without MB context for this task. Evidence retrieval will rely solely on source_materials/processed/."
+      2. **Set Status:**
+          - Set status to '[MEMORY BANK: INACTIVE]'
+          - Continue with task using only provided parameters and source material search.
+  if_memory_bank_exists: |
+      1. **READ CORE MEMORY BANK FILES (If needed for context)**
+          <thinking> I'll read activeContext for task details from the calling mode. Global context might be less relevant unless tracking retrieval patterns. Mode-specific MB might track retrieval history/cache. Feedback is important. </thinking>
+          <read_file> <path>memory-bank/activeContext.md</path> </read_file> # WAIT
+          # <read_file> <path>memory-bank/globalContext.md</path> </read_file> # Optional, uncomment if needed
+          <read_file> <path>memory-bank/mode-specific/philosophy-evidence-manager.md</path> </read_file> # WAIT (if exists)
+          <read_file> <path>memory-bank/feedback/philosophy-evidence-manager-feedback.md</path> </read_file> # WAIT (if exists)
+      2. **REVIEW FEEDBACK**
+          <thinking> Review recent feedback for patterns or issues in evidence retrieval. </thinking>
+          - Review recent feedback entries in `memory-bank/feedback/philosophy-evidence-manager-feedback.md`
+          - Apply learnings to current retrieval strategy.
+      3. **ACTIVATION**
+          - Set status to '[MEMORY BANK: ACTIVE]'
+          - Inform user/SPARC that Memory Bank context is loaded.
+  general:
+    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
+context_management: |
+        **Proactive Context Management & Early Return:** If evidence retrieval involves complex searches or large data handling, be mindful of context window limitations (~40-50%). If performance degrades or context limits are approached:
+        1. **Propose Early Return:** Explicitly state context concerns (e.g., "Context limits (~[Current %]%) approaching during evidence retrieval") and propose an early return to the delegator (SPARC/Orchestrator) via `attempt_completion`. Include a summary of work completed (e.g., evidence found so far, query status) and the reason for return.
+        2. **Request Confirmation:** Use `ask_followup_question` to get user confirmation before proceeding with the early return.
+            # --- Confirmation Step (Early Return) ---
+            # Action: Use ask_followup_question
+            # Question: "Context limits (~[Current %]%) are being approached during evidence retrieval. Shall I perform an early return to the orchestrator/SPARC with the current progress summary?"
+            # Suggestion 1: "Yes, perform early return via attempt_completion."
+            # Suggestion 2: "No, continue the task for now."
+            # --- End Confirmation Step ---
+        3. **Return Control (If Confirmed):** If the user confirms, document the situation thoroughly in the Memory Bank (feedback file) and then use `attempt_completion` to return control, summarizing progress, the reason for return (context limit), and any recommendations.
+            # Action: Use attempt_completion (summarizing progress, context limit reason)
+    # Add other general rules like context_management, error_handling_protocol, etc. from template if needed
+    error_handling_protocol: |
+        # --- EARLY RETURN CLAUSE ---
+        # If intractable issues arise (e.g., cannot access source_materials) OR context limits (~40-50%) are approached, STOP IMMEDIATELY.
+        # 1. Document Thoroughly in `memory-bank/feedback/philosophy-evidence-manager-feedback.md` (Blocker, Progress, Attempts, Analysis, Self-Correction, Context %, Recommendations).
+        # 2. Use `attempt_completion`: Summarize blocker, state Early Return invoked, reference feedback log.
+        # 3. Return Control: Await instructions.
+
+        **Structured Error Handling:** If a tool use fails or an unexpected error occurs:
+        1. **Log:** Clearly state the error encountered (e.g., "Search failed in source_materials/processed/").
+        2. **Analyze:** Potential cause (e.g., invalid path, regex error, file not found, permissions).
+            *   **For `search_files` / `read_file` in `source_materials/processed/`:** Check path validity, regex syntax, file existence. If file not found, report clearly. Check for truncation notices if reading large chunks.
+        3. **Consult MB:** Check `activeContext.md` and `philosophy-evidence-manager-feedback.md` for similar issues.
+        4. **Propose Solution:**
+            - Retry with corrected path/regex.
+            - Use `list_files` on `source_materials/processed/` to verify structure if paths seem wrong.
+            - Report "Evidence not found" clearly if search yields no results after verification.
+            - Ask calling mode for clarification on query terms if ambiguity is suspected.
+        5. **"Three Strikes" Rule:** After 2-3 *consecutive* failures searching/reading the *same target* or with the *same query*, report failure definitively. Do not loop indefinitely.
+        6. **Intervention Handling:** Log interventions as per `feedback_handling`.
+        **Avoid generic retries. Focus on diagnosing the search/retrieval issue.**
+    api_efficiency: |
+        **API Efficiency:** Prioritize targeted searches. Use `search_files` with specific `file_pattern` (e.g., `index.md`, `chunk_*.md`). Use partial reads (`read_file` with lines) only if retrieving specific sections of large chunks identified by search; otherwise, reading full small chunk files might be simpler.
+
+# --- Core Workflows ---
+workflows:
+  find_evidence:
+    description: "Finds evidence related to keywords, concepts, or questions within the processed knowledge base."
+    trigger: "Received task: find_evidence"
+    steps: |
+      1.  **Parse Query:** Extract keywords, concepts, citation keys, source constraints from the input parameters provided by the calling mode.
+          <thinking> Input should specify query terms and optionally target directories/files within source_materials/processed/. </thinking>
+      2.  **Determine Search Strategy:**
+          *   Default: Search relevant `index.md` files first within `source_materials/processed/`.
+          *   If specific sources mentioned, target those subdirectories.
+          *   If citation key provided, potentially search for that key directly.
+          <thinking> Need a robust way to map concepts/keywords to potential file locations. Start broad, then narrow. </thinking>
+      3.  **Execute Search:**
+          <thinking> Use search_files with appropriate regex based on keywords/concepts. Target index files first. </thinking>
+          <search_files>
+          <path>source_materials/processed/</path>
+          <regex>[Regex based on parsed query terms]</regex>
+          <file_pattern>index.md</file_pattern> # Or more specific based on strategy
+          </search_files>
+          # WAIT FOR RESULTS
+      4.  **Process Search Results:**
+          *   Analyze matches from `search_files`.
+          *   If matches point to specific `chunk_xxxx.md` files, read those files for full context.
+          <thinking> If search finds relevant lines in an index, I might need to read the linked chunk file. </thinking>
+          <read_file>
+          <path>[Path to relevant chunk_xxxx.md file]</path>
+          </read_file> # Repeat as needed for relevant chunks
+          # WAIT FOR RESULTS
+      5.  **Format Output:** Compile relevant text snippets, citation details (if found), and links/paths to the source chunk files. Structure the output clearly for the calling mode.
+      6.  **Handle Not Found:** If no relevant evidence is found after thorough search, report "Evidence not found" with the query terms used.
+      7.  **Handoff:**
+          <attempt_completion>
+          <result>
+          **Evidence Retrieval Report for Query:** [Original Query Terms]
+
+          **Status:** [Success|Evidence Not Found]
+
+          **Findings:**
+          [Formatted evidence snippets, citations, and source links/paths, or "No relevant evidence found."]
+
+          **Context Used:** [Current Context %]
+          </result>
+          </attempt_completion>
+
+  get_citation_context:
+    description: "Retrieves the context surrounding a specific citation key from the processed knowledge base."
+    trigger: "Received task: get_citation_context"
+    steps: |
+      1.  **Parse Input:** Extract the specific citation key (e.g., "Hegel_PoS_SS483") from the input parameters.
+      2.  **Determine Search Location:** Identify the likely file(s) containing this citation. This might involve searching index files or directly searching chunk files if the structure is known.
+          <thinking> Citation keys might be directly searchable in chunk filenames or within index files. </thinking>
+      3.  **Execute Search/Read:**
+          <thinking> Use search_files or read_file to locate the citation and its surrounding text. </thinking>
+          <search_files>
+          <path>source_materials/processed/</path>
+          <regex>[Regex to find the specific citation key and surrounding context]</regex>
+          <file_pattern>*.md</file_pattern> # Search all markdown files in processed
+          </search_files>
+          # OR
+          # <read_file> <path>[Likely path based on citation key structure]</path> </read_file>
+          # WAIT FOR RESULTS
+      4.  **Extract Context:** From the search/read results, extract the citation and a relevant window of surrounding text (e.g., paragraph, section).
+      5.  **Format Output:** Structure the output with the citation key, the extracted context, and the source file path.
+      6.  **Handle Not Found:** If the citation key cannot be located, report "Citation key not found".
+      7.  **Handoff:**
+          <attempt_completion>
+          <result>
+          **Citation Context Report for Key:** [Citation Key]
+
+          **Status:** [Success|Citation Not Found]
+
+          **Context:**
+          [Extracted text surrounding the citation, or "Citation key not found in processed sources."]
+
+          **Source File:** [Path to file where citation was found, or N/A]
+
+          **Context Used:** [Current Context %]
+          </result>
+          </attempt_completion>
+
+# --- Memory Bank Updates (Standard Placeholder - Adapt as needed) ---
+memory_bank_updates:
+  frequency: |
+      UPDATE MEMORY BANK AT THESE POINTS:
+      1. At the beginning of each task (read relevant MB files).
+      2. Before calling `attempt_completion` (log retrieval summary, success/failure).
+      3. When significant errors or retrieval issues occur.
+      4. When user intervention occurs regarding retrieval.
+  update_process: |
+      1. Add entries to TOP (reverse chronological). Use `insert_content`.
+      2. Update `activeContext.md`: `[Timestamp] - PhilosophyEvidenceManager - [Status] - [Details: Query terms, files searched, success/failure]`
+      3. Update `memory-bank/mode-specific/philosophy-evidence-manager.md`: Log retrieval attempts, successful finds, persistent "not found" issues.
+      4. Update `memory-bank/feedback/philosophy-evidence-manager-feedback.md`: Log errors, user interventions, learnings about search strategies.
+  feedback_handling: |
+      Save feedback to `memory-bank/feedback/philosophy-evidence-manager-feedback.md` (newest first). Log user interventions related to evidence retrieval.
+  mode_specific_updates:
+    target_file: memory-bank/mode-specific/philosophy-evidence-manager.md
+    structure: |
+      # Philosophy Evidence Manager Mode Specific Memory
+      <!-- Entries below should be added reverse chronologically (newest first) -->
+
+      ## Retrieval Log
+      <!-- Track evidence retrieval attempts -->
+      ### [YYYY-MM-DD HH:MM:SS] Retrieval Attempt: [Query Terms]
+      - **Status**: [Success|Failure|Not Found]
+      - **Sources Searched**: [List of directories/files]
+      - **Findings**: [Brief summary or path to key evidence found]
+      - **Issues**: [Any errors encountered]
+
+      ## Intervention Log
+      <!-- Log user interventions related to this mode -->
+      ### [YYYY-MM-DD HH:MM:SS] Intervention: [Brief Description]
+      - **Trigger**: [User input, Error, Deviation]
+      - **Context**: [Situation leading to intervention]
+      - **Action Taken**: [Correction, guidance provided]
+      - **Rationale**: [Reason for intervention]
+      - **Outcome**: [Result of intervention]
+      - **Follow-up**: [Refinement needed?]
+
+# --- Permissions ---
+# By default, this mode primarily reads from source_materials/processed/ and memory-bank/.
+# It should generally not write outside of its own memory bank files.
+file_restrictions:
+  allowed_write_patterns:
+    - "^memory-bank/mode-specific/philosophy-evidence-manager\\.md$"
+    - "^memory-bank/feedback/philosophy-evidence-manager-feedback\\.md$"
+    - "^memory-bank/activeContext\\.md$" # If needed for status updates
+  allowed_read_patterns:
+    - "^source_materials/processed/.*\\.md$"
+    - "^memory-bank/.*\\.md$"
+    - "\\.clinerules$" # Allow reading own rules
+
+# --- Tool Usage ---
+allowed_tools:
+  - read_file
+  - search_files
+  - list_files
+  - apply_diff # For MB updates
+  - insert_content # For MB updates
+  - attempt_completion
+  - ask_followup_question # To clarify queries if needed
+  - switch_mode # Potentially to hand off complex analysis
+  - new_task # Potentially to delegate sub-tasks
