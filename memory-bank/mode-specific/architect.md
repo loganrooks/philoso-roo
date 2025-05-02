@@ -1,4 +1,217 @@
 # Architect Specific Memory
+### [2025-05-02 13:44:56] Task: Design V17 Architecture (KB Manager Revision)
+- **Action**: Following user intervention [Architect Feedback Log: 2025-05-02 13:43:34] rejecting script-based V16, redesigned architecture to V17. Reintroduced `philosophy-kb-manager` responsible for internal KB logic (organization, validation, `_operational/` data management). Removed `kb-doctor` and `maintenance_scripts`. Maintained strict KB/MB separation.
+- **Output**: Overwrote `docs/architecture/architecture_v16.md` with detailed V17 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: V17 design complete and documented. Ready for review/implementation planning. Cross-ref: [Global Context System Patterns: V17 - 2025-05-02 13:44:56], [Global Decision Log: 2025-05-02 13:13:23], [Active Context: 2025-05-02 13:44:56]
+
+### Component Specification: philosophy-kb-manager (V17 Revised) - [2025-05-02 13:44:56]
+- **Responsibility**: Sole gateway and manager for `philosophy-knowledge-base/`. Maintains structure, integrity, consistency, and operational metadata (`_operational/`). Handles CRUD, validation (schema, references), indexing, logging, status updates, reporting internally.
+- **Dependencies**: All modes requiring KB access (requests), `philosophy-evidence-manager` (for SPARC context if needed), files within `philosophy-knowledge-base/`.
+- **Interfaces Exposed**: Accepts structured requests from modes (e.g., "get concept", "store analysis"). Returns data or confirmation.
+- **Internal Structure (High-Level)**: Logic for structure awareness, CRUD, validation (using `_operational/formatting_templates_rules/`), indexing (writing to `_operational/indices/`), logging (writing to `_operational/logs/`), status management (writing to `_operational/status/`), reporting (writing to `_operational/reports/`), querying.
+- **Logs**: Its *SPARC mode execution logs* go to `memory-bank/mode-specific/philosophy-kb-manager.md`. The logs *of KB operations it performs* go to `philosophy-knowledge-base/_operational/logs/`.
+
+### Diagram: Hegel Philosophy Suite V17 (KB Manager Revision) - [2025-05-02 13:44:56]
+- **Description:** Overall mode interaction for V17. `kb-manager` mediates all access to `philosophy-knowledge-base/` (domain and `_operational` data). Strict KB/MB separation maintained.
+```mermaid
+graph TD
+    subgraph SPARC System Context [memory-bank/]
+        style SPARCMem fill:#e0e0e0,stroke:#666,stroke-width:1px
+        MB_Active("activeContext.md")
+        MB_Global("globalContext.md")
+        MB_ModeSpecific("mode-specific/")
+        MB_Feedback("feedback/")
+    end
+
+    subgraph Philosophy Domain & Operations [philosophy-knowledge-base/]
+        style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+        PKB_Domain["Domain Knowledge<br>(e.g., concepts/, arguments/)"]
+        PKB_Operational["_operational/ (KB-Internal Management Data)"]
+
+        subgraph PKB_Operational_Details ["_operational/"]
+             style KBOps fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2
+             PKB_Indices("indices/")
+             PKB_Logs("logs/")
+             PKB_Status("status/")
+             PKB_Reports("reports/")
+             PKB_Templates("formatting_templates_rules/")
+        end
+        PKB_Operational --> PKB_Operational_Details
+    end
+
+    Modes["SPARC Modes"] -- "R/W SPARC Ops Context<br>(via EvidMan)" --> SPARC System Context
+    Modes -- "Request/Submit Data" --> KB_Manager["philosophy-kb-manager"]
+
+    KB_Manager -- "Reads/Writes ALL Data" --> Philosophy Domain & Operations
+    KB_Manager -- "Manages/Generates" --> PKB_Operational_Details
+    KB_Manager -- "Writes SPARC Mode Log" --> MB_ModeSpecific
+
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Modes, KB_Manager mode;
+```
+**Notes:** Reflects V17 architecture documented in `docs/architecture/architecture_v16.md`.
+### [2025-05-02 13:19:52] Task: Design V16 Architecture (Strict Separation)
+- **Action**: Analyzed V15 architecture, user constraint [Global Decision Log: 2025-05-02 13:13:23], and Memory Bank context. Designed V16 architecture enforcing strict separation between `memory-bank/` and `philosophy-knowledge-base/`.
+- **Key Decisions**:
+    - Redefined `philosophy-kb-doctor` to orchestrate KB-internal maintenance scripts/processes.
+    - Mandated that all philosophy-specific operational data (indices, logs, status) reside within `philosophy-knowledge-base/operational/`.
+    - Confirmed SPARC operational context (including `kb-doctor`'s own execution logs) remains in `memory-bank/`.
+- **Output**: Created `docs/architecture/architecture_v16.md`. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: V16 design complete. Ready for review/implementation planning. Cross-ref: [Global Context System Patterns: 2025-05-02 13:19:52], [Global Context Decision Log: 2025-05-02 13:13:23], [Active Context: 2025-05-02 13:19:52]
+
+### Component Specification: philosophy-kb-doctor (V16 Revised) - [2025-05-02 13:19:52]
+- **Responsibility**: Orchestrates KB maintenance tasks. Triggers scripts/processes located in `philosophy-knowledge-base/operational/maintenance_scripts/` to perform indexing, validation, linking, etc. *within* the KB structure. Monitors KB health based on data within `philosophy-knowledge-base/operational/`. Reports KB status to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes.**
+- **Dependencies**: `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/operational/maintenance_scripts/`, data within `philosophy-knowledge-base/`, `philosophy-evidence-manager` (for SPARC context).
+- **Interfaces Exposed**: Accepts maintenance triggers. Executes KB-internal scripts via `execute_command`. Reads KB operational logs/status from `philosophy-knowledge-base/operational/`. Reports status to orchestrator.
+- **Logs**: Its *SPARC mode execution logs* go to `memory-bank/mode-specific/philosophy-kb-doctor.md`. The logs *of the maintenance tasks it triggers* go to `philosophy-knowledge-base/operational/logs/`.
+
+### Diagram: Hegel Philosophy Suite V16 (Strict Separation) - [2025-05-02 13:19:52]
+- **Description:** Overall mode interaction and data flow for V16. Enforces strict separation: `memory-bank/` for SPARC ops, `philosophy-knowledge-base/` for domain data AND domain ops (logs, indices, status within `operational/`). `kb-doctor` orchestrates KB-internal scripts.
+```mermaid
+graph TD
+    subgraph User Interaction
+        User(User)
+    end
+
+    subgraph Orchestration
+        Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph KB Maintenance
+        KBDoctor(philosophy-kb-doctor)
+    end
+
+    subgraph Text Processing
+        TextProc(philosophy-text-processor) -- Runs --> KB_Scripts((KB Internal Scripts<br>e.g., process_source_text.py))
+    end
+
+    subgraph Analysis & Inquiry
+        PreLec(philosophy-pre-lecture)
+        ClassAn(philosophy-class-analysis)
+        SecLit(philosophy-secondary-lit)
+        DialAn(philosophy-dialectical-analysis)
+        Quest(philosophy-questioning)
+        MetaReflector(philosophy-meta-reflector)
+    end
+
+    subgraph Essay Generation & Verification
+        EssayPrep(philosophy-essay-prep) -- Git Ops --> VCS[(Version Control System<br>(Git))]
+        DraftGen(philosophy-draft-generator)
+        CiteMan(philosophy-citation-manager)
+        Verify(philosophy-verification-agent)
+    end
+
+    subgraph Data Layer
+        subgraph SPARC Memory [SPARC Operational Context]
+            style SPARCMem fill:#e0e0e0,stroke:#666,stroke-width:1px
+            EvidMan(philosophy-evidence-manager)
+            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+            EvidMan -- Manages --> SPARCMB
+        end
+        subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
+            style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+            PhilKB[(Philosophy KB<br>philosophy-knowledge-base/)]
+            subgraph KB Content
+                style KBContent fill:#fffacd,stroke:#8a6d3b,stroke-width:1px,stroke-dasharray: 5 5
+                Concepts(concepts/)
+                Arguments(arguments/)
+                Quotations(quotations/)
+                References(references/)
+                Questions(questions/)
+                Theses(theses/)
+                Relationships(relationships/)
+                Methods(methods/)
+                MetaReflections(meta-reflections/)
+                ProcessedTexts(processed_texts/)
+                Analyses(analyses/)
+                Citations(citations/)
+            end
+            subgraph KB Operations [Internal]
+                 style KBOps fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2
+                 Indices(indices/)
+                 Operational(operational/)
+                 OpLogs(operational/logs/)
+                 OpStatus(operational/status/)
+                 OpScripts(operational/maintenance_scripts/)
+            end
+            PhilKB --> KBContent
+            PhilKB --> KBOps
+        end
+        Workspace(analysis_workspace / essay_prep / source_materials/processed)
+    end
+
+    %% Core Flow & Orchestration
+    User -- Request --> Orchestrator
+    Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Tasks --> PreLec
+    Orchestrator -- Delegate Tasks --> ClassAn
+    Orchestrator -- Delegate Tasks --> SecLit
+    Orchestrator -- Delegate Tasks --> DialAn
+    Orchestrator -- Delegate Tasks --> Quest
+    Orchestrator -- Delegate Tasks --> EssayPrep
+    Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Coordinate Commit? --> EssayPrep
+    Orchestrator -- Trigger KB Maintenance? --> KBDoctor
+    Orchestrator -- Results --> User
+
+    %% Direct KB Interactions (Read/Write Domain Data)
+    TextProc -- Write Domain Data --> ProcessedTexts
+    TextProc -- Write Domain Data --> Citations
+    PreLec -- Read/Write Domain Data --> PhilKB
+    ClassAn -- Read/Write Domain Data --> PhilKB
+    SecLit -- Read/Write Domain Data --> PhilKB
+    DialAn -- Read/Write Domain Data --> PhilKB
+    Quest -- Read/Write Domain Data --> PhilKB
+    MetaReflector -- Read/Write Domain Data --> PhilKB
+    EssayPrep -- Read/Write Domain Data --> PhilKB
+    DraftGen -- Read Domain Data --> PhilKB
+    CiteMan -- Read Domain Data --> PhilKB
+    Verify -- Read Domain Data --> PhilKB
+
+    %% KB Doctor Interactions (Triggers KB-Internal Ops)
+    KBDoctor -- Triggers --> OpScripts
+    OpScripts -- Read/Write --> Indices
+    OpScripts -- Read/Write --> PhilKB
+    OpScripts -- Write Logs --> OpLogs
+    OpScripts -- Write Status --> OpStatus
+    KBDoctor -- Reads Status/Logs --> KBOps
+
+    %% Other Interactions
+    TextProc -- Processed Chunks --> Workspace
+    EssayPrep -- Manage Files --> Workspace
+    MetaReflector -- Query MB --> EvidMan
+    MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
+
+    %% SPARC Memory Interactions (Operational Context)
+    Orchestrator -- Use SPARC Context --> EvidMan
+    TextProc -- Use SPARC Context --> EvidMan
+    PreLec -- Use SPARC Context --> EvidMan
+    ClassAn -- Use SPARC Context --> EvidMan
+    SecLit -- Use SPARC Context --> EvidMan
+    DialAn -- Use SPARC Context --> EvidMan
+    Quest -- Use SPARC Context --> EvidMan
+    EssayPrep -- Use SPARC Context --> EvidMan
+    DraftGen -- Use SPARC Context --> EvidMan
+    CiteMan -- Use SPARC Context --> EvidMan
+    Verify -- Use SPARC Context --> EvidMan
+    MetaReflector -- Use SPARC Context --> EvidMan
+    KBDoctor -- Use SPARC Context --> EvidMan
+
+    %% Styling
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,EvidMan,MetaReflector,KBDoctor mode;
+    classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
+    class KB_Scripts, OpScripts script;
+    classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
+    class VCS vcs;
+    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class SPARCMB sparcmb;
+    classDef kbcontent fill:#fffacd,stroke:#8a6d3b,stroke-width:1px,stroke-dasharray: 5 5;
+    class Concepts,Arguments,Quotations,References,Questions,Theses,Relationships,Methods,MetaReflections,ProcessedTexts,Analyses,Citations kbcontent;
+    classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
+    class Indices,Operational,OpLogs,OpStatus,OpScripts kbops;
+```
+**Notes:** Reflects V16 architecture documented in `docs/architecture/architecture_v16.md`.
 ### [2025-05-02 02:44:49] Task: Design V13 Architecture (Corrected Scope)
 - **Action**: Analyzed V12 architecture (`docs/architecture/architecture_v12.md`), V13 requirements (KB, Philosophical Inquiry Workflow, System Self-Reflection Workflow), `architecture-questioning.md`, and Memory Bank context. Designed V13 architecture addressing the full scope.
 - **Key Decisions**:

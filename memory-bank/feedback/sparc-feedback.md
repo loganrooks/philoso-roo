@@ -1,3 +1,13 @@
+### [2025-05-02 13:35:06] Feedback: SPARC Delegation & Architect Performance Issues
+- **Source**: User Input [Timestamp: 2025-05-02 13:35:06]
+- **Issue**:
+    1. SPARC incorrectly referenced a user message timestamp in a `new_task` delegation to Architect, which Architect cannot access.
+    2. Architect mode reportedly failed its initialization procedure and produced a low-quality, low-detail `docs/architecture/architecture_v16.md` during a previous, interrupted task.
+- **Action/Learning**:
+    1. SPARC must *always* explicitly include necessary constraint text in delegation messages, not rely on references Architect cannot resolve.
+    2. SPARC must provide more explicit initialization instructions to delegated modes, especially regarding the Memory Bank read sequence.
+    3. SPARC must instruct Architect to *overwrite* the existing poor-quality `architecture_v16.md` with a detailed version.
+- **Follow-up**: Re-delegate V16 architecture task to Architect with corrected instructions. [See SPARC Intervention Log: 2025-05-02 13:35:06]
 ### [2025-05-02 13:06:28] User Guidance: Context Truncation Awareness
 - **Source**: User Input
 - **Issue**: User identified that unexpected decreases in reported token counts may indicate erroneous context truncation by the system.

@@ -1,3 +1,17 @@
+### User Intervention - 2025-05-02 13:43:34
+- **Trigger:** User message interrupting Memory Bank update after writing detailed V16 architecture (`docs/architecture/architecture_v16.md`).
+- **Context:** The written V16 architecture included `philosophy-kb-doctor` orchestrating scripts in `philosophy-knowledge-base/_operational/maintenance_scripts/`.
+- **User Instruction:** Explicitly rejected the use of scripts and `kb-doctor`. Requested reintroduction of `philosophy-kb-manager` responsible for KB organization, formatting rules/templates, and internal validation (reference checking). Maintenance tasks (indexing, logging, status, reports in `_operational/`) should be handled internally by `kb-manager`.
+- **Action:** Halted Memory Bank update. Will redesign architecture (V17) to remove scripts/`kb-doctor` and implement the specified `kb-manager` responsibilities. Will then overwrite `docs/architecture/architecture_v16.md` with V17 design and update Memory Bank.
+- **Rationale (Self-Correction):** Previous V16 design, while addressing separation, incorrectly assumed script-based maintenance was acceptable. Correcting architecture based on direct user feedback.
+- **Outcome:** Proceeding with V17 redesign.
+### User Intervention - 2025-05-02 13:33:36
+- **Trigger:** User message following initial V16 architecture draft (`docs/architecture/architecture_v16.md`).
+- **Context:** Attempted to create `docs/architecture/architecture_v16.md` without first initializing the Memory Bank (reading context files) and provided insufficient detail compared to user expectations and V15.
+- **Action:** User pointed out failure to initialize MB and lack of detail in the V16 draft.
+- **Rationale (Self-Correction):** Failed to adhere to `memory_bank_strategy: initialization` and `if_memory_bank_exists` rules. Misinterpreted the required level of detail for the V16 architecture document, focusing only on the separation constraint without sufficient elaboration on implementation details.
+- **Outcome:** Will now perform MB initialization, log this intervention, revise V16 with greater detail (informed by MB context and V15 comparison), rewrite the file, update MB, and then attempt completion.
+- **Follow-up:** Ensure MB initialization steps are always performed first. Pay closer attention to user expectations regarding detail level in architectural documents.
 [2025-05-02 04:54:19] - Architect - User Intervention: Resume Task, Provide MCP Config, Suggest MCP/Retry
 ### [2025-05-02 05:22:00] - Mitigation Success: `write_to_file` Truncation
 - **Trigger**: `write_to_file` failed for `docs/specs/v14_requirements_spec_v1.md` due to content truncation (Error: "Content appears to be truncated...").

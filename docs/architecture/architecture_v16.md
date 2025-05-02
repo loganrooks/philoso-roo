@@ -1,0 +1,137 @@
+# Hegel Philosophy RooCode Suite - Architecture V17 (KB Manager Revision)
+
+**Version:** 17.0
+**Date:** 2025-05-02
+**Status:** Active
+
+## 1. Overview
+
+This document outlines the V17 architecture for the Hegel Philosophy RooCode Suite, superseding the script-based V16 design. This revision incorporates critical user feedback [See Architect Feedback Log: 2025-05-02 13:43:34] by removing the `philosophy-kb-doctor` mode and associated maintenance scripts. Instead, it reintroduces a **`philosophy-kb-manager`** mode responsible for the internal logic of managing the Philosophy Knowledge Base (KB), including organization, validation, and maintenance operations.
+
+This architecture maintains the **strict separation** between the SPARC system's operational context (`memory-bank/`) and the philosophy domain knowledge (`philosophy-knowledge-base/`), as mandated in V16 [Global Decision Log: 2025-05-02 13:13:23]. The `philosophy-knowledge-base/` remains self-contained, holding domain knowledge and its specific operational data within `_operational/`, but the *management* of this operational data is now centralized within the `philosophy-kb-manager` mode itself.
+
+## 2. Core Principles
+
+1.  **Strict Separation:** `memory-bank/` contains only SPARC system operational context. `philosophy-knowledge-base/` contains only philosophy domain knowledge and the operational data *specific* to managing that knowledge (indices, logs, status, reports within `_operational/`).
+2.  **KB Self-Containment:** The `philosophy-knowledge-base/` directory holds the data, but the *logic* for managing its structure, validation, and operational data resides within the `philosophy-kb-manager` mode.
+3.  **Managed KB Access:** All interactions with the `philosophy-knowledge-base/` (both domain knowledge and operational data) are mediated through the `philosophy-kb-manager` mode. Other modes request data from or submit data to the `kb-manager`.
+4.  **Internalized Maintenance Logic:** The `philosophy-kb-manager` contains the internal logic for tasks like indexing, validation (including reference checking), logging KB operations, updating status, and generating reports, writing the results to the appropriate subdirectories within `philosophy-knowledge-base/_operational/`.
+
+## 3. Directory Structure
+
+```mermaid
+graph TD
+    subgraph SPARC System Context [memory-bank/]
+        style SPARCMem fill:#e0e0e0,stroke:#666,stroke-width:1px
+        MB_Active("activeContext.md")
+        MB_Global("globalContext.md")
+        MB_ModeSpecific("mode-specific/")
+        MB_Feedback("feedback/")
+    end
+
+    subgraph Philosophy Domain & Operations [philosophy-knowledge-base/]
+        style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+        PKB_Domain["Domain Knowledge<br>(e.g., concepts/, arguments/, processed_texts/)"]
+        PKB_Operational["_operational/ (KB-Internal Management Data)"]
+
+        subgraph PKB_Operational_Details ["_operational/"]
+             style KBOps fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2
+             PKB_Indices("indices/")
+             PKB_Logs("logs/")
+             PKB_Status("status/")
+             PKB_Reports("reports/")
+             PKB_Templates("formatting_templates_rules/")
+        end
+        PKB_Operational --> PKB_Operational_Details
+    end
+
+    Modes["SPARC Modes"] -- "R/W SPARC Ops Context<br>(via EvidMan)" --> SPARC System Context
+    Modes -- "Request/Submit Data" --> KB_Manager["philosophy-kb-manager"]
+
+    KB_Manager -- "Reads/Writes ALL Data" --> Philosophy Domain & Operations
+    KB_Manager -- "Manages/Generates" --> PKB_Operational_Details
+    KB_Manager -- "Writes SPARC Mode Log" --> MB_ModeSpecific
+
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Modes, KB_Manager mode;
+```
+
+**Directory Details:**
+
+*   **`memory-bank/`**: Exclusively stores SPARC system operational context (Unchanged from V16 detailed description).
+*   **`philosophy-knowledge-base/`**: Stores philosophy domain knowledge AND its specific operational data.
+    *   **Domain Knowledge Subdirectories (Examples - Structure Evolves):** (Unchanged from V16 detailed description - e.g., `concepts/`, `arguments/`, `processed_texts/`). *Managed by `kb-manager`.*
+    *   **`_operational/` (KB-Internal Management Data):** Contains operational data *generated and managed* by `philosophy-kb-manager`.
+        *   `indices/`: Search indices, relationship maps. (Formats: JSON, SQLite potentially). *Generated/Updated by `kb-manager`.*
+        *   `logs/`: Logs specific to KB operations (validation runs, indexing runs, significant updates). (Formats: .log, .md). *Written by `kb-manager`.*
+        *   `status/`: Files tracking KB status (validation state, last index time). (Formats: YAML, JSON, .flag). *Written/Updated by `kb-manager`.*
+        *   `reports/`: Human-readable reports (validation summaries, consistency checks). (Format: .md). *Generated by `kb-manager`.*
+        *   `formatting_templates_rules/`: Contains templates and rule definitions used by `kb-manager` for validation and formatting. (Formats: YAML, JSON, potentially template files). *Read by `kb-manager`.*
+
+## 4. Mode Interaction Patterns
+
+*   **SPARC Context:** All modes interact with `memory-bank/` via `philosophy-evidence-manager` (or equivalent) for SPARC-level operational context.
+*   **KB Interaction (Domain & Operational):** All modes requiring access to or modification of the `philosophy-knowledge-base/` (including reading indices or status from `_operational/`) **MUST** interact via the `philosophy-kb-manager` mode.
+    *   Modes send requests to `kb-manager` (e.g., "get concept definition", "find related arguments", "store new analysis", "get validation status").
+    *   `kb-manager` handles the file system operations within `philosophy-knowledge-base/`, applying its internal logic for organization, validation, and formatting.
+    *   `kb-manager` returns requested data or confirmation of storage/update to the requesting mode.
+
+## 5. `philosophy-kb-manager` Mode (Detailed - V17)
+
+*   **Responsibility:** Acts as the sole gateway and manager for the `philosophy-knowledge-base/`. Responsible for maintaining its structure, integrity, consistency, and operational metadata.
+*   **Internal Logic/Capabilities:**
+    *   **Structure Awareness:** Knows the defined directory structure within `philosophy-knowledge-base/`.
+    *   **CRUD Operations:** Handles requests from other modes to Create, Read, Update, and Delete entries in the domain knowledge subdirectories.
+    *   **Formatting & Templating:** Accesses and applies rules/templates stored in `_operational/formatting_templates_rules/` when creating or updating entries.
+    *   **Validation:** Performs internal validation checks when data is submitted or upon request. This includes:
+        *   Schema validation (checking YAML frontmatter fields).
+        *   Reference validation (checking if `related_ids` point to existing entries, potentially checking semantic sense based on rules).
+        *   Link integrity checks.
+    *   **Indexing:** Contains logic to build and update search indices or relationship maps stored in `_operational/indices/`. This can be triggered by updates or specific requests.
+    *   **Logging:** Logs significant KB operations (creations, deletions, validation runs, indexing runs) to files within `_operational/logs/`.
+    *   **Status Management:** Updates status files within `_operational/status/` (e.g., last validation timestamp, index freshness).
+    *   **Reporting:** Generates reports (e.g., validation summaries) stored in `_operational/reports/` upon request or schedule.
+    *   **Querying:** Handles queries from other modes, potentially utilizing indices in `_operational/indices/` for efficiency.
+*   **Workflow Example (Storing New Analysis):**
+    1.  `philosophy-class-analysis` mode generates an analysis.
+    2.  `philosophy-class-analysis` sends a "store analysis" request to `kb-manager` with the analysis content and metadata.
+    3.  `kb-manager` receives the request.
+    4.  `kb-manager` validates the submitted data against schemas and reference rules (using definitions in `_operational/formatting_templates_rules/`).
+    5.  If valid, `kb-manager` determines the correct path (e.g., `philosophy-knowledge-base/analyses/analysis_xyz.md`), applies formatting templates, and writes the file.
+    6.  `kb-manager` potentially updates relevant indices in `_operational/indices/`.
+    7.  `kb-manager` logs the creation operation in `_operational/logs/`.
+    8.  `kb-manager` sends confirmation (or error details) back to `philosophy-class-analysis`.
+    9.  `kb-manager` logs its *own SPARC mode execution* (e.g., "Received store request", "Validation passed", "Wrote file xyz", "Sent confirmation") to `memory-bank/mode-specific/philosophy-kb-manager.md`.
+*   **Data Boundaries:**
+    *   Reads/Writes exclusively within `philosophy-knowledge-base/` (both domain and `_operational` subdirectories).
+    *   Accepts requests from and sends responses to other SPARC modes.
+    *   Writes its *SPARC mode execution log* to `memory-bank/mode-specific/philosophy-kb-manager.md`.
+    *   **Does NOT directly access `memory-bank/` for KB operations.** (May query `evidence-manager` for SPARC context if needed for its own operation, but not for KB data).
+
+## 6. Data Formats & Schemas
+
+*   **Domain Knowledge (`philosophy-knowledge-base/[domain_subdir]/`):** Markdown (`.md`) with YAML frontmatter (Schema per V14/previous definitions, managed/validated by `kb-manager`).
+*   **`_operational/indices/`:** JSON, potentially SQLite. *Managed by `kb-manager`.*
+*   **`_operational/logs/`:** .log, .md. *Managed by `kb-manager`.*
+*   **`_operational/status/`:** YAML, JSON, .flag. *Managed by `kb-manager`.*
+*   **`_operational/reports/`:** .md. *Managed by `kb-manager`.*
+*   **`_operational/formatting_templates_rules/`:** YAML, JSON, template files. *Read by `kb-manager`.*
+
+## 7. Key Changes from Script-Based V16
+
+*   **`kb-doctor` Removed:** Replaced by `philosophy-kb-manager`.
+*   **`maintenance_scripts` Removed:** Logic for indexing, validation, logging, status, reporting is now internal to `philosophy-kb-manager`.
+*   **Centralized KB Interaction:** All modes interact with the KB *only* through `kb-manager`, removing direct file access for KB data by other modes.
+*   **Internalized Logic:** `kb-manager` encapsulates the rules and processes for managing the KB.
+
+## 8. Security & Extensibility
+
+*   **Security:** Centralizing KB access via `kb-manager` can potentially enhance security and consistency, as all modifications go through its validation logic. No hardcoded secrets.
+*   **Extensibility:** New domain types require updates to `kb-manager`'s internal logic and potentially new templates/rules in `_operational/formatting_templates_rules/`. New maintenance tasks are added as internal functions within `kb-manager`.
+
+## 9. Open Questions / Future Work
+
+*   Define the specific API/interface for requests between modes and `kb-manager`.
+*   Detail the internal logic and specific validation rules within `kb-manager`.
+*   Finalize schemas for `_operational/` files and `formatting_templates_rules/`.
+*   Consider performance implications of centralizing all KB access through a single mode.
