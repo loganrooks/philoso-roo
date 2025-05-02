@@ -1,4 +1,432 @@
 # Architect Specific Memory
+### [2025-05-02 15:56:11] Task: Enhance V18 Architecture (V18.1 - Rigor & Linux Paths)
+- **Action**: Based on user task [2025-05-02 15:48], updated `docs/architecture/architecture_v18.md` to V18.1. Incorporated philosophical rigor enhancements (KB schema, mode responsibilities, workflows) derived from analysis mode rules and user requirements. Standardized all file paths to use Linux conventions (`/`). Maintained V18 core principles (Direct KB Access, KB Doctor, KB/MB Separation) and V14 detail level.
+- **Output**: Overwrote `docs/architecture/architecture_v18.md` with V18.1 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: V18.1 design complete and documented. Ready for review/implementation planning. Cross-ref: [Global Context System Patterns: V18.1 - 2025-05-02 15:54:35], [Global Decision Log: V18.1 - 2025-05-02 15:54:35], [Active Context: 2025-05-02 15:56:11]
+
+### Component Specification: philosophy-kb-doctor (V18.1 Enhanced) - [2025-05-02 15:56:11]
+- **Responsibility**: Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. **V18.1:** Scripts may include validation checks for rigor elements (e.g., presence of determinacy fields, links to counter-arguments, source validity checks). Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status and rigor validation summaries to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
+- **Dependencies**: `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, `philosophy-evidence-manager` (for SPARC context).
+- **Interfaces Exposed**: Accepts maintenance triggers. Executes KB-internal scripts via `execute_command`. Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports status and rigor validation summaries to orchestrator.
+- **Logs**: Its *SPARC mode execution logs* go to `memory-bank/mode-specific/philosophy-kb-doctor.md`. The logs *of the maintenance tasks it triggers* go to `philosophy-knowledge-base/_operational/logs/`.
+
+### Component Specification: Analysis Modes (V18.1 Rigor Enhanced) - [2025-05-02 15:56:11]
+- **Responsibility**: Analyze sources/KB content, generate concepts, arguments, questions, etc., **ensuring philosophical rigor**.
+- **Interaction (V18.1):** Directly Read KB files (`philosophy-knowledge-base/`), query related context (linked entries, secondary sources). Explicitly analyze for rigor elements (determinacy, presuppositions, ambiguities, etc.). Directly Write findings to KB, **populating rigor-related fields** and ensuring links (`source_ref_keys`, `extraction_markers`, `related_ids`). Query `philosophy-evidence-manager` for SPARC context.
+- **Focus:** `class-analysis` (determinacy, evidence standards), `dialectical-analysis` (contradictions, presuppositions), `secondary-lit` (comparing interpretations), `questioning` (refining based on rigor gaps).
+
+### Component Specification: philosophy-verification-agent (V18.1 Rigor Enhanced) - [2025-05-02 15:56:11]
+- **Responsibility**: Verifies claims, citations, and **rigor elements** within drafts against KB entries and processed source chunks. Checks consistency, source representation, presence of rigor fields, handling of counter-arguments.
+- **Interaction (V18.1):** Directly Reads draft, KB entries (incl. rigor fields), source chunks. Generates verification reports highlighting rigor gaps. Triggers self-correction loop via `Orchestrator`. Queries `philosophy-evidence-manager` for SPARC context.
+
+### Data Model: Philosophy KB Entry (V18.1 Rigor Enhanced) - [2025-05-02 15:56:11]
+- **Purpose**: Standard structure for entries within `philosophy-knowledge-base/`, enhanced for rigor.
+- **Structure**:
+  ```yaml
+  ---
+  id: [UUID]
+  type: [Concept | Argument | Quotation | Reference | Question | Thesis | Relationship | Method | Meta-Reflection | Index | ProcessedTextChunk]
+  timestamp: [YYYY-MM-DD HH:MM:SS]
+  generating_mode: [mode-slug]
+  # --- Rigor & Context Fields (V18.1 Additions/Emphasis) ---
+  positive_determination: "..."
+  negative_determination: "..."
+  ordinary_language_contrast: "..."
+  related_terms: [[term_id_1, ...]]
+  presuppositions: ["...", "..."]
+  ambiguities: ["...", "..."]
+  counter_arguments: [[arg_id_1, ...]]
+  secondary_source_links: [[ref_id_1, ...]]
+  other_philosopher_views: [[ref_id_3, concept_id_x]]
+  verification_status: [Unverified | Verified | Disputed]
+  verification_notes: "..."
+  # --- V14 Context Tags (Retained) ---
+  tags: ["context:type:...", "context:id:...", "context:subtype:...", "hegel", ...]
+  # --- Linking & Source Fields (V11+, Emphasized V18.1) ---
+  source_ref_keys: [[ref_key_1, ...]] # CRITICAL
+  extraction_markers: [[marker_1, ...]] # CRITICAL
+  related_ids: [[id_1, ...]]
+  # --- Type-Specific Fields ---
+  # ...
+  ---
+  # Main Content (Markdown)
+  [Detailed description reflecting rigor elements.]
+  ```
+- **Relationships**: Managed via `related_ids` and `Relationship` entries.
+- **Notes**: Key change is addition/emphasis of rigor fields. See `docs/architecture/architecture_v18.md` (V18.1).
+
+### Diagram: Hegel Philosophy Suite V18.1 (Rigor Enhanced) - [2025-05-02 15:56:11]
+- **Description:** Overall mode interaction for V18.1. Modes access KB directly, populate/check rigor fields. `KBDoctor` handles maintenance & rigor validation via internal scripts. `Verify` checks rigor. Strict KB/MB separation. Linux paths (`/`).
+```mermaid
+graph TD
+    subgraph User Interaction
+        User(User)
+    end
+
+    subgraph Orchestration
+        Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph KB Maintenance & Rigor Validation
+        KBDoctor(philosophy-kb-doctor)
+    end
+
+    subgraph Text Processing
+        TextProc(philosophy-text-processor) -- Runs --> Scripts((External Scripts))
+    end
+
+    subgraph Analysis & Inquiry (Rigor Focused)
+        PreLec(philosophy-pre-lecture)
+        ClassAn(philosophy-class-analysis)
+        SecLit(philosophy-secondary-lit)
+        DialAn(philosophy-dialectical-analysis)
+        Quest(philosophy-questioning)
+    end
+
+    subgraph Meta-Reflection
+        MetaReflector(philosophy-meta-reflector)
+    end
+
+    subgraph Essay Generation & Verification (Rigor Focused)
+        EssayPrep(philosophy-essay-prep) -- Git Ops --> VCS[(Version Control System<br>(Git))]
+        DraftGen(philosophy-draft-generator)
+        CiteMan(philosophy-citation-manager)
+        Verify(philosophy-verification-agent)
+    end
+
+    subgraph Data Layer
+        subgraph SPARC Memory [SPARC Operational Context]
+            style SPARCMem fill:#e0e0e0,stroke:#666,stroke-width:1px
+            EvidMan(philosophy-evidence-manager)
+            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+            EvidMan -- Manages --> SPARCMB
+        end
+        subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
+            style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+            PhilKB_Data[(Philosophy KB Data<br>philosophy-knowledge-base/<br>concepts/, arguments/, etc.<br>+ Rigor Fields)]
+            PhilKB_Ops[(KB Operational<br>philosophy-knowledge-base/_operational/)]
+
+            subgraph KB_Ops_Details ["_operational/"]
+                 style KBOps fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2
+                 KB_Indices("indices/")
+                 KB_Logs("logs/")
+                 KB_Status("status/")
+                 KB_Reports("reports/")
+                 KB_Scripts("maintenance_scripts/<br>+ Rigor Validation Scripts?")
+            end
+            PhilKB_Ops --> KB_Ops_Details
+        end
+        RawSource[(Raw Source Materials<br>source_materials/raw/)]
+        ProcessedSource[(Processed Source<br>source_materials/processed/)]
+        Workspace(analysis_workspace / essay_prep)
+    end
+
+    %% Core Flow & Orchestration
+    User -- Request --> Orchestrator
+    Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Tasks --> PreLec
+    Orchestrator -- Delegate Tasks --> ClassAn
+    Orchestrator -- Delegate Tasks --> SecLit
+    Orchestrator -- Delegate Tasks --> DialAn
+    Orchestrator -- Delegate Tasks --> Quest
+    Orchestrator -- Delegate Tasks --> EssayPrep
+    Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Coordinate Commit? --> EssayPrep
+    Orchestrator -- Trigger KB Maintenance/Validation --> KBDoctor
+    Orchestrator -- Route KB/System Mod Proposal --> User
+    Orchestrator -- Relay Approval --> Architect
+    Orchestrator -- Relay Approval --> DevOps
+    Orchestrator -- Manage Self-Correction Loop --> Verify/KBDoctor/AnalysisModes
+    Orchestrator -- Results --> User
+
+    %% Text Processing Flow (V18 Direct Write)
+    TextProc -- Reads --> RawSource
+    TextProc -- Processed Chunks --> ProcessedSource
+    TextProc -- Direct Write KB (Index, Citations, Context) --> PhilKB_Data
+
+    %% Analysis & Inquiry Flow (V18.1 Direct R/W + Rigor)
+    PreLec -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
+    ClassAn -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
+    SecLit -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
+    DialAn -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
+    Quest -- Direct Write KB (Refined Qs + Rigor Fields) --> PhilKB_Data
+
+    PreLec -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+    ClassAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+    SecLit -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+    DialAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+    Quest -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+
+    %% Essay Flow (V18.1 Direct R/W + Rigor)
+    EssayPrep -- Direct Read KB (Thesis Context + Rigor) --> PhilKB_Data
+    EssayPrep -- Direct Write KB (Thesis + Rigor) --> PhilKB_Data
+    EssayPrep -- Request Draft --> DraftGen
+    EssayPrep -- Request Citation --> CiteMan
+    EssayPrep -- Request Verification --> Verify
+    EssayPrep -- Manage Files --> Workspace
+
+    DraftGen -- Direct Read KB (Evidence + Rigor) --> PhilKB_Data
+    DraftGen -- Draft --> EssayPrep
+    DraftGen -- Trigger Commit --> Orchestrator
+
+    CiteMan -- Direct Read KB (Refs + Rigor) --> PhilKB_Data
+    CiteMan -- Cited Draft/Biblio --> EssayPrep
+    CiteMan -- Trigger Commit --> Orchestrator
+
+    Verify -- Direct Read KB (Draft, Evidence, Rigor Fields) --> PhilKB_Data
+    Verify -- Verification Report (incl. Rigor Check) --> EssayPrep
+    Verify -- Trigger Correction Loop? --> Orchestrator
+
+    %% Meta-Reflection Flow (V18.1 Direct R/W)
+    MetaReflector -- Direct Read KB --> PhilKB_Data
+    MetaReflector -- Query MB --> EvidMan
+    MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
+    MetaReflector -- Direct Write KB (Reflections + Rigor) --> PhilKB_Data
+    MetaReflector -- Propose KB Mod --> Orchestrator
+    MetaReflector -- Propose Arch Mod --> Orchestrator
+    MetaReflector -- Propose Method/Git Mod --> Orchestrator
+
+    %% KB Doctor Interactions (Maintenance + Rigor Validation)
+    KBDoctor -- Triggers --> KB_Scripts
+    KB_Scripts -- Read/Write --> PhilKB_Data
+    KB_Scripts -- Read/Write --> KB_Indices
+    KB_Scripts -- Write Logs --> KB_Logs
+    KB_Scripts -- Write Status --> KB_Status
+    KB_Scripts -- Perform Rigor Validation --> PhilKB_Data
+    KBDoctor -- Reads Status/Logs --> PhilKB_Ops
+    KBDoctor -- Writes Reports (incl. Rigor Summary) --> KB_Reports
+    KBDoctor -- Report Status/Rigor --> Orchestrator
+
+    %% Evidence Manager Interactions (SPARC Context ONLY)
+    EvidMan -- Access/Update --> SPARCMB
+    Orchestrator -- Use SPARC Context --> EvidMan
+    TextProc -- Use SPARC Context --> EvidMan
+    PreLec -- Use SPARC Context --> EvidMan
+    ClassAn -- Use SPARC Context --> EvidMan
+    SecLit -- Use SPARC Context --> EvidMan
+    DialAn -- Use SPARC Context --> EvidMan
+    Quest -- Use SPARC Context --> EvidMan
+    EssayPrep -- Use SPARC Context --> EvidMan
+    DraftGen -- Use SPARC Context --> EvidMan
+    CiteMan -- Use SPARC Context --> EvidMan
+    Verify -- Use SPARC Context --> EvidMan
+    MetaReflector -- Use SPARC Context --> EvidMan
+    KBDoctor -- Use SPARC Context --> EvidMan
+
+
+    %% Styling
+    classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
+    class PhilKB_Data, PhilKB_Ops kb;
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,EvidMan,MetaReflector,KBDoctor mode;
+    classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
+    class Scripts, KB_Scripts script;
+    classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
+    class VCS vcs;
+    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class SPARCMB sparcmb;
+    classDef source fill:#dff0d8,stroke:#3c763d,stroke-width:1px;
+    class RawSource,ProcessedSource source;
+    classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
+    class KB_Indices,KB_Logs,KB_Status,KB_Reports,KB_Scripts kbops;
+```
+**Notes:** Reflects V18.1 architecture documented in `docs/architecture/architecture_v18.md`.
+### [2025-05-02 15:25:15] Task: Design V18 Architecture (Direct KB Access + KB Doctor)
+- **Action**: Based on user task [2025-05-02 15:22] and V14 reference (`docs/architecture/architecture_v14.md`), designed V18 architecture. Key changes: Removed `philosophy-kb-manager`, implemented direct KB read/write access for modes following defined patterns, introduced `philosophy-kb-doctor` for maintenance (non-gatekeeping), ensured strict KB/MB separation, retained V14 source context handling.
+- **Output**: Created `docs/architecture/architecture_v18.md` with detailed V18 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: V18 design complete and documented. Ready for review/implementation planning. Cross-ref: [Global Context System Patterns: V18 - 2025-05-02 15:25:15], [Global Decision Log: 2025-05-02 15:25:15], [Active Context: 2025-05-02 15:25:15]
+
+### Component Specification: philosophy-kb-doctor (V18 New) - [2025-05-02 15:25:15]
+- **Responsibility**: Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
+- **Dependencies**: `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, `philosophy-evidence-manager` (for SPARC context).
+- **Interfaces Exposed**: Accepts maintenance triggers. Executes KB-internal scripts via `execute_command`. Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports status to orchestrator.
+- **Logs**: Its *SPARC mode execution logs* go to `memory-bank/mode-specific/philosophy-kb-doctor.md`. The logs *of the maintenance tasks it triggers* go to `philosophy-knowledge-base/_operational/logs/`.
+
+### Component Specification: philosophy-text-processor (V18 Revised) - [2025-05-02 15:25:15]
+- **Responsibility**: Pre-processes source texts from `source_materials/raw/` via external scripts (chunking, indexing, citation extraction). Parses input path to extract context (`type`, `id`, `subtype`). **V18:** Directly writes outputs (index/chunk info, citation data, context tags) to designated files/sections within `philosophy-knowledge-base/`.
+- **Dependencies**: External scripts, `philosophy-orchestrator`, File system tools (`write_to_file`, `insert_content`), `philosophy-evidence-manager` (for SPARC context).
+- **Interfaces Exposed**: Accepts task delegation. Outputs processed chunks to `source_materials/processed/`. Writes data directly to KB.
+
+### Component Specification: Analysis Modes (V18 Revised) - [2025-05-02 15:25:15]
+- **Responsibility**: Analyze sources/KB content, generate concepts, arguments, questions, etc.
+- **Interaction (V18):** Directly Read KB files (`philosophy-knowledge-base/`) using file tools (`read_file`, `search_files`), applying context filters. Directly Write findings to designated KB files/sections using file tools (`write_to_file`, `insert_content`). Query `philosophy-evidence-manager` for SPARC context.
+
+### Component Specification: Essay Modes (V18 Revised) - [2025-05-02 15:25:15]
+- **Responsibility**: Manage essay writing, drafting, citation, verification.
+- **Interaction (V18):** Directly Read relevant KB entries from `philosophy-knowledge-base/` using file tools, applying context filters. Directly Write thesis (`essay-prep`) to KB. Query `philosophy-evidence-manager` for SPARC context. `essay-prep` manages Git.
+
+### Diagram: Hegel Philosophy Suite V18 (Direct KB Access + KB Doctor) - [2025-05-02 15:25:15]
+- **Description:** Overall mode interaction for V18. Modes access KB directly. `KBDoctor` handles maintenance via internal scripts. Strict KB/MB separation.
+```mermaid
+graph TD
+    subgraph User Interaction
+        User(User)
+    end
+
+    subgraph Orchestration
+        Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph KB Maintenance
+        KBDoctor(philosophy-kb-doctor)
+    end
+
+    subgraph Text Processing
+        TextProc(philosophy-text-processor) -- Runs --> Scripts((External Scripts))
+    end
+
+    subgraph Analysis & Inquiry
+        PreLec(philosophy-pre-lecture)
+        ClassAn(philosophy-class-analysis)
+        SecLit(philosophy-secondary-lit)
+        DialAn(philosophy-dialectical-analysis)
+        Quest(philosophy-questioning)
+    end
+
+    subgraph Meta-Reflection
+        MetaReflector(philosophy-meta-reflector)
+    end
+
+    subgraph Essay Generation & Verification
+        EssayPrep(philosophy-essay-prep) -- Git Ops --> VCS[(Version Control System<br>(Git))]
+        DraftGen(philosophy-draft-generator)
+        CiteMan(philosophy-citation-manager)
+        Verify(philosophy-verification-agent)
+    end
+
+    subgraph Data Layer
+        subgraph SPARC Memory [SPARC Operational Context]
+            style SPARCMem fill:#e0e0e0,stroke:#666,stroke-width:1px
+            EvidMan(philosophy-evidence-manager)
+            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+            EvidMan -- Manages --> SPARCMB
+        end
+        subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
+            style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
+            PhilKB_Data[(Philosophy KB Data<br>philosophy-knowledge-base/<br>concepts/, arguments/, etc.)]
+            PhilKB_Ops[(KB Operational<br>philosophy-knowledge-base/_operational/)]
+
+            subgraph KB_Ops_Details ["_operational/"]
+                 style KBOps fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2
+                 KB_Indices("indices/")
+                 KB_Logs("logs/")
+                 KB_Status("status/")
+                 KB_Reports("reports/")
+                 KB_Scripts("maintenance_scripts/")
+            end
+            PhilKB_Ops --> KB_Ops_Details
+        end
+        RawSource[(Raw Source Materials<br>source_materials/raw/)]
+        ProcessedSource[(Processed Source<br>source_materials/processed/)]
+        Workspace(analysis_workspace / essay_prep)
+    end
+
+    %% Core Flow & Orchestration
+    User -- Request --> Orchestrator
+    Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Tasks --> PreLec
+    Orchestrator -- Delegate Tasks --> ClassAn
+    Orchestrator -- Delegate Tasks --> SecLit
+    Orchestrator -- Delegate Tasks --> DialAn
+    Orchestrator -- Delegate Tasks --> Quest
+    Orchestrator -- Delegate Tasks --> EssayPrep
+    Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Coordinate Commit? --> EssayPrep
+    Orchestrator -- Trigger KB Maintenance --> KBDoctor
+    Orchestrator -- Route KB/System Mod Proposal --> User
+    Orchestrator -- Relay Approval --> Architect
+    Orchestrator -- Relay Approval --> DevOps
+    Orchestrator -- Results --> User
+
+    %% Text Processing Flow (V18 Direct Write)
+    TextProc -- Reads --> RawSource
+    TextProc -- Processed Chunks --> ProcessedSource
+    TextProc -- Direct Write KB --> PhilKB_Data
+
+    %% Analysis & Inquiry Flow (V18 Direct R/W)
+    PreLec -- Direct Write KB --> PhilKB_Data
+    ClassAn -- Direct Write KB --> PhilKB_Data
+    SecLit -- Direct Write KB --> PhilKB_Data
+    DialAn -- Direct Write KB --> PhilKB_Data
+    Quest -- Direct Write KB --> PhilKB_Data
+
+    PreLec -- Direct Read KB --> PhilKB_Data
+    ClassAn -- Direct Read KB --> PhilKB_Data
+    SecLit -- Direct Read KB --> PhilKB_Data
+    DialAn -- Direct Read KB --> PhilKB_Data
+    Quest -- Direct Read KB --> PhilKB_Data
+
+    %% Essay Flow (V18 Direct R/W)
+    EssayPrep -- Direct Read KB --> PhilKB_Data
+    EssayPrep -- Direct Write KB --> PhilKB_Data
+    EssayPrep -- Request Draft --> DraftGen
+    EssayPrep -- Request Citation --> CiteMan
+    EssayPrep -- Request Verification --> Verify
+    EssayPrep -- Manage Files --> Workspace
+
+    DraftGen -- Direct Read KB --> PhilKB_Data
+    DraftGen -- Draft --> EssayPrep
+    DraftGen -- Trigger Commit --> Orchestrator
+
+    CiteMan -- Direct Read KB --> PhilKB_Data
+    CiteMan -- Cited Draft/Biblio --> EssayPrep
+    CiteMan -- Trigger Commit --> Orchestrator
+
+    Verify -- Direct Read KB --> PhilKB_Data
+    Verify -- Verification Report --> EssayPrep
+
+    %% Meta-Reflection Flow (V18 Direct R/W)
+    MetaReflector -- Direct Read KB --> PhilKB_Data
+    MetaReflector -- Query MB --> EvidMan
+    MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
+    MetaReflector -- Direct Write KB --> PhilKB_Data
+    MetaReflector -- Propose KB Mod --> Orchestrator
+    MetaReflector -- Propose Arch Mod --> Orchestrator
+    MetaReflector -- Propose Method/Git Mod --> Orchestrator
+
+    %% KB Doctor Interactions (Maintenance Only)
+    KBDoctor -- Triggers --> KB_Scripts
+    KB_Scripts -- Read/Write --> PhilKB_Data
+    KB_Scripts -- Read/Write --> KB_Indices
+    KB_Scripts -- Write Logs --> KB_Logs
+    KB_Scripts -- Write Status --> KB_Status
+    KBDoctor -- Reads Status/Logs --> PhilKB_Ops
+    KBDoctor -- Writes Reports --> KB_Reports
+
+    %% Evidence Manager Interactions (SPARC Context ONLY)
+    EvidMan -- Access/Update --> SPARCMB
+    Orchestrator -- Use SPARC Context --> EvidMan
+    TextProc -- Use SPARC Context --> EvidMan
+    PreLec -- Use SPARC Context --> EvidMan
+    ClassAn -- Use SPARC Context --> EvidMan
+    SecLit -- Use SPARC Context --> EvidMan
+    DialAn -- Use SPARC Context --> EvidMan
+    Quest -- Use SPARC Context --> EvidMan
+    EssayPrep -- Use SPARC Context --> EvidMan
+    DraftGen -- Use SPARC Context --> EvidMan
+    CiteMan -- Use SPARC Context --> EvidMan
+    Verify -- Use SPARC Context --> EvidMan
+    MetaReflector -- Use SPARC Context --> EvidMan
+    KBDoctor -- Use SPARC Context --> EvidMan
+
+
+    %% Styling
+    classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
+    class PhilKB_Data, PhilKB_Ops kb;
+    classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,EvidMan,MetaReflector,KBDoctor mode;
+    classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
+    class Scripts, KB_Scripts script;
+    classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
+    class VCS vcs;
+    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class SPARCMB sparcmb;
+    classDef source fill:#dff0d8,stroke:#3c763d,stroke-width:1px;
+    class RawSource,ProcessedSource source;
+    classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
+    class KB_Indices,KB_Logs,KB_Status,KB_Reports,KB_Scripts kbops;
+```
+**Notes:** Reflects V18 architecture documented in `docs/architecture/architecture_v18.md`.
 ### [2025-05-02 13:44:56] Task: Design V17 Architecture (KB Manager Revision)
 - **Action**: Following user intervention [Architect Feedback Log: 2025-05-02 13:43:34] rejecting script-based V16, redesigned architecture to V17. Reintroduced `philosophy-kb-manager` responsible for internal KB logic (organization, validation, `_operational/` data management). Removed `kb-doctor` and `maintenance_scripts`. Maintained strict KB/MB separation.
 - **Output**: Overwrote `docs/architecture/architecture_v16.md` with detailed V17 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).

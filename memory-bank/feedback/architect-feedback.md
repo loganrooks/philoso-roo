@@ -1,3 +1,10 @@
+[2025-05-02 15:59:00] - Architect - User Intervention
+- **Trigger**: User message after interrupted `attempt_completion`.
+- **Context**: Task was to update `docs/architecture/architecture_v18.md` to V18.1 (rigor + Linux paths). Interruption occurred after Memory Bank updates but before user confirmation of `attempt_completion`.
+- **Action**: User instructed: "there should be no reference to SPARC".
+- **Rationale**: Remove system-specific terminology ("SPARC") from the architecture document and Memory Bank entries for generality.
+- **Outcome**: Will re-read the architecture doc (as the previous write was reverted), remove "SPARC" references, rewrite the doc, and update the corresponding Memory Bank entries.
+- **Follow-up**: Proceed with modifications.
 ### User Intervention - 2025-05-02 13:43:34
 - **Trigger:** User message interrupting Memory Bank update after writing detailed V16 architecture (`docs/architecture/architecture_v16.md`).
 - **Context:** The written V16 architecture included `philosophy-kb-doctor` orchestrating scripts in `philosophy-knowledge-base/_operational/maintenance_scripts/`.
