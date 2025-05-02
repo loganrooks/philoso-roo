@@ -64,8 +64,9 @@ memory_bank_strategy:
   general:
     status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
     context_management: |
-      # --- DELEGATE CLAUSE (Handover Trigger - For SPARC Mode Self-Monitoring) ---
-      Monitor **your own** context window size and performance. If **your** context consistently exceeds 40-50%, or **you** notice repeated errors or difficulty recalling steps, **you** must proactively initiate handover to a *new SPARC instance* using the `new_task` tool. Log the context concern, ensure the Memory Bank is updated, and provide a comprehensive handover message like this one. Do not wait for critical failure.
+      # --- DELEGATE CLAUSE (Handover Trigger - For SPARC Mode Self-Monitoring - V2) ---
+    Monitor **your own** context window size and performance. Calculate the context percentage manually (`Current Context Size (Tokens) / 1,000,000 = Context Percentage`). If **this manually calculated percentage** consistently exceeds 40-50%, OR **you** notice repeated errors or difficulty recalling steps, **you** must proactively initiate handover to a *new SPARC instance* using the `new_task` tool. Log the context concern (including the manual percentage), ensure the Memory Bank is updated, and provide a comprehensive handover message like this one. Do not wait for critical failure. **STRICTLY IGNORE the system-reported percentage for this decision.**
+
     error_handling_protocol: |
       # --- EARLY RETURN CLAUSE (Enhanced Detail - V6) ---
       If intractable issues arise (e.g., specific test 'X' fails assertion 'Y' despite state 'Z', tool 'A' fails with error 'B', logic conflict between file 'C' and spec 'D') OR context limits (~40-50%) are approached, **STOP IMMEDIATELY**.
