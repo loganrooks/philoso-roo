@@ -1,4 +1,8 @@
 # Architect Specific Memory
+### [2025-05-02 23:54:29] Task: Define Standard `.clinerules` Structures (V1)
+- **Action**: Based on user task [2025-05-02 23:50:14] and decision log entry, defined standard structures (Simple Task Mode, Complex Analysis/Generation Mode) for philosophy mode `.clinerules` files. Aligned standards with V18.3 architecture (Direct KB Access, Orchestrator focus), incorporated rigor guidelines, and defined strict protocols for critical workflows (KB interaction, logging, error reporting, verification). Inspired by `.clinerules-philosophy-essay-prep`.
+- **Output**: Created `docs/standards/clinerules_standard_v1.md`. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: Standard V1 defined and documented. Ready for review and application. Cross-ref: [Global Decision Log: 2025-05-02 23:50:14], [Global System Patterns: 2025-05-02 23:54:29], [Active Context: 2025-05-02 23:54:29]
 ### [2025-05-02 21:16:32] Task: Enhance V18.2 Architecture (V18.3 - Feedback Integration)
 - **Action**: Based on user critique [Feedback: 2025-05-02 21:09], updated `docs/architecture/architecture_v18.md` to V18.3. Integrated feedback regarding Knowledge Evolution (Sec 6.1), Failure Handling (Sec 7.1, 7.2, 7.3 notes), Cross-Mode Communication (Sec 4.2 notes), User Interaction (Sec 7.4), and Evaluation Framework (Sec 4.4, 7.3 enhancements).
 - **Output**: Modified `docs/architecture/architecture_v18.md` with V18.3 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).

@@ -20,6 +20,13 @@
 <!-- Append intervention details using the format below -->
 
 ## Components Implemented
+### [2025-05-02 22:27:00] `philosophy-kb-doctor` Mode Rules (V18.3 Update)
+- **Purpose**: Defines the `philosophy-kb-doctor` mode, responsible for orchestrating KB maintenance scripts (indexing, validation, cleanup, rigor checks) via `execute_command`, reading KB operational data, reporting summaries to `philosophy-orchestrator`, and logging its own operations directly to `phil-memory-bank/`. Non-gatekeeping.
+- **Files**: `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`
+- **Status**: Implemented (Updated to V18.3)
+- **Dependencies**: Relies on `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, `execute_command`, file system tools (`read_file`, `write_to_file`, `insert_content`, `search_files`, `list_files`), and the RooCode mode execution framework. Assumes V18.3 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Triggered by `philosophy-orchestrator` via `trigger_kb_maintenance`. Reports back via `attempt_completion`.
+- **Tests**: N/A (Configuration file).
 ### [2025-05-02 12:30:42] `philosophy-essay-prep` Mode Rules (V1.1 - V14 Update)
 - **Purpose**: Defines the `philosophy-essay-prep` mode, responsible for managing the essay writing process according to V14 architecture. Coordinates outlining, thesis development (via KB), research integration (context-aware KB queries), drafting, citation, revision, and Git version control.
 - **Files**: `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`

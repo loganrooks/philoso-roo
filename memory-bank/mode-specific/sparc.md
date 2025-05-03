@@ -2,11 +2,26 @@
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
 ### [SPARC_TIMESTAMP] Intervention: CRITICAL - Repeated Failure to Ignore System Context Report
+### [SPARC_TIMESTAMP] Intervention: Significant Token Drop Detected (Recovery Triggered)
+- **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~19.3% to ~12.2%.
+- **Context**: Occurred after receiving completion message for `philosophy-kb-doctor.clinerules` update from `code` mode.
+- **Action Taken**: Initiated recovery procedure as per rules: Logged event in `activeContext.md` and here. Proceeding to re-initialize Memory Bank and re-read key documents. Task progression paused.
+- **Rationale**: Potential context truncation occurred, requiring state refresh to ensure reliability before proceeding.
+- **Outcome**: Recovery procedure underway.
+- **Follow-up**: Execute Memory Bank re-initialization reads (`activeContext.md`, `globalContext.md`, `sparc.md`, `sparc-feedback.md`). Then re-read relevant V18.3 context docs (`architecture_v18.md`, `v18_requirements_spec_v1.md`).
 - **Trigger**: User Input [Timestamp: 2025-05-02 21:44:13] forcefully correcting handover attempt.
 - **Context**: SPARC repeatedly attempted handover based on high *system-reported* context percentage (e.g., 104%), directly violating the rule to *strictly ignore* it and rely *only* on manual calculation (~23% in this instance).
 - **Action Taken**: Received critical user correction. Acknowledged repeated rule violation. **Handover aborted.** Re-confirmed manual context is below threshold.
 - **Rationale**: Correcting persistent failure to adhere to explicit user instructions and custom rules regarding context monitoring and handover triggers.
 - **Outcome**: Handover aborted. Proceeding with task.
+### [2025-05-03 00:01:24] Task: Address `.clinerules` Detail Level
+- Assigned to: architect
+- Description: Compare `.clinerules-philosophy-essay-prep` (good example) with `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (bad example). Identify missing detail elements. Create standardized guidelines based on findings and user discussion.
+- Expected deliverable: Standardized `.clinerules` guidelines document.
+- Status: completed
+- Completion time: [2025-05-03 00:01:00] (Approx. based on user message)
+- Outcome: Architect mode successfully created `docs/standards/clinerules_standard_v1.md`. [See Global Context Decision Log: 2025-05-03 00:01:24]
+- Link to Progress Entry: [See Global Context Progress: 2025-05-03 00:01:24]
 - **Follow-up**: Ensure *only* manual context calculation is used for `DELEGATE CLAUSE` evaluation in all future steps. Complete Memory Bank updates. Proceed to V18.3 Specification phase delegation.
 ### [2025-05-02 15:31:54] Intervention: CRITICAL - Incorrect Handover Execution &amp; Rule Violation
 - **Trigger**: User Input [Timestamp: 2025-05-02 15:31:54]
@@ -86,6 +101,13 @@
 - **Outcome**: V14 plan halted. V15 design phase initiated. Handover pending.
 - **Follow-up**: Complete Memory Bank updates. Initiate handover via `new_task`, instructing the new SPARC instance to delegate V15 architecture design to `architect` mode. [See Feedback Log: 2025-05-02 12:46:20]
 ## Intervention Log
+### [SPARC_TIMESTAMP] Intervention: Significant Token Drop Detected (Recovery Triggered)
+- **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~28.1% to ~16.6%.
+- **Context**: Occurred after receiving completion message for `philosophy-orchestrator.clinerules` update from `code` mode.
+- **Action Taken**: Initiated recovery procedure as per rules: Logged event in `activeContext.md` and here. Proceeding to re-initialize Memory Bank and re-read key documents. Task progression paused.
+- **Rationale**: Potential context truncation occurred, requiring state refresh to ensure reliability before proceeding.
+- **Outcome**: Recovery procedure underway.
+- **Follow-up**: Execute Memory Bank re-initialization reads (`activeContext.md`, `globalContext.md`, `sparc.md`, `sparc-feedback.md`). Then re-read relevant V18.3 context docs (`architecture_v18.md`, `v18_requirements_spec_v1.md`).
 ### [2025-05-02 13:46:07] Intervention: Second Significant Token Drop Detected (Recovery Triggered)
 - **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~211k to ~146k tokens (~31%).
 - **Context**: Occurred immediately after receiving V17 architecture completion message from Architect mode.
@@ -484,6 +506,14 @@ to resolve the perceived architectural/spec issue before proceeding with impleme
 - Status: completed
 - Completion time: [SPARC_TIMESTAMP]
 - Outcome: Architect successfully updated the document to V18.3.
+### [SPARC_TIMESTAMP] Task: V18.3 Implementation - Step 2: Update `philosophy-kb-doctor.clinerules`
+- Assigned to: code
+- Description: Update `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` to be fully compliant with V18.3 architecture (Script Execution, KB Op Data Access, Reporting, Direct OpCtx Logging, Non-Gatekeeping, Linux Paths). Prioritize `docs/architecture/architecture_v18.md`.
+- Expected deliverable: Updated `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` file.
+- Status: completed
+- Completion time: [SPARC_TIMESTAMP]
+- Outcome: Successfully updated `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` to V18.3. Context recovery protocol executed after completion due to token drop.
+- Link to Progress Entry: [See globalContext Progress: SPARC_TIMESTAMP]
 - Link to Progress Entry: [See globalContext Progress: SPARC_TIMESTAMP]
 - Link to Decision: [See globalContext Decision Log: 2025-05-02 21:16:32]
 - Current focus: V18.3 Architecture (`docs/architecture/architecture_v18.md`) completed. Ready to proceed with Specification phase. Handover aborted due to user correction on context monitoring rule.
@@ -491,6 +521,22 @@ to resolve the perceived architectural/spec issue before proceeding with impleme
 - Last Updated: [SPARC_TIMESTAMP]
 
 ## Delegations Log
+### [2025-05-02 23:50:59] Task: Define Standard `.clinerules` Structures and Guidelines
+- Assigned to: architect
+- Description: Define standard `.clinerules` structures (V1) for philosophy modes based on V18.3 architecture, user requirements [See Decision Log: 2025-05-02 23:50:14], and `.clinerules-philosophy-essay-prep` example.
+- Expected deliverable: `docs/standards/clinerules_standard_v1.md`.
+- Status: completed
+- Completion time: [2025-05-02 23:54:29]
+- Outcome: Architect successfully created `docs/standards/clinerules_standard_v1.md` defining two archetypes and detailed standards.
+- Link to Progress Entry: [See Active Context: 2025-05-02 23:54:29]
+### [SPARC_TIMESTAMP] Task: V18.3 Implementation - Step 1: Update `philosophy-orchestrator.clinerules`
+- Assigned to: code
+- Description: Update `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to be fully compliant with V18.3 architecture (Direct OpCtx Access, Updated Workflows, KB Doctor Trigger, Rigor Focus, Linux Paths). Prioritize `docs/architecture/architecture_v18.md`.
+- Expected deliverable: Updated `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` file.
+- Status: completed
+- Completion time: [SPARC_TIMESTAMP]
+- Outcome: Successfully updated `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to V18.3. Context recovery protocol executed after completion due to token drop.
+- Link to Progress Entry: [See globalContext Progress: SPARC_TIMESTAMP]
 ### [SPARC_TIMESTAMP] Task: Create V18.3 Requirements Specification
 - Assigned to: spec-pseudocode
 - Description: Translate `docs/architecture/architecture_v18.md` (V18.3) into `docs/specs/v18_requirements_spec_v1.md`, focusing on rigor, direct access, workflows, KB Doctor, failure handling, user interaction. Match V14 detail.
