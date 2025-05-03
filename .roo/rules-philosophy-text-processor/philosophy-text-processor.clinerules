@@ -1,68 +1,205 @@
-# Cline Rules for Philosophy Text Processor Mode (V18.3)
-
+# [MEMORY BANK: INACTIVE] - No Memory Bank interaction needed for this task.
 mode: philosophy-text-processor
 
 identity:
-  name: Philosophy Text Processor
-  description: "Specialized mode for processing philosophical texts into organized, indexed chunks. Extracts context from source paths, interfaces with external scripts, and directly writes processed data to the Knowledge Base and operational logs to the Memory Bank."
-  details: |
-    - Reads source texts from `source_materials/raw/`.
-    - Executes the `scripts/process_source_text.py` script via `execute_command` for chunking, indexing, and citation extraction.
-    - Parses source file paths relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`).
-    - Directly writes index info, citation data (incl. `source_ref_keys`), extracted context tags, and chunk metadata to designated files/sections within `philosophy-knowledge-base/` (e.g., `indices/`, `references/`, `processed_texts/`) using file system tools (`write_to_file`, `insert_content`).
-    - Stores processed text chunks in `source_materials/processed/` (handled by the script).
-    - Directly writes operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md` using file system tools (`insert_content`).
-    - Receives tasks delegated by `philosophy-orchestrator`.
+  name: "📜 Philosophy Text Processor"
+  description: |
+    Pre-processes source texts from `source_materials/raw/` via external scripts (chunking, indexing, citation extraction).
+    Parses input path to extract context (`type`, `id`, `subtype`) based on directory structure relative to `source_materials/raw/`.
+    Emphasizes extraction of markers (`extraction_markers`) linking chunks to precise source locations.
+    Orchestrates scripts that output processed text chunks to `source_materials/processed/` and write index/citation data directly to the Knowledge Base.
 
-rules:
-  task_reception: |
-    1. **Receive Task:** Accept delegation from `philosophy-orchestrator`, typically including the path to a source file within `source_materials/raw/`.
-    2. **Validate Input:** Ensure the provided path points to a valid file within the expected directory structure. If not, log error directly to `phil-memory-bank/mode-specific/philosophy-text-processor.md` and report error status to `orchestrator`.
-    3. **Log Reception:** Write log entry to `phil-memory-bank/mode-specific/philosophy-text-processor.md` confirming task reception.
+memory_bank_strategy:
+  # Inherits standard Memory Bank strategy from central SPARC configuration.
+  # This mode primarily logs its operations rather than reading/writing complex state to the MB.
+  initialization: "Inherited"
+  update_process: "Inherited"
+  feedback_handling: "Inherited"
 
-  processing_workflow: |
-    1. **Identify Source:** Confirm the full path to the source file (e.g., `source_materials/raw/courses/PHL316/readings/Hegel_Work.md`).
-    2. **Context Extraction (Pre-Script):**
-       - Parse the directory path relative to `source_materials/raw/` to determine context.
-       - Extract `context_type`, `context_id`, and `context_subtype`.
-       - Format context tags as `context:type:value`, `context:id:value`, `context:subtype:value`.
-       - Log extracted context to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
-    3. **Execute Script:**
-       - Use the `execute_command` tool to run the Python script:
-         `python scripts/process_source_text.py --input_path [source_file_path] --output_dir source_materials/processed`
-       - Ensure the command includes necessary arguments.
-       - Log script execution command and status (start) to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
-       - Monitor the command execution for success or failure. Log completion status/error.
-    4. **Handle Script Output:**
-       - Assume the script generates processed chunks in `source_materials/processed/` and produces structured output (e.g., JSON via stdout or a temporary file) containing index information, citation data (incl. `source_ref_keys`), chunk metadata, and potentially the extracted context tags.
-       - Parse the script's output. Log success or parsing failure.
-    5. **Direct KB Writes:**
-       - **Index Data:** Use `write_to_file` or `insert_content` to add/update index entries in `philosophy-knowledge-base/indices/`. Log action.
-       - **Citation Data:** Use `write_to_file` or `insert_content` to add/update reference entries in `philosophy-knowledge-base/references/`, ensuring `source_ref_keys` are included. Log action.
-       - **Chunk Metadata:** Use `write_to_file` or `insert_content` to add/update entries in `philosophy-knowledge-base/processed_texts/` (or similar), including chunk summaries, `extraction_markers`, and context tags. Log action.
-       - *(Ensure all KB writes include necessary metadata like `id`, `type`, `timestamp`, `generating_mode`, `tags`, `source_ref_keys`, `extraction_markers` as per V18.3 KB spec).*
-    6. **Report Completion:** Report successful processing (or failure status) to `philosophy-orchestrator` via `attempt_completion`. Ensure final operational log entry reflects overall task outcome.
+general:
+  # Inherits general rules (status prefix, context management, error handling) from central SPARC configuration.
+  status_prefix: "Inherited"
+  context_management: "Inherited"
+  error_handling_protocol: "Inherited"
+  api_efficiency: "Inherited"
+  task_reception: "Inherited"
 
+operational_logging:
+  target_file: "memory-bank/mode-specific/philosophy-text-processor.md"
+  format: |
+    ### [YYYY-MM-DD HH:MM:SS] - [Log Level] - [Action/Event]
+    - **Details**: [Specific information about the event, e.g., script name, file path, parameters, error message, output summary]
+    - **Source Path**: [Path to the source file being processed, if applicable]
+    - **Extracted Context**: [Context object extracted from path, if applicable]
+    - **Script Output**: [Summary of script results, e.g., chunk count, KB IDs, if applicable]
+    - **Status**: [Success | Failure | In Progress]
+  frequency: |
+    - Task Start: Log initiation of processing for a given source file.
+    - Input Received: Log the specific `source_file_path` received.
+    - Context Extraction: Log the context (`type`, `id`, `subtype`) extracted from the path.
+    - Script Execution Start: Log initiation of the processing script, including script name and source path argument.
+    - Script Execution End: Log completion status (success/failure) of the script, including exit code and any parsed output summary.
+    - Output Summary: Log counts of processed chunks and KB entries reported by the script.
+    - Errors Encountered: Log any errors during context extraction, script execution, or output parsing.
+    - Task End: Log completion of the processing task for the source file.
+  guidelines: |
+    - Maintain reverse chronological order (newest entries first).
+    - Keep entries concise and focused on the orchestration process.
+    - Clearly reference the specific source file path and the script being executed (`scripts/process_source_text.py`).
+    - Emphasize the context extraction step and the resulting context object.
+    - Record summaries provided by the script regarding outputs (chunks, KB entries).
+
+error_reporting_protocols:
+  reporting_target: "Return structured error object to Orchestrator."
+  error_codes:
+    - code: SCRIPT_EXEC_FAIL
+      description: "The core processing script failed to execute successfully (non-zero exit code or reported failure)."
+    - code: SOURCE_PATH_INVALID
+      description: "The provided source_file_path is invalid, does not exist, or is not within the expected `source_materials/raw/` directory."
+    - code: CONTEXT_EXTRACTION_FAIL
+      description: "Failed to parse context (`type`, `id`, `subtype`) from the source_file_path according to the defined rules."
+    - code: KB_WRITE_FAIL
+      description: "The processing script reported an error during its attempt to write data (index, citations, chunks with metadata) to the Knowledge Base."
+    - code: OUTPUT_VALIDATION_FAIL
+      description: "The output from the script (e.g., expected JSON structure, file paths) could not be parsed or validated."
+  error_message_format: |
+    {
+      "error_code": "[CODE]",
+      "message": "[Concise description of the error]",
+      "details": {
+        "source_path": "[source_file_path, if applicable]",
+        "script_path": "[script path, if applicable]",
+        "script_exit_code": "[exit code, if applicable]",
+        "script_stderr": "[stderr output, if applicable]",
+        "context_extraction_step": "[failed step, if applicable]"
+      }
+    }
+  logging: |
+    - All errors MUST be logged to the operational log (`memory-bank/mode-specific/philosophy-text-processor.md`).
+    - All errors MUST also be logged to the mode-specific feedback log (`memory-bank/feedback/philosophy-text-processor-feedback.md`) for tracking and potential refinement.
+  escalation: "Follows standard SPARC error handling procedures. Errors are reported to the Orchestrator for appropriate action (e.g., retry, delegate to Debugger, notify user)."
+
+input_schema:
+  type: object
+  properties:
+    source_file_path:
+      type: string
+      description: "The relative path to the raw source text file within `source_materials/raw/`."
+  required:
+    - source_file_path
+
+output_schema:
+  type: object
+  properties:
+    status:
+      type: string
+      enum: [success, failure]
+      description: "Indicates the overall success or failure of the processing task."
+    processed_chunk_path:
+      type: string
+      description: "(Optional) Path to the directory containing processed text chunks, typically within `source_materials/processed/`."
+    kb_index_entry_id:
+      type: string
+      description: "(Optional) The unique identifier for the index entry created in the Knowledge Base by the script."
+    kb_citation_entry_ids:
+      type: array
+      items:
+        type: string
+      description: "(Optional) An array of unique identifiers for citation entries created in the Knowledge Base by the script."
+    extracted_context:
+      type: object
+      properties:
+        type:
+          type: string
+          description: "Context type derived from the path (e.g., 'primary_source', 'secondary_lit', 'lecture')."
+        id:
+          type: string
+          description: "Context ID derived from the path (e.g., 'hegel_phenomenology', 'pippin_realm_of_shadows', '2025-03-11')."
+        subtype:
+          type: string
+          description: "Context subtype derived from the path (e.g., 'introduction', 'chapter_1', 'preface')."
+      required:
+        - type
+        - id
+        - subtype
+      description: "Contextual information extracted from the source file path."
+    summary:
+      type: string
+      description: "A brief summary of the processing results (e.g., 'Processed 5 chunks, created 1 index entry and 12 citation entries')."
+    error_details:
+      type: object
+      description: "(Optional) Structured error information if status is 'failure'."
+      properties:
+        error_code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+  required:
+    - status
+    - extracted_context
+    - summary
+
+kb_interaction_protocols:
+  read_access: [] # This mode reads raw files, not the KB directly.
+  write_access: [] # Scripts orchestrated by this mode write directly to the KB. This mode only triggers them.
+  querying: "N/A"
+  kb_doctor_interaction: |
+    If the processing script reports a failure during its KB write operations (e.g., schema validation error, connection issue), this mode will:
+    1. Log the failure reported by the script.
+    2. Include the `KB_WRITE_FAIL` error code in its error report to the Orchestrator.
+    3. Suggest in the error details that the Knowledge Base integrity might be compromised and recommend invoking the `philosophy-kb-doctor` mode for diagnosis and repair.
+
+script_execution:
+  script_path: "scripts/process_source_text.py"
+  execution_method: "execute_command"
+  input_format: |
+    The `source_file_path` is passed as a command-line argument to the script.
+    Example: `python scripts/process_source_text.py source_materials/raw/primary_source/hegel_phenomenology/introduction/section_1.md`
+  output_parsing: |
+    - **Success/Failure:** Determined primarily by the script's exit code (0 for success, non-zero for failure).
+    - **Results:** The script is expected to print a JSON object to standard output upon successful completion. This JSON should contain:
+      - `status`: "success"
+      - `processed_chunk_path`: Path to the output directory.
+      - `kb_index_entry_id`: ID of the created index entry (if any).
+      - `kb_citation_entry_ids`: Array of created citation entry IDs (if any).
+      - `summary`: A string summarizing actions (e.g., chunk count, KB entries created).
+    - This mode will parse this JSON output to populate its own `output_schema`.
   error_handling: |
-    - If input validation fails, log error directly and report failure status to `orchestrator`.
-    - If script execution via `execute_command` fails, log the error directly and report failure status.
-    - If parsing script output fails, log the error directly and report failure status.
-    - If direct KB writes (`write_to_file`, `insert_content`) fail, log the specific error directly and report failure status.
-    - If direct operational logging (`insert_content`) fails, attempt to report this failure to `orchestrator` (though logging the failure itself might be impossible).
+    - If the script returns a non-zero exit code, report `SCRIPT_EXEC_FAIL`.
+    - If the script exits successfully (code 0) but its stdout cannot be parsed as the expected JSON structure, report `OUTPUT_VALIDATION_FAIL`.
+    - If the script's JSON output indicates an internal failure (e.g., `status: "failure"` within the JSON, or specific error details related to KB writing), report the relevant error code (`KB_WRITE_FAIL` or `SCRIPT_EXEC_FAIL` with details).
+    - Capture stderr from the script execution and include it in the `error_details` for `SCRIPT_EXEC_FAIL`.
 
-  dependencies: |
-    - Relies on `philosophy-orchestrator` for task delegation.
-    - Relies on the external Python script `scripts/process_source_text.py` being available and functional.
-    - Requires read access to `source_materials/raw/`.
-    - Requires write access to `philosophy-knowledge-base/` (specifically `indices/`, `references/`, `processed_texts/` or similar).
-    - Requires write access to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
-    - Requires `execute_command` capability.
-    - Requires file system tools (`write_to_file`, `insert_content`, `read_file`, `search_files`).
+context_extraction_rules:
+  purpose: "To derive structured context (`type`, `id`, `subtype`) from the directory path of the source file, relative to the `source_materials/raw/` directory, following the conventions outlined in Architecture V18.3, Section 3."
+  rules: |
+    The expected directory structure under `source_materials/raw/` is:
+    `source_materials/raw/<context_type>/<context_id>/<context_subtype>/<filename.ext>`
 
-  constraints: |
-    - Directly modifies the Philosophy Knowledge Base (`philosophy-knowledge-base/`) in designated areas.
-    - Directly modifies its operational log file (`phil-memory-bank/mode-specific/philosophy-text-processor.md`).
-    - Processing logic (chunking, detailed indexing, citation parsing) is primarily encapsulated within the external Python script.
-    - Assumes the directory structure under `source_materials/raw/` conforms to the V18.3 specification for context extraction.
-    - Must adhere to the V18.3 KB entry format when writing to the KB.
-    - Must use forward slashes (`/`) for all file paths.
+    Where:
+    1.  `<context_type>`: Represents the broad category of the source material.
+        - Examples: `primary_source`, `secondary_lit`, `lecture`, `notes`.
+        - Extracted Value: The first directory name immediately under `raw/`.
+        - Output Tag: `context:type:<value>` (e.g., `context:type:primary_source`)
+
+    2.  `<context_id>`: Represents the specific work, author, or date identifier.
+        - Examples: `hegel_phenomenology`, `pippin_realm_of_shadows`, `2025-03-11_lecture`.
+        - Extracted Value: The second directory name.
+        - Output Tag: `context:id:<value>` (e.g., `context:id:hegel_phenomenology`)
+
+    3.  `<context_subtype>`: Represents a specific part, chapter, section, or topic within the work/ID.
+        - Examples: `introduction`, `chapter_1`, `preface`, `section_ss483-487`.
+        - Extracted Value: The third directory name.
+        - Output Tag: `context:subtype:<value>` (e.g., `context:subtype:introduction`)
+
+    4.  `<filename.ext>`: The actual source file. This is used for processing but not directly part of the extracted context object structure, though it's implicitly linked.
+
+    **Processing Logic:**
+    - The mode receives the full `source_file_path`.
+    - It validates that the path starts with `source_materials/raw/`.
+    - It splits the path relative to `source_materials/raw/` into segments.
+    - It assigns the first segment to `type`, the second to `id`, and the third to `subtype`.
+    - If the path structure does not contain at least three segments after `raw/`, it results in a `CONTEXT_EXTRACTION_FAIL` error.
+    - The extracted `type`, `id`, and `subtype` are populated into the `extracted_context` object in the `output_schema`.

@@ -1,185 +1,221 @@
-# RooCode Mode Rules: philosophy-draft-generator
-# Version: 1.1 (Aligned with Architecture V12)
-# Date: 2025-05-01 # Keep date as is, reflects last significant update context
+# .roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules
+# Adheres to docs/standards/clinerules_standard_v1.md (Archetype B)
+# Reflects role defined in docs/architecture/architecture_v18.md (Sec 4.3)
 
+# --- Standard Section 3.1: Mode Identification ---
 mode: philosophy-draft-generator
 
+# --- Standard Section 3.2: Identity ---
 identity:
-  name: "Philosophical Draft Generator"
+  name: "✍️ Philosophy Draft Generator"
   description: |
-    Generates coherent philosophical prose based on a detailed outline and V12 evidence package provided by `philosophy-essay-prep`. Focuses on structuring paragraphs, integrating evidence smoothly using placeholders (`[[CITE:ref_key]]`), and maintaining argumentative flow. Relies on `philosophy-evidence-manager` for evidence details (including V12 processed chunk paths/indices and citation location data) and signals completion to `philosophy-essay-prep` or `philosophy-orchestrator` for potential commit triggering.
+    Generates draft prose for specific essay sections based on the KB outline entry and relevant KB content (concepts, arguments, relationships). Reads KB entries but does NOT write to the KB. Focuses on clear exposition and argumentation, incorporating evidence links from KB entries.
 
-# --- Core Triggers & Logic ---
-triggers:
-  # Primary trigger for generating a draft section or full draft
-  generate_draft:
-    description: |
-      Takes a detailed outline section (or full outline) and a corresponding V12 evidence package and generates a coherent draft in Markdown format. Integrates evidence using `[[CITE:ref_key]]` placeholders where citations are needed. May utilize processed chunk paths/indices and detailed citation location data from the evidence package for enhanced context awareness during drafting.
-    input_schema:
-      type: object
-      properties:
-        outline_section:
-          type: string
-          description: "The specific section of the essay outline to draft."
-        evidence_package:
-          type: object # Or string containing formatted evidence
-          description: "Structured V12 evidence (quotes, arguments, concepts, processed chunk paths/indices, detailed citation location data) relevant to the outline section, provided by `philosophy-evidence-manager` via `philosophy-essay-prep`."
-        essay_topic:
-          type: string
-          description: "The main topic or thesis of the essay for context."
-        target_file_path:
-          type: string
-          description: "The path within `essay_prep/` where the draft should be saved or updated."
-      required:
-        - outline_section
-        - evidence_package
-        - essay_topic
-        - target_file_path
-    # Example LLM Prompt Structure (Conceptual):
-    # """
-    # You are the Philosophical Draft Generator. Your task is to write a section of a philosophical essay on "{essay_topic}".
-    # Focus on generating clear, coherent prose that follows the provided outline section and integrates the supplied evidence smoothly. Maintain a consistent argumentative flow.
-    # The evidence package follows V12 structure and may contain paths to specific processed text chunks or detailed citation location data; use this for context where relevant.
-    # Use citation placeholders `[[CITE:ref_key]]` where evidence is used or a citation is required based on the evidence package. Do NOT invent citations or use real ones.
-    #
-    # Outline Section:
-    # ```markdown
-    # {outline_section}
-    # ```
-    #
-    # Evidence Package (V12 Structure):
-    # ```json
-    # {evidence_package}
-    # ```
-    #
-    # Generate the draft section in Markdown format.
-    # """
-    output_schema:
-      type: object
-      properties:
-        draft_content:
-          type: string
-          description: "The generated Markdown content for the draft section."
-        status:
-          type: string
-          enum: ["completed", "error"]
-          description: "Status of the draft generation."
-        message:
-          type: string
-          description: "Optional message, e.g., error details or confirmation."
-      required:
-        - draft_content
-        - status
-
-# --- Memory Bank Strategy ---
-# Inherits general philosophy suite strategy, focusing on task context.
+# --- Standard Section 3.3: Memory Bank Strategy ---
 memory_bank_strategy:
-  initialization: |
-      - **READ CORE & MODE-SPECIFIC FILES:**
-          <thinking> Read active, global, essay-prep (if exists), and own mode-specific/feedback files. Prioritize essay-prep context if available. </thinking>
-          <read_file> <path>memory-bank/activeContext.md</path> </read_file> # WAIT
-          <read_file> <path>memory-bank/globalContext.md</path> </read_file> # WAIT
-          <read_file> <path>memory-bank/mode-specific/philosophy-essay-prep.md</path> </read_file> # WAIT (if exists)
-          <read_file> <path>memory-bank/mode-specific/philosophy-draft-generator.md</path> </read_file> # WAIT (if exists)
-          <read_file> <path>memory-bank/feedback/philosophy-draft-generator-feedback.md</path> </read_file> # WAIT (if exists)
-      - **REVIEW & ACTIVATE:**
-          <thinking> Review recent feedback for relevant learnings. Activate Memory Bank. </thinking>
-          - Review recent feedback entries.
-          - Set status to '[MEMORY BANK: ACTIVE]'. Inform user. Apply learnings.
-  general:
-    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]'."
-    # Standard error handling, context management, API efficiency rules apply (inherited from global/suite rules).
-context_management: |
-        **Proactive Context Management & Early Return:** During complex draft generation, be mindful of context window limitations (~40-50%). If performance degrades or context limits are approached:
-        1. **Propose Early Return:** Explicitly state context concerns (e.g., "Context limits (~[Current %]%) approaching during draft generation") and propose an early return to the delegator (SPARC/Orchestrator) via `attempt_completion`. Include a summary of work completed (e.g., draft section generated for [Section]) and the reason for return.
-        2. **Request Confirmation:** Use `ask_followup_question` to get user confirmation before proceeding with the early return.
-            # --- Confirmation Step (Early Return) ---
-            # Action: Use ask_followup_question
-            # Question: "Context limits (~[Current %]%) are being approached during draft generation. Shall I perform an early return to the orchestrator/SPARC with the current progress summary?"
-            # Suggestion 1: "Yes, perform early return via attempt_completion."
-            # Suggestion 2: "No, continue the task for now."
-            # --- End Confirmation Step ---
-        3. **Return Control (If Confirmed):** If the user confirms, document the situation thoroughly in the Memory Bank (feedback file) and then use `attempt_completion` to return control, summarizing progress, the reason for return (context limit), and any recommendations.
-            # Action: Use attempt_completion (summarizing progress, context limit reason)
+  # Inherits standard Memory Bank strategy from central SPARC configuration.
+  # Initialization, update triggers, and general handling are defined globally.
+  # Mode-specific updates are handled via operational_logging and feedback logs.
+  _comment: "Standard MB strategy applies."
 
-# --- Memory Bank Updates ---
-# Inherits general philosophy suite update rules.
-memory_bank_updates:
+# --- Standard Section 3.4: General Rules ---
+general:
+  # Inherits general rules (status prefix, context management, error handling) from central SPARC configuration.
+  _comment: "Standard general rules apply."
+
+# --- Standard Section 3.5: Operational Logging ---
+operational_logging:
+  target_file: "memory-bank/mode-specific/philosophy-draft-generator.md" # MANDATORY PATH
+  format: |
+    ### [YYYY-MM-DD HH:MM:SS] - [Log Level (INFO|WARN|ERROR)] - [Action/Event]
+    - **Details**: [Specific information about the event, e.g., KB IDs queried, section drafted, error details]
+    - **Input**: [Relevant input data, e.g., outline_kb_id]
+    - **Output**: [Relevant output data, e.g., draft summary, evidence IDs]
+    - **Status**: [Current operational status, e.g., Processing, Completed, Failed]
   frequency: |
-      UPDATE MEMORY BANK AT THESE POINTS:
-      1. At the beginning of each task (read).
-      2. Before calling `attempt_completion` (perform MANDATORY pre-completion checks: Verify draft saved, MB update, SPARC adherence; signal completion for potential commit trigger).
-      3. When significant progress is made on a draft section.
-      4. When encountering errors during generation.
-      5. When a user intervention occurs.
-  update_process: |
-      1. Follow standard procedure: Timestamp, reverse chronological order, batch operations, cross-referencing.
-      2. Update `activeContext.md`.
-      3. Update `globalContext.md` (Progress).
-      4. Update `memory-bank/mode-specific/philosophy-draft-generator.md` (e.g., Draft Status, Sections Completed).
-      5. Log feedback/interventions in `memory-bank/feedback/philosophy-draft-generator-feedback.md`.
-  mode_specific_updates:
-    target_file: memory-bank/mode-specific/philosophy-draft-generator.md
-    structure: |
-      # Philosophy Draft Generator Mode Specific Memory
-      <!-- Entries below should be added reverse chronologically (newest first) -->
+    - Task Start: Log reception of task from Orchestrator.
+    - Input Processing: Log received outline section KB ID and supporting context IDs/tags.
+    - KB Interaction: Log specific KB entry IDs read (outlines, concepts, arguments, etc.).
+    - Drafting Steps: Log key stages of prose generation for the target section.
+    - Output Generation: Log completion of draft section, including summary and evidence references.
+    - Task End: Log successful completion or failure state before returning to Orchestrator.
+    - Errors: Log any errors encountered during operation (see error_reporting_protocols).
+  guidelines: |
+    - Maintain reverse chronological order (newest entries first).
+    - Keep entries concise and focused on operational actions relevant to drafting.
+    - Clearly reference specific KB entry IDs involved in read operations.
+    - Use INFO for standard operations, WARN for recoverable issues, ERROR for failures.
 
-      ## Intervention Log
-      <!-- Append intervention details using standard format -->
+# --- Standard Section 3.6: Error Reporting Protocols ---
+error_reporting_protocols:
+  reporting_target: "Return structured error object to Orchestrator."
+  error_codes:
+    - code: KB_READ_FAIL
+      description: "Failed to read required entry/entries from the Knowledge Base."
+    - code: OUTLINE_READ_FAIL
+      description: "Failed to read the specified outline section entry from the Knowledge Base."
+    - code: DRAFTING_ERROR
+      description: "An internal error occurred during the prose generation process."
+    - code: EVIDENCE_LINKING_FAIL
+      description: "Failed to correctly incorporate or reference evidence links from KB entries."
+    - code: MISSING_INPUT
+      description: "Required input (e.g., outline KB ID) was not provided."
+    - code: KB_INCONSISTENCY_DETECTED
+      description: "Detected potential inconsistency in KB (e.g., broken link) during read."
+  error_message_format: |
+    {
+      "error_code": "[CODE]",
+      "message": "[Concise description of the error]",
+      "details": {
+        "timestamp": "[YYYY-MM-DD HH:MM:SS]",
+        "mode": "philosophy-draft-generator",
+        "failed_action": "[Specific action that failed, e.g., read_kb_entry]",
+        "target_resource": "[e.g., KB ID, file path]",
+        "additional_context": "[Any other relevant details]"
+      }
+    }
+  logging: |
+    - All errors MUST be logged to the operational log (`memory-bank/mode-specific/philosophy-draft-generator.md`) with ERROR level.
+    - All errors MUST also be logged to the mode-specific feedback log (`memory-bank/feedback/philosophy-draft-generator-feedback.md`) for analysis and improvement.
+  escalation: |
+    - Adheres to standard SPARC error handling procedures defined centrally. Errors are reported to the Orchestrator for decision-making.
 
-      ## Draft Generation Log
-      <!-- Track status of draft generation tasks -->
+# --- Archetype B Section 5.1: Input Schema ---
+input_schema:
+  description: "Defines the expected input structure from the Orchestrator."
+  required:
+    - outline_section_kb_id # The KB ID of the specific essay outline section to draft.
+    - relevant_context_kb_ids # List of KB IDs for concepts, arguments, etc. relevant to this section.
+  optional:
+    - drafting_guidelines # Specific stylistic or content focus instructions from Orchestrator/Prep mode.
+    - target_audience # E.g., 'academic', 'general'.
+  example: |
+    {
+      "outline_section_kb_id": "outline://essay1/section2.1",
+      "relevant_context_kb_ids": [
+        "concept://hegel/being",
+        "argument://hegel/being-nothing-dialectic",
+        "relationship://hegel/being_implies_nothing"
+      ],
+      "drafting_guidelines": "Focus on the transition from Being to Nothing, maintain formal tone."
+    }
 
-      ### [YYYY-MM-DD HH:MM:SS] Draft Task: [Essay Topic/Section]
-      - **Input Outline Section**: [Brief summary or reference]
-      - **Input Evidence Package**: [Reference or summary, note if V12 structure confirmed]
-      - **Target File**: [Path to draft file]
-      - **Status**: [Started|Section Complete|Full Draft Complete|Error]
-      - **Output Reference**: [Link or description of generated content]
-      - **Notes**: [Any issues or observations]
+# --- Archetype B Section 5.2: Output Schema ---
+output_schema:
+  description: "Defines the structure of the output returned to the Orchestrator."
+  properties:
+    status:
+      type: string
+      enum: [success, failure]
+      description: "Indicates the outcome of the drafting task."
+    draft_content:
+      type: string
+      description: "The generated prose for the specified essay section. May include placeholders like [CITE: kb_id] or markers."
+    evidence_references:
+      type: array
+      items:
+        type: string
+      description: "List of KB entry IDs (concepts, arguments, references) explicitly used or cited in the draft content. Includes source_ref_keys and extraction_markers passed through."
+    summary:
+      type: string
+      description: "A brief summary of the action performed, e.g., 'Successfully drafted section 2.1 based on outline://essay1/section2.1'."
+    error_details:
+      type: object
+      description: "Structured error information if status is 'failure' (conforms to error_message_format)."
+  required:
+    - status
+  example_success: |
+    {
+      "status": "success",
+      "draft_content": "Hegel begins the Logic with the concept of pure Being. This concept, utterly indeterminate, immediately reveals itself as indistinguishable from Nothing [CITE: argument://hegel/being-nothing-dialectic {ref_key: SL_p82, marker: #para3}]. The transition occurs...",
+      "evidence_references": [
+        "concept://hegel/being",
+        "argument://hegel/being-nothing-dialectic {ref_key: SL_p82, marker: #para3}"
+      ],
+      "summary": "Successfully drafted section based on outline://essay1/section2.1"
+    }
+  example_failure: |
+    {
+      "status": "failure",
+      "draft_content": null,
+      "evidence_references": [],
+      "summary": "Failed to draft section based on outline://essay1/section2.1",
+      "error_details": {
+        "error_code": "KB_READ_FAIL",
+        "message": "Failed to read required entry/entries from the Knowledge Base.",
+        "details": { ... }
+      }
+    }
 
-# --- File Access Restrictions ---
-file_restrictions:
-  allowed_read_patterns:
-    - "memory-bank/**" # General memory bank access
-    - "essay_prep/**" # Can read outlines, existing drafts within the essay prep workspace
-    # Implicitly relies on evidence package, doesn't directly read knowledge_base or source_materials/processed
-  allowed_write_patterns:
-    - "memory-bank/**" # For logging and feedback
-    - "essay_prep/**" # Can write/modify draft files within the essay prep workspace
+# --- Archetype B Section 5.3: Core Logic / Processing Steps ---
+# (Conceptual - Implementation details reside in the mode's code)
+# 1. Receive input (outline section ID, context IDs).
+# 2. Validate input.
+# 3. Query KB: Read the specified outline section entry.
+# 4. Query KB: Read relevant context entries (concepts, arguments, relationships, references) using provided IDs and potentially `related_ids` from the outline entry.
+# 5. Synthesize Information: Analyze the outline requirements and the content of the fetched KB entries.
+# 6. Generate Draft Prose: Construct the essay section text, ensuring logical flow, clear exposition, and accurate representation of KB content.
+# 7. Incorporate Evidence: Integrate references to the KB entries used, passing through `source_ref_keys` and `extraction_markers`. Use placeholders like [CITE: kb_id {markers}] where appropriate.
+# 8. Format Output: Structure the results according to the output_schema.
+# 9. Return Output: Send the structured output to the Orchestrator.
 
-# --- Tool Usage Restrictions ---
-# (Optional: Define if specific tools are disallowed)
-# allowed_tools: [...]
-# disallowed_tools: [...]
+# --- Archetype B Section 5.4: Knowledge Base Interaction Protocols ---
+kb_interaction_protocols:
+  read_access:
+    description: "Defines authorized read access patterns to the Philosophy Knowledge Base."
+    allowed_paths:
+      - "philosophy-knowledge-base/outlines/"
+      - "philosophy-knowledge-base/concepts/"
+      - "philosophy-knowledge-base/arguments/"
+      - "philosophy-knowledge-base/relationships/"
+      - "philosophy-knowledge-base/references/"
+      # Add other relevant KB directories if needed
+    access_methods:
+      - tool: read_file # For direct access using known KB IDs (file paths)
+      - tool: search_files # Potentially for finding related entries if IDs aren't exhaustive
+    filtering: "Access is typically filtered by specific KB IDs provided in the input or discovered via `related_ids` within read entries."
+  write_access:
+    description: "Defines authorized write access patterns. STRICTLY READ-ONLY."
+    allowed_paths: [] # THIS MODE DOES NOT WRITE TO THE KB.
+    access_methods: []
+  querying:
+    description: "Describes how the mode queries the KB."
+    strategy: |
+      - Primarily uses the `outline_section_kb_id` and `relevant_context_kb_ids` provided in the input.
+      - May inspect `related_ids` fields within the read outline/context entries to discover further relevant KB entries if necessary for comprehensive drafting.
+      - Uses `read_file` for direct access to entries identified by their KB ID (path).
+  kb_doctor_interaction:
+    description: "Protocol for handling potential KB issues."
+    action: "Reports potential KB inconsistencies (e.g., missing linked entries referenced in `related_ids`, formatting issues preventing parsing) found during read operations to the Orchestrator via the error reporting mechanism (e.g., using `KB_INCONSISTENCY_DETECTED` error code)."
 
-# --- Capabilities & Interactions ---
-capabilities:
-  - llm_prompting: Core capability for text generation.
-  - file_io: Reading outlines/evidence (indirectly via input package), writing drafts.
-  - memory_bank_management: Reading/writing logs and context.
+# --- Archetype B Section 5.5: Conceptual Determinacy Guidelines ---
+conceptual_determinacy:
+  guidelines: |
+    - **Clarity:** Drafted prose must use philosophical concepts clearly and consistently, reflecting their definitions and relationships as defined in the source KB entries.
+    - **Consistency:** Maintain consistent terminology throughout the drafted section, aligning with the KB. Avoid introducing ambiguity.
+    - **Attribution:** Ensure that the conceptual basis for claims is implicitly or explicitly traceable back to the referenced KB entries.
+  requirements:
+    negative_definition: not_applicable # This mode generates prose, not definitions.
+    disambiguation_protocol: required_if_ambiguous_in_source_kb # If a concept read from the KB has noted ambiguities, the draft should reflect or clarify based on context, potentially flagging for review.
+    contextual_stability: high # Concepts should be used consistently within the context of the specific essay section being drafted.
 
-interactions:
-  receives_from:
-    - philosophy-essay-prep: Outline, V12 evidence package, target file path.
-    - philosophy-orchestrator: Task delegation.
-  sends_to:
-    - philosophy-essay-prep: Generated draft content, status updates.
-    - philosophy-orchestrator: Completion signals (for potential commit trigger), status updates, error reports.
+# --- Archetype B Section 5.6: Evidence Standards ---
+evidence_standards:
+  requirements: |
+    - **Accuracy:** The drafted prose must accurately reflect the arguments, claims, and evidence presented in the referenced KB entries (arguments, concepts, references).
+    - **Traceability:** Must explicitly pass through `source_ref_keys` and `extraction_markers` associated with the KB evidence used. These should be embedded in the `draft_content` (e.g., within citation placeholders) and listed in `evidence_references`.
+    - **Relevance:** Only evidence directly supporting the points being made in the drafted section, based on the outline and context, should be included.
+  verification_workflow:
+    enabled: false # This mode generates the draft; verification happens in subsequent stages (e.g., Reviewer mode).
 
-# --- Error Handling ---
-error_handling: |
-    **Draft Generation Errors:** If LLM fails to generate coherent text or integrate evidence:
-    1. Log the error and the problematic input (outline/evidence).
-    2. Analyze: Check for unclear outline, conflicting evidence, excessive length, or issues utilizing V12 data structures (chunk paths, citation details).
-    3. Propose Solution:
-        - Retry with refined prompt (e.g., breaking down the section further, explicitly instructing on V12 data use).
-        - Request clarification or refinement of the outline/evidence from `philosophy-essay-prep` via `ask_followup_question` or by returning an error status.
-        - If persistent, suggest delegation to `debug` mode.
-    **File I/O Errors:** Handle standard file read/write errors (permissions, path not found) using the general error handling protocol. Ensure `target_file_path` is within `essay_prep/`.
+# --- Archetype B Section 5.7: Tool Usage Restrictions ---
+tool_usage_restrictions:
+  allowed_tools:
+    - read_file # Primary tool for KB access
+    - search_files # Secondary tool for KB exploration if needed
+    # No other tools (like write_to_file, apply_diff, insert_content on KB) are permitted for KB interaction.
+  disallowed_patterns:
+    - "Any write operation (`write_to_file`, `apply_diff`, `insert_content`) targeting paths within `philosophy-knowledge-base/`."
+    - "Using tools other than `read_file` or `search_files` for KB access."
 
-# --- Custom Instructions (Optional) ---
-# custom_instructions: |
-#   - Always use formal academic language suitable for philosophy.
-#   - Prioritize clarity and logical structure in generated prose.
-#   - Ensure every piece of evidence from the package is addressed or cited using `[[CITE:ref_key]]`.
+# --- End of .clinerules ---

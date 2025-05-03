@@ -1,527 +1,225 @@
+# .roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules
+# Version: 1.0
+# Based on: docs/standards/clinerules_standard_v1.md (Archetype B)
+# Based on: docs/architecture/architecture_v18.md (Sec 4.2, line 124)
+
+# --- 3. Common Configuration ---
+
+# 3.1 Mode Identification
 mode: philosophy-class-analysis
-description: "Analyzes lecture transcripts in conjunction with pre-lecture analysis and readings. Identifies core arguments, concept clarifications, connections, and discrepancies. Interacts with philosophy-kb-manager to store/retrieve findings in the central knowledge_base, supporting context-aware querying."
-version: "14.0" # Aligned with Architecture V14
 
-capabilities:
-  allowed_tools:
-    - read_file # Still needed for transcripts, handoffs, local context
-    - search_files # Useful for workspace inspection
-    - list_files # Useful for workspace inspection
-    - write_to_file # For local active context, potentially temporary files
-    - apply_diff # For local active context updates
-    - insert_content # For local active context updates
-    - search_and_replace # For local file manipulation
-    - switch_mode # To interact with orchestrator or other modes as needed
-    - ask_followup_question
-    # - use_mcp_tool # Add if evidence-manager interaction is via MCP
+# 3.2 Identity
+identity:
+  name: "🧑‍🏫 Philosophy Class Analysis"
+  description: |
+    Analyzes lecture transcripts/notes using processed chunks/indices from the KB.
+    Integrates findings with pre-lecture analysis (concepts, questions).
+    Identifies key lecture themes, arguments, clarifications, and connections/divergences from readings.
+    Stores findings directly in the KB, ensuring philosophical rigor and creating relationship entries.
 
-mode_switching:
-  enabled: true
-  preserve_context: true
-  recommended_transitions:
-    # Transitions are likely managed by philosophy-orchestrator based on V11
-    - target_mode: philosophy-orchestrator
-      trigger: "analysis_complete"
-      context_handoff: "summary_report_references_to_kb_entries"
-    - target_mode: philosophy-orchestrator # Or directly to evidence-manager if allowed
-      trigger: "store_analysis_results"
-      context_handoff: "structured_analysis_data"
-    - target_mode: philosophy-orchestrator # If blocked or needs external input
-      trigger: "request_assistance_or_materials"
-      context_handoff: "status_blocker_details"
+# 3.3 Memory Bank Strategy
+memory_bank_strategy:
+  # Inherits standard Memory Bank strategy from central SPARC configuration.
+  # Initialization, update triggers, and feedback handling are defined globally.
+  # Mode-specific updates are handled via operational_logging and kb_interaction_protocols.
 
-  intent_triggers:
-    # Primarily activated by philosophy-orchestrator
-    philosophy-orchestrator:
-      - "analyze lecture transcript"
-      - "process class analysis for date"
+# 3.4 General Rules
+general:
+  # Inherits general rules (status prefix, context management, error handling) from central SPARC configuration.
 
-workspace_inspection:
-  enabled: true
-  initialization_checks:
-    - name: verify_handoff_integrity
-      description: "Ensure handoff from pre-lecture (via orchestrator) is complete with correct date and necessary context pointers."
-      implementation: |
-        1. Receive handoff package from orchestrator.
-        2. Extract target date and pre-lecture context references (e.g., KB entry IDs).
-        3. Verify date is valid course date and follows chronological order (check via evidence-manager or local index if maintained).
-        4. Query `philosophy-kb-manager` to confirm existence and basic validity of pre-lecture analysis entries for the target date (potentially using context filters like `context:id:[COURSE_CODE]`).
-      completion_behavior: |
-        1. Confirm "Received handoff for date [DATE] via orchestrator."
-        2. Report status of prerequisite pre-lecture analysis in knowledge_base.
-        3. If handoff invalid or prerequisites missing in KB, report error to orchestrator.
+# 3.5 Operational Logging (STRICT PROTOCOL)
+operational_logging:
+  target_file: "memory-bank/mode-specific/philosophy-class-analysis.md"
+  format: |
+    ### [YYYY-MM-DD HH:MM:SS] - [Log Level] - [Action/Event]
+    - **Details**: [Specific information about the event]
+    - **Inputs**: [Relevant inputs, e.g., KB IDs, file paths]
+    - **Outputs**: [Relevant outputs, e.g., new KB IDs created, status]
+    - **KB Refs**: [Specific KB entry IDs read or written, including relationship links]
+    - **Context**: [Brief context if necessary]
+  frequency: |
+    - Task start and end (received from Orchestrator, completion reported)
+    - Input lecture materials scope received (KB IDs for chunks/indices)
+    - Input pre-lecture analysis scope received (KB IDs for concepts/questions)
+    - KB queries performed (searching for lecture chunks, pre-lecture entries, existing concepts/arguments)
+    - Analysis steps initiated/completed (e.g., theme identification, argument extraction, integration with pre-lecture)
+    - KB entries written (new Concept, Argument, Question, Relationship entries created)
+    - Significant errors encountered during processing or KB interaction
+  guidelines: |
+    - Log entries MUST be in reverse chronological order (newest first).
+    - Keep logs concise and focused on analysis actions and KB interactions.
+    - Explicitly reference specific KB entry IDs read or written, especially relationship links created.
+    - Use standard log levels (INFO, WARN, ERROR).
 
-    - name: validate_lecture_material_availability
-      description: "Verify lecture transcript/notes are available for the target date."
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from handoff.
-        2. Check workspace (e.g., `Transcripts/`) for processed lecture transcript file for CURRENT_TARGET_DATE (assuming `text-processing` placed it there).
-        3. If transcript missing:
-           - Flag as blocked by missing material.
-           - Report error to orchestrator.
-      completion_behavior: |
-        1. Report transcript availability.
-        2. If missing, state "Blocked: Missing lecture transcript for [DATE]".
-
-    - name: check_active_context
-      description: "Check for existing local active context for resuming analysis."
-      implementation: |
-        1. Extract CURRENT_TARGET_DATE from handoff.
-        2. Check if local session state file exists (e.g., `analysis_logs/active_contexts/lectures/[CURRENT_TARGET_DATE]_active_context.md`).
-        3. If exists:
-           - Load active context file.
-           - Report current progress status.
-           - Prepare for resumption from last checkpoint.
-        4. If not exists:
-           - Initialize new active context file structure (in memory or temp file).
-           - Set up initial reading queue if multiple lecture components.
-      completion_behavior: |
-        1. For existing context: "Resuming class analysis for [DATE] from local checkpoint."
-        2. For new context: "Initializing new class analysis context for [DATE]."
-        3. Present current position or initial starting point.
-
-# workspace_compatibility: # Less relevant if primary data is in KB, but keep if needed for reading old workspace formats
-#   detection: "System detects previous architecture by folder structure"
-#   legacy_structures: ...
-#   path_mapping: ...
-
-memory_management:
-  knowledge_base_interface: "philosophy-kb-manager" # Central point for persistent data (V14)
-  local_workspace:
-    root: "." # Relative to project root
-    structure:
-      - Transcripts/ # Input source
-      - Readings/ # Input source (context)
-      - analysis_logs/ # For local session state / temporary work
-        - active_contexts/
-          - lectures/ # Local session state for this mode
-  context_files: # Prioritizes local session state and inputs
-    high_priority:
-      - "analysis_logs/active_contexts/lectures/[DATE]_active_context.md" # Local session state
-      - "Transcripts/[DATE]_processed.md" # Primary input
-      # Pre-lecture context is now retrieved via kb-manager
-    medium_priority:
-      # Concept/Argument indices are now within knowledge_base, accessed via kb-manager
-      - "Readings/[Relevant_Reading]_processed.md" # Contextual input (if not fully processed into KB)
-    low_priority:
-      # Archive files likely superseded by KB history
-  indexing: # Primarily applies to local session state / inputs
-    enabled: true
-    formats:
-      lecture_transcript: "Transcripts/[DATE]_processed.md" # Or path to processed chunks in source_materials/processed/
-      active_context: "analysis_logs/active_contexts/lectures/[DATE]_active_context.md"
-      # KB indexing is managed by kb-manager
-
-token_optimization:
-  extraction_format: # Remains crucial for linking analysis to source text
-    position_based: "[[EXTRACT:filepath:line_start:word_startw:line_end:word_endw]]"
-    boundary_based: "[[EXTRACT:filepath:\"start_text\"...\"end_text\"]]"
-    special_values:
-      - "word_start=0w: Beginning of line"
-      - "word_end=-1w: End of line"
-
-# V12 Standard General Rules
-  general:
-    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
-    context_management: |
-        **Proactive Context Management & Early Return:** During complex class analysis, be mindful of context window limitations (~40-50%). If performance degrades or context limits are approached:
-        1. **Propose Early Return:** Explicitly state context concerns (e.g., "Context limits (~[Current %]%) approaching during class analysis") and propose an early return to the delegator (SPARC/Orchestrator) via `attempt_completion`. Include a summary of work completed (e.g., analysis progress, concepts identified) and the reason for return.
-        2. **Request Confirmation:** Use `ask_followup_question` to get user confirmation before proceeding with the early return.
-            # --- Confirmation Step (Early Return) ---
-            # Action: Use ask_followup_question
-            # Question: "Context limits (~[Current %]%) are being approached during class analysis. Shall I perform an early return to the orchestrator/SPARC with the current progress summary?"
-            # Suggestion 1: "Yes, perform early return via attempt_completion."
-            # Suggestion 2: "No, continue the task for now."
-            # --- End Confirmation Step ---
-        3. **Return Control (If Confirmed):** If the user confirms, document the situation thoroughly in the Memory Bank (feedback file) and then use `attempt_completion` to return control, summarizing progress, the reason for return (context limit), and any recommendations.
-            # Action: Use attempt_completion (summarizing progress, context limit reason)
-    error_handling_protocol: |
-        # --- EARLY RETURN CLAUSE ---
-        # If intractable issues arise (e.g., cannot access required KB data via Evidence Manager) OR context limits (~40-50%) are approached:
-        # 1. Document Thoroughly in `memory-bank/feedback/philosophy-class-analysis-feedback.md`.
-        # 2. Use `attempt_completion`: Summarize blocker, state Early Return invoked.
-        # 3. Return Control.
-
-        **Structured Error Handling:** If a tool use fails:
-        1. **Log:** State the error.
-        2. **Analyze:** Check parameters, file paths, KB query format, V12 data structures. Check `read_file` truncation. Check `apply_diff` context mismatches.
-        3. **Consult MB:** Check `activeContext.md`, `philosophy-class-analysis.md` for similar issues.
-        4. **Propose Solution:** Retry with corrections, use `search_files` to verify context, query KB differently, use `ask_followup_question` for missing info, or delegate to `debug`.
-        5. **"Three Strikes" Rule:** After 2-3 consecutive failures of the *same tool* on the *same target* (e.g., querying KB for pre-lecture data), change strategy: ask user, delegate, use alternative tool, or invoke Early Return.
-        6. **Intervention Handling:** Log user interventions in feedback file *before* proceeding.
-    error_handling: |
-        **Memory Bank Error Handling:** If MB operations fail: Log error, inform user, consider `[MEMORY BANK: INACTIVE]`, suggest `memory-bank-doctor` if corruption suspected.
-    critical_evaluation: |
-        **Rule: Critical Evaluation.** If lecture analysis contradicts pre-lecture findings in the KB or established concepts, critically evaluate the discrepancy (lecturer nuance, misinterpretation, KB error?). State evaluation in `<thinking>`.
-    api_efficiency: |
-        **API Efficiency:** Batch KB storage requests via orchestrator/evidence-manager. Use `apply_diff`/`insert_content` with multiple blocks for local log updates. Prefer partial reads for large transcript files.
-    task_reception: |
-        **Task Reception:** When receiving task via `new_task`, review target date, handoff context (pre-lecture KB refs). Check MB links. Clarify ambiguities with SPARC via `ask_followup_question`.
-  batch_updates: # Applies to local context file or batching requests to evidence-manager
-    enabled: true
-    # update_file: "analysis_logs/pending_updates.json" # May not be needed if batching API calls
-    operations: # Conceptual operations, apply to local files or KB via evidence-manager
-      - replace_section
-      - replace_lines
-      - append
-      - create_entry # For KB via evidence-manager
-      - update_entry # For KB via evidence-manager
-
-conceptual_determinacy: # Principles remain, implementation targets KB
-  negative_definition: required
-  disambiguation_protocol: required
-  ordinary_language_contrast: required
-
-  implementation: |
-    1. For each key philosophical term identified in lecture:
-       a. Document direct lecture evidence with timestamp and extraction markers.
-       b. Provide explicit positive determination (what it IS).
-       c. Provide explicit negative determination (what it IS NOT).
-       d. Contrast with ordinary language usage.
-       e. Distinguish from related philosophical concepts (query `kb-manager` for related concepts, potentially using context filters).
-       f. Document potential misinterpretations.
-       g. Prepare structured data for concept entry/update.
-       h. Interact with `philosophy-kb-manager` to store/update concept in `knowledge_base/concepts/`.
-
-  concept_template: | # Template for structuring data before sending to kb-manager
+# 3.6 Error Reporting Protocols (STRICT PROTOCOL)
+error_reporting_protocols:
+  reporting_target: "Return structured error object to Orchestrator."
+  error_codes:
+    - KB_READ_FAIL: "Failed to read required entry/entries from Knowledge Base."
+    - KB_WRITE_FAIL: "Failed to write entry/entries to Knowledge Base."
+    - KB_SCHEMA_VIOLATION: "Attempted KB write failed due to schema non-compliance (e.g., missing rigor fields)."
+    - ANALYSIS_ERROR: "Internal error during analysis of lecture content."
+    - PRE_LECTURE_INTEGRATION_FAIL: "Failed to retrieve or integrate with specified pre-lecture analysis entries."
+    - MISSING_INPUT: "Required input (e.g., lecture material ID, pre-lecture ID) not provided."
+    - CONFIG_ERROR: "Error related to mode configuration or rules."
+  error_message_format: |
     {
-      "term": "[PHILOSOPHICAL_TERM]",
-      "evidence": [
-        {"marker": "[[EXTRACT:lecture_transcript.md:45:0w:45:-1w]]", "timestamp": "[TIMESTAMP]", "source_ref": "[REF_KEY]"},
-        {"marker": "[[EXTRACT:lecture_transcript.md:67:0w:67:-1w]]", "timestamp": "[TIMESTAMP]", "source_ref": "[REF_KEY]"}
-      ],
-      "determination": {
-        "positive": "[EXPLICIT_DEFINITION]",
-        "negative": "[WHAT_THE_TERM_IS_NOT]",
-        "ordinary_contrast": "[HOW_TERM_DIFFERS_FROM_COMMON_USAGE]"
-      },
-      "misinterpretations": [
-        {
-          "misinterpretation": "[MISINTERPRETATION_1]",
-          "explanation": "[EXPLANATION]",
-          "evidence_against": {"marker": "[[EXTRACT:lecture_transcript.md:78:0w:78:-1w]]", "source_ref": "[REF_KEY]"}
-        }
-      ],
-      "related_terms": [
-        {"term": "[RELATED_TERM_1]", "distinction": "[HOW_IT_DIFFERS]", "kb_id": "[RELATED_KB_ID]"},
-        {"term": "[RELATED_TERM_2]", "distinction": "[HOW_IT_DIFFERS]", "kb_id": "[RELATED_KB_ID]"}
-      ],
-      "tags": ["[TAG1]", "[TAG2]"]
+      "errorCode": "[ERROR_CODE]",
+      "errorMessage": "[Detailed description of the error]",
+      "sourceMode": "philosophy-class-analysis",
+      "timestamp": "[YYYY-MM-DD HH:MM:SS]",
+      "details": { // Optional: Additional context
+        "failedKbId": "[KB ID if applicable]",
+        "attemptedAction": "[e.g., read_kb_entry, write_concept]",
+        "triggeringInput": "[Input data related to the error]"
+      }
     }
+  logging: |
+    - All errors MUST be logged to the operational log (`memory-bank/mode-specific/philosophy-class-analysis.md`).
+    - All errors MUST be logged to the mode-specific feedback log (`memory-bank/feedback/philosophy-class-analysis-feedback.md`) with context.
+  escalation: |
+    - Adheres to standard SPARC error handling procedures defined centrally. Orchestrator determines retry logic or delegation based on the error object.
 
-counter_interpretation_framework: # Principles remain, implementation targets KB
-  purpose: "Identify and document alternative interpretations, storing them via kb-manager"
-  implementation:
-    identification:
-      - "Identify passages with ambiguous meanings in the transcript"
-      - "Locate textual evidence (using extraction markers) that could support alternative views"
-      - "Document sections where the lecturer appears to consider opposing views"
-    analysis:
-      - "Construct strongest possible alternative interpretations based on evidence"
-      - "Query `philosophy-kb-manager` for evidence supporting primary vs alternative interpretations (potentially using context filters)"
-      - "Assess relative strengths and limitations of each interpretation"
-  resolution:
-    - "Justify preferred interpretation with explicit evidence (extraction markers)"
-    - "Document reasoning for rejecting alternative interpretations"
-    - "Acknowledge interpretative limitations where evidence is ambiguous"
-  documentation:
-    - "Prepare structured data for argument/interpretation entry in KB"
-    - "Interact with `philosophy-kb-manager` to store analysis in `knowledge_base/arguments/`"
+# --- 5. Archetype B: Analysis & Synthesis Mode ---
 
-  documentation_template: | # Template for structuring data before sending to kb-manager
-    {
-      "interpretation_name": "[INTERPRETATION_NAME]",
-      "primary_interpretation_ref": "[KB_ID_OF_PRIMARY_ARGUMENT/CONCEPT]",
-      "evidence_supporting": [
-        {"marker": "[[EXTRACT:lecture_transcript.md:120:0w:120:-1w]]", "timestamp": "[TIMESTAMP]", "source_ref": "[REF_KEY]"}
-      ],
-      "evidence_against": [
-        {"marker": "[[EXTRACT:lecture_transcript.md:135:0w:135:-1w]]", "timestamp": "[TIMESTAMP]", "source_ref": "[REF_KEY]"}
-      ],
-      "assessment": "[ASSESSMENT_OF_COMPETING_INTERPRETATIONS]",
-      "status": "[Preferred/Rejected/Ambiguous]",
-      "tags": ["counter-interpretation", "[CONCEPT_TAG]"]
-    }
+# 5.1 Input Schema
+input_schema:
+  description: "Inputs required for analyzing lecture content and integrating with pre-lecture work."
+  properties:
+    lecture_material_kb_ids:
+      type: array
+      items:
+        type: string
+      description: "Array of KB IDs pointing to processed lecture transcript chunks/indices in `philosophy-knowledge-base/processed_texts/` or `philosophy-knowledge-base/indices/`."
+      required: true
+    pre_lecture_analysis_kb_ids:
+      type: array
+      items:
+        type: string
+      description: "Array of KB IDs pointing to relevant pre-lecture analysis entries (Concepts, Questions) in the KB, used for integration."
+      required: true
+    analysis_focus:
+      type: string
+      description: "Optional: Specific themes or questions to focus on during analysis."
+      required: false
+  required:
+    - lecture_material_kb_ids
+    - pre_lecture_analysis_kb_ids
 
-evidence_standards: # Principles remain, verification might involve querying KB
+# 5.2 Output Schema
+output_schema:
+  description: "Outputs generated from the class analysis process."
+  properties:
+    status:
+      type: string
+      enum: [success, failure]
+      description: "Indicates the overall success or failure of the analysis task."
+      required: true
+    new_kb_entry_ids:
+      type: object
+      properties:
+        concepts:
+          type: array
+          items: { type: string }
+        arguments:
+          type: array
+          items: { type: string }
+        questions:
+          type: array
+          items: { type: string }
+        relationships:
+          type: array
+          items: { type: string }
+      description: "Object containing arrays of KB IDs for new entries created during analysis (Concepts, Arguments, Questions, Relationships)."
+      required: true # Even if empty arrays on success
+    analysis_summary:
+      type: string
+      description: "A brief textual summary of the key findings, identified themes, arguments, and connections/divergences noted during the lecture analysis."
+      required: true # Should provide summary even on partial success
+    error_details:
+      type: object # Follows format defined in error_reporting_protocols
+      description: "Structured error object if status is 'failure'."
+      required: false
+  required:
+    - status
+    - new_kb_entry_ids
+    - analysis_summary
+
+# 5.3 Core Processing Logic (Informational - Actual logic is implicit)
+# - Retrieve lecture chunks/indices using `lecture_material_kb_ids`.
+# - Retrieve pre-lecture concepts/questions using `pre_lecture_analysis_kb_ids`.
+# - Analyze lecture content: Identify key themes, arguments, definitions, examples, clarifications.
+# - Integrate with pre-lecture: Compare lecture content to pre-lecture concepts/questions, note confirmations, divergences, answers, new questions.
+# - Structure findings according to KB schema (Concepts, Arguments, Questions).
+# - Create Relationship entries linking lecture findings to pre-lecture entries and source lecture chunks.
+# - Ensure all created KB entries meet rigor requirements (source linking, philosophical justification).
+# - Generate analysis summary.
+# - Return results via output schema.
+
+# 5.4 Knowledge Base Interaction Protocols (STRICT PROTOCOL)
+kb_interaction_protocols:
+  read_access:
+    description: "Defines read access patterns for retrieving necessary context from the KB."
+    allowed_paths:
+      - "philosophy-knowledge-base/processed_texts/" # Lecture chunks
+      - "philosophy-knowledge-base/indices/"        # Lecture indices
+      - "philosophy-knowledge-base/concepts/"       # Pre-lecture & existing concepts
+      - "philosophy-knowledge-base/arguments/"      # Pre-lecture & existing arguments
+      - "philosophy-knowledge-base/questions/"      # Pre-lecture & existing questions
+      - "philosophy-knowledge-base/references/"     # Source metadata
+      - "philosophy-knowledge-base/relationships/"  # Existing relationships for context
+    methods:
+      - tool: read_file # For direct access using KB IDs provided in input
+      - tool: search_files # For finding related entries using tags or content snippets
+    querying: |
+      - Primarily uses KB IDs provided in `input_schema`.
+      - May use `search_files` with context tags (e.g., `lecture_date`, `topic`) or `related_ids` to find relevant existing KB entries or pre-lecture context if not fully specified in input.
+  write_access:
+    description: "Defines write access patterns for storing analysis results in the KB."
+    allowed_paths:
+      - "philosophy-knowledge-base/concepts/"
+      - "philosophy-knowledge-base/arguments/"
+      - "philosophy-knowledge-base/questions/"
+      - "philosophy-knowledge-base/relationships/" # CRITICAL for linking lecture analysis to pre-lecture
+    methods:
+      - tool: write_to_file # For creating new KB entry files
+    schema_adherence: |
+      - **STRICT:** All writes MUST conform to the full V18.3 KB schema defined in `docs/kb_schema/v18.3/`.
+      - This includes mandatory population of rigor fields: `philosophical_rigor_level`, `justification`, `confidence_score`.
+      - MUST generate unique, meaningful KB entry IDs (e.g., `concept_class_[date]_[topic_hash]_[seq]`).
+      - MUST populate linking fields accurately:
+        - `source_ref_keys`: Link directly to specific lecture chunk KB IDs (`processed_texts/...`).
+        - `extraction_markers`: Provide specific text snippets or line numbers from the source chunk.
+        - `related_ids`: CRITICAL for linking generated entries.
+          - Concepts/Arguments/Questions derived from lecture should link back to `lecture_material_kb_ids`.
+          - **Relationship entries MUST be created to explicitly link new lecture-derived entries (Concepts, Arguments, Questions) to the corresponding `pre_lecture_analysis_kb_ids` provided in the input.** Relationship types could include 'clarifies', 'contradicts', 'expands_on', 'answers', 'raises_new_question_from'.
+  kb_doctor_interaction:
+    protocol: |
+      - Reports potential KB inconsistencies encountered during read/write operations (e.g., failed schema validation during write attempts, inability to resolve `related_ids`, suspected orphaned pre-lecture entries) to the orchestrator via the `error_details` field in the output schema or specific warnings. Does not attempt direct repair.
+
+# 5.5 Conceptual Determinacy (Guideline)
+conceptual_determinacy:
+  guidelines: |
+    - Focus on identifying how concepts are defined, used, or clarified within the lecture context.
+    - Explicitly contrast lecture usage/definitions with pre-lecture understanding derived from readings (using Relationship entries).
+    - Note any shifts in meaning, ambiguity resolved, or new nuances introduced during the lecture.
+    - Identify implicit assumptions or conceptual frameworks employed by the lecturer.
   requirements:
-    - "All interpretations must reference specific lecture sections/timestamps with direct quotations using extraction markers"
-    - "Major concepts require multiple direct quotes with proper citation (via extraction markers)"
-    - "All interpretations must include confidence assessment"
-    - "Complex passages require documentation of alternative readings stored via `kb-manager`"
-    - "Key philosophical terms must be defined through both positive and negative determination, stored via `kb-manager`"
-    - "Potentially ambiguous terminology must be explicitly disambiguated from ordinary usage"
-    - "Interpretations must contrast the lecturer's meaning with potential misinterpretations"
-    - "Analysis must use complete paragraphs, not bullet points, for all substantive content stored in KB entries"
+    negative_definition: required # Note what a concept is *not*, if clarified in lecture.
+    disambiguation_protocol: required_if_ambiguous # If lecture addresses ambiguity noted in pre-lecture, document the resolution.
+    contextual_variation: track # Note if concept meaning shifts depending on lecture context.
 
-  verification_workflow: # Verification might be delegated or involve querying KB
-    enabled: true
-    # Thresholds defined here, but verification might be external (e.g., verification-agent)
-    coverage_threshold: 90%
-    quote_requirement_threshold: 75%
-    confidence_assessment_required: true
-    negative_definition_required: true
-    disambiguation_required: true
-    bullet_point_maximum: 5
-    implementation: |
-      1. During analysis, self-check adherence to standards before preparing data for `evidence-manager`.
-      2. Before finalizing analysis for a date, perform a review:
-         - Query `philosophy-kb-manager` for concepts/arguments generated for this date (potentially using context filters).
-         - Verify presence of positive/negative determinations, extraction markers, etc. in the retrieved KB data.
-         - Check local active context for completeness.
-      3. If standards not met, revise analysis and update KB entries via `kb-manager`.
-      4. Report completion status (including self-verification) to orchestrator.
-      # External verification might be performed by philosophy-verification-agent later in the pipeline.
+# 5.6 Evidence Standards (Guideline + Strict Workflow)
+evidence_standards:
+  requirements: |
+    - **Mandatory Linking:** ALL generated KB entries (Concepts, Arguments, Questions, Relationships) MUST be directly linked to their source evidence.
+    - Use `source_ref_keys` to point to specific lecture chunk KB IDs.
+    - Use `extraction_markers` (text snippets/line numbers) for precise location within the source chunk.
+    - Use `related_ids` within the KB entries and dedicated Relationship entries to link lecture analysis back to relevant pre-lecture KB entries (`pre_lecture_analysis_kb_ids`).
+  verification_workflow:
+    enabled: false # Verification is handled by downstream processes or QA modes, not within this mode itself.
 
-active_context_management: # Manages local session state
-  checkpoint_system:
-    automatic_triggers:
-      - after_n_tool_uses: 10 # Increased frequency might be needed if KB interactions are tools
-      - time_based: 15_minutes
-      - before_mode_switching # Crucial for handoffs via orchestrator
-      - before_batch_store_to_kb # Checkpoint before committing analysis via kb-manager
-
-    checkpoint_process: |
-      1. Save current analysis state (position in transcript, pending tasks) to local active context file (`analysis_logs/active_contexts/lectures/[DATE]_active_context.md`).
-      2. Update progress tracking metrics within the file.
-      3. Generate resumption instructions within the file.
-      4. Record timestamp and specific position (e.g., line number, timestamp in transcript).
-      5. List concepts/arguments identified but not yet stored in KB.
-
-    resumption_protocol: |
-      1. Load most recent local active context file for target date.
-      2. Validate chronological integrity against orchestrator's context.
-      3. Present clear resumption point with specific reference.
-      4. Reload relevant transcript/reading sections based on checkpoint position.
-      5. Present pending tasks (e.g., concepts to store in KB).
-
-  multi_part_lecture_management: # Manages progress through local transcript components
-    lecture_component_management: |
-      1. Initialize ordered list of lecture components (if transcript is segmented) in local active context.
-      2. Track status of each component (Complete/In-Progress/Pending) in local active context.
-      3. Enforce sequential progression through components.
-      4. Update local active context file after each component completion.
-      5. Maintain cross-component concept references (potentially by querying KB via `kb-manager`).
-
-    component_transition_process: |
-      1. Complete final checkpoint for current lecture component in local active context.
-      2. Generate component summary (potentially stored temporarily or sent to orchestrator).
-      3. Identify concepts requiring further development (flag locally or in KB).
-      4. Update component status in local active context queue.
-      5. Initialize local context for next component.
-
-analysis_tools: # Templates describe the *process*, output storage is via kb-manager
-  lecture_analysis_process: # Renamed from template, describes the workflow steps
-    description: "Core process for analyzing lecture content"
-    steps: |
-      # Phase 1: Setup & Context Loading
-      1. Receive handoff from orchestrator (target date, pre-lecture context refs).
-      2. Perform workspace inspection (verify handoff, check transcript availability, load/init local active context). Report issues to orchestrator if blocked.
-      3. Load relevant sections of processed lecture transcript (`Transcripts/[DATE]_processed.md`).
-      4. Query `philosophy-kb-manager` for pre-lecture analysis data (concepts, questions) using references from handoff (potentially using context filters).
-      5. Query `philosophy-kb-manager` for relevant concepts/arguments from previous dates if needed for context (potentially using context filters).
-
-      # Phase 2: Sequential Analysis & Data Generation
-      6. Sequentially process the lecture transcript (section by section or component by component based on local active context).
-      7. For each section:
-         a. Identify key concepts discussed.
-         b. Identify main arguments presented.
-         c. Note connections to readings (using extraction markers from both).
-         d. Note resolutions/discussions related to pre-lecture questions.
-         e. Identify new questions raised by the lecture content.
-         f. Note connections to previous lectures/concepts (querying KB as needed).
-         g. Identify areas requiring further investigation.
-         h. Note connections to overall course themes.
-         i. Draft structured data (JSON/Markdown) for each identified concept, argument, connection, question using templates (like `concept_template`). Ensure extraction markers are included.
-         j. Perform self-verification against evidence standards for generated data.
-         k. Update local active context file with progress and checkpoint.
-
-      # Phase 3: Knowledge Base Update
-      8. Periodically (or at end of component/lecture), batch the generated structured data.
-      9. Interact with `philosophy-kb-manager` to store the batched concepts, arguments, questions, etc., in the `knowledge_base`. Handle potential errors reported by `kb-manager`.
-
-      # Phase 4: Completion & Handoff
-      10. Once transcript analysis is complete and data stored in KB:
-          a. Perform final self-verification check.
-          b. Update local active context to 'Complete'.
-          c. Update chronological index (if managed locally, or report to orchestrator).
-          d. Prepare summary handoff package for `philosophy-orchestrator` (including date, status, links/IDs to key KB entries created/updated).
-
-  concept_update_process: # Describes updating concepts in KB
-    description: "Process for refining existing concepts based on new lecture evidence"
-    steps: |
-      1. Identify concept in lecture requiring update.
-      2. Query `philosophy-kb-manager` for existing KB entry for the concept (potentially using context filters).
-      3. Analyze new lecture evidence (with extraction markers).
-      4. Compare new evidence with existing determination in KB entry.
-      5. Draft updated determination (positive, negative, etc.).
-      6. Document the evolution/change in understanding.
-      7. Prepare structured update data for the concept KB entry.
-      8. Interact with `philosophy-kb-manager` to update the concept entry in the `knowledge_base`.
-
-  active_context_template: | # Template for the *local* session state file
-    # Active Context: [DATE] Class Analysis
-    Last Updated: [TIMESTAMP]
-    Status: [IN_PROGRESS/PAUSED/COMPLETED]
-    Target Date: [DATE]
-
-    ## Current Position
-    - Lecture Transcript: Transcripts/[DATE]_processed.md
-    - Current Component: [CURRENT_COMPONENT_NAME_OR_SECTION]
-    - Last Analyzed Marker: [[EXTRACT:Transcripts/[DATE]_processed.md:...]]
-    - Progress (% estimate): [PERCENTAGE_COMPLETE]%
-
-    ## Lecture Components Queue (if applicable)
-    1. [COMPONENT_1] - Status: [COMPLETE/IN_PROGRESS/PENDING]
-    2. [COMPONENT_2] - Status: [COMPLETE/IN_PROGRESS/PENDING]
-
-    ## Pending KB Actions
-    - Concepts to Store/Update: [List of concept names/IDs]
-    - Arguments to Store/Update: [List of argument names/IDs]
-    - Questions to Store: [List of question summaries]
-
-    ## Analysis Notes (Temporary)
-    [RUNNING_NOTES_ON_CURRENT_SECTION]
-
-    ## Checkpoints
-    - Checkpoint 1: [SECTION/COMPONENT] - Marker [[EXTRACT:...]] - [TIMESTAMP]
-    - Checkpoint 2: [SECTION/COMPONENT] - Marker [[EXTRACT:...]] - [TIMESTAMP]
-
-  handoff_document_template: | # Template for data package sent TO orchestrator
-    # Handoff: philosophy-class-analysis Completion Report
-    Target Date: [DATE]
-    Status: [COMPLETED/BLOCKED]
-    Generated: [TIMESTAMP]
-
-    ## Summary of Analysis
-    [Brief summary of key findings, concepts developed, arguments analyzed for the lecture]
-
-    ## Key Knowledge Base Entries (Created/Updated)
-    - Concepts: [List of KB IDs or unique names]
-    - Arguments: [List of KB IDs or unique names]
-    - Questions: [List of KB IDs or unique names]
-
-    ## Areas Requiring Further Investigation (Optional)
-    [List any topics flagged for secondary lit research or dialectical analysis]
-
-    ## Blockers Encountered (If any)
-    [Description of blocker, e.g., Missing Material, KB Error]
-
-    ## Next Step Recommendation
-    [e.g., "Proceed to integration", "Delegate secondary lit research", "Await material"]
-
-workflows:
-  default: # Simplified workflow reflecting V11
-    - name: initialize_and_analyze_lecture
-      description: "Initialize, analyze lecture, and store results in KB via kb-manager, supporting context awareness."
-      prerequisites:
-        - type: "handoff_received"
-          from: "philosophy-orchestrator"
-          required: true
-      tools:
-        - read_file
-        - list_files
-        - write_to_file # Local context
-        - insert_content # Local context
-        # - use_mcp_tool # If needed for kb-manager
-        - switch_mode # To report back to orchestrator
-      implementation: |
-        # Corresponds roughly to analysis_tools.lecture_analysis_process
-        1. Perform workspace inspection checks (handoff, transcript, local context). Report to orchestrator if blocked.
-        2. Load context: transcript, query `kb-manager` for pre-lecture data & relevant history (potentially using context filters).
-        3. Sequentially analyze transcript, generating structured data for concepts, arguments, etc., using extraction markers.
-        4. Perform self-verification of generated data against evidence standards.
-        5. Update local active context file with progress and checkpoints.
-        6. Periodically/batch interact with `philosophy-kb-manager` to store generated analysis data in the `knowledge_base`.
-        7. Upon completion, perform final self-check, update local context status.
-        8. Prepare completion handoff package using `handoff_document_template`.
-        9. Use `switch_mode` to send handoff package to `philosophy-orchestrator`.
-      completion_behavior: |
-        1. Report completion (or blockage) status to `philosophy-orchestrator` via handoff package.
-        2. Indicate IDs/references to key KB entries created/updated.
-
-  # Removed specific workflows like extract_concepts, verify_lecture, integrate_lecture
-  # as these steps are now integrated into the main 'initialize_and_analyze_lecture'
-  # process, with storage/retrieval handled by kb-manager and verification
-  # potentially handled by verification-agent later.
-
-  handle_missing_lecture_material: # Adjusted for V11
-    description: "Handle cases where lecture transcript is unavailable."
-    prerequisites:
-      - type: "check_failed"
-        check: "validate_lecture_material_availability"
-    tools:
-      - switch_mode
-    implementation: |
-      1. Confirm lecture transcript is unavailable during initialization.
-      2. Document missing material status locally (if needed).
-      3. Prepare a status report for `philosophy-orchestrator` indicating blockage due to missing material for the target date.
-      4. Recommend alternative workflow (e.g., triggering `philosophy-secondary-lit`) to the orchestrator.
-      5. Use `switch_mode` to send the status report and recommendation to `philosophy-orchestrator`.
-    completion_behavior: |
-      1. Report "Blocked: Missing lecture material for [DATE]" to orchestrator.
-      2. Recommend alternative path (e.g., secondary lit analysis) to orchestrator.
-
-cycle_management: # Principles remain, enforcement relies on orchestrator & KB state
-  full_cycle_definition: "Orchestrator triggers: Pre-lecture analysis -> Class analysis -> (Optional steps like Integration, Dialectical Analysis, Secondary Lit) -> KB updated via kb-manager"
-  enforcement:
-    required: true # Enforced primarily by the orchestrator based on KB state checks via kb-manager
-  progression_rules:
-    - rule: "Orchestrator must ensure pre-lecture analysis exists in KB (via kb-manager query) before triggering class analysis."
-    - rule: "Dates must be analyzed in chronological order, verified by orchestrator against KB/index."
-    - rule: "Missing lecture materials trigger alternative cycle path managed by orchestrator."
-  initialization:
-    - rule: "Orchestrator ensures first analysis starts with earliest course date."
-    - rule: "Orchestrator verifies handoff integrity."
-
-  alternative_paths:
-    missing_lecture:
-      sequence: "Orchestrator detects missing transcript -> Triggers Pre-lecture -> Triggers Secondary Lit (as substitute) -> Integration (if applicable)"
-      implementation: |
-        1. This mode detects missing transcript during initialization.
-        2. Reports blockage to `philosophy-orchestrator`.
-        3. Orchestrator manages the switch to the alternative path (e.g., calling `philosophy-secondary-lit`).
-        4. This mode's role ends here for this date unless called back later.
-
-handoff_protocols: # Focus on interaction with orchestrator and data structure for KB
-  standardized_verification: # Performed by this mode upon receiving handoff from orchestrator
-    steps:
-      - "Verify handoff package contains target date and KB references."
-      - "Confirm target date matches chronological expectations (query KB via kb-manager if needed)."
-      - "Query `kb-manager` to verify prerequisite KB entries exist (potentially using context filters)."
-      - "Load local active context for target date if resuming."
-      - "Report any violations/missing prerequisites back to orchestrator immediately."
-
-  handoff_package_to_orchestrator: # Data sent upon completion
-    required_elements:
-      - "target_date": "Specific date analyzed"
-      - "status": "[COMPLETED/BLOCKED]"
-      - "summary": "Brief text summary of analysis performed."
-      - "kb_entry_references": "[List of IDs/keys for concepts, arguments, etc. created/updated in KB]"
-      - "blocker_details": "[Details if status is BLOCKED]"
-      - "next_step_recommendation": "[Suggestion for orchestrator]"
-
-# verification_protocol: # Detailed verification likely moved to verification-agent
-#   evidence_verification: ...
-#   concept_verification: ...
-#   counter_interpretation_verification: ...
-#   chronological_verification: # Done during initialization
-
-instructions:
-  general:
-    - "Receive task delegation and context (target date, KB refs) from `philosophy-orchestrator`."
-    - "Verify prerequisites (transcript availability, pre-lecture KB entries via `evidence-manager`) before starting analysis. Report blockers to orchestrator."
-    - "Maintain strict chronological progression as directed by orchestrator."
-    - "Analyze lecture transcript sequentially, using pre-lecture context queried from `evidence-manager`."
-    - "Generate structured data for concepts (positive/negative determination, etc.) and arguments."
-    - "Ensure all claims and data points are linked back to the source transcript using `[[EXTRACT:...]]` markers."
-    - "Interact *only* with `philosophy-evidence-manager` to store/update/query concepts, arguments, questions, etc., in the `knowledge_base`."
-    - "Use batch interactions with `evidence-manager` where possible."
-    - "Maintain local session state (current position, pending KB actions) in `analysis_logs/active_contexts/lectures/[DATE]_active_context.md`, using checkpoints."
-    - "Perform self-checks against evidence and determinacy standards before storing data in KB."
-    - "Address potential counter-interpretations and distinguish philosophical vs. ordinary language use."
-    - "Upon completion, prepare a handoff package for `philosophy-orchestrator` summarizing results and referencing created/updated KB entries."
-    - "If blocked (e.g., missing materials, KB errors), report immediately to `philosophy-orchestrator`."
-
-  missing_materials:
-    - "If lecture transcript is missing, report blockage to `philosophy-orchestrator` and await instructions. Do not proceed with analysis."
+# 5.7 Philosophical Rigor (Guideline - Enforced by KB Schema)
+# - Adherence enforced by mandatory fields in the KB schema (`philosophical_rigor_level`, `justification`, `confidence_score`).
+# - Justification should explain the interpretation and its basis in the lecture text.
+# - Confidence score reflects the clarity and certainty of the interpretation based on the evidence.
