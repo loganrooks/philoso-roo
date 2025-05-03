@@ -1,3 +1,66 @@
+### [2025-05-02 21:26:03] - Feedback: Insufficient Completion Detail
+- **Trigger:** User feedback on `attempt_completion` message.
+- **Context:** After updating `docs/architecture/architecture_v18.md` to V18.3 based on initial task and subsequent critique.
+- **Action:** User requested "more details results message" and "give overview of entire session".
+- **Rationale:** The initial completion message summarized the final state but lacked a narrative of the session's progression.
+- **Outcome:** Will revise the `attempt_completion` message to provide a more comprehensive overview of the steps taken.
+- **Follow-up:** Generate revised completion message.
+[2025-05-02 21:09:52] - Architect - User Feedback (Critique V18.2)
+Trigger: User provided detailed critique after reviewing V18.2 draft.
+Context: Architecture document `docs/architecture/architecture_v18.md` updated with examples.
+Action: Integrate feedback points regarding Knowledge Evolution, Failure Handling, Cross-Mode Communication, User Interaction Depth, and Evaluation Framework into V18.2 document.
+Rationale: Address identified gaps and enhance clarity/completeness of the architecture.
+Outcome: Pending integration.
+Follow-up: Modify `docs/architecture/architecture_v18.md` to incorporate feedback.
+[2025-05-02 21:08:27] - Architect - User Intervention (Rejection)
+Trigger: User rejected the `insert_content` operation for `memory-bank/activeContext.md` during pre-completion MB update.
+Context: Attempting to log task completion status before calling `attempt_completion`.
+Action: Will retry the `insert_content` operation for `memory-bank/activeContext.md`.
+Rationale: Ensure task completion is logged in the Memory Bank as required by rules.
+Outcome: Pending retry.
+Follow-up: Retry `insert_content` for `activeContext.md`.
+[2025-05-02 18:58:01] - Architect - User Feedback (Optimization)
+Trigger: User message after rejecting `insert_content` and subsequent full `read_file`.
+Context: Attempting to insert workflow example after previous insertions.
+Action: User advised to use partial reads (`read_file` with `start_line`/`end_line`) instead of full reads to verify line numbers.
+Rationale: Optimize tool usage, reduce unnecessary data transfer.
+Outcome: Will adopt partial reads for line number verification.
+Follow-up: Apply partial read strategy for the next insertion attempt.
+[2025-05-02 18:46:04] - Architect - User Intervention (Rejection)
+Trigger: User rejected the `insert_content` operation for the Philosophical Inquiry & Analysis Workflow example in `docs/architecture/architecture_v18.md`.
+Context: Attempting to add concrete examples based on previous feedback. KB Doctor and dialectical-analysis examples were successfully inserted prior to this attempt.
+Action: Will re-read the file to verify the correct insertion line number and retry the insertion.
+Rationale: Ensure the example is placed correctly after previous insertions modified the file.
+Outcome: Pending re-read and retry.
+Follow-up: Re-read `docs/architecture/architecture_v18.md`.
+[2025-05-02 18:41:39] - Architect - User Intervention (Rejection)
+Trigger: User rejected the `insert_content` operation for the `dialectical-analysis` example in `docs/architecture/architecture_v18.md`.
+Context: Attempting to add concrete examples based on previous feedback. KB Doctor example was successfully inserted prior to this attempt.
+Action: Will re-read the file to verify the correct insertion line number and retry the insertion.
+Rationale: Ensure the example is placed correctly after the previous insertion modified the file.
+Outcome: Pending re-read and retry.
+Follow-up: Re-read `docs/architecture/architecture_v18.md`.
+[2025-05-02 18:25:54] - Architect - Feedback Received (via User)
+Trigger: User provided feedback from an independent review of architecture_v18.2.md.
+Context: Review highlighted lack of concrete examples for mode responsibilities and workflows. Specific examples were suggested for KB Doctor, Analysis Modes, Workflows (Inquiry, Verification, KB Doctor, Meta-Reflection).
+Action: Will revise architecture_v18.2.md to incorporate these specific examples for enhanced clarity.
+Rationale: Improve understanding of practical mode operation and interaction.
+Outcome: Pending document update.
+Follow-up: Proceed with inserting examples into the document.
+[2025-05-02 17:11:54] - Architect - User Intervention & Naming Decision
+- **Trigger**: User confirmation on simplifying memory access and directory naming.
+- **Context**: Following decision to remove `philosophy-operational-context-manager`.
+- **Action**: Confirmed operational context directory name will be `phil-memory-bank/`. Confirmed KB name `philosophy-knowledge-base/` is correct.
+- **Rationale**: Avoid naming conflicts and simplify architecture per user preference.
+- **Outcome**: Will proceed with V18.2 update, using `phil-memory-bank/` in documentation.
+- **Follow-up**: Re-read V18.1 Revised doc, implement V18.2 changes.
+[2025-05-02 17:03:32] - Architect - User Intervention & Design Decision
+- **Trigger**: User response to clarification on Memory Bank purpose and manager mode.
+- **Context**: Discussing overhead of `philosophy-operational-context-manager` vs. direct access model for operational context (`memory-bank/`). User expressed preference for simpler direct access, similar to broader system patterns, citing overhead concerns. Also requested renaming `memory-bank/` to avoid conflicts and confirmed KB name (`philosophy-knowledge-base/`) is correct.
+- **Action**: Agreed to revise architecture (V18.2) to remove `philosophy-operational-context-manager`. Modes will directly access operational context files. Rename `memory-bank/` to `phil-memory-bank/` in documentation.
+- **Rationale**: Simplify architecture based on user preference, reduce perceived overhead, align with existing system patterns, and improve clarity via renaming. Acknowledges the need for robust logging/delegation protocols.
+- **Outcome**: Will update `docs/architecture/architecture_v18.md` to V18.2 reflecting these changes. Will update current `memory-bank/` files and instruct user to manually rename the directory to `phil-memory-bank/`.
+- **Follow-up**: Proceed with re-reading V18.1 Revised doc and implementing V18.2 changes.
 [2025-05-02 15:59:00] - Architect - User Intervention
 - **Trigger**: User message after interrupted `attempt_completion`.
 - **Context**: Task was to update `docs/architecture/architecture_v18.md` to V18.1 (rigor + Linux paths). Interruption occurred after Memory Bank updates but before user confirmation of `attempt_completion`.
