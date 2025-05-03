@@ -20,6 +20,13 @@
 <!-- Append intervention details using the format below -->
 
 ## Components Implemented
+### [2025-05-03 05:50:30] `philosophy-citation-manager` Mode Rules (V1.0 - V18.3 Spec)
+- **Purpose**: Defines the `philosophy-citation-manager` mode, responsible for formatting citations and generating bibliographies based on KB reference entries and specified citation style (e.g., Chicago). Reads reference data from the KB but does NOT write to the KB. Takes draft text with citation placeholders as input. Aligned with V18.3 architecture and `clinerules_standard_v1.md`.
+- **Files**: `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`
+- **Status**: Implemented
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), `philosophy-knowledge-base/references/` (for reading reference data via `read_file`), and the RooCode mode execution framework.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
 ### [2025-05-02 22:27:00] `philosophy-kb-doctor` Mode Rules (V18.3 Update)
 - **Purpose**: Defines the `philosophy-kb-doctor` mode, responsible for orchestrating KB maintenance scripts (indexing, validation, cleanup, rigor checks) via `execute_command`, reading KB operational data, reporting summaries to `philosophy-orchestrator`, and logging its own operations directly to `phil-memory-bank/`. Non-gatekeeping.
 - **Files**: `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`
