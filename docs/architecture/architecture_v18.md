@@ -1,19 +1,20 @@
-# Hegel Philosophy RooCode Suite - Architecture V18.1 (Rigor Enhanced, No SPARC Ref)
+# Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
 **Date:** 2025-05-02
-**Version:** 18.1 (Revised)
+**Version:** 18.3
 **Status:** Draft
 **Based On:**
-*   `docs/architecture/architecture_v18.md` (Original V18.1)
+*   `docs/architecture/architecture_v18.md` (V18.2 - Examples Added)
 *   `docs/architecture/architecture_v14.md` (Structure & Detail Level Reference)
-*   V15/V16 Principles (Direct Access, KB Doctor - derived from Memory Bank logs)
-*   User Task & Feedback (V18 Requirements & Constraints, Rigor Enhancements, Linux Paths, No SPARC Ref - as of 2025-05-02 15:59)
-*   Memory Bank Context (as of 2025-05-02 15:59)
+*   V15/V16 Principles (Direct Access, KB Doctor)
+*   User Task & Feedback (V18 Requirements, Rigor Enhancements, Linux Paths, No SPARC Ref, Direct Operational Context Access, Renaming - as of 2025-05-02 17:11)
+*   User Feedback (V18.2 Critique - Knowledge Evolution, Failure Handling, Comm Challenges, User Interaction, Evaluation - as of 2025-05-02 21:09)
+*   Memory Bank Context (as of 2025-05-02 21:09) - Note: Refers to `phil-memory-bank/` structure.
 *   Rigor Principles Sources: `.roo/rules-philosophy-class-analysis/`, `.roo/rules-philosophy-verification-agent/`, `.roo/rules-philosophy-dialectical-analysis/`
 
-**Goal:** Update V18 architecture to incorporate enhanced principles of **philosophical rigor** (determinacy, specificity, verification, argument analysis), ensure all file paths use **Linux conventions** (`/`), while maintaining V18 core principles (Direct KB Access, KB Doctor) and V14 detail level. Remove system-specific terminology ("SPARC").
+**Goal:** Update V18 architecture to incorporate enhanced philosophical rigor, ensure Linux path conventions (`/`), remove system-specific terminology ("SPARC"), and simplify operational context management by removing the dedicated manager mode and implementing direct file access within a renamed `phil-memory-bank/` directory. Maintain V18 core principles (Direct KB Access, KB Doctor) and V14 detail level.
 
-## 1. Core Principles (V18.1 Revised)
+## 1. Core Principles (V18.2)
 
 *   **Determinacy & Specificity:** Concepts/arguments clearly defined within the KB, including positive/negative determination, contrast with ordinary language, and identification of ambiguities. (V11+, Enhanced V18.1)
 *   **Evidence Saturation & Rigorous Sourcing:** Claims linked to specific sources via KB entries (`source_ref_keys`, `extraction_markers`). Verification emphasizes source validity and relevance. (V11+, Enhanced V18.1)
@@ -24,25 +25,27 @@
 *   **Modularity:** Encapsulated functionality in specialized modes with defined responsibilities. (V11+)
 *   **Orchestration:** Complex workflows managed by `philosophy-orchestrator`. (V11+)
 *   **Traceability:** Version control (Git) for key artifacts (essays, potentially KB/config). (V12+)
-*   **Knowledge Separation (Strict):** Explicit and enforced distinction between philosophical domain knowledge (`philosophy-knowledge-base/`) and operational/process memory (`memory-bank/`). **NO philosophy system interaction with `memory-bank/` for KB operations.** (V13+, Reinforced V18)
+*   **Knowledge Separation (Strict):** Explicit and enforced distinction between philosophical domain knowledge (`philosophy-knowledge-base/`) and operational/process memory (`phil-memory-bank/`). **NO philosophy system interaction with `phil-memory-bank/` for KB operations.** (V13+, Reinforced V18, Renamed V18.2)
 *   **Reflexivity:** Capacity for the system to question its own assumptions, methods, and architecture (`philosophy-meta-reflector`). (V13+)
 *   **Controlled Evolution:** Mechanisms for proposing and approving modifications to the KB and potentially the system architecture itself. (V13+)
 *   **Source Contextualization (Retained V14):** Raw source materials are organized by context (`source_materials/raw/`), and this context is explicitly captured, stored as tags in the KB, and queryable.
 *   **Direct KB Read Access (V18):** Modes read data directly from `philosophy-knowledge-base/` using standard file tools (`read_file`, `search_files`), guided by their internal logic and `.clinerules`.
 *   **Defined KB Write Patterns (V18):** Modes that write to the KB do so directly into designated files/sections within `philosophy-knowledge-base/` according to established conventions (e.g., `text-processor` writes to `processed_texts/`, analysis modes write to `concepts/`, `arguments/`, etc.), including rigor-related fields.
 *   **KB Doctor for Maintenance (V18):** A dedicated `philosophy-kb-doctor` mode handles KB maintenance tasks (indexing, validation, cleanup, potentially identifying missing rigor elements) by orchestrating scripts within the KB's `_operational/` directory. It is triggered by the `Orchestrator` and **does not gate** read/write access for other modes.
+*   **Direct Operational Context Access (V18.2):** Modes directly read and write operational context (status, logs, decisions) to designated files within the `phil-memory-bank/` directory using standard file tools. `Orchestrator` primarily manages global context files; individual modes manage their specific logs. **Requires diligent logging/reading and detailed delegation messages.**
 
-## 2. V18.1 Architecture Overview (Revised)
+## 2. V18.2 Architecture Overview
 
-V18.1 builds upon V18 by explicitly integrating philosophical rigor requirements into the direct-access model.
+V18.2 builds upon V18.1 (Revised) by simplifying operational context management while retaining rigor enhancements.
 
-1.  **Direct KB Access:** Modes interact directly with `philosophy-knowledge-base/` using file tools. Read access is open; write access follows conventions and includes rigor fields. Modes embed logic for locating, reading, interpreting, and *writing* KB data, including rigor elements.
-2.  **KB Doctor (Maintenance & Rigor Support):** `philosophy-kb-doctor` handles maintenance via KB-internal scripts. Its role is expanded to potentially include running validation scripts that check for the presence and consistency of rigor elements (e.g., ensuring arguments link to counter-arguments, concepts have determinacy fields). It reports findings to the `Orchestrator`, potentially triggering corrective actions or analysis tasks. Remains non-gatekeeping.
-3.  **Strict KB/Operational Memory Separation:** Maintained. `philosophy-operational-context-manager` used only for `memory-bank/` access.
-4.  **Source Context Handling (Retained V14):** Maintained. Context tags enable rigor checks within specific contexts (e.g., comparing interpretations across different courses or secondary sources).
-5.  **Enhanced KB Schema:** KB entry formats (esp. `Concept`, `Argument`) are expanded with specific fields to capture rigor elements (see Section 6).
-6.  **Updated Mode Responsibilities:** Analysis, questioning, and verification modes are explicitly tasked with generating, refining, and checking rigor elements during their operations (see Section 4).
-7.  **Rigor-Aware Workflows:** Analysis and verification workflows include steps to query related context (secondary sources, counter-arguments) and explicitly document rigor checks (see Section 7). A self-correction loop is formalized.
+1.  **Direct KB Access:** Modes interact directly with `philosophy-knowledge-base/` using file tools. Read access is open; write access follows conventions and includes rigor fields.
+2.  **Direct Operational Context Access:** Modes interact directly with `phil-memory-bank/` using file tools. `Orchestrator` primarily manages global files (`activeContext.md`, `globalContext.md`). Each mode manages its own log file within `phil-memory-bank/mode-specific/`. All modes can read any file in `phil-memory-bank/` for context. **This places higher emphasis on diligent logging/reading practices and detailed delegation messages.**
+3.  **KB Doctor (Maintenance & Rigor Support):** `philosophy-kb-doctor` handles maintenance via KB-internal scripts, including potential rigor validation checks. Reports findings to `Orchestrator`. Remains non-gatekeeping.
+4.  **Strict KB/Operational Memory Separation:** Maintained between `philosophy-knowledge-base/` and `phil-memory-bank/`.
+5.  **Source Context Handling (Retained V14):** Maintained.
+6.  **Enhanced KB Schema:** KB entry formats include specific fields for rigor elements (see Section 6).
+7.  **Updated Mode Responsibilities:** Analysis, questioning, and verification modes explicitly handle rigor elements (see Section 4). Modes are now also responsible for directly managing their operational context logging within `phil-memory-bank/`.
+8.  **Rigor-Aware Workflows:** Analysis and verification workflows include rigor checks and self-correction loops (see Section 7).
 
 ## 3. Source Material Organization (V14 - Retained, Linux Paths)
 
@@ -88,66 +91,100 @@ V18.1 builds upon V18 by explicitly integrating philosophical rigor requirements
     *   `context_subtype`: `reading`
     These are then formatted as tags: `context:type:course`, `context:id:PHL316`, `context:subtype:reading` for storage in the KB entry YAML.
 
-## 4. Mode Structure & Responsibilities (V18.1 Revised - Rigor Enhanced, Linux Paths)
+## 4. Mode Structure & Responsibilities (V18.2 - Direct Operational Context Access, Rigor Enhanced, Linux Paths)
 
 ### 4.1. Core Data Management Modes
 
-*   **`philosophy-operational-context-manager` (V13 Revised Scope - Retained):**
-    *   **Responsibility:** Manages access **only** to the Operational Memory Bank (`memory-bank/`) and potentially `analysis_workspace/`. Handles operational context queries. **Does NOT interact with `philosophy-knowledge-base/`.**
-    *   **Input:** Queries for operational context, operational context data for storage.
-    *   **Output:** Operational context data, confirmations.
-    *   **Dependencies:** All modes (for operational context), `memory-bank/` files.
 *   **`philosophy-kb-doctor` (V18, Enhanced V18.1):**
-    *   **Responsibility:** Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. **V18.1:** Scripts may include validation checks for rigor elements (e.g., presence of determinacy fields, links to counter-arguments, source validity checks). Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status and rigor validation summaries to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
+    *   **Responsibility:** Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. **V18.1:** Scripts may include validation checks for rigor elements. Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status and rigor validation summaries to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
     *   **Input:** Maintenance triggers from `Orchestrator`.
-    *   **Output:** Status reports and rigor validation summaries to `Orchestrator`. Writes execution logs to its mode-specific log in `memory-bank/`. (Maintenance script logs are written within `philosophy-knowledge-base/_operational/logs/`).
-    *   **Dependencies:** `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, `philosophy-operational-context-manager` (for operational context).
+    *   **Output:** Status reports and rigor validation summaries to `Orchestrator`. **Directly writes** execution logs to its mode-specific log in `phil-memory-bank/mode-specific/philosophy-kb-doctor.md`. (Maintenance script logs are written within `philosophy-knowledge-base/_operational/logs/`).
+    *   **Dependencies:** `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, File system tools (for reading/writing to `phil-memory-bank/`).
+*   **Example Maintenance Task (Rigor Check):**
+        1.  `Orchestrator` triggers `kb-doctor` with task: "Validate rigor fields for 'Concept' entries created in the last 24 hours."
+        2.  `kb-doctor` executes `validate_concept_rigor.py` script from `philosophy-knowledge-base/_operational/maintenance_scripts/`.
+        3.  Script reads recent 'Concept' entries from `philosophy-knowledge-base/concepts/`.
+        4.  Script finds `concept_id: hegel_begriff_123` is missing the `negative_determination` field.
+        5.  Script writes details to `philosophy-knowledge-base/_operational/logs/validation_log_YYYYMMDD.log`.
+        6.  Script updates `philosophy-knowledge-base/_operational/status/rigor_validation_status.json`.
+        7.  `kb-doctor` reads the log/status.
+        8.  `kb-doctor` writes a summary report to `philosophy-knowledge-base/_operational/reports/rigor_validation_YYYYMMDD.md`.
+        9.  `kb-doctor` writes its own operational log: "[Timestamp] - KBDoctor - Executed rigor validation. Found 1 concept missing negative_determination. Reported to Orchestrator." to `phil-memory-bank/mode-specific/philosophy-kb-doctor.md`.
+        10. `kb-doctor` reports summary (including the missing field issue) to `Orchestrator`.
+        11. `Orchestrator` logs the report summary in `phil-memory-bank/activeContext.md` and delegates a correction task to `dialectical-analysis`.
 
 ### 4.2. Text Processing & Analysis Modes
 
 *   **`philosophy-text-processor` (V12, V14 Context, V18 Write Pattern):**
     *   **Responsibility:** Pre-processes source texts from `source_materials/raw/` via external scripts (chunking, indexing, citation extraction). Parses input path to extract context (`type`, `id`, `subtype`). Emphasizes extraction of markers (`extraction_markers`) linking chunks to precise source locations.
-    *   **Output (V18):** Processed chunks to `source_materials/processed/`. **Directly writes** index/chunk info, citation data (including `source_ref_keys`), and extracted context tags to designated files/sections within `philosophy-knowledge-base/`.
-    *   **Dependencies:** External scripts, `philosophy-orchestrator`, File system tools (`write_to_file`, `insert_content`), `philosophy-operational-context-manager` (for operational context).
+    *   **Output (V18):** Processed chunks to `source_materials/processed/`. **Directly writes** index/chunk info, citation data (including `source_ref_keys`), and extracted context tags to designated files/sections within `philosophy-knowledge-base/`. **Directly writes** operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
+    *   **Dependencies:** External scripts, `philosophy-orchestrator`, File system tools (for KB and `phil-memory-bank/` access).
 *   **Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`, `questioning`):**
-    *   **Responsibility:** Analyze sources/KB content, generate concepts, arguments, questions, etc., **ensuring philosophical rigor**.
-    *   **Interaction (V18.1):**
-        *   **Read:** Directly Read KB files (`philosophy-knowledge-base/`) using file tools, applying context filters. Query related context (linked entries like counter-arguments, secondary sources) via `related_ids` or context tags.
+    *   **Responsibility:** Analyze sources/KB content, generate concepts, arguments, questions, etc., **ensuring philosophical rigor**. **Directly manage** own operational logs in `phil-memory-bank/mode-specific/`.
+    *   **Interaction (V18.2):**
+        *   **Read KB:** Directly Read KB files (`philosophy-knowledge-base/`) using file tools, applying context filters. Query related context (linked entries like counter-arguments, secondary sources) via `related_ids` or context tags.
+        *   **Read Operational Context:** Directly Read relevant files within `phil-memory-bank/` (e.g., `activeContext.md`, `globalContext.md`, other mode logs) for operational context as needed.
         *   **Analyze for Rigor:** Explicitly identify and analyze determinacy, presuppositions, ambiguities, contradictions, related terms, ordinary language contrast, etc.
-        *   **Write:** Directly Write findings to designated KB files/sections using file tools, **populating rigor-related fields** (see Section 6) and ensuring correct formatting and linking (including `source_ref_keys`, `extraction_markers`, `related_ids`).
-        *   **Operational Context:** Query `philosophy-operational-context-manager` for operational context if needed.
+        *   **Write KB:** Directly Write findings to designated KB files/sections using file tools, **populating rigor fields** (see Section 6) and ensuring correct formatting and linking (including `source_ref_keys`, `extraction_markers`, `related_ids`).
+        *   **Write Operational Log:** Directly Write detailed operational logs (process, decisions, inputs, outputs) to own file in `phil-memory-bank/mode-specific/`.
+*   **Cross-Mode Communication Notes (V18.3):**
+            *   **Log Discovery:** Modes primarily rely on context provided by `Orchestrator` during delegation. For broader context or historical data, modes can use `search_files` on specific logs within `phil-memory-bank/mode-specific/` or global files (`activeContext.md`, `globalContext.md`), guided by timestamps or keywords. Efficiency depends on clear delegation and standardized logging.
+            *   **Log Standardization:** Mode `.clinerules` MUST define a standardized format for log entries within `phil-memory-bank/mode-specific/`. A recommended baseline includes: `[Timestamp] - [ModeSlug] - [Action/Status] - [Details/Outcome/KB_IDs_Affected]`. This ensures logs are machine-parsable and interpretable by `Orchestrator` and `meta-reflector`.
+            *   **KB Write Conflicts (Race Conditions):** Direct KB writes by multiple modes simultaneously carry a risk of race conditions or overwrites.
+                *   **Mitigation (Current):** Primarily relies on `Orchestrator` sequencing tasks to minimize simultaneous writes to the *same* KB file/section. Modes should use `apply_diff` where possible for targeted changes rather than `write_to_file`.
+                *   **Mitigation (Future):** Consider implementing a simple file-based locking mechanism managed via `phil-memory-bank/status/` or introducing brief, targeted critical sections orchestrated by `Orchestrator` for sensitive KB updates. `KB Doctor` maintenance scripts run during designated low-activity periods or are triggered explicitly by `Orchestrator`.
     *   **Specific Mode Focus (Rigor):**
         *   `class-analysis`: Focus on conceptual determinacy, evidence standards from lectures/readings, identifying potential counter-interpretations.
         *   `dialectical-analysis`: Focus on identifying contradictions, moments, transitions, resolutions, presuppositions within arguments.
         *   `secondary-lit`: Focus on comparing interpretations, identifying secondary source claims/arguments, linking to primary source KB entries.
         *   `questioning`: Refine questions based on identified ambiguities, presuppositions, or gaps in KB rigor.
+*   **Example (`dialectical-analysis`):**
+            1.  **Input:** `Orchestrator` delegates task: "Analyze KB concept `concept_id: hegel_absolute_knowing_001` for internal contradictions and dialectical movement." Mode reads the concept entry from `philosophy-knowledge-base/concepts/hegel_absolute_knowing_001.md`.
+            2.  **Process:**
+                *   Reads `positive_determination`: "The unity of subject and object where consciousness knows itself as the totality of reality."
+                *   Identifies potential contradiction: The concept implies both a final state ("absolute") and an ongoing process ("knowing").
+                *   Searches KB for related arguments/concepts using `related_ids` or tags like `hegel`, `phenomenology`, `knowing`. Finds `argument_id: hegel_phen_ending_arg_005`.
+                *   Analyzes how Hegel presents the resolution (e.g., Spirit's self-recognition through its historical manifestations).
+                *   Identifies presuppositions: Assumes the validity of the phenomenological journey, assumes Spirit as the ultimate subject.
+            3.  **Output (KB Write):** Updates `philosophy-knowledge-base/concepts/hegel_absolute_knowing_001.md` via `apply_diff` or `write_to_file`:
+                *   Populates `presuppositions`: ["Validity of phenomenological method", "Spirit as ultimate subject/substance"].
+                *   Populates `contradictions`: ["Tension between finality ('absolute') and process ('knowing')"].
+                *   Adds analysis of the resolution to the main content body, linking to `argument_id: hegel_phen_ending_arg_005`.
+                *   Sets `verification_status: Unverified` (as analysis is new).
+            4.  **Output (Operational Log):** Writes detailed log to `phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md`: "[Timestamp] - DialecticalAnalysis - Analyzed concept hegel_absolute_knowing_001. Identified contradiction (finality/process), presuppositions. Linked to arg_005. Updated KB entry."
 
 ### 4.3. Essay Generation & Verification Modes
 
 *   **`philosophy-essay-prep` (V11+):**
-    *   **Responsibility:** Manages essay writing process, including thesis development and outline, ensuring thesis is determinate and addresses relevant KB context. Manages Git for essays.
-    *   **Interaction (V18.1):** Directly Reads relevant KB entries (questions, concepts, arguments, counter-arguments) using file tools, applying context filters. Directly Writes developed thesis (including its presuppositions/scope) to KB. Coordinates other essay modes. Executes Git commands. Queries `philosophy-operational-context-manager` for operational context.
+    *   **Responsibility:** Manages essay writing process, including thesis development and outline, ensuring thesis is determinate and addresses relevant KB context. Manages Git for essays. **Directly manages** own operational logs in `phil-memory-bank/mode-specific/`.
+    *   **Interaction (V18.2):** Directly Reads relevant KB entries and operational context from `phil-memory-bank/` using file tools. Directly Writes developed thesis to KB. Coordinates other essay modes. Executes Git commands. Directly Writes operational logs.
 *   **`philosophy-draft-generator` (V11+):**
-    *   **Responsibility:** Generates prose based on outline and evidence package, aiming for clarity and specificity.
-    *   **Interaction (V18.1):** Directly Reads evidence package (thesis, concepts, arguments, quotes, counter-arguments) from KB using file tools. Queries `philosophy-operational-context-manager` for operational context.
+    *   **Responsibility:** Generates prose based on outline and evidence package, aiming for clarity and specificity. **Directly manages** own operational logs in `phil-memory-bank/mode-specific/`.
+    *   **Interaction (V18.2):** Directly Reads evidence package from KB and operational context from `phil-memory-bank/` using file tools. Directly Writes operational logs.
 *   **`philosophy-citation-manager` (V11+):**
-    *   **Responsibility:** Formats citations and bibliography, ensuring accurate linking via `source_ref_keys`.
-    *   **Interaction (V18.1):** Directly Reads reference details and citation location data from KB using file tools. Queries `philosophy-operational-context-manager` for operational context.
+    *   **Responsibility:** Formats citations and bibliography, ensuring accurate linking via `source_ref_keys`. **Directly manages** own operational logs in `phil-memory-bank/mode-specific/`.
+    *   **Interaction (V18.2):** Directly Reads reference details from KB and operational context from `phil-memory-bank/` using file tools. Directly Writes operational logs.
 *   **`philosophy-verification-agent` (V11+, Enhanced V18.1):**
-    *   **Responsibility:** Verifies claims, citations, and **rigor elements** within drafts against KB entries and processed source chunks. Checks for consistency, accurate representation of sources/arguments, presence of required rigor fields (e.g., determinacy), and appropriate handling of counter-arguments.
-    *   **Interaction (V18.1):** Directly Reads draft content, evidence, references, rigor fields, and processed chunk paths/indices from KB using file tools. Queries `philosophy-operational-context-manager` for operational context. Generates verification reports highlighting discrepancies, missing rigor, or unsupported claims. Triggers self-correction loop via `Orchestrator` if significant issues found.
+    *   **Responsibility:** Verifies claims, citations, and **rigor elements** within drafts against KB entries and processed source chunks. Checks for consistency, accurate representation, presence of rigor fields, and handling of counter-arguments. **Directly manages** own operational logs in `phil-memory-bank/mode-specific/`.
+    *   **Interaction (V18.2):** Directly Reads draft, KB entries, source chunks, and operational context from `phil-memory-bank/` using file tools. Generates verification reports. Triggers self-correction loop via `Orchestrator`. Directly Writes operational logs.
 
 ### 4.4. Orchestration & Meta-Reflection Modes
 
-*   **`philosophy-orchestrator` (V11+):**
-    *   **Responsibility:** Manages workflows, delegates tasks, handles handoffs, routes proposals, relays approvals. Coordinates Git commits. Triggers `philosophy-kb-doctor` for maintenance and potentially for rigor validation checks based on `verification-agent` reports. Manages self-correction loops.
-    *   **Dependencies:** All modes, User, `philosophy-operational-context-manager` (for operational context).
+*   **`philosophy-orchestrator` (V11+, V18.2 Memory Access):**
+    *   **Responsibility:** Manages workflows, delegates tasks (providing detailed context), handles handoffs, routes proposals, relays approvals. Coordinates Git commits. Triggers `philosophy-kb-doctor`. Manages self-correction loops. **Primarily responsible for maintaining global operational context files** (`phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md`). Reads other logs in `phil-memory-bank/` as needed for context.
+    *   **Dependencies:** All modes, User, File system tools (for `phil-memory-bank/` access).
 *   **`philosophy-meta-reflector` (V13, Context-Aware V14):**
-    *   **Responsibility:** Performs meta-level analysis of the system, including evaluating the effectiveness of rigor enforcement. Analyzes operational memory logs, docs, rules, KB content. Stores reflections/questions in KB. Proposes KB/System modifications via orchestrator.
-    *   **Interaction (V18.1):** Queries `philosophy-operational-context-manager` for operational context. Directly Reads KB content using file tools. Directly Writes findings to KB. Sends proposals to `Orchestrator`.
-    *   **Dependencies:** `philosophy-orchestrator`, File system tools, `philosophy-operational-context-manager`, potentially `architect`, `devops`.
+    *   **Responsibility (V18.3 Enhanced):** Performs meta-level analysis of the system. This includes:
+        *   Evaluating the effectiveness of rigor enforcement across modes and KB entries.
+        *   Analyzing operational memory logs (`phil-memory-bank/`), docs, rules, and KB content for patterns, inefficiencies, or contradictions.
+        *   **Evaluating the philosophical quality and progress** of analyses over time (e.g., assessing depth, coherence, handling of counter-arguments, comparison of alternative approaches). Defining/refining metrics for quality assessment is a key task.
+        *   Storing meta-reflections, quality assessments, and identified issues/questions in the KB (tagged `meta`).
+        *   Proposing KB structure modifications, system architecture changes, or rule updates via `Orchestrator`.
+        *   **Directly manages** own operational logs in `phil-memory-bank/mode-specific/philosophy-meta-reflector.md`.
+    *   **Interaction (V18.2):** Directly Reads operational context from `phil-memory-bank/`, docs/rules, and KB content using file tools. Directly Writes findings to KB. Sends proposals to `Orchestrator`. Directly Writes operational logs.
+    *   **Dependencies:** `philosophy-orchestrator`, File system tools (for KB and `phil-memory-bank/` access), potentially `architect`, `devops`.
 
-## 5. V18.1 Mode Interaction Diagram (Mermaid - Revised, Linux Paths)
+## 5. V18.2 Mode Interaction Diagram (Mermaid - Direct OpCtx Access, Linux Paths)
 
 ```mermaid
 graph TD
@@ -187,11 +224,41 @@ graph TD
     end
 
     subgraph Data Layer
-        subgraph Operational Context
+        subgraph Operational Context [phil-memory-bank/]
              style OpCtx fill:#e0e0e0,stroke:#666,stroke-width:1px
-             OpCtxMan(philosophy-operational-context-manager)
-             OpMemBank[(Operational Memory Bank<br>memory-bank/)]
-             OpCtxMan -- Manages --> OpMemBank
+             OpMemBank_Global[(Global Context<br>activeContext.md,<br>globalContext.md)]
+             OpMemBank_ModeLogs[(Mode Logs<br>mode-specific/)]
+             OpMemBank_Feedback[(Feedback<br>feedback/)]
+             Orchestrator -- Manages --> OpMemBank_Global
+             %% Individual modes manage their own logs
+             TextProc -- Writes --> OpMemBank_ModeLogs
+             PreLec -- Writes --> OpMemBank_ModeLogs
+             ClassAn -- Writes --> OpMemBank_ModeLogs
+             SecLit -- Writes --> OpMemBank_ModeLogs
+             DialAn -- Writes --> OpMemBank_ModeLogs
+             Quest -- Writes --> OpMemBank_ModeLogs
+             EssayPrep -- Writes --> OpMemBank_ModeLogs
+             DraftGen -- Writes --> OpMemBank_ModeLogs
+             CiteMan -- Writes --> OpMemBank_ModeLogs
+             Verify -- Writes --> OpMemBank_ModeLogs
+             MetaReflector -- Writes --> OpMemBank_ModeLogs
+             KBDoctor -- Writes --> OpMemBank_ModeLogs
+             %% All modes can read all OpCtx files
+             Orchestrator -- Reads --> OpMemBank_Global
+             Orchestrator -- Reads --> OpMemBank_ModeLogs
+             Orchestrator -- Reads --> OpMemBank_Feedback
+             TextProc -- Reads --> OpMemBank_Global; TextProc -- Reads --> OpMemBank_ModeLogs
+             PreLec -- Reads --> OpMemBank_Global; PreLec -- Reads --> OpMemBank_ModeLogs
+             ClassAn -- Reads --> OpMemBank_Global; ClassAn -- Reads --> OpMemBank_ModeLogs
+             SecLit -- Reads --> OpMemBank_Global; SecLit -- Reads --> OpMemBank_ModeLogs
+             DialAn -- Reads --> OpMemBank_Global; DialAn -- Reads --> OpMemBank_ModeLogs
+             Quest -- Reads --> OpMemBank_Global; Quest -- Reads --> OpMemBank_ModeLogs
+             EssayPrep -- Reads --> OpMemBank_Global; EssayPrep -- Reads --> OpMemBank_ModeLogs
+             DraftGen -- Reads --> OpMemBank_Global; DraftGen -- Reads --> OpMemBank_ModeLogs
+             CiteMan -- Reads --> OpMemBank_Global; CiteMan -- Reads --> OpMemBank_ModeLogs
+             Verify -- Reads --> OpMemBank_Global; Verify -- Reads --> OpMemBank_ModeLogs
+             MetaReflector -- Reads --> OpMemBank_Global; MetaReflector -- Reads --> OpMemBank_ModeLogs; MetaReflector -- Reads --> OpMemBank_Feedback
+             KBDoctor -- Reads --> OpMemBank_Global; KBDoctor -- Reads --> OpMemBank_ModeLogs
         end
         subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
@@ -236,7 +303,7 @@ graph TD
     TextProc -- Processed Chunks --> ProcessedSource
     TextProc -- Direct Write KB (Index, Citations, Context) --> PhilKB_Data
 
-    %% Analysis & Inquiry Flow (V18.1 Direct R/W + Rigor)
+    %% Analysis & Inquiry Flow (V18.2 Direct R/W + Rigor)
     PreLec -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     ClassAn -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     SecLit -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
@@ -249,7 +316,7 @@ graph TD
     DialAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
     Quest -- Direct Read KB (incl. Related Context) --> PhilKB_Data
 
-    %% Essay Flow (V18.1 Direct R/W + Rigor)
+    %% Essay Flow (V18.2 Direct R/W + Rigor)
     EssayPrep -- Direct Read KB (Thesis Context + Rigor) --> PhilKB_Data
     EssayPrep -- Direct Write KB (Thesis + Rigor) --> PhilKB_Data
     EssayPrep -- Request Draft --> DraftGen
@@ -269,9 +336,9 @@ graph TD
     Verify -- Verification Report (incl. Rigor Check) --> EssayPrep
     Verify -- Trigger Correction Loop? --> Orchestrator
 
-    %% Meta-Reflection Flow (V18.1 Direct R/W)
+    %% Meta-Reflection Flow (V18.2 Direct R/W)
     MetaReflector -- Direct Read KB --> PhilKB_Data
-    MetaReflector -- Query OpCtx --> OpCtxMan
+    MetaReflector -- Direct Read OpCtx --> OpMemBank_Global; MetaReflector -- Direct Read OpCtx --> OpMemBank_ModeLogs; MetaReflector -- Direct Read OpCtx --> OpMemBank_Feedback
     MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
     MetaReflector -- Direct Write KB (Reflections + Rigor) --> PhilKB_Data
     MetaReflector -- Propose KB Mod --> Orchestrator
@@ -289,34 +356,17 @@ graph TD
     KBDoctor -- Writes Reports (incl. Rigor Summary) --> KB_Reports
     KBDoctor -- Report Status/Rigor --> Orchestrator
 
-    %% Operational Context Manager Interactions
-    OpCtxMan -- Access/Update --> OpMemBank
-    Orchestrator -- Use OpCtx --> OpCtxMan
-    TextProc -- Use OpCtx --> OpCtxMan
-    PreLec -- Use OpCtx --> OpCtxMan
-    ClassAn -- Use OpCtx --> OpCtxMan
-    SecLit -- Use OpCtx --> OpCtxMan
-    DialAn -- Use OpCtx --> OpCtxMan
-    Quest -- Use OpCtx --> OpCtxMan
-    EssayPrep -- Use OpCtx --> OpCtxMan
-    DraftGen -- Use OpCtx --> OpCtxMan
-    CiteMan -- Use OpCtx --> OpCtxMan
-    Verify -- Use OpCtx --> OpCtxMan
-    MetaReflector -- Use OpCtx --> OpCtxMan
-    KBDoctor -- Use OpCtx --> OpCtxMan
-
-
     %% Styling
     classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
     class PhilKB_Data, PhilKB_Ops kb;
     classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
-    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,OpCtxMan,MetaReflector,KBDoctor mode;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,MetaReflector,KBDoctor mode;
     classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
     class Scripts, KB_Scripts script;
     classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
     class VCS vcs;
     classDef opmembank fill:#e0e0e0,stroke:#666,stroke-width:1px;
-    class OpMemBank opmembank;
+    class OpMemBank_Global, OpMemBank_ModeLogs, OpMemBank_Feedback opmembank;
     classDef source fill:#dff0d8,stroke:#3c763d,stroke-width:1px;
     class RawSource,ProcessedSource source;
     classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
@@ -324,18 +374,19 @@ graph TD
 ```
 
 **Diagram Notes:**
-*   Reflects V18.1 enhancements (Revised).
-*   Modes directly Read/Write `PhilKB_Data`, including rigor fields.
-*   `KBDoctor` triggers maintenance and rigor validation scripts.
-*   `Verify` explicitly checks rigor elements and can trigger correction loop via `Orchestrator`.
-*   Analysis modes query related context and write rigor fields.
+*   Reflects V18.2: Direct Operational Context Access.
+*   `philosophy-operational-context-manager` removed.
+*   Operational Context directory renamed to `phil-memory-bank/`.
+*   `Orchestrator` manages global context files within `phil-memory-bank/`.
+*   Individual modes manage their own logs within `phil-memory-bank/mode-specific/`.
+*   All modes can read all files within `phil-memory-bank/`.
+*   Rigor enhancements from V18.1 retained.
 *   All paths use forward slashes (`/`).
-*   "SPARC" references removed; Operational Memory Bank (`memory-bank/`) managed by `philosophy-operational-context-manager`.
 
-## 6. Philosophy Knowledge Base (KB) - V18.1 Design (Revised, Rigor Enhanced, Linux Paths)
+## 6. Philosophy Knowledge Base (KB) - V18.1 Design (Rigor Enhanced, Linux Paths)
 
 *   **Location:** `philosophy-knowledge-base/`
-*   **Purpose:** Centralized, structured, persistent repository for **philosophical domain knowledge**, distinct from operational memory. Enhanced for philosophical rigor.
+*   **Purpose:** Centralized, structured, persistent repository for **philosophical domain knowledge**, distinct from operational memory (`phil-memory-bank/`). Enhanced for philosophical rigor.
 *   **Management (V18.1):**
     *   **Content:** Managed directly by relevant modes using file tools, following defined write patterns/locations and **populating rigor-related fields**.
     *   **Maintenance & Rigor Validation:** Orchestrated by `philosophy-kb-doctor`, triggering scripts in `_operational/maintenance_scripts/` for indexing, validation, linking, cleanup, and **rigor consistency checks**.
@@ -392,54 +443,165 @@ graph TD
     [Detailed description, analysis, text, etc. reflecting rigor elements.]
     ```
 *   **Self-Modification:** Proposals -> `Orchestrator` -> User Approval -> `Orchestrator` -> Implementation by modes/scripts.
+### 6.1 Knowledge Evolution & Conflict Resolution (V18.3 Enhancements)
 
-## 7. Workflow Designs (V18.1 Revised - Rigor Enhanced)
+Addressing the dynamic nature of philosophical interpretation requires specific mechanisms:
+
+*   **Competing Interpretations:**
+    *   **Mechanism:** Competing interpretations of the same concept (e.g., different readings of Hegel's 'Being') should ideally be stored as separate KB entries (e.g., `hegel_being_interpretation_pippin_001`, `hegel_being_interpretation_taylor_001`).
+    *   **Linking:** These entries MUST be linked using the `related_ids` field, potentially with a specific relationship type tag (e.g., `relation:competing_interpretation`).
+    *   **Attribution:** The `generating_mode` and potentially `source_ref_keys` (if derived from secondary lit) are crucial for tracking the origin of each interpretation.
+    *   **Analysis:** Modes like `secondary-lit` or `dialectical-analysis` are responsible for identifying and linking these competing views.
+
+*   **Contradiction Resolution:**
+    *   **Detection:** Contradictions can be identified by analysis modes (within a text/argument) or `verification-agent` (between KB entries or KB and draft). Identified contradictions should be noted in the `contradictions` field of relevant KB entries and flagged in `verification_notes`.
+    *   **Process:**
+        1.  `Verification-Agent` or analysis mode reports contradiction to `Orchestrator` via logs/status updates.
+        2.  `Orchestrator` logs the issue in `phil-memory-bank/activeContext.md` and potentially `globalContext.md` (Decision Log if systemic).
+        3.  `Orchestrator` delegates resolution task, potentially to:
+            *   `dialectical-analysis`: To analyze the nature of the contradiction.
+            *   `meta-reflector`: If the contradiction suggests a systemic issue or rule conflict.
+            *   `questioning`: To formulate clarification questions for the user.
+        4.  Resolution might involve:
+            *   Refining KB entries to clarify scope/context.
+            *   Creating new entries representing a synthesis or higher-level concept.
+            *   Marking an interpretation as disputed (`verification_status: Disputed`).
+            *   Presenting the contradiction and potential resolutions to the user for guidance via `Orchestrator`.
+
+*   **Concept Versioning:**
+    *   **Current:** File-level history is provided by Git (managed via `philosophy-essay-prep` for essays, potentially manually or via `devops` for KB/config). The `timestamp` field in KB entries provides last-modified information.
+    *   **Future Considerations:** For more granular tracking, future versions might incorporate:
+        *   A dedicated `version_history` field within KB entries, logging significant changes with timestamps and mode attribution.
+        *   Separate `history/` subdirectory in the KB to store previous versions of entries, linked by ID. This would require more complex management by `kb-doctor` or dedicated scripts.
+
+## 7. Workflow Designs (V18.2 - Direct OpCtx Access, Rigor Enhanced)
 
 ### 7.1. Philosophical Inquiry & Analysis Workflow (Context-Aware, Direct Access, Rigor Focused)
 
 1.  **Input:** User prompt OR Analysis modes identify potential questions/concepts from source material (processed by `text-processor`).
-2.  **Analysis & Rigor Check:** Analysis modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`) **directly read** source chunks/related KB entries (using context tags, `related_ids`). They analyze content, explicitly identifying/documenting **rigor elements** (determinacy, presuppositions, ambiguities, counter-arguments, related terms, secondary sources via KB links).
-3.  **Storage (Analysis + Rigor):** Analysis modes **directly write** findings (concepts, arguments, proto-questions) to designated KB locations, **populating rigor fields** and ensuring links (`source_ref_keys`, `extraction_markers`, `related_ids`) are set.
-4.  **Refinement:** `philosophy-questioning` **directly reads** proto-questions/concepts/arguments from KB, focusing on rigor elements (ambiguities, presuppositions). Refines questions for clarity and determinacy.
-5.  **Storage (Refined Qs + Rigor):** `philosophy-questioning` **directly writes** refined questions (tagged `inquiry`) to KB, including analysis of their scope/presuppositions.
-6.  **Thesis Development:** `philosophy-essay-prep` **directly reads** refined questions/support material (incl. counter-arguments, secondary views) from KB. Develops a determinate thesis addressing rigor context.
-7.  **Storage (Thesis + Rigor):** `philosophy-essay-prep` **directly writes** thesis to KB, documenting its scope and relation to rigor elements.
-8.  **Essay Cycle:** Essay modes **directly read** thesis/evidence (incl. rigor fields) from KB.
+2.  **Context Gathering:** Analysis modes **directly read** relevant operational context from `phil-memory-bank/` (e.g., `activeContext.md`, previous logs).
+3.  **Analysis & Rigor Check:** Analysis modes **directly read** source chunks/related KB entries. They analyze content, explicitly identifying/documenting **rigor elements**.
+4.  **Storage (Analysis + Rigor):** Analysis modes **directly write** findings to KB, **populating rigor fields** and ensuring links.
+5.  **Logging:** Analysis modes **directly write** detailed operational logs to their specific file in `phil-memory-bank/mode-specific/`.
+6.  **Refinement:** `philosophy-questioning` reads KB and `phil-memory-bank/` context, refines questions.
+7.  **Storage (Refined Qs + Rigor):** `philosophy-questioning` writes refined questions to KB and logs to `phil-memory-bank/`.
+8.  **Thesis Development:** `philosophy-essay-prep` reads KB and `phil-memory-bank/` context, develops thesis.
+9.  **Storage (Thesis + Rigor):** `philosophy-essay-prep` writes thesis to KB and logs to `phil-memory-bank/`.
+10. **Essay Cycle:** Essay modes read KB/`phil-memory-bank/` context and write logs.
+*   **Example Workflow:**
+    1.  **User Prompt:** "How does Hegel's concept of 'Spirit' differ from Kant's transcendental subject?"
+    2.  **Orchestrator:** Receives prompt. Creates initial context entry in `phil-memory-bank/activeContext.md`: "[Timestamp] - Orchestrator - Received user query re: Hegel's Spirit vs Kant's Subject. Delegating to class-analysis." Delegates task to `class-analysis`.
+    3.  **Class Analysis (Context):** Reads task from `Orchestrator`. Reads `phil-memory-bank/activeContext.md` for current focus.
+    4.  **Class Analysis (KB Read):** Uses `search_files` on `philosophy-knowledge-base/concepts/` with regex for "Hegel" AND "Spirit" AND "Kant" AND "Subject". Finds existing entries `concept_id: hegel_spirit_003` and `concept_id: kant_transcendental_subject_001`. Reads these files.
+    5.  **Class Analysis (Analysis & Rigor):** Compares the `positive_determination` and `negative_determination` fields. Notes `hegel_spirit_003` lacks `ordinary_language_contrast`. Identifies potential ambiguity: "Spirit" used differently in *Phenomenology* vs. *Encyclopedia*. Searches KB for related context tags (`context:id:PHL316`, `context:subtype:reading`). Finds related arguments about historical development vs. logical structure.
+    6.  **Class Analysis (KB Write):** Updates `philosophy-knowledge-base/concepts/hegel_spirit_003.md`:
+        *   Adds to `ambiguities`: "Term 'Spirit' has distinct nuances in Phenomenology (historical journey) vs. Encyclopedia (logical system)."
+        *   Adds `ordinary_language_contrast`: "Differs from common usage implying ghost or soul; for Hegel, it's collective, self-knowing reason."
+        *   Adds `related_ids` linking to the relevant arguments found.
+        *   Sets `verification_status: Unverified`.
+    7.  **Class Analysis (Logging):** Writes log to `phil-memory-bank/mode-specific/philosophy-class-analysis.md`: "[Timestamp] - ClassAnalysis - Compared Hegel/Spirit vs Kant/Subject. Updated hegel_spirit_003 with ambiguity (Phenom vs Encyc), ordinary language contrast, related args. Status Unverified."
+    8.  **Orchestrator:** Receives completion signal (or delegates further, e.g., to `verification-agent` if required by rules). Updates `phil-memory-bank/activeContext.md`. Presents summary/updated concept to user or next mode.
+*   **Failure Handling Notes (V18.3):**
+    *   **Source Contradiction:** If `text-processor` or analysis modes detect contradictions *within* a source text, this should be flagged in the KB entry's `ambiguities` or a dedicated `source_issues` field, and potentially reported to `Orchestrator` for user notification or `meta-reflector` analysis.
+    *   **Mode Failure:** If an analysis mode fails (e.g., cannot parse input, hits resource limits), it MUST log the failure state clearly in its `phil-memory-bank/mode-specific/` log and report failure status to `Orchestrator`. `Orchestrator` then decides whether to retry, delegate to a different mode (e.g., `meta-reflector` to analyze the failure), or query the user.
 
 ### 7.2. Verification Workflow (Rigor Focused)
 
-1.  **Trigger:** `EssayPrep` requests verification of a draft section/claim.
+1.  **Trigger:** `EssayPrep` requests verification.
 2.  **Activation:** `Orchestrator` delegates to `philosophy-verification-agent`.
-3.  **Evidence Gathering:** `verification-agent` **directly reads** the draft claim, cited KB entries (arguments, concepts, references, including their rigor fields), and linked source chunks (`extraction_markers`) from `philosophy-knowledge-base/` and `source_materials/processed/`.
-4.  **Verification & Rigor Check:** `verification-agent` compares the claim against evidence, checks citation accuracy (`source_ref_keys`), evaluates source validity, and **explicitly verifies rigor elements**: Is the claim determinate? Are presuppositions acknowledged? Are counter-arguments addressed appropriately? Is evidence sufficient?
-5.  **Reporting:** `verification-agent` generates a report detailing findings, including rigor gaps or inconsistencies. Updates `verification_status` and `verification_notes` in relevant KB entries.
-6.  **Correction Loop Trigger:** If significant rigor issues or factual errors are found, `verification-agent` flags this in the report and notifies `Orchestrator`.
-7.  **Orchestrator Action:** `Orchestrator` initiates a correction loop, potentially delegating back to analysis modes (`dialectical-analysis`, `class-analysis`) to refine KB entries or to `EssayPrep` to revise the draft based on the verification report. May trigger `KBDoctor` for broader consistency checks if systemic issues suspected.
+3.  **Context Gathering:** `verification-agent` **directly reads** relevant operational context from `phil-memory-bank/`.
+4.  **Evidence Gathering:** `verification-agent` **directly reads** draft, KB entries, and source chunks.
+5.  **Verification & Rigor Check:** `verification-agent` compares claim against evidence and **explicitly verifies rigor elements**.
+6.  **Reporting:** `verification-agent` generates report, updates KB verification status.
+7.  **Logging:** `verification-agent` **directly writes** detailed logs to `phil-memory-bank/mode-specific/`.
+*   **Example Workflow:**
+    1.  **Trigger:** `EssayPrep` completes draft section, requests verification via `Orchestrator`.
+    2.  **Orchestrator:** Delegates task: "Verify claims and rigor in `essay_prep/drafts/Hegel-Being-Nothing_draft_v1_section1.md` against KB." Updates `phil-memory-bank/activeContext.md`.
+    3.  **Verification Agent (Context):** Reads task. Reads `phil-memory-bank/activeContext.md`.
+    4.  **Verification Agent (Evidence):** Reads `essay_prep/drafts/Hegel-Being-Nothing_draft_v1_section1.md`. Identifies claim: "Hegel's 'Being' is initially presented as pure indeterminacy." Finds citation marker linking to `source_ref_key: hegel_sol_pp59_82_chunk_002`.
+    5.  **Verification Agent (KB Read):** Reads KB entry for `source_ref_key: hegel_sol_pp59_82_chunk_002`. Reads related concept `concept_id: hegel_being_001`.
+    6.  **Verification Agent (Verification & Rigor Check):**
+        *   Confirms chunk text supports "pure indeterminacy".
+        *   Checks `concept_id: hegel_being_001` for rigor fields: Finds `positive_determination` ("Pure, unmediated immediacy"), `negative_determination` ("Not yet differentiated, not Nothing"), but `presuppositions` is empty.
+    7.  **Verification Agent (Reporting):** Generates report: "Claim verified against source chunk. Rigor Check: Concept `hegel_being_001` is missing `presuppositions` field." Updates `verification_status` in `concept_id: hegel_being_001` to `Verified` but adds note to `verification_notes`: "Rigor field 'presuppositions' is missing."
+    8.  **Verification Agent (Logging):** Writes log to `phil-memory-bank/mode-specific/philosophy-verification-agent.md`: "[Timestamp] - VerificationAgent - Verified claim re: Being/indeterminacy in draft section 1. Source match OK. Rigor issue: concept hegel_being_001 missing presuppositions. Reported to Orchestrator."
+    9.  **Orchestrator Action:** Receives report. Reads log. Updates `phil-memory-bank/activeContext.md`: "[Timestamp] - Orchestrator - Verification report received for draft sec 1. Rigor issue found (concept hegel_being_001 missing presuppositions). Delegating correction to dialectical-analysis." Delegates task to `dialectical-analysis` to populate the missing field.
+8.  **Correction Loop Trigger:** If issues found, notifies `Orchestrator`.
+9.  **Orchestrator Action:** `Orchestrator` reads `verification-agent` log from `phil-memory-bank/`, initiates correction loop (delegating back to analysis/essay modes), potentially triggers `KBDoctor`. Updates `phil-memory-bank/activeContext.md`.
+*   **Failure Handling Notes (V18.3):**
+    *   **Verification Failure:** If `verification-agent` cannot verify a claim (no supporting evidence found, evidence contradicts claim), it MUST:
+        1.  Mark the claim as `Disputed` in its report.
+        2.  Update the relevant KB entry's `verification_status` to `Disputed` and add details to `verification_notes`.
+        3.  Clearly log the failure and reason in its `phil-memory-bank/mode-specific/` log.
+        4.  Report the failure to `Orchestrator`.
+        5.  `Orchestrator` then initiates a correction loop, potentially involving `questioning` (to ask user for clarification/alternative sources), `dialectical-analysis` (to re-evaluate the claim/evidence), or `essay-prep` (to revise the draft).
 
 ### 7.3. System Self-Reflection Workflow (Context-Aware, Direct Access)
 
-(Largely unchanged from V18, but analysis includes evaluation of rigor enforcement effectiveness)
-
 1.  **Trigger:** User, Anomaly Detection, Schedule.
 2.  **Activation:** `Orchestrator` delegates to `philosophy-meta-reflector`.
-3.  **Analysis:** `meta-reflector` queries `philosophy-operational-context-manager` (Operational Memory), reads docs/rules, **directly reads** KB content (reflections, methods, rigor validation reports), applying context filters. Evaluates system performance, including rigor consistency.
-4.  **Reflection:** `meta-reflector` generates meta-reflections/questions about system effectiveness, biases, limitations, including rigor handling.
+3.  **Analysis & Evaluation (V18.3 Enhanced):** `meta-reflector` **directly reads** operational context from `phil-memory-bank/`, docs/rules, and KB content. Performs analysis including:
+    *   Evaluating system performance and rigor consistency across workflows.
+    *   Assessing philosophical quality of recent KB entries/analyses against defined metrics (e.g., depth, clarity, handling of counter-arguments).
+    *   Comparing different approaches taken for similar philosophical questions (if data exists).
+    *   Identifying patterns of failure, success, or inefficiency.
+4.  **Reflection:** `meta-reflector` generates meta-reflections/questions.
 5.  **Storage (Reflection):** `meta-reflector` **directly writes** findings to KB (tagged `meta`).
-6.  **Proposal Generation (Optional):** `meta-reflector` formulates proposals (KB Change, Arch Change, Method Change, Rigor Rule Change).
-7.  **Proposal Routing/Approval:** Proposals -> `Orchestrator` -> User -> `Orchestrator` -> Approved changes implemented.
-8.  **Reporting:** `meta-reflector` reports to `Orchestrator`/User.
+6.  **Logging:** `meta-reflector` **directly writes** detailed logs to `phil-memory-bank/mode-specific/`.
+7.  **Proposal Generation (Optional):** `meta-reflector` formulates proposals.
+8.  **Proposal Routing/Approval:** Proposals -> `Orchestrator` -> User -> `Orchestrator` -> Implementation. `Orchestrator` logs decision in `phil-memory-bank/globalContext.md`.
+9.  **Reporting:** `meta-reflector` reports to `Orchestrator`/User.
+*   **Example Workflow:**
+    1.  **Trigger:** `Orchestrator` detects repeated `verification-agent` reports about missing `negative_determination` fields in `Concept` entries over the past week (by reading `phil-memory-bank/mode-specific/philosophy-verification-agent.md` and `phil-memory-bank/activeContext.md`).
+    2.  **Activation:** `Orchestrator` delegates task: "Analyze pattern of missing 'negative_determination' fields. Evaluate relevant mode rules and propose solution." Updates `phil-memory-bank/activeContext.md`.
+    3.  **Meta-Reflector (Analysis):** Reads task. Reads `phil-memory-bank/activeContext.md`, `phil-memory-bank/mode-specific/philosophy-verification-agent.md`, and potentially logs from analysis modes (`class-analysis`, `dialectical-analysis`). Reads `.clinerules` for analysis modes. Reads KB entries tagged `meta` related to rigor.
+    4.  **Meta-Reflector (Reflection):** Identifies that analysis modes' rules don't explicitly mandate *generating* `negative_determination` during initial concept creation, only verifying its presence later. Notes a potential inefficiency.
+    5.  **Meta-Reflector (Storage):** Writes reflection to KB: `meta_reflection_id: rigor_gap_neg_determination_001`, type `Meta-Reflection`, tagged `meta`, `rigor`, `workflow_inefficiency`. Content: "Analysis modes lack explicit rule to generate negative_determination, leading to downstream verification failures. Suggest rule update."
+    6.  **Meta-Reflector (Logging):** Writes log to `phil-memory-bank/mode-specific/philosophy-meta-reflector.md`: "[Timestamp] - MetaReflector - Analyzed missing negative_determination pattern. Root cause: rule gap in analysis modes. Stored reflection rigor_gap_neg_determination_001. Proposing rule update."
+    7.  **Meta-Reflector (Proposal):** Formulates proposal: "Update `.clinerules` for `class-analysis` and `dialectical-analysis` to mandate generation of `negative_determination` field during concept creation." Sends proposal to `Orchestrator`.
+    8.  **Orchestrator Action:** Receives proposal. Routes to User for approval. Logs proposal in `phil-memory-bank/globalContext.md` (Decision Log). If approved, delegates implementation task (e.g., to `architect` or `devops` depending on permissions/setup).
+*   **Failure Handling Notes (V18.3):**
+    *   **Analysis Failure:** If `meta-reflector` fails to analyze logs or rules (e.g., due to parsing errors, excessive data volume), it should log the specific error and report to `Orchestrator`. `Orchestrator` might delegate to `devops` (for resource issues) or `architect` (to simplify logging/rule formats), or notify the user.
+    *   **Proposal Rejection:** If a user rejects a proposal generated by `meta-reflector`, `Orchestrator` logs the rejection in `phil-memory-bank/globalContext.md` (Decision Log) and informs `meta-reflector`. `meta-reflector` may then attempt to refine the proposal based on feedback (if provided) or abandon that line of inquiry.
+### 7.4 User Interaction Patterns (V18.3)
+
+Clarifying user interaction loops:
+
+*   **User Feedback on Analysis:**
+    1.  `Orchestrator` presents completed analysis (e.g., a generated concept, argument summary) to the User.
+    2.  User provides feedback (e.g., "This interpretation seems incomplete," "Consider also Author X's view").
+    3.  `Orchestrator` logs feedback in `phil-memory-bank/feedback/` (relevant mode file and potentially global feedback).
+    4.  `Orchestrator` delegates a refinement task back to the relevant analysis mode (e.g., `secondary-lit`, `dialectical-analysis`), providing the original analysis ID and the user feedback as context.
+    5.  Analysis mode reads context, refines KB entry, logs changes, and reports completion to `Orchestrator`.
+
+*   **User Intervention in Workflow:**
+    1.  User observes an ongoing process (via `activeContext.md` or mode logs) and wishes to intervene (e.g., "Stop the essay generation, I want to change the thesis").
+    2.  User sends intervention command to `Orchestrator`.
+    3.  `Orchestrator` MUST attempt to gracefully halt the relevant mode(s) (mechanism TBD - could involve signaling or relying on modes checking for halt commands periodically).
+    4.  `Orchestrator` logs the intervention and workflow state in `phil-memory-bank/activeContext.md` and `feedback/`.
+    5.  `Orchestrator` awaits further user instructions (e.g., new thesis direction).
+
+*   **Handling Ambiguous User Queries:**
+    1.  User provides an ambiguous query (e.g., "Tell me about Hegel and negativity").
+    2.  `Orchestrator` delegates initial interpretation/scoping to `questioning` mode.
+    3.  `Questioning` mode analyzes the query, searches KB for related concepts (`negativity`, `nothing`, `dialectic`, etc.), identifies potential ambiguities (e.g., "Negativity in which work? Logic? Phenomenology?").
+    4.  `Questioning` mode formulates clarification questions with suggested options (using `ask_followup_question` tool via `Orchestrator`). Example: "Your query about 'Hegel and negativity' is broad. Could you specify which context you're interested in? <suggest>Negativity in the Science of Logic</suggest> <suggest>Negativity in the Phenomenology</suggest> <suggest>General overview</suggest>"
+    5.  `Orchestrator` presents the question to the user.
+    6.  User selects an option or provides clarification.
+    7.  `Orchestrator` receives clarification and delegates a more focused task to the appropriate analysis mode.
 
 ## 8. Version Control (V14 - Retained, Linux Paths)
 
 *   **Primary Scope:** `essay_prep/` managed by `philosophy-essay-prep` using Git via `execute_command`.
 *   **Potential Expansion (Considerations):**
-    *   KB Versioning (`philosophy-knowledge-base/`). Requires careful strategy (e.g., Git LFS, dedicated KB versioning tools).
-    *   System Evolution Branching (triggered by `meta-reflector` proposals).
+    *   KB Versioning (`philosophy-knowledge-base/`).
+    *   Operational Context Versioning (`phil-memory-bank/`).
+    *   System Evolution Branching.
 *   **Implementation:** Via `execute_command`.
 
-## 9. Configuration Structure (V18.1 Revised - Linux Paths)
+## 9. Configuration Structure (V18.2 - Linux Paths)
 
-*   **Mode Definition File (`.roo/.roomodes`):** Defines all V18.1 modes and their `.clinerules` paths. Uses forward slashes (`/`).
+*   **Mode Definition File (`.roo/.roomodes`):** Defines all V18.2 modes and their `.clinerules` paths. Uses forward slashes (`/`). **`philosophy-operational-context-manager` removed.**
     ```json
     {
       "philosophy-orchestrator": ".roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules",
@@ -450,7 +612,6 @@ graph TD
       "philosophy-dialectical-analysis": ".roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules",
       "philosophy-questioning": ".roo/rules-philosophy-questioning/philosophy-questioning.clinerules",
       "philosophy-essay-prep": ".roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules",
-      "philosophy-operational-context-manager": ".roo/rules-philosophy-operational-context-manager/philosophy-operational-context-manager.clinerules", // Manages Operational Memory Bank
       "philosophy-kb-doctor": ".roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules", // Manages KB Maintenance & Rigor Validation
       "philosophy-draft-generator": ".roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules",
       "philosophy-citation-manager": ".roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules",
@@ -459,4 +620,4 @@ graph TD
       // Add other non-philosophy modes if they exist in the same config
     }
     ```
-*   **Rules File Directory Structure:** `.roo/rules-[mode-slug]/[mode-slug].clinerules`. `.clinerules` for relevant modes must be updated per V18.1 specs (direct KB access logic, rigor element handling, KB Doctor interaction if applicable). Uses forward slashes (`/`).
+*   **Rules File Directory Structure:** `.roo/rules-[mode-slug]/[mode-slug].clinerules`. `.clinerules` for relevant modes must be updated per V18.2 specs (direct KB access logic, direct `phil-memory-bank/` access logic, rigor element handling, KB Doctor interaction if applicable). Uses forward slashes (`/`).
