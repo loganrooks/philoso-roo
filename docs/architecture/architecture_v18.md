@@ -1,20 +1,17 @@
 # Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
-**Date:** 2025-05-02
-**Version:** 18.3
+**Date:** 2025-05-04
+**Version:** 18.3.2 (Processed Root Index Correction)
 **Status:** Draft
 **Based On:**
-*   `docs/architecture/architecture_v18.md` (V18.2 - Examples Added)
-*   `docs/architecture/architecture_v14.md` (Structure & Detail Level Reference)
-*   V15/V16 Principles (Direct Access, KB Doctor)
-*   User Task & Feedback (V18 Requirements, Rigor Enhancements, Linux Paths, No SPARC Ref, Direct Operational Context Access, Renaming - as of 2025-05-02 17:11)
-*   User Feedback (V18.2 Critique - Knowledge Evolution, Failure Handling, Comm Challenges, User Interaction, Evaluation - as of 2025-05-02 21:09)
-*   Memory Bank Context (as of 2025-05-02 21:09) - Note: Refers to `phil-memory-bank/` structure.
-*   Rigor Principles Sources: `.roo/rules-philosophy-class-analysis/`, `.roo/rules-philosophy-verification-agent/`, `.roo/rules-philosophy-dialectical-analysis/`
+*   `docs/architecture/architecture_v18.md` (V18.3.1 - Text Processor Workflow Correction)
+*   User Feedback (re: Processed Root Index - 2025-05-04 02:09:28)
+*   `docs/reviews/text_processing_conflict_analysis_v1.md` (V1.1 - Revised Post-Feedback)
+*   Memory Bank Context (as of 2025-05-04) - Note: Refers to `phil-memory-bank/` structure.
 
-**Goal:** Update V18 architecture to incorporate enhanced philosophical rigor, ensure Linux path conventions (`/`), remove system-specific terminology ("SPARC"), and simplify operational context management by removing the dedicated manager mode and implementing direct file access within a renamed `phil-memory-bank/` directory. Maintain V18 core principles (Direct KB Access, KB Doctor) and V14 detail level.
+**Goal:** Update V18.3.1 architecture to include the root `index.md` within the `source_materials/processed/` directory structure, clarifying its purpose and update mechanism, based on user feedback.
 
-## 1. Core Principles (V18.2)
+## 1. Core Principles (V18.3)
 
 *   **Determinacy & Specificity:** Concepts/arguments clearly defined within the KB, including positive/negative determination, contrast with ordinary language, and identification of ambiguities. (V11+, Enhanced V18.1)
 *   **Evidence Saturation & Rigorous Sourcing:** Claims linked to specific sources via KB entries (`source_ref_keys`, `extraction_markers`). Verification emphasizes source validity and relevance. (V11+, Enhanced V18.1)
@@ -30,13 +27,13 @@
 *   **Controlled Evolution:** Mechanisms for proposing and approving modifications to the KB and potentially the system architecture itself. (V13+)
 *   **Source Contextualization (Retained V14):** Raw source materials are organized by context (`source_materials/raw/`), and this context is explicitly captured, stored as tags in the KB, and queryable.
 *   **Direct KB Read Access (V18):** Modes read data directly from `philosophy-knowledge-base/` using standard file tools (`read_file`, `search_files`), guided by their internal logic and `.clinerules`.
-*   **Defined KB Write Patterns (V18):** Modes that write to the KB do so directly into designated files/sections within `philosophy-knowledge-base/` according to established conventions (e.g., `text-processor` writes to `processed_texts/`, analysis modes write to `concepts/`, `arguments/`, etc.), including rigor-related fields.
+*   **Defined KB Write Patterns (V18, Refined V18.3.1):** Modes that write to the KB do so directly into designated files/sections within `philosophy-knowledge-base/` according to established conventions (e.g., analysis modes write to `concepts/`, `arguments/`, etc.), including rigor-related fields. **Exception:** `philosophy-text-processor` orchestrates an external script; the mode then parses the script's JSON output to perform direct KB writes.
 *   **KB Doctor for Maintenance (V18):** A dedicated `philosophy-kb-doctor` mode handles KB maintenance tasks (indexing, validation, cleanup, potentially identifying missing rigor elements) by orchestrating scripts within the KB's `_operational/` directory. It is triggered by the `Orchestrator` and **does not gate** read/write access for other modes.
 *   **Direct Operational Context Access (V18.2):** Modes directly read and write operational context (status, logs, decisions) to designated files within the `phil-memory-bank/` directory using standard file tools. `Orchestrator` primarily manages global context files; individual modes manage their specific logs. **Requires diligent logging/reading and detailed delegation messages.**
 
-## 2. V18.2 Architecture Overview
+## 2. V18.3.2 Architecture Overview
 
-V18.2 builds upon V18.1 (Revised) by simplifying operational context management while retaining rigor enhancements.
+V18.3.2 incorporates user feedback regarding the `source_materials/processed/` directory structure within the V18.3.1 framework.
 
 1.  **Direct KB Access:** Modes interact directly with `philosophy-knowledge-base/` using file tools. Read access is open; write access follows conventions and includes rigor fields.
 2.  **Direct Operational Context Access:** Modes interact directly with `phil-memory-bank/` using file tools. `Orchestrator` primarily manages global files (`activeContext.md`, `globalContext.md`). Each mode manages its own log file within `phil-memory-bank/mode-specific/`. All modes can read any file in `phil-memory-bank/` for context. **This places higher emphasis on diligent logging/reading practices and detailed delegation messages.**
@@ -46,8 +43,10 @@ V18.2 builds upon V18.1 (Revised) by simplifying operational context management 
 6.  **Enhanced KB Schema:** KB entry formats include specific fields for rigor elements (see Section 6).
 7.  **Updated Mode Responsibilities:** Analysis, questioning, and verification modes explicitly handle rigor elements (see Section 4). Modes are now also responsible for directly managing their operational context logging within `phil-memory-bank/`.
 8.  **Rigor-Aware Workflows:** Analysis and verification workflows include rigor checks and self-correction loops (see Section 7).
+9.  **Corrected Text Processing Workflow (V18.3.1):** `philosophy-text-processor` orchestrates `scripts/process_source_text.py`. The script generates hierarchical `index.md` files in `source_materials/processed/[source_id]/...` for navigation AND outputs structured JSON to stdout. The mode parses this JSON and performs direct writes to the KB.
+10. **Processed Source Library Index (V18.3.2):** A root `index.md` file exists at `source_materials/processed/index.md`, providing an overview of all processed sources within the library.
 
-## 3. Source Material Organization (V14 - Retained, Linux Paths)
+## 3. Source Material Organization (V18.3.2 - Processed Root Index Added)
 
 *   **Raw Input Location:** `source_materials/raw/`
 *   **Purpose:** Centralized location for all original source materials before processing. Provides a clear, machine-parsable structure for determining source context.
@@ -82,16 +81,29 @@ V18.2 builds upon V18.1 (Revised) by simplifying operational context management 
     │   │           └── [filename.md | .pdf | .docx]
     │   └── personal_notes/           # General notes not tied to course/project
     │       └── [filename.md]
-    └── processed/                    # Existing location for processed chunks (output of text-processor)
-        └── ...
+    └── processed/                    # Output location for processed chunks & navigational indices
+        ├── index.md                  # <<< V18.3.2: Root index for the processed library
+        └── [source_id]/
+            ├── index.md              # Nav index for this source
+            ├── level_0/
+            │   ├── index.md          # Nav index for level 0
+            │   ├── chunk_001.md
+            │   └── level_1/
+            │       ├── index.md      # Nav index for level 1
+            │       └── chunk_002.md
+            └── ...
     ```
+*   **Processed Root Index (`source_materials/processed/index.md`):**
+    *   **Purpose:** Provides a top-level overview or manifest of all sources that have been processed and are available within the `source_materials/processed/` directory. Helps determine library content and identify potentially missing items.
+    *   **Content:** Lists processed `source_id`s, potentially with links to their respective top-level `index.md` files (e.g., `[source_id]/index.md`), timestamps, or status indicators.
+    *   **Update Mechanism:** Updated by `philosophy-text-processor` mode after successfully processing a new source and confirming the creation of its hierarchical structure.
 *   **Context Extraction:** `philosophy-text-processor` MUST parse paths like `source_materials/raw/courses/PHL316/readings/Hegel_Work.md` relative to `source_materials/raw/` to extract:
     *   `context_type`: `course`
     *   `context_id`: `PHL316`
     *   `context_subtype`: `reading`
     These are then formatted as tags: `context:type:course`, `context:id:PHL316`, `context:subtype:reading` for storage in the KB entry YAML.
 
-## 4. Mode Structure & Responsibilities (V18.2 - Direct Operational Context Access, Rigor Enhanced, Linux Paths)
+## 4. Mode Structure & Responsibilities (V18.3.2 - Text Processor Root Index Update)
 
 ### 4.1. Core Data Management Modes
 
@@ -115,14 +127,22 @@ V18.2 builds upon V18.1 (Revised) by simplifying operational context management 
 
 ### 4.2. Text Processing & Analysis Modes
 
-*   **`philosophy-text-processor` (V12, V14 Context, V18 Write Pattern):**
-    *   **Responsibility:** Pre-processes source texts from `source_materials/raw/` via external scripts (chunking, indexing, citation extraction). Parses input path to extract context (`type`, `id`, `subtype`). Emphasizes extraction of markers (`extraction_markers`) linking chunks to precise source locations.
-    *   **Output (V18):** Processed chunks to `source_materials/processed/`. **Directly writes** index/chunk info, citation data (including `source_ref_keys`), and extracted context tags to designated files/sections within `philosophy-knowledge-base/`. **Directly writes** operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
-    *   **Dependencies:** External scripts, `philosophy-orchestrator`, File system tools (for KB and `phil-memory-bank/` access).
+*   **`philosophy-text-processor` (V18.3.2 Corrected Workflow & Root Index Update):**
+    *   **Responsibility:** Orchestrates the pre-processing of source texts from `source_materials/raw/` by executing the `scripts/process_source_text.py` script. Parses the script's JSON output, performs direct writes to the `philosophy-knowledge-base/`, and **updates the root processed library index (`source_materials/processed/index.md`)**.
+    *   **Workflow:**
+        1.  Receives source file path from `Orchestrator`.
+        2.  Parses input path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`).
+        3.  Executes `scripts/process_source_text.py` via `execute_command`, passing input path and output directory (`source_materials/processed/`).
+        4.  The script performs hierarchical splitting, chunking, generates navigational `index.md` files within the `source_materials/processed/[source_id]/...` structure, and outputs structured JSON to stdout containing metadata, summaries, concepts, arguments, citations, context tags, and paths to generated files.
+        5.  The mode **parses the JSON output** received from the script execution.
+        6.  The mode performs **direct writes** to the `philosophy-knowledge-base/` using the parsed JSON data (e.g., writing summaries/concepts/arguments to relevant KB files, updating reference entries, storing context tags). This aligns with the "Direct KB Write Pattern".
+        7.  The mode **updates the root library index** `source_materials/processed/index.md`, adding an entry for the newly processed `source_id` (potentially with timestamp or link).
+        8.  The mode **directly writes** operational logs (including script execution status, KB write actions, and root index update) to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
+    *   **Dependencies:** `philosophy-orchestrator` (trigger), `scripts/process_source_text.py`, `execute_command`, File system tools (for KB, `processed/`, and `phil-memory-bank/` access), JSON parsing library.
 *   **Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`, `questioning`):**
     *   **Responsibility:** Analyze sources/KB content, generate concepts, arguments, questions, etc., **ensuring philosophical rigor**. **Directly manage** own operational logs in `phil-memory-bank/mode-specific/`.
     *   **Interaction (V18.2):**
-        *   **Read KB:** Directly Read KB files (`philosophy-knowledge-base/`) using file tools, applying context filters. Query related context (linked entries like counter-arguments, secondary sources) via `related_ids` or context tags.
+        *   **Read KB:** Directly Read KB files (`philosophy-knowledge-base/`) using file tools, applying context filters. Query related context (linked entries like counter-arguments, secondary sources) via `related_ids` or context tags. **May also read navigational `index.md` files** (including the root `source_materials/processed/index.md`) to locate relevant source chunks before reading them.
         *   **Read Operational Context:** Directly Read relevant files within `phil-memory-bank/` (e.g., `activeContext.md`, `globalContext.md`, other mode logs) for operational context as needed.
         *   **Analyze for Rigor:** Explicitly identify and analyze determinacy, presuppositions, ambiguities, contradictions, related terms, ordinary language contrast, etc.
         *   **Write KB:** Directly Write findings to designated KB files/sections using file tools, **populating rigor fields** (see Section 6) and ensuring correct formatting and linking (including `source_ref_keys`, `extraction_markers`, `related_ids`).
@@ -184,7 +204,7 @@ V18.2 builds upon V18.1 (Revised) by simplifying operational context management 
     *   **Interaction (V18.2):** Directly Reads operational context from `phil-memory-bank/`, docs/rules, and KB content using file tools. Directly Writes findings to KB. Sends proposals to `Orchestrator`. Directly Writes operational logs.
     *   **Dependencies:** `philosophy-orchestrator`, File system tools (for KB and `phil-memory-bank/` access), potentially `architect`, `devops`.
 
-## 5. V18.2 Mode Interaction Diagram (Mermaid - Direct OpCtx Access, Linux Paths)
+## 5. V18.3.2 Mode Interaction Diagram (Mermaid - Processed Root Index Added)
 
 ```mermaid
 graph TD
@@ -201,7 +221,7 @@ graph TD
     end
 
     subgraph Text Processing
-        TextProc(philosophy-text-processor) -- Runs --> Scripts((External Scripts))
+        TextProc(philosophy-text-processor) -- Runs --> Scripts((scripts/process_source_text.py))
     end
 
     subgraph Analysis & Inquiry (Rigor Focused)
@@ -276,7 +296,7 @@ graph TD
             PhilKB_Ops --> KB_Ops_Details
         end
         RawSource[(Raw Source Materials<br>source_materials/raw/)]
-        ProcessedSource[(Processed Source<br>source_materials/processed/)]
+        ProcessedSource[(Processed Source<br>source_materials/processed/<br>(Root index.md + Hierarchical index.md + chunks))]
         Workspace(analysis_workspace / essay_prep)
     end
 
@@ -298,10 +318,12 @@ graph TD
     Orchestrator -- Manage Self-Correction Loop --> Verify/KBDoctor/AnalysisModes
     Orchestrator -- Results --> User
 
-    %% Text Processing Flow (V18 Direct Write)
+    %% Text Processing Flow (V18.3.2 Corrected)
     TextProc -- Reads --> RawSource
-    TextProc -- Processed Chunks --> ProcessedSource
-    TextProc -- Direct Write KB (Index, Citations, Context) --> PhilKB_Data
+    Scripts -- Generates Hierarchical Indices/Chunks --> ProcessedSource
+    Scripts -- JSON Output --> TextProc
+    TextProc -- Parses JSON & Direct Write KB --> PhilKB_Data
+    TextProc -- Updates Root Index --> ProcessedSource
 
     %% Analysis & Inquiry Flow (V18.2 Direct R/W + Rigor)
     PreLec -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
@@ -315,6 +337,12 @@ graph TD
     SecLit -- Direct Read KB (incl. Related Context) --> PhilKB_Data
     DialAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
     Quest -- Direct Read KB (incl. Related Context) --> PhilKB_Data
+    %% Analysis modes may also read navigational indices
+    PreLec -- Reads Nav Index --> ProcessedSource
+    ClassAn -- Reads Nav Index --> ProcessedSource
+    SecLit -- Reads Nav Index --> ProcessedSource
+    DialAn -- Reads Nav Index --> ProcessedSource
+    Quest -- Reads Nav Index --> ProcessedSource
 
     %% Essay Flow (V18.2 Direct R/W + Rigor)
     EssayPrep -- Direct Read KB (Thesis Context + Rigor) --> PhilKB_Data
@@ -374,24 +402,19 @@ graph TD
 ```
 
 **Diagram Notes:**
-*   Reflects V18.2: Direct Operational Context Access.
-*   `philosophy-operational-context-manager` removed.
-*   Operational Context directory renamed to `phil-memory-bank/`.
-*   `Orchestrator` manages global context files within `phil-memory-bank/`.
-*   Individual modes manage their own logs within `phil-memory-bank/mode-specific/`.
-*   All modes can read all files within `phil-memory-bank/`.
-*   Rigor enhancements from V18.1 retained.
-*   All paths use forward slashes (`/`).
+*   Reflects V18.3.2: Added Root Index Update by `TextProc`.
+*   `TextProc` now interacts with `ProcessedSource` to update the root `index.md`.
+*   Other V18.3.1 elements remain.
 
 ## 6. Philosophy Knowledge Base (KB) - V18.1 Design (Rigor Enhanced, Linux Paths)
 
 *   **Location:** `philosophy-knowledge-base/`
 *   **Purpose:** Centralized, structured, persistent repository for **philosophical domain knowledge**, distinct from operational memory (`phil-memory-bank/`). Enhanced for philosophical rigor.
 *   **Management (V18.1):**
-    *   **Content:** Managed directly by relevant modes using file tools, following defined write patterns/locations and **populating rigor-related fields**.
+    *   **Content:** Managed directly by relevant modes using file tools, following defined write patterns/locations and **populating rigor-related fields**. `philosophy-text-processor` writes data parsed from script JSON output.
     *   **Maintenance & Rigor Validation:** Orchestrated by `philosophy-kb-doctor`, triggering scripts in `_operational/maintenance_scripts/` for indexing, validation, linking, cleanup, and **rigor consistency checks**.
 *   **Structure:** Subdirectories based on content type, plus operational directories:
-    *   `concepts/`, `arguments/`, `quotations/`, `references/`, `questions/`, `theses/`, `relationships/`, `methods/`, `meta-reflections/`, `indices/`, `processed_texts/` (or similar)
+    *   `concepts/`, `arguments/`, `quotations/`, `references/`, `questions/`, `theses/`, `relationships/`, `methods/`, `meta-reflections/`, `indices/`, `processed_texts/` (or similar - holds data derived from text processor JSON)
     *   `_operational/`
         *   `logs/` (Logs from maintenance/validation scripts)
         *   `status/` (Status files for maintenance/validation tasks)
@@ -474,13 +497,13 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
         *   A dedicated `version_history` field within KB entries, logging significant changes with timestamps and mode attribution.
         *   Separate `history/` subdirectory in the KB to store previous versions of entries, linked by ID. This would require more complex management by `kb-doctor` or dedicated scripts.
 
-## 7. Workflow Designs (V18.2 - Direct OpCtx Access, Rigor Enhanced)
+## 7. Workflow Designs (V18.3.2 - Processed Root Index Update)
 
 ### 7.1. Philosophical Inquiry & Analysis Workflow (Context-Aware, Direct Access, Rigor Focused)
 
 1.  **Input:** User prompt OR Analysis modes identify potential questions/concepts from source material (processed by `text-processor`).
 2.  **Context Gathering:** Analysis modes **directly read** relevant operational context from `phil-memory-bank/` (e.g., `activeContext.md`, previous logs).
-3.  **Analysis & Rigor Check:** Analysis modes **directly read** source chunks/related KB entries. They analyze content, explicitly identifying/documenting **rigor elements**.
+3.  **Analysis & Rigor Check:** Analysis modes **directly read** source chunks (potentially located via `source_materials/processed/index.md` files, including the root index) and/or related KB entries. They analyze content, explicitly identifying/documenting **rigor elements**.
 4.  **Storage (Analysis + Rigor):** Analysis modes **directly write** findings to KB, **populating rigor fields** and ensuring links.
 5.  **Logging:** Analysis modes **directly write** detailed operational logs to their specific file in `phil-memory-bank/mode-specific/`.
 6.  **Refinement:** `philosophy-questioning` reads KB and `phil-memory-bank/` context, refines questions.
@@ -491,7 +514,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
 *   **Example Workflow:**
     1.  **User Prompt:** "How does Hegel's concept of 'Spirit' differ from Kant's transcendental subject?"
     2.  **Orchestrator:** Receives prompt. Creates initial context entry in `phil-memory-bank/activeContext.md`: "[Timestamp] - Orchestrator - Received user query re: Hegel's Spirit vs Kant's Subject. Delegating to class-analysis." Delegates task to `class-analysis`.
-    3.  **Class Analysis (Context):** Reads task from `Orchestrator`. Reads `phil-memory-bank/activeContext.md` for current focus.
+    3.  **Class Analysis (Context):** Reads task from `Orchestrator`. Reads `phil-memory-bank/activeContext.md` for current focus. May read `source_materials/processed/index.md` to see available processed sources.
     4.  **Class Analysis (KB Read):** Uses `search_files` on `philosophy-knowledge-base/concepts/` with regex for "Hegel" AND "Spirit" AND "Kant" AND "Subject". Finds existing entries `concept_id: hegel_spirit_003` and `concept_id: kant_transcendental_subject_001`. Reads these files.
     5.  **Class Analysis (Analysis & Rigor):** Compares the `positive_determination` and `negative_determination` fields. Notes `hegel_spirit_003` lacks `ordinary_language_contrast`. Identifies potential ambiguity: "Spirit" used differently in *Phenomenology* vs. *Encyclopedia*. Searches KB for related context tags (`context:id:PHL316`, `context:subtype:reading`). Finds related arguments about historical development vs. logical structure.
     6.  **Class Analysis (KB Write):** Updates `philosophy-knowledge-base/concepts/hegel_spirit_003.md`:
@@ -502,7 +525,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
     7.  **Class Analysis (Logging):** Writes log to `phil-memory-bank/mode-specific/philosophy-class-analysis.md`: "[Timestamp] - ClassAnalysis - Compared Hegel/Spirit vs Kant/Subject. Updated hegel_spirit_003 with ambiguity (Phenom vs Encyc), ordinary language contrast, related args. Status Unverified."
     8.  **Orchestrator:** Receives completion signal (or delegates further, e.g., to `verification-agent` if required by rules). Updates `phil-memory-bank/activeContext.md`. Presents summary/updated concept to user or next mode.
 *   **Failure Handling Notes (V18.3):**
-    *   **Source Contradiction:** If `text-processor` or analysis modes detect contradictions *within* a source text, this should be flagged in the KB entry's `ambiguities` or a dedicated `source_issues` field, and potentially reported to `Orchestrator` for user notification or `meta-reflector` analysis.
+    *   **Source Contradiction:** If `text-processor` (via script) or analysis modes detect contradictions *within* a source text, this should be flagged in the KB entry's `ambiguities` or a dedicated `source_issues` field, and potentially reported to `Orchestrator` for user notification or `meta-reflector` analysis.
     *   **Mode Failure:** If an analysis mode fails (e.g., cannot parse input, hits resource limits), it MUST log the failure state clearly in its `phil-memory-bank/mode-specific/` log and report failure status to `Orchestrator`. `Orchestrator` then decides whether to retry, delegate to a different mode (e.g., `meta-reflector` to analyze the failure), or query the user.
 
 ### 7.2. Verification Workflow (Rigor Focused)
@@ -510,7 +533,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
 1.  **Trigger:** `EssayPrep` requests verification.
 2.  **Activation:** `Orchestrator` delegates to `philosophy-verification-agent`.
 3.  **Context Gathering:** `verification-agent` **directly reads** relevant operational context from `phil-memory-bank/`.
-4.  **Evidence Gathering:** `verification-agent` **directly reads** draft, KB entries, and source chunks.
+4.  **Evidence Gathering:** `verification-agent` **directly reads** draft, KB entries, and source chunks (potentially located via `source_materials/processed/index.md`).
 5.  **Verification & Rigor Check:** `verification-agent` compares claim against evidence and **explicitly verifies rigor elements**.
 6.  **Reporting:** `verification-agent` generates report, updates KB verification status.
 7.  **Logging:** `verification-agent` **directly writes** detailed logs to `phil-memory-bank/mode-specific/`.
@@ -620,4 +643,4 @@ Clarifying user interaction loops:
       // Add other non-philosophy modes if they exist in the same config
     }
     ```
-*   **Rules File Directory Structure:** `.roo/rules-[mode-slug]/[mode-slug].clinerules`. `.clinerules` for relevant modes must be updated per V18.2 specs (direct KB access logic, direct `phil-memory-bank/` access logic, rigor element handling, KB Doctor interaction if applicable). Uses forward slashes (`/`).
+*   **Rules File Directory Structure:** `.roo/rules-[mode-slug]/[mode-slug].clinerules`. `.clinerules` for relevant modes must be updated per V18.3.2 specs (direct KB access logic, direct `phil-memory-bank/` access logic, rigor element handling, KB Doctor interaction if applicable, corrected text processor workflow including root index update). Uses forward slashes (`/`).
