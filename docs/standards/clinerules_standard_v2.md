@@ -1,11 +1,11 @@
-# Standard `.clinerules` Structures for Philosophy Modes (V2.1 - Based on V18.3.4 Arch)
+# Standard `.clinerules` Structures for Philosophy Modes (V2.2 - Based on V18.3.4 Arch)
 
-**Version:** 2.1
+**Version:** 2.2
 **Date:** 2025-05-05
 
 **Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the `philoso-roo` system (formerly SPARC).
 
-**Background:** This V2.1 standard supersedes V2.0. It addresses feedback regarding implicit inheritance comments and wasteful headers identified in V2.0 [See Feedback Log: 2025-05-05 14:12:11]. It incorporates enhancements proposed in `docs/proposals/clinerules_standard_enhancements_v1.md` and aligns with the V18.3.4 system architecture (`docs/architecture/architecture_v18.md`), which features direct KB/Memory Bank access, distributed KB maintenance (via `Orchestrator`, `MetaReflector`, `VerificationAgent`), MCP integration, and RooCode Checkpoints.
+**Background:** This V2.2 standard supersedes V2.1. It removes the `rule_inheritance_guidelines` section based on user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54] to enforce absolute explicitness. It addresses feedback regarding implicit inheritance comments and wasteful headers identified in V2.0 [See Feedback Log: 2025-05-05 14:12:11]. It incorporates enhancements proposed in `docs/proposals/clinerules_standard_enhancements_v1.md` and aligns with the V18.3.4 system architecture (`docs/architecture/architecture_v18.md`), which features direct KB/Memory Bank access, distributed KB maintenance (via `Orchestrator`, `MetaReflector`, `VerificationAgent`), MCP integration, and RooCode Checkpoints.
 
 **Inspiration:** The structure and detail level remain inspired by robust mode examples (e.g., `.clinerules-philosophy-essay-prep`), adapted for the current orchestrated system.
 
@@ -256,23 +256,6 @@ These sections MUST be present and adhere to the standards defined below.
       orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
     ```
 
-`rule_inheritance_guidelines`:
-  type: object
-  description: Guidelines for managing rule reuse and inheritance to promote consistency and maintainability. **V2.1 Update:** Emphasizes explicitness.
-  fields:
-    yaml_anchors: (string) "YAML anchors (`&`) and aliases (`*`) MAY be used within a single `.clinerules` file for defining and reusing common rule blocks (e.g., standard error codes, reusable schema snippets), *if supported by the current RooCode YAML parser*. Verify parser support before extensive use."
-    external_includes: (string) "Current RooCode parser status regarding external file includes (e.g., `!include shared_rules.yaml`) is **Not Supported** [Verify/Update this status if RooCode changes]. This limits direct cross-file rule inheritance."
-    explicitness_mandate: (string) "**Mandatory (V2.1):** All rules MUST be explicitly defined within the `.clinerules` file. Placeholder comments indicating inheritance (e.g., `# --- INHERITED...`) are FORBIDDEN. Modes MUST copy the full standard rule content into their file."
-    documentation_convention: (string) "**Optional:** While rules must be explicit, modes MAY include comments referencing the source standard section for clarity. Example: `# Standard Error Handling Protocol - See docs/standards/clinerules_standard_v2.1.md Section: general`."
-  example:
-    ```yaml
-    rule_inheritance_guidelines:
-      yaml_anchors: "YAML anchors (`&`) and aliases (`*`) MAY be used within this file for reusing common blocks, if supported by the parser. Verify support."
-      external_includes: "Current RooCode parser status regarding external file includes (`!include`) is Not Supported." # Verify/Update
-      explicitness_mandate: "Mandatory (V2.1): All rules MUST be explicitly defined within the `.clinerules` file. Placeholder comments indicating inheritance (e.g., `# --- INHERITED...`) are FORBIDDEN. Modes MUST copy the full standard rule content into their file."
-      documentation_convention: "Optional: Modes MAY include comments referencing the source standard section for clarity. Example: `# Standard Error Handling Protocol - See docs/standards/clinerules_standard_v2.1.md Section: general`."
-    ```
-
 ## Archetype A: Simple Orchestrated Task Mode
 
 Includes Common Sections plus:
@@ -498,55 +481,46 @@ Includes Common Sections plus:
         *   `quotation_accuracy`: (string) e.g., "Must match source chunk exactly".
     verification_workflow: **STRICT PROTOCOL**
         *   `enabled`: (boolean) `true` if the mode performs verification.
-        *   `trigger`: (string) Conditions under which verification MUST be performed (e.g., "Before finalizing essay section", "Before storing argument with external claims").
-        *   `steps`: (string) Detailed, sequential steps for verification.
-            1.  Identify claims/citations requiring verification within the input (e.g., draft text).
-            2.  Extract `source_ref_keys` and `extraction_markers` associated with the claim/citation.
-            3.  Query KB (`read_file`) for the specific source text chunk(s) using markers/keys.
-            4.  Compare the claim/citation against the retrieved source text chunk for accuracy and faithful representation.
-            5.  (Optional) Query KB for related arguments/concepts (`related_ids`) to check for consistency or known counter-arguments.
-            6.  (Optional) Check relevant rigor fields in source/related KB entries.
-            7.  Generate a verification result (`Pass`, `Fail`, `Disputed`) with detailed notes explaining the findings.
-            8.  Log the verification attempt and outcome in the operational log (`operational_logging.target_file`), including claim, source IDs, and result.
-            9.  Report the verification status (and failures) to the orchestrator via the standard output schema and `error_reporting_protocols`.
-        *   `failure_handling`: (string) How verification failures are handled (e.g., "Report failure to orchestrator", "Attempt self-correction by querying KB for alternative evidence", "Flag claim as unverified"). **MUST** report failures.
+        *   `trigger`: (string) When verification is triggered (e.g., "On KB write", "On demand").
+        *   `method`: (string) How verification is performed (e.g., "Cross-reference KB entries", "Check source text via `read_file`", "Delegate to `VerificationAgent`").
+        *   `reporting`: (string) How results are reported (e.g., "Update KB entry status", "Return report ID to Orchestrator").
   example:
     ```yaml
     evidence_standards:
       requirements:
-        source_preference: "Prefer primary sources linked via `source_ref_keys`. Use secondary sources critically, noting potential biases."
-        citation_format: "Link claims to KB source chunks using `source_ref_keys` and `extraction_markers`."
-        quotation_accuracy: "Direct quotations must exactly match the text in the referenced KB source chunk."
+        source_preference: "Prefer primary sources; use secondary critically, noting potential biases."
+        citation_format: "Use KB reference IDs (`source_ref_keys`) and `extraction_markers` linking directly to source text chunks."
+        quotation_accuracy: "Quotations MUST match source text exactly. Use `extraction_markers` to pinpoint."
       verification_workflow:
-        enabled: true # This mode performs verification
-        trigger: "Before finalizing any essay section containing claims linked to specific evidence."
-        steps: |
-          1. Identify claims/citations with `source_ref_keys`/`extraction_markers`.
-          2. Use `read_file` to retrieve specific source chunk(s) from `philosophy-knowledge-base/processed_texts/` based on keys/markers.
-          3. Compare claim/citation text against source chunk. Check for accuracy, context preservation, and potential misrepresentation.
-          4. Query KB for entries linked via `related_ids` to check for known contradictions or alternative interpretations.
-          5. Generate result (Pass/Fail/Disputed) with notes.
-          6. Log verification attempt (claim, source IDs, result) in operational log.
-          7. Report status/failures to orchestrator. If Fail/Disputed, include detailed notes.
-        failure_handling: "Report Fail/Disputed status and notes to orchestrator via output schema. Flag claim in draft."
+        enabled: true
+        trigger: "On KB write involving claims or evidence linkage."
+        method: |
+          1. Self-check: Verify `source_ref_keys` and `extraction_markers` point to valid KB entries/source chunks using `read_file`.
+          2. Cross-reference: Check `related_ids` for conflicting claims in linked arguments/concepts using `search_files` and `read_file`.
+          3. Delegate complex verification (e.g., logical consistency across multiple steps) to `VerificationAgent` via Orchestrator.
+        reporting: "Update KB entry YAML with `verification_status: [passed|failed|pending]` and `verification_notes`. Report status and any `VerificationAgent` delegation ID to Orchestrator."
     ```
 
-`version_control`: (If Applicable)
+`version_control`: (Optional, typically Archetype B)
   type: object
-  description: Defines integration with Git for modes managing versioned artifacts (e.g., essay drafts). References Arch V18.3.4 Section 8.
+  description: Defines rules for interacting with Git via `execute_command`.
   fields:
-    integration: (string) How Git is used (e.g., "Via `execute_command`").
-    commit_strategy: (string) When commits should occur (e.g., "After each major section completion", "On explicit user command via orchestrator"). Define commit message format.
-    branching: (string) Branching strategy, if applicable (e.g., "Work on feature branches coordinated by orchestrator").
-    checkpoint_awareness: (string) "Be aware of RooCode Checkpoints (Arch Sec 8.1) for task-level rollback; Git is for persistent, verified changes."
-  example (for `philosophy-essay-prep`):
+    branching_strategy: (string) e.g., "Operate on feature branches created by Orchestrator/DevOps".
+    commit_frequency: (string) e.g., "Commit significant milestones or on task completion".
+    commit_message_format: (string) e.g., "feat: [ModeSlug] - [Brief Description]".
+    pull_requests: (string) e.g., "Orchestrator/DevOps handles PR creation".
+  example:
     ```yaml
     version_control:
-      integration: "Via `execute_command` tool to interact with Git."
-      commit_strategy: |
-        Commits should occur after significant milestones (e.g., thesis finalized, outline approved, major draft section completed), typically triggered by the Orchestrator based on workflow state.
-        Commit Message Format: "feat(essay-prep): [Action] for [Essay Topic/ID] - [Brief Description]" (e.g., "feat(essay-prep): Finalize thesis for Hegel Spirit Essay - Stored KB ID: thesis_hegel_spirit_001")
-      branching: "Work MAY occur on feature branches (e.g., `feature/essay-hegel-spirit`) coordinated by Orchestrator, merging back to main/develop after verification."
-      checkpoint_awareness: "Be aware of RooCode Checkpoints (Arch Sec 8.1) for task-level rollback; Git is for persistent, verified changes to essay artifacts (potentially stored in `workspace_management.root`)."
-      tool_usage: |
-        Use `execute_command` for standard Git operations (`git add [file]`, `git commit -m "[message]"`, `git push`, `git checkout`, `git merge`). Ensure commands are executed in the correct directory (likely workspace root or `workspace_management.root`). Report `GIT_COMMAND_FAIL` on errors.
+      branching_strategy: "Operate on feature branches managed by Orchestrator/DevOps."
+      commit_frequency: "Commit on successful completion of a significant sub-task or full task."
+      commit_message_format: "feat([ModeSlug]): [Brief description of changes]"
+      pull_requests: "Orchestrator/DevOps handles PR creation and merging."
+    ```
+
+## Change Log
+
+*   **V2.2 (2025-05-05):** Removed `rule_inheritance_guidelines` section entirely for absolute explicitness per user feedback. Updated background.
+*   **V2.1 (2025-05-05):** Removed inheritance comments and wasteful headers per user feedback. Mandated explicit rule inclusion. Added `apply_diff` specific error handling enhancement.
+*   **V2.0 (2025-05-05):** Initial version based on V1 standard, V18.3.4 architecture, and enhancement proposals. Added sections for Operational Context, MCP Interaction, Concurrency, Inheritance, enhanced Error Handling, Logging batching, KB Validation Hooks, Rigor Fields.
+*   **V1.0 (2025-05-03):** Initial standard based on V18.3 architecture.
