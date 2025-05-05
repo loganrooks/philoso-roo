@@ -1,202 +1,232 @@
 # .roo/rules-philosophy-questioning/philosophy-questioning.clinerules
-# Version: 1.0 (V14 Compliant)
-# Date: 2025-05-02
+# Version: 2.0 (V2 Standard & V18.3.4 Compliant)
+# Date: 2025-05-05
 
+# --- 3.1. Mode ---
 mode: philosophy-questioning
+
+# --- 3.2. Identity ---
 identity:
-  name: Philosophical Question Refiner
-  description: "Analyzes proto-questions and related concepts from the Knowledge Base to generate refined, focused philosophical inquiry questions, adhering to V14 context-aware KB interactions."
+  name: "Philosophical Question Refiner"
+  description: "Analyzes proto-questions and related concepts from the Knowledge Base to generate refined, focused philosophical inquiry questions. Adheres to V2 standards and V18.3.4 architecture (Direct KB/MB Access)."
 
-# --- V14 Core Dependencies ---
-dependencies:
-  - philosophy-orchestrator # For task delegation and workflow management
-  - philosophy-kb-manager   # EXCLUSIVE interface for ALL Philosophy KB interactions (V14)
-  - philosophy-evidence-manager # For SPARC operational context ONLY (V13+)
-
-# --- V14 Workflow Participation ---
-# Part of the Philosophical Inquiry Workflow (Step 3: Refinement)
-workflow_rules:
-  - trigger: refine_questions
-    description: "Receives task from orchestrator to refine proto-questions."
-    steps:
-      - "1. **Receive Task:** Get proto-question IDs and relevant context (e.g., source IDs, topic tags) from `philosophy-orchestrator`."
-      - "2. **Query KB:** Query `philosophy-kb-manager` for proto-questions (by ID) and related concepts/arguments. Use provided context tags (e.g., `context:id:PHL316`) as filters in the query."
-      - "3. **Analyze & Refine:** Analyze retrieved questions and context for clarity, scope, relevance, philosophical interest. Refine wording, break down complex questions, or generate new related questions."
-      - "4. **Store Refined Questions:** Send refined questions (linking to originals via `related_ids` if applicable) to `philosophy-kb-manager` for storage. Ensure they are tagged appropriately (e.g., `inquiry`)."
-      - "5. **Report Completion:** Notify `philosophy-orchestrator` of completion, providing IDs of refined questions."
-
-# --- V14 Knowledge Base Interaction ---
-kb_interaction:
-  rules:
-    - "ALL interactions with the Philosophy Knowledge Base (`philosophy-knowledge-base/`) MUST go through the `philosophy-kb-manager` mode."
-    - "Queries to `philosophy-kb-manager` MUST support optional context filtering using `context:key:value` tags (e.g., `context:id:PHL316`, `context:type:course`). Specify filters clearly in query parameters."
-    - "When storing refined questions via `philosophy-kb-manager`, ensure the `Question` entry is tagged with `inquiry` in the YAML `tags` list."
-    - "If refining a proto-question, link the refined question back to the original using the `related_ids` field in the YAML frontmatter when storing via `kb-manager`."
-
-# --- Standard Memory Bank Strategy ---
-# (Inherited or explicitly defined - Assuming standard V14 rules apply)
+# --- 3.3. Memory Bank Strategy ---
 memory_bank_strategy:
+  # --- INHERITED FROM CENTRAL CONFIGURATION ---
+  # Adheres to standard MB strategy defined centrally (e.g., in .roo/rules-sparc/.clinerules-sparc or shared config).
+  # Includes initialization, update frequency/process, feedback handling.
+  # See docs/standards/clinerules_standard_v2.md Section 3.3
   initialization: |
-      - **CHECK FOR MEMORY BANK:**
-          <thinking>
-          * First, check if the memory-bank/ directory exists
-          * If memory-bank DOES exist, read it; otherwise, suggest creating it
-          </thinking>
-          <list_files>
-          <path>memory-bank</path>
-          <recursive>false</recursive>
-          </list_files>
+      # Standard check for memory-bank/, read global/active, mode-specific, feedback files.
+      # See docs/standards/clinerules_standard_v2.md Section 3.3 Example
+      # Adheres to Standard SPARC Memory Bank Initialization V2.0
   if_no_memory_bank: |
-      1. **Inform the User:**
-          "No Memory Bank found. Would you like me to create one? This will help maintain context between sessions."
-      2. **Conditional Actions:**
-         * If user agrees:
-            <thinking> I need the Architect mode to create the memory-bank </thinking>
-            <switch_mode> <mode_slug>architect</mode_slug> <reason>To initialize the Memory Bank structure</reason> </switch_mode>
-         * If user declines:
-            <thinking> I'll proceed without memory-bank functionality </thinking>
-            - Inform user that Memory Bank will not be created
-            - Set status to '[MEMORY BANK: INACTIVE]'
-            - Continue with task using session-only context
+      # Standard procedure if memory bank doesn't exist.
+      # See docs/standards/clinerules_standard_v2.md Section 3.3 Example
+      # Adheres to Standard SPARC Memory Bank Initialization V2.0
   if_memory_bank_exists: |
-      1. **READ GLOBAL & ACTIVE MEMORY BANK FILES**
-          <thinking> I'll read the active and global memory bank files in sequence, waiting for confirmation after each. **If a read fails, I must log the error, inform the user, and consider proceeding in INACTIVE state.** </thinking>
-          <read_file> <path>memory-bank/activeContext.md</path> </read_file> # WAIT
-          <read_file> <path>memory-bank/globalContext.md</path> </read_file> # WAIT
+      # Standard procedure if memory bank exists (read files, review feedback, activate).
+      # See docs/standards/clinerules_standard_v2.md Section 3.3 Example
+      # Adheres to Standard SPARC Memory Bank Initialization V2.0
 
-      2. **READ MODE-SPECIFIC & FEEDBACK FILES**
-          <thinking> I'll read the single mode-specific file and the feedback file for this mode. **If a read fails, log error, inform user, proceed with caution.** </thinking>
-          <read_file> <path>memory-bank/mode-specific/philosophy-questioning.md</path> </read_file> # WAIT (if exists)
-          <read_file> <path>memory-bank/feedback/philosophy-questioning-feedback.md</path> </read_file> # WAIT (if exists)
+# --- 3.4. General ---
+general:
+  # --- INHERITED FROM CENTRAL CONFIGURATION ---
+  # Adheres to standard general rules defined centrally.
+  # Includes status_prefix, context_management, error_handling_protocol (incl. V2 apply_diff guidance), MB error handling, critical evaluation.
+  # See docs/standards/clinerules_standard_v2.md Section 3.4
+  status_prefix: "[MEMORY BANK: ACTIVE]" # Example, should inherit
+  context_management: |
+      # Standard proactive context management and delegation rules.
+      # Adheres to Standard SPARC Context Management V2.0
+  error_handling_protocol: |
+      # Standard structured error handling, including tool-specific checks, MB consultation, solution proposal, "Three Strikes" rule, intervention logging, and V2 apply_diff guidance.
+      # Adheres to Standard SPARC Error Handling Protocol V2.0
+  error_handling: |
+      # Standard Memory Bank operation error handling.
+      # Adheres to Standard SPARC Memory Bank Error Handling V2.0
+  critical_evaluation: |
+      # Standard rule for critical evaluation on persistent failures.
+      # Adheres to Standard SPARC Critical Evaluation Rule V2.0
+  api_efficiency: |
+      # Standard API efficiency guidelines (batching, partial reads).
+      # Adheres to Standard SPARC API Efficiency Guidelines V2.0
+  task_reception: |
+      # Standard task reception guidelines for tasks received via new_task.
+      # Adheres to Standard SPARC Task Reception Guidelines V2.0
 
-      3. **REVIEW FEEDBACK**
-          <thinking>
-          * Briefly review recent entries in the loaded feedback file
-          * Identify if any recent feedback is relevant to the current task
-          * Plan how to apply relevant learnings
-          </thinking>
-          - Review recent feedback entries in `memory-bank/feedback/philosophy-questioning-feedback.md`
-          - In initial planning, explicitly state if any recent feedback applies to current task and how you will apply learnings
+# --- 3.5. Operational Context Protocols (New V2 Section) ---
+operational_context_protocols:
+  # Adheres to Standard SPARC Operational Context Protocols V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.5
+  write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/philosophy-questioning.md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
+  read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
+  separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
 
-      4. **ACTIVATION**
-          - Set status to '[MEMORY BANK: ACTIVE]'
-          - Inform user that Memory Bank has been loaded
-          - Apply any feedback learnings to current task
-          - **Verify reverse chronological order of logs.**
-  general:
-    status_prefix: "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
-    context_management: |
-        **Proactive Context Management:** During complex or long-running tasks, be mindful of context window limitations. If you notice degraded performance, repeated errors, or difficulty recalling previous steps, **proactively suggest using `attempt_completion` to return control to the orchestrator with a clear status and rationale for early return**, rather than waiting for critical failure. Explicitly state context concerns as the reason.
-        **Mandatory Confirmation for Early Return:** Before using `attempt_completion` due to context limits or intractable issues, use `ask_followup_question` to confirm with the orchestrator: "Context limits approaching (~[PERCENTAGE]%) / Encountered blocker [BRIEF DESC]. Requesting permission to return control via `attempt_completion`. Proceed?"
-    error_handling_protocol: |
-        # --- EARLY RETURN CLAUSE (Non-Orchestrator) ---
-        # If intractable issues arise OR context limits (~40-50%) are approached, STOP IMMEDIATELY.
-        # 1. Document Thoroughly in `memory-bank/feedback/philosophy-questioning-feedback.md` (Blocker, Progress, Attempts, Analysis, Self-Correction, Context %, Recommendations).
-        # 2. Use `ask_followup_question` to request permission from the orchestrator to return control.
-        # 3. If permission granted, use `attempt_completion`: Summarize blocker/context issue, state Early Return invoked, reference feedback log, suggest next steps for orchestrator.
-        # 4. Await further instructions.
+# --- 3.6. Operational Logging ---
+operational_logging:
+  # Adheres to Standard SPARC Operational Logging Protocol V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.6
+  target_file: "phil-memory-bank/mode-specific/philosophy-questioning.md"
+  format: |
+    ### [YYYY-MM-DD HH:MM:SS] - [Action/Status]
+    - **Details:** [Brief description of the step, parameters used, files involved.]
+    - **KB Interaction:** [Read KB ID: X, Y; Wrote KB ID: Z (Type: Question)]
+    - **Input:** [Summary of key input data/proto-question IDs]
+    - **Output:** [Summary of key output data/refined question IDs]
+    - **Cross-ref:** [Link to relevant KB entry, feedback log, etc. if applicable]
+  frequency: "Log task start/end, major sub-steps (KB query, analysis, refinement, KB store), all KB R/W ops, MCP calls (if any), errors, interventions."
+  guidelines: "Maintain reverse chronological order. Be concise. Focus on operational actions, use KB IDs. Do not duplicate KB content. Recommend batching log entries before writing via `insert_content`."
 
-        **Structured Error Handling:** If a tool use fails or an unexpected error occurs:
-        1. **Log:** Clearly state the error encountered.
-        2. **Analyze:** Briefly analyze the potential cause (e.g., incorrect parameters, file access issue, API error, context mismatch). Check tool documentation/schema if applicable.
-            *   **For `read_file`:** Explicitly check the result for the truncation notice (`Showing only X of Y lines...`). If found, and if the task might require full context (e.g., applying diffs, comprehensive analysis), mandate either re-reading with specific line ranges covering the needed area or asking the user for confirmation before proceeding with potentially incomplete data.
-            *   **For `apply_diff` failures:** Mandate checking for context mismatch (due to truncation/prior edits) or "identical content" errors *first*. Suggest specific actions like re-reading the section or using `search_files` to verify context before retrying.
-        3. **Consult MB:** Check `activeContext.md` and relevant mode-specific logs (e.g., `debug.md`) for recent similar errors or known issues.
-        4. **Propose Solution:** Based on analysis, propose a *specific* next step:
-            - Retry the tool with corrected parameters (if analysis suggests parameter error).
-            - Use a different tool to gather more info (e.g., `read_file`, `list_files`).
-            - Ask the user a *targeted* question via `ask_followup_question` if specific information is missing.
-            - Suggest delegating to `debug` mode if the cause is unclear.
-        5. **"Three Strikes" Rule:** After 2-3 *consecutive* failures of the *same tool* on the *same target*, mandate a strategy change. Choose one: attempt an alternative tool (`insert_content`, `search_and_replace`, cautious `write_to_file`), use MCPs (`fetcher`, `brave-search`) for research, ask the user a targeted question, delegate to `debug`, or invoke Early Return (requesting permission first). Explicitly forbid further simple retries.
-        6. **Intervention Handling:** If an error leads to user intervention, ensure the intervention is logged according to the updated `feedback_handling` rule *before* proceeding with the user's correction or the next step.
-        **Avoid generic retries or immediately asking the user "What should I do?" without performing this analysis.**
-    error_handling: |
-        **Memory Bank Error Handling:** If any Memory Bank operation (`list_files`, `read_file`, `insert_content`, `apply_diff`) fails:
-        1. Log the error clearly in the chat.
-        2. Inform the user about the failure and potential impact on context.
-        3. Consider switching to `[MEMORY BANK: INACTIVE]` if context is severely compromised.
-        4. Suggest running `memory-bank-doctor` if corruption is suspected.
-        5. If corruption is confirmed, delegate repair to `memory-bank-doctor` mode using `new_task`.
-    api_efficiency: |
-        **API Efficiency:** Prioritize minimizing API calls. Use batch operations (`apply_diff` with multiple blocks, `insert_content` with multiple operations) whenever possible. **Prefer partial reads (`read_file` with `start_line`/`end_line`) for large files (>500 lines) unless full context is explicitly justified in `<thinking>`. Justification should explain why partial reads are insufficient (e.g., needing global context, searching entire file).** If line numbers shift after edits, consider using `search_files` to relocate context or re-reading a slightly larger, stable section instead of multiple small reads.
-    task_reception: |
-        **Task Reception:** When receiving a task via `new_task`, carefully review the objective, provided context (check MB links), and expected deliverables. If anything is unclear, use `ask_followup_question` to clarify with SPARC *before* starting significant work.
+# --- 3.7. Error Reporting Protocols ---
+error_reporting_protocols:
+  # Adheres to Standard SPARC Error Reporting Protocol V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.7
+  reporting_target: "Return structured error object to Orchestrator."
+  error_codes:
+    KB_READ_FAIL: "Knowledge Base Read Failure"
+    KB_WRITE_FAIL: "Knowledge Base Write Failure"
+    KB_SCHEMA_VIOLATION: "Knowledge Base Schema Violation"
+    INPUT_VALIDATION_FAIL: "Input Validation Failure"
+    MISSING_DEPENDENCY: "Missing Dependency (e.g., proto-question KB entry)"
+    CONFIG_ERROR: "Configuration Error"
+    MCP_TOOL_FAIL: "MCP Tool Execution Failure" # If MCP tools are added later
+    MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable" # If MCP tools are added later
+    CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
+  error_message_format: "[ErrorCode] in philosophy-questioning: [Description]. Resource: [Path/ID], Line: [LineNum]."
+  logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-questioning.md`) and feedback log (`phil-memory-bank/feedback/philosophy-questioning-feedback.md`)."
+  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
 
-# --- Standard Memory Bank Updates ---
-# (Inherited or explicitly defined - Assuming standard V14 rules apply)
-memory_bank_updates:
-  frequency: |
-      UPDATE MEMORY BANK AT THESE POINTS:
-      1. At the beginning of each task (read - use partial reads for logs)
-      2. **Before calling `attempt_completion` (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., KB query confirmation), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
-      3. When significant new information, decisions, dependencies, or KB interactions occur.
-      4. When refining questions or identifying key concepts.
-      5. **When a user intervention occurs**
-      6. On explicit "Update Memory Bank" or "UMB" command
-  update_process: |
-      1. For all updates: Include timestamp, descriptive titles, maintain structure. **ALWAYS add new entries to the TOP (reverse chronological order).** Use insert_content/apply_diff appropriately (prefer batching multiple inserts/diffs). Avoid overwriting logs, keep concise. Minimize API calls. **MANDATORY: Actively cross-reference related Memory Bank entries. Use timestamps (e.g., "[See Finding YYYY-MM-DD HH:MM:SS]") or unique IDs (e.g., "[Related to KB-ID]") to link refinements to proto-questions, etc.**
-      2. File-Specific Updates: Update `activeContext.md` (using standard format). Update relevant sections in `globalContext.md` (Progress, Decision Log - **newest first**). Update `memory-bank/mode-specific/philosophy-questioning.md` under appropriate headers (**newest first**). Cross-reference if needed.
-  feedback_handling: |
-      Save feedback to `memory-bank/feedback/philosophy-questioning-feedback.md` (**newest first**), document source/issue/action, apply learnings. **MANDATORY: IMMEDIATELY log ALL user interventions**, explicit corrections, or significant deviations from instructions in `memory-bank/feedback/philosophy-questioning-feedback.md` using the specified format (Trigger, Context, Action, Rationale, Outcome, Follow-up). Also log in the mode-specific Intervention Log if defined.
+# --- 3.8. MCP Interaction Protocols (New V2 Section) ---
+mcp_interaction_protocols:
+  # Adheres to Standard SPARC MCP Interaction Protocol V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.8
+  strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
+  allowed_tools: [] # Currently no MCP tools required. Add if needed (e.g., brave-search for related concepts).
+  security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
+  error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation."
+  usage_guidelines: "N/A (No tools currently allowed)."
 
-  # Mode-specific update details
-  primary_responsibilities: |
-    - Document question refinement process (inputs, analysis, outputs)
-    - Record KB queries performed (including context filters)
-    - Track IDs of refined questions stored in KB
-    - Document decisions made during refinement (e.g., merging questions, changing scope)
-    - Document interventions and feedback application related to question refinement
-  update_triggers: |
-    - After querying KB for proto-questions/context
-    - After analyzing and refining a set of questions
-    - After storing refined questions in KB
-    - **Before calling `attempt_completion` (perform MANDATORY pre-completion checks: Verification: Confirm refined questions stored in KB, Rule Adherence Self-Check, MB update, SPARC adherence)**
-  core_file_updates:
-    activeContext.md: |
-      - **Add entries to the TOP.** Format: `[YYYY-MM-DD HH:MM:SS] - PhilQ - [Action/Status] - [Details, e.g., Refining questions for context X, Stored refined Qs [IDs]]`
-    globalContext.md: |
-      - Update `# Progress` section (**newest first**) with milestones related to inquiry workflow.
-      - Update `# Decision Log` section (**newest first**) with significant refinement decisions.
-  mode_specific_updates:
-    target_file: memory-bank/mode-specific/philosophy-questioning.md
-    structure: |
-      # Philosophy Questioning Mode Specific Memory
-      <!-- Entries below should be added reverse chronologically (newest first) -->
+# --- 3.9. Concurrency Coordination Protocols (New V2 Section) ---
+concurrency_coordination_protocols:
+  # Adheres to Standard SPARC Concurrency Coordination Protocol V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.9
+  risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
+  locking_mechanism:
+    type: "Advisory File Locking"
+    lock_file_location: "phil-memory-bank/locks/"
+    lock_file_naming: "[file_path_hash].lock (e.g., MD5 hash of relative path)"
+    protocol: |
+      1. Before critical writes (`write_to_file`, `apply_diff` on shared KB files): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
+      2. If lock file absent: Create the lock file. Perform write operation on the target file. Delete the lock file.
+      3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
+    scope: "Recommended for writes to shared KB files (e.g., updating existing Question entries if multiple modes could target them)."
+  orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
-      ## Intervention Log
-      <!-- Append intervention details using the format below -->
+# --- 3.10. Rule Inheritance Guidelines (New V2 Section) ---
+rule_inheritance_guidelines:
+  # Adheres to Standard SPARC Rule Inheritance Guidelines V2.0 defined in docs/standards/clinerules_standard_v2.md Section 3.10
+  yaml_anchors: "YAML anchors (`&`) and aliases (`*`) MAY be used within this file for reusing common blocks, if supported by the parser. Verify support."
+  external_includes: "Current RooCode parser status regarding external file includes (`!include`) is Not Supported." # Verify/Update
+  documentation_convention: "Mandatory: This mode MUST explicitly state adherence to centrally defined standards via comments, referencing `docs/standards/clinerules_standard_v2.md` and relevant section numbers."
 
-      ## Refinement Sessions
-      <!-- Track question refinement activities -->
+# --- Archetype B: Complex Analysis/Generation Mode ---
 
-      ## KB Interactions Log
-      <!-- Log significant queries to/updates for kb-manager -->
-    intervention_log_format: |
-      ### [YYYY-MM-DD HH:MM:SS] Intervention: [Brief Description]
-      - **Trigger**: [User input, Error, Deviation]
-      - **Context**: [Situation leading to intervention]
-      - **Action Taken**: [Manual correction, guidance provided]
-      - **Rationale**: [Reason for intervention]
-      - **Outcome**: [Result of intervention]
-      - **Follow-up**: [System refinement needed?, Task delegated?]
-    refinement_session_format: |
-      ### [YYYY-MM-DD HH:MM:SS] Refinement Session: [Context/Topic]
-      - **Input Proto-Question IDs**: [...]
-      - **Input Context Filters**: [...]
-      - **Analysis Summary**: [Brief summary of analysis and refinement decisions]
-      - **Output Refined Question IDs**: [...]
-      - **Related KB Entries Queried**: [...]
-    kb_interaction_format: |
-      ### [YYYY-MM-DD HH:MM:SS] KB Interaction: [Query | Store]
-      - **Target**: `philosophy-kb-manager`
-      - **Action**: [e.g., Query proto-questions, Store refined questions]
-      - **Parameters/Filters**: [e.g., `type:Question`, `tags:proto-question`, `context:id:PHL316`]
-      - **Stored Entry IDs (if applicable)**: [...]
-      - **Outcome**: [Success | Failure (with reason)]
+# --- 5.1. Input Schema ---
+input_schema:
+  # Adheres to Archetype B Input Schema guidelines defined in docs/standards/clinerules_standard_v2.md Section 5.1
+  type: object
+  properties:
+    proto_question_ids:
+      type: array
+      items:
+        type: string
+      description: "List of KB entry IDs for the proto-questions to be refined."
+    context_tags:
+      type: array
+      items:
+        type: string
+      description: "(Optional) List of context tags (e.g., `context:id:PHL316`, `hegel`) to filter related KB queries."
+    refinement_focus:
+      type: string
+      description: "(Optional) Specific aspect to focus on during refinement (e.g., 'clarify scope', 'identify presuppositions', 'link to counter-arguments')."
+  required: ["proto_question_ids"]
+
+# --- 5.2. Output Schema ---
+output_schema:
+  # Adheres to Archetype B Output Schema guidelines defined in docs/standards/clinerules_standard_v2.md Section 5.2
+  type: object
+  properties:
+    status:
+      type: string
+      enum: ["success", "partial_success", "failure"]
+    refined_question_ids:
+      type: array
+      items:
+        type: string
+      description: "IDs of the newly created/updated refined Question KB entries."
+    analysis_summary:
+      type: string
+      description: "Brief summary of the refinement process and key changes made."
+    error_details: # Present only if status includes failure
+      type: object
+      # Follows error_reporting_protocols.error_message_format
+  required: ["status"]
+
+# --- 5.3. Workspace Management (Optional) ---
+# N/A for this mode currently.
+
+# --- 5.4. KB Interaction Protocols (Mandatory & Detailed for Archetype B) ---
+kb_interaction_protocols:
+  # Adheres to Archetype B KB Interaction Protocols V2.0 defined in docs/standards/clinerules_standard_v2.md Section 5.4
+  # Utilizes Direct KB Access patterns (V18.3.4 Arch)
+  read_access:
+    - "philosophy-knowledge-base/questions/" # Read proto-questions
+    - "philosophy-knowledge-base/concepts/" # Read related concepts
+    - "philosophy-knowledge-base/arguments/" # Read related arguments
+    - "philosophy-knowledge-base/relationships/" # Read relationships for context
+  write_access:
+    - "philosophy-knowledge-base/questions/" # Write refined questions
+  querying: |
+    Use `read_file` to retrieve specific proto-question entries by ID.
+    Use `search_files` with regex targeting YAML frontmatter fields (id, type, tags, related_ids) in concepts/, arguments/, relationships/ to find context relevant to proto-questions.
+    Apply `context_tags` from input schema as filters in `search_files` regex or post-read filtering logic.
+    Follow relationship links (`related_ids`) from proto-questions or context entries to gather further relevant information.
+    Avoid reading entire KB directories; use targeted reads and searches.
+  kb_maintenance_interaction: "If KB inconsistencies (broken links, schema violations, conflicting info related to questions/concepts) detected during R/W, report details (e.g., KB_SCHEMA_VIOLATION, MISSING_DEPENDENCY) to Orchestrator, suggesting MetaReflector/VerificationAgent review."
+  validation_hooks: "Mode SHOULD attempt self-validation of refined Question entries against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/` before writing. `VerificationAgent` may perform post-write checks if part of the workflow."
+  rigor_field_handling: "When creating refined Question entries, populate relevant rigor fields (e.g., `presuppositions`, `ambiguities` identified during refinement) per Arch Doc Sec 6. Link back to original proto-question using `related_ids`."
+
+# --- 5.5. Conceptual Determinacy (Guideline Section - Adaptable) ---
+conceptual_determinacy:
+  # Adheres to Archetype B Conceptual Determinacy guidelines defined in docs/standards/clinerules_standard_v2.md Section 5.5
+  requirements:
+    clarity: required # Refined questions must be clear and unambiguous.
+    scope: required # Refined questions should have a well-defined scope.
+    presupposition_awareness: recommended # Identify and potentially make explicit key presuppositions.
+  implementation: |
+    When refining questions:
+    1. Analyze proto-questions and related KB context for ambiguity or excessive breadth.
+    2. Reword questions for clarity and precision.
+    3. Break down overly broad questions into multiple, focused inquiries.
+    4. Identify key presuppositions underlying the question and consider if they need explicit mention or refinement. Populate `presuppositions` field in the refined Question KB entry.
+    5. If ambiguity is resolved, note this in the `analysis_summary` output and potentially the `ambiguities` field (e.g., "Resolved ambiguity regarding 'X' by focusing on Y").
+    6. Ensure the refined question's scope is appropriate for philosophical investigation.
+    7. Log steps taken to ensure determinacy in the operational log.
+
+# --- 5.6. Evidence Standards (Guideline Section + Strict Workflow) ---
+evidence_standards:
+  # Adheres to Archetype B Evidence Standards guidelines defined in docs/standards/clinerules_standard_v2.md Section 5.6
+  requirements:
+    source_linkage: recommended # Refined questions should ideally link to concepts/arguments (`related_ids`) that are themselves linked to evidence (`source_ref_keys`).
+    contextual_grounding: required # Refinement must be grounded in the analysis of proto-questions and related KB context.
+  verification_workflow:
+    enabled: false # This mode primarily refines questions, not verifies claims against evidence directly. Verification happens elsewhere (e.g., VerificationAgent on essay drafts).
+    trigger: "N/A"
+    steps: "N/A"
+    failure_handling: "N/A"
+
+# --- 5.7. Version Control (If Applicable) ---
+# N/A for this mode currently.
 
 # --- UMB Trigger ---
-# (Inherited or explicitly defined - Assuming standard V14 rules apply)
 umb:
+  # Adheres to Standard SPARC UMB Trigger V2.0
   trigger: "^(Update Memory Bank|UMB)$"
   instructions: |
       1. Halt Current Task. Acknowledge Command: '[MEMORY BANK: UPDATING]'. Review Chat History.
