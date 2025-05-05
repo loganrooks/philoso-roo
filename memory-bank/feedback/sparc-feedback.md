@@ -1,3 +1,10 @@
+### [2025-05-05 00:34:01] User Intervention: `new_task` Delegation Denied (Insufficient Detail)
+- **Trigger**: User denied `new_task` delegation to `architect` for RooCode research/evaluation.
+- **Context**: User requested more detailed instructions for the `architect` mode and specified that the resulting research and evaluation reports must be saved to files within the workspace (e.g., in `docs/reports/`) in addition to being summarized upon completion.
+- **Action Taken**: Acknowledged feedback. Halted delegation. Will log intervention and revise the `new_task` message to include more detail and specify report file paths before re-delegating.
+- **Rationale**: Ensure delegation instructions meet user requirements for clarity and deliverables.
+- **Outcome**: Delegation paused pending revision.
+- **Follow-up**: Log intervention in `sparc.md`, update workflow state, revise `new_task` message, re-delegate to `architect`.
 ### [2025-05-04 17:38:07] User Intervention: Denied Architect Delegation & Manual Revert
 - **Trigger**: User Input denying `new_task` delegation to `architect`.
 - **Context**: SPARC attempted to re-delegate the architecture revision task [See SPARC MB Intervention Log: 2025-05-04 17:13:46]. User denied the task and stated they will manually revert the incorrect append changes previously made to `docs/architecture/architecture_v18.md`.
