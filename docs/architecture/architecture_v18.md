@@ -1,7 +1,7 @@
 # Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
 **Date:** 2025-05-04
-**Version:** 18.3.2 (Processed Root Index Correction)
+**Version:** 18.3.3 (KB Script Re-evaluation &amp; Feedback Integration)
 **Status:** Draft
 **Based On:**
 *   `docs/architecture/architecture_v18.md` (V18.3.1 - Text Processor Workflow Correction)
@@ -105,26 +105,6 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
 
 ## 4. Mode Structure & Responsibilities (V18.3.2 - Text Processor Root Index Update)
 
-### 4.1. Core Data Management Modes
-
-*   **`philosophy-kb-doctor` (V18, Enhanced V18.1):**
-    *   **Responsibility:** Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. **V18.1:** Scripts may include validation checks for rigor elements. Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status and rigor validation summaries to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
-    *   **Input:** Maintenance triggers from `Orchestrator`.
-    *   **Output:** Status reports and rigor validation summaries to `Orchestrator`. **Directly writes** execution logs to its mode-specific log in `phil-memory-bank/mode-specific/philosophy-kb-doctor.md`. (Maintenance script logs are written within `philosophy-knowledge-base/_operational/logs/`).
-    *   **Dependencies:** `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, File system tools (for reading/writing to `phil-memory-bank/`).
-*   **Example Maintenance Task (Rigor Check):**
-        1.  `Orchestrator` triggers `kb-doctor` with task: "Validate rigor fields for 'Concept' entries created in the last 24 hours."
-        2.  `kb-doctor` executes `validate_concept_rigor.py` script from `philosophy-knowledge-base/_operational/maintenance_scripts/`.
-        3.  Script reads recent 'Concept' entries from `philosophy-knowledge-base/concepts/`.
-        4.  Script finds `concept_id: hegel_begriff_123` is missing the `negative_determination` field.
-        5.  Script writes details to `philosophy-knowledge-base/_operational/logs/validation_log_YYYYMMDD.log`.
-        6.  Script updates `philosophy-knowledge-base/_operational/status/rigor_validation_status.json`.
-        7.  `kb-doctor` reads the log/status.
-        8.  `kb-doctor` writes a summary report to `philosophy-knowledge-base/_operational/reports/rigor_validation_YYYYMMDD.md`.
-        9.  `kb-doctor` writes its own operational log: "[Timestamp] - KBDoctor - Executed rigor validation. Found 1 concept missing negative_determination. Reported to Orchestrator." to `phil-memory-bank/mode-specific/philosophy-kb-doctor.md`.
-        10. `kb-doctor` reports summary (including the missing field issue) to `Orchestrator`.
-        11. `Orchestrator` logs the report summary in `phil-memory-bank/activeContext.md` and delegates a correction task to `dialectical-analysis`.
-
 ### 4.2. Text Processing & Analysis Modes
 
 *   **`philosophy-text-processor` (V18.3.2 Corrected Workflow & Root Index Update):**
@@ -148,7 +128,7 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
         *   **Write KB:** Directly Write findings to designated KB files/sections using file tools, **populating rigor fields** (see Section 6) and ensuring correct formatting and linking (including `source_ref_keys`, `extraction_markers`, `related_ids`).
         *   **Write Operational Log:** Directly Write detailed operational logs (process, decisions, inputs, outputs) to own file in `phil-memory-bank/mode-specific/`.
 *   **Cross-Mode Communication Notes (V18.3):**
-            *   **Log Discovery:** Modes primarily rely on context provided by `Orchestrator` during delegation. For broader context or historical data, modes can use `search_files` on specific logs within `phil-memory-bank/mode-specific/` or global files (`activeContext.md`, `globalContext.md`), guided by timestamps or keywords. Efficiency depends on clear delegation and standardized logging.
+            *   **Log Discovery:** Modes primarily rely on context provided by `Orchestrator` during delegation. For broader context or historical data, modes can use `search_files` on specific logs within `phil-memory-bank/mode-specific/` or global files (`activeContext.md`, `globalContext.md`), guided by timestamps (e.g., regex `\[2025-05-04 \d{2}:\d{2}:\d{2}\]`) or keywords (e.g., regex `concept_id:\s*hegel_spirit_003`). Effective searching requires clear delegation context and standardized logging.
             *   **Log Standardization:** Mode `.clinerules` MUST define a standardized format for log entries within `phil-memory-bank/mode-specific/`. A recommended baseline includes: `[Timestamp] - [ModeSlug] - [Action/Status] - [Details/Outcome/KB_IDs_Affected]`. This ensures logs are machine-parsable and interpretable by `Orchestrator` and `meta-reflector`.
             *   **KB Write Conflicts (Race Conditions):** Direct KB writes by multiple modes simultaneously carry a risk of race conditions or overwrites.
                 *   **Mitigation (Current):** Primarily relies on `Orchestrator` sequencing tasks to minimize simultaneous writes to the *same* KB file/section. Modes should use `apply_diff` where possible for targeted changes rather than `write_to_file`.
@@ -191,12 +171,12 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
 ### 4.4. Orchestration & Meta-Reflection Modes
 
 *   **`philosophy-orchestrator` (V11+, V18.2 Memory Access):**
-    *   **Responsibility:** Manages workflows, delegates tasks (providing detailed context), handles handoffs, routes proposals, relays approvals. Coordinates Git commits. Triggers `philosophy-kb-doctor`. Manages self-correction loops. **Primarily responsible for maintaining global operational context files** (`phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md`). Reads other logs in `phil-memory-bank/` as needed for context.
+    *   **Responsibility:** Manages workflows, delegates tasks (providing detailed context), handles handoffs, routes proposals, relays approvals. Coordinates Git commits. **Triggers KB validation/maintenance checks** (e.g., delegating to `meta-reflector` or `verification-agent` based on task). Manages self-correction loops based on validation reports. **Primarily responsible for maintaining global operational context files** (`phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md`). Reads other logs in `phil-memory-bank/` as needed for context.
     *   **Dependencies:** All modes, User, File system tools (for `phil-memory-bank/` access).
 *   **`philosophy-meta-reflector` (V13, Context-Aware V14):**
-    *   **Responsibility (V18.3 Enhanced):** Performs meta-level analysis of the system. This includes:
+    *   **Responsibility (V18.3.3 Enhanced):** Performs meta-level analysis of the system. This includes:
         *   Evaluating the effectiveness of rigor enforcement across modes and KB entries.
-        *   Analyzing operational memory logs (`phil-memory-bank/`), docs, rules, and KB content for patterns, inefficiencies, or contradictions.
+        *   Analyzing operational memory logs (`phil-memory-bank/`), docs, rules, and KB content for patterns, inefficiencies, or contradictions. **Performs KB consistency checks, validation, or cleanup tasks as delegated by `Orchestrator` or based on identified patterns.**
         *   **Evaluating the philosophical quality and progress** of analyses over time (e.g., assessing depth, coherence, handling of counter-arguments, comparison of alternative approaches). Defining/refining metrics for quality assessment is a key task.
         *   Storing meta-reflections, quality assessments, and identified issues/questions in the KB (tagged `meta`).
         *   Proposing KB structure modifications, system architecture changes, or rule updates via `Orchestrator`.
@@ -216,9 +196,7 @@ graph TD
         Orchestrator(philosophy-orchestrator)
     end
 
-    subgraph KB Maintenance & Rigor Validation
-        KBDoctor(philosophy-kb-doctor)
-    end
+    %% KB Maintenance & Rigor Validation (Responsibilities moved to Orchestrator/MetaReflector/Verify)
 
     subgraph Text Processing
         TextProc(philosophy-text-processor) -- Runs --> Scripts((scripts/process_source_text.py))
@@ -262,7 +240,7 @@ graph TD
              CiteMan -- Writes --> OpMemBank_ModeLogs
              Verify -- Writes --> OpMemBank_ModeLogs
              MetaReflector -- Writes --> OpMemBank_ModeLogs
-             KBDoctor -- Writes --> OpMemBank_ModeLogs
+             %% KBDoctor -- Writes --> OpMemBank_ModeLogs (Removed)
              %% All modes can read all OpCtx files
              Orchestrator -- Reads --> OpMemBank_Global
              Orchestrator -- Reads --> OpMemBank_ModeLogs
@@ -278,7 +256,7 @@ graph TD
              CiteMan -- Reads --> OpMemBank_Global; CiteMan -- Reads --> OpMemBank_ModeLogs
              Verify -- Reads --> OpMemBank_Global; Verify -- Reads --> OpMemBank_ModeLogs
              MetaReflector -- Reads --> OpMemBank_Global; MetaReflector -- Reads --> OpMemBank_ModeLogs; MetaReflector -- Reads --> OpMemBank_Feedback
-             KBDoctor -- Reads --> OpMemBank_Global; KBDoctor -- Reads --> OpMemBank_ModeLogs
+             %% KBDoctor -- Reads --> OpMemBank_Global; KBDoctor -- Reads --> OpMemBank_ModeLogs (Removed)
         end
         subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
@@ -291,7 +269,7 @@ graph TD
                  KB_Logs("logs/")
                  KB_Status("status/")
                  KB_Reports("reports/")
-                 KB_Scripts("maintenance_scripts/<br>+ Rigor Validation Scripts?")
+                 KB_Scripts("maintenance_scripts/<br>**DEPRECATED**")
             end
             PhilKB_Ops --> KB_Ops_Details
         end
@@ -311,11 +289,12 @@ graph TD
     Orchestrator -- Delegate Tasks --> EssayPrep
     Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
     Orchestrator -- Coordinate Commit? --> EssayPrep
-    Orchestrator -- Trigger KB Maintenance/Validation --> KBDoctor
+    Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector
+    Orchestrator -- Trigger KB Maintenance/Validation --> Verify
     Orchestrator -- Route KB/System Mod Proposal --> User
     Orchestrator -- Relay Approval --> Architect
     Orchestrator -- Relay Approval --> DevOps
-    Orchestrator -- Manage Self-Correction Loop --> Verify/KBDoctor/AnalysisModes
+    Orchestrator -- Manage Self-Correction Loop --> Verify/MetaReflector/AnalysisModes
     Orchestrator -- Results --> User
 
     %% Text Processing Flow (V18.3.2 Corrected)
@@ -373,24 +352,27 @@ graph TD
     MetaReflector -- Propose Arch Mod --> Orchestrator
     MetaReflector -- Propose Method/Git Mod --> Orchestrator
 
-    %% KB Doctor Interactions (Maintenance + Rigor Validation)
-    KBDoctor -- Triggers --> KB_Scripts
-    KB_Scripts -- Read/Write --> PhilKB_Data
-    KB_Scripts -- Read/Write --> KB_Indices
-    KB_Scripts -- Write Logs --> KB_Logs
-    KB_Scripts -- Write Status --> KB_Status
-    KB_Scripts -- Perform Rigor Validation --> PhilKB_Data
-    KBDoctor -- Reads Status/Logs --> PhilKB_Ops
-    KBDoctor -- Writes Reports (incl. Rigor Summary) --> KB_Reports
-    KBDoctor -- Report Status/Rigor --> Orchestrator
+    %% KB Doctor Interactions (Removed - Handled by Orchestrator/MetaReflector/Verify)
+    %% KBDoctor -- Triggers --> KB_Scripts (Removed)
+    %% KB_Scripts -- Read/Write --> PhilKB_Data (Removed)
+    %% KB_Scripts -- Read/Write --> KB_Indices (Removed)
+    %% KB_Scripts -- Write Logs --> KB_Logs (Removed)
+    %% KB_Scripts -- Write Status --> KB_Status (Removed)
+    %% KB_Scripts -- Perform Rigor Validation --> PhilKB_Data (Removed)
+    %% KBDoctor -- Reads Status/Logs --> PhilKB_Ops (Removed)
+    %% KBDoctor -- Writes Reports (incl. Rigor Summary) --> KB_Reports (Removed)
+    %% KBDoctor -- Report Status/Rigor --> Orchestrator (Removed)
+    MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Data
+    MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Ops
+    Verify -- Performs Rigor Validation --> PhilKB_Data
 
     %% Styling
     classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
     class PhilKB_Data, PhilKB_Ops kb;
     classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
-    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,MetaReflector,KBDoctor mode;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,MetaReflector mode;
     classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
-    class Scripts, KB_Scripts script;
+    class Scripts script;
     classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
     class VCS vcs;
     classDef opmembank fill:#e0e0e0,stroke:#666,stroke-width:1px;
@@ -398,7 +380,7 @@ graph TD
     classDef source fill:#dff0d8,stroke:#3c763d,stroke-width:1px;
     class RawSource,ProcessedSource source;
     classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
-    class KB_Indices,KB_Logs,KB_Status,KB_Reports,KB_Scripts kbops;
+    class KB_Indices,KB_Logs,KB_Status,KB_Reports kbops;
 ```
 
 **Diagram Notes:**
@@ -412,14 +394,14 @@ graph TD
 *   **Purpose:** Centralized, structured, persistent repository for **philosophical domain knowledge**, distinct from operational memory (`phil-memory-bank/`). Enhanced for philosophical rigor.
 *   **Management (V18.1):**
     *   **Content:** Managed directly by relevant modes using file tools, following defined write patterns/locations and **populating rigor-related fields**. `philosophy-text-processor` writes data parsed from script JSON output.
-    *   **Maintenance & Rigor Validation:** Orchestrated by `philosophy-kb-doctor`, triggering scripts in `_operational/maintenance_scripts/` for indexing, validation, linking, cleanup, and **rigor consistency checks**.
+    *   **Maintenance & Rigor Validation:** KB validation (schema checks, link integrity, rigor consistency) is performed by `verification-agent` during workflows and `meta-reflector` during periodic analysis or specific checks triggered by `Orchestrator`. Cleanup/indexing tasks are handled by `meta-reflector` or dedicated logic within modes as needed. The `_operational/` directory structure is retained for logs, status, reports, and rules generated/used by these modes.
 *   **Structure:** Subdirectories based on content type, plus operational directories:
     *   `concepts/`, `arguments/`, `quotations/`, `references/`, `questions/`, `theses/`, `relationships/`, `methods/`, `meta-reflections/`, `indices/`, `processed_texts/` (or similar - holds data derived from text processor JSON)
     *   `_operational/`
         *   `logs/` (Logs from maintenance/validation scripts)
         *   `status/` (Status files for maintenance/validation tasks)
         *   `reports/` (Reports from KB Doctor/scripts, incl. rigor validation summaries)
-        *   `maintenance_scripts/` (Scripts for indexing, validation, rigor checks, etc.)
+        *   `maintenance_scripts/` (**DEPRECATED** - Functionality moved to modes like `meta-reflector`, `verification-agent`)
         *   `formatting_templates_rules/` (Schemas/rules for validation)
 *   **Entry Format (Markdown + YAML - V18.1 Rigor Enhanced):**
     ```yaml
@@ -454,8 +436,8 @@ graph TD
     ]
 
     # --- Linking & Source Fields (V11+, Emphasized V18.1) ---
-    source_ref_keys: [[ref_key_1, ...]] # CRITICAL: Link to Reference entries for source texts.
-    extraction_markers: [[marker_1, ...]] # CRITICAL: Link to specific locations in source_materials/processed/ or raw source.
+    source_ref_keys: [[ref_key_1, ...]] # CRITICAL: Links to `Reference` type KB entries. Each `Reference` entry contains metadata about an original source text, including the unique `source_id` used in `source_materials/processed/[source_id]/`. This identifies the overall source document(s).
+    extraction_markers: [[marker_1, ...]] # CRITICAL: Pinpoints the specific location(s) within the processed source text from which this KB entry's content derives. Works *with* `source_ref_keys`. Markers should reference specific chunk files (e.g., `[source_id]/level_1/chunk_005.md`) and potentially finer-grained details like paragraph/section IDs or character offsets if provided by the text processing script's JSON output. Enables precise verification and traceability.
     related_ids: [[id_1, ...]] # General links to other KB entries (concepts, arguments, etc.).
 
     # --- Type-Specific Fields ---
@@ -526,7 +508,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
     8.  **Orchestrator:** Receives completion signal (or delegates further, e.g., to `verification-agent` if required by rules). Updates `phil-memory-bank/activeContext.md`. Presents summary/updated concept to user or next mode.
 *   **Failure Handling Notes (V18.3):**
     *   **Source Contradiction:** If `text-processor` (via script) or analysis modes detect contradictions *within* a source text, this should be flagged in the KB entry's `ambiguities` or a dedicated `source_issues` field, and potentially reported to `Orchestrator` for user notification or `meta-reflector` analysis.
-    *   **Mode Failure:** If an analysis mode fails (e.g., cannot parse input, hits resource limits), it MUST log the failure state clearly in its `phil-memory-bank/mode-specific/` log and report failure status to `Orchestrator`. `Orchestrator` then decides whether to retry, delegate to a different mode (e.g., `meta-reflector` to analyze the failure), or query the user.
+    *   **Mode Failure:** If an analysis mode fails (e.g., cannot parse input, hits resource limits), it MUST log the failure state clearly in its `phil-memory-bank/mode-specific/` log, **including the error message, the attempted action, relevant input data (e.g., KB IDs), and current operational context**. It must also report failure status to `Orchestrator`. `Orchestrator` then decides whether to retry, delegate to a different mode (e.g., `meta-reflector` to analyze the failure), or query the user.
 
 ### 7.2. Verification Workflow (Rigor Focused)
 
@@ -555,7 +537,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
     *   **Verification Failure:** If `verification-agent` cannot verify a claim (no supporting evidence found, evidence contradicts claim), it MUST:
         1.  Mark the claim as `Disputed` in its report.
         2.  Update the relevant KB entry's `verification_status` to `Disputed` and add details to `verification_notes`.
-        3.  Clearly log the failure and reason in its `phil-memory-bank/mode-specific/` log.
+        3.  Clearly log the failure and reason in its `phil-memory-bank/mode-specific/` log, **including the specific claim, the KB entry/source chunk checked, the reason for dispute, and relevant context**.
         4.  Report the failure to `Orchestrator`.
         5.  `Orchestrator` then initiates a correction loop, potentially involving `questioning` (to ask user for clarification/alternative sources), `dialectical-analysis` (to re-evaluate the claim/evidence), or `essay-prep` (to revise the draft).
 
@@ -584,7 +566,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
     7.  **Meta-Reflector (Proposal):** Formulates proposal: "Update `.clinerules` for `class-analysis` and `dialectical-analysis` to mandate generation of `negative_determination` field during concept creation." Sends proposal to `Orchestrator`.
     8.  **Orchestrator Action:** Receives proposal. Routes to User for approval. Logs proposal in `phil-memory-bank/globalContext.md` (Decision Log). If approved, delegates implementation task (e.g., to `architect` or `devops` depending on permissions/setup).
 *   **Failure Handling Notes (V18.3):**
-    *   **Analysis Failure:** If `meta-reflector` fails to analyze logs or rules (e.g., due to parsing errors, excessive data volume), it should log the specific error and report to `Orchestrator`. `Orchestrator` might delegate to `devops` (for resource issues) or `architect` (to simplify logging/rule formats), or notify the user.
+    *   **Analysis Failure:** If `meta-reflector` fails to analyze logs or rules (e.g., due to parsing errors, excessive data volume), it MUST log the specific error clearly in its `phil-memory-bank/mode-specific/` log, **including the attempted analysis task, the target files/data, the error encountered, and relevant context**. It must also report the failure to `Orchestrator`. `Orchestrator` might delegate to `devops` (for resource issues) or `architect` (to simplify logging/rule formats), or notify the user.
     *   **Proposal Rejection:** If a user rejects a proposal generated by `meta-reflector`, `Orchestrator` logs the rejection in `phil-memory-bank/globalContext.md` (Decision Log) and informs `meta-reflector`. `meta-reflector` may then attempt to refine the proposal based on feedback (if provided) or abandon that line of inquiry.
 ### 7.4 User Interaction Patterns (V18.3)
 
