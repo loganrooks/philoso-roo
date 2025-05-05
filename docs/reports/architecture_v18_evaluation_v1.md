@@ -32,10 +32,10 @@ V18.3.3 maintains strong conceptual alignment with RooCode (Modes, Tools, MB pat
     *   **Orchestration:** Inclusion of an `Orchestrator` aligns with patterns for managing complex, multi-mode tasks (`core_concepts_architecture.md`).
     *   **Script Removal:** Replacing external `kb-doctor` script dependency (Python environment, script logic) leverages RooCode's internal capabilities (modes/tools), reducing external coupling.
 *   **Weaknesses/Opportunities & Justification (Enhanced Detail):**
-    *   **MCP Integration Gap:** Architecture allows but doesn't define *how* to use MCPs for external data (e.g., accessing online philosophy encyclopedias like SEP, fetching journal articles via DOI using `fetcher`, searching databases via `brave-search`). **Justification:** Critical blocker for broadened scope, preventing access to essential research materials (`mcp.md`). **Recommendation:** Define specific MCP usage patterns (See Rec. 3.1).
-    *   **Task Delegation Vagueness:** Mechanisms for `new_task` initiation, context passing, and result handling lack formal definition. "Boomerang Tasks" (where a sub-task's completion triggers a new task back to the originator) are implied but not specified. **Justification:** Ambiguity risks workflow errors. Context passing via MB references is efficient but harder to debug than passing context directly in `new_task` messages, which are larger but self-contained. **Recommendation:** Formalize sub-task lifecycle management and context passing strategy (balancing efficiency and debuggability) in `Orchestrator.clinerules` (See Rec. 3.3).
+    *   **MCP Integration Gap:** Architecture allows but doesn't define *how* to use MCPs for external data (e.g., accessing online philosophy encyclopedias like SEP, fetching journal articles via DOI using `fetcher`, searching databases via `brave-search`). **Justification:** Critical blocker for broadened scope, preventing access to essential, up-to-date research materials beyond the local workspace (`mcp.md`). **Recommendation:** Define specific MCP usage patterns (See Rec. 3.1).
+    *   **Task Delegation Vagueness:** Mechanisms for `new_task` initiation, context passing, and result handling lack formal definition. "Boomerang Tasks" (where a sub-task's completion triggers a new task back to the originator, useful for iterative refinement) are implied but not specified. **Justification:** Ambiguity risks workflow errors. Context passing via MB references (e.g., "See entry [Timestamp] in globalContext.md") is efficient but harder to debug if the MB state changes unexpectedly, compared to passing context directly in `new_task` messages (larger messages, but self-contained). **Recommendation:** Formalize sub-task lifecycle management and context passing strategy (balancing efficiency and debuggability) in `Orchestrator.clinerules` (See Rec. 3.3).
     *   **Checkpoints Feature:** Not explicitly considered. **Definition:** Task-specific shadow Git snapshots for rollback. **Justification:** Valuable resilience for complex AI operations (analysis, drafting) against unwanted edits, allowing recovery without affecting main Git history. **Recommendation:** Evaluate enabling Checkpoints; add rules suggesting manual checkpoints; research further (See Rec. 3.8).
-    *   **MB Documentation & Persistence:** Architecture doc lacks explicit MB description. **Justification:** Obscures critical component, hindering maintainability. **Persistence Clarification:** Memory Bank persistence relies solely on standard file system saving of `.md` files; RooCode provides no special MB persistence layer. **Recommendation:** Document the MB pattern and its file-based persistence (See Rec. 3.5).
+    *   **MB Documentation & Persistence:** Architecture doc lacks explicit MB description. **Justification:** Obscures critical component, hindering maintainability. **Persistence Clarification:** Memory Bank persistence relies solely on standard file system saving of `.md` files; RooCode provides no special MB persistence layer beyond standard file operations. **Recommendation:** Document the MB pattern and its file-based persistence (See Rec. 3.5).
 
 ### 2.2. Tool Usage
 
@@ -58,8 +58,8 @@ V18.3.3 maintains strong conceptual alignment with RooCode (Modes, Tools, MB pat
 
 *   **Strengths:** Mode specialization, Orchestrator concept.
 *   **Weaknesses/Opportunities & Justification (Enhanced Detail):**
-    *   **Direct Access Risks & Standardization:** High burden on modes for KB consistency (paths, format, links, rigor fields). **Justification:** High risk of KB errors/inconsistencies if rules are not perfect across all modes. **Recommendation:** Standardize common operations (KB I/O, validation, error logging, multi-mode coordination patterns) via shared patterns/functions in `clinerules_standard_v1.md`. Implement robust validation hooks/checks (`VerificationAgent`/`MetaReflector`) (See Rec. 3.10).
-    *   **Concurrency Risk:** Direct file writes risk race conditions. **Justification:** Simultaneous edits (`apply_diff`) can cause data loss or unpredictable merge conflicts if not handled. **Recommendation:** Implement simple file locking (check/create/delete `phil-memory-bank/locks/[file_hash].lock`) or sequence critical writes via `Orchestrator`.
+    *   **Direct Access Risks & Standardization:** High burden on modes for KB consistency (paths, format, links, rigor fields). **Justification:** High risk of KB errors (e.g., Mode A adds a concept but fails to link related arguments; Mode B later cannot find those arguments when querying the concept) if rules are not perfect across all modes. **Recommendation:** Standardize common operations (KB I/O, validation, error logging, multi-mode coordination patterns) via shared patterns/functions in `clinerules_standard_v1.md`. Implement robust validation hooks/checks (`VerificationAgent`/`MetaReflector`) (See Rec. 3.10).
+    *   **Concurrency Risk:** Direct file writes risk race conditions. **Justification:** Simultaneous edits (`apply_diff`) can cause data loss or unpredictable merge conflicts if not handled. **Recommendation:** Implement simple file locking (check/create/delete `phil-memory-bank/locks/[file_hash].lock`) or sequence critical writes via `Orchestrator` (implying Orchestrator maintains a queue or explicit lock for sensitive KB sections).
     *   **Context Flow & MB Batching:** Relies on MB reads/writes. **Justification:** Requires strict logging standards for effective orchestration/meta-reflection. Frequent small writes are inefficient and increase I/O load. **Recommendation:** Enforce logging standards. Add guidelines for batching MB updates (e.g., collect 3-5 log entries before one `insert_content`) to `clinerules_standard_v1.md` (See Rec. 3.10).
 
 ### 2.5. Broader Scope Support
@@ -80,25 +80,25 @@ V18.3.3 maintains strong conceptual alignment with RooCode (Modes, Tools, MB pat
 
 ### 2.7. User Experience & Workflow Considerations (Enhanced Detail)
 
-*   **MCP Integration UX:** Introducing MCPs adds setup complexity (installing servers, managing API keys via env vars). Workflows involving MCPs might feel less seamless (latency, external failures). **Justification:** User needs clear documentation (like the proposed blueprint, Rec 3.11) and robust error handling (e.g., "MCP Server 'brave-search' failed: Timeout. Retrying or skip?").
+*   **MCP Integration UX:** Introducing MCPs adds setup complexity (installing servers, managing API keys via env vars). Workflows involving MCPs might feel less seamless (latency, external failures). **Justification:** User needs clear documentation (like the proposed blueprint, Rec 3.11) and robust, informative error handling (e.g., contrast "Error: MCP Failed" vs. "Error: MCP Server 'brave-search' failed: Timeout after 30s. Retrying or skip?").
 *   **Checkpoint UX:** Enabling Checkpoints provides rollback safety but requires user awareness. **Justification:** Users need guidance (Rec 3.8 suggests mode prompts) on using the UI effectively.
 *   **Distributed Maintenance Transparency:** Shift from `kb-doctor` makes process less visible. **Justification:** Users lack insight into KB health. **Recommendation:** `MetaReflector` should generate periodic, user-readable KB health reports (See Rec 3.7).
-*   **Error Handling UX:** Complex workflows need clear, actionable error messages (e.g., contrast "Error: KB Write Failed" vs. "Error: KB Write Failed for concept_id: X - File lock present at phil-memory-bank/locks/Y.lock"). Standardized error logging (Rec 3.9) is crucial.
+*   **Error Handling UX:** Complex workflows need clear, actionable error messages (e.g., contrast "Error: KB Write Failed" vs. "Error: KB Write Failed for concept_id: X - File lock present at phil-memory-bank/locks/Y.lock"). Standardized error logging (Rec 3.9) is crucial for debugging.
 
 *(Section 2.8 Performance & Scalability Analysis Removed)*
 
-## 3. Detailed Actionable Recommendations (v6 - Enhanced Detail & Specificity)
+## 3. Detailed Actionable Recommendations (v7 - Final Clarity Enhancements)
 
 *(Renumbered after removing performance recommendation)*
 1.  **Define MCP Workflows & Blueprint (High Priority):**
     *   **Action:** Update Arch Doc (Sec 4/7), relevant `.clinerules` (`Orchestrator`, analysis modes, potentially new `Research` mode). **Create separate `docs/blueprints/mcp_integration_v1.md` (See Rec 3.11)**.
-    *   **Details:** Specify triggers, responsibilities, data flow (e.g., `Orchestrator` -> `new_task` -> `Research` -> `use_mcp_tool` -> write results -> `attempt_completion` -> `Orchestrator` -> `new_task` -> `Analysis Mode`). Define standard output format. Add detailed error handling for MCP failures. Document MCP server config in `settings.json` & secure API key handling (env vars). **Blueprint:** Outline 2-3 implementation alternatives (e.g., dedicated mode vs. distributed calls) with pros/cons. Provide sample config snippets and delegation patterns.
+    *   **Details:** Specify triggers, responsibilities, data flow (e.g., `Orchestrator` -> `new_task` -> `Research` -> `use_mcp_tool` -> write results -> `attempt_completion` -> `Orchestrator` -> `new_task` -> `Analysis Mode`). Define standard output format. Add detailed error handling for MCP failures. Document MCP server config in `settings.json` & secure API key handling (env vars). **Blueprint:** Outline 2-3 implementation alternatives (e.g., dedicated mode vs. distributed calls) with pros/cons, providing sample config snippets and delegation patterns to compare approaches clearly.
 2.  **Correct Architecture Diagram (High Priority):**
     *   **Action:** Use `apply_diff` on `docs/architecture/architecture_v18.md`.
     *   **Details:** Modify Mermaid diagram (Sec 5) to remove `KBDoctor`. Show `Orchestrator` triggering `MetaReflector`/`VerificationAgent`, and their interactions with `PhilKB_Data`/`PhilKB_Ops`. Update notes to "V18.3.3 - KB Doctor Removed".
 3.  **Formalize Task Delegation:**
     *   **Action:** Update `Orchestrator.clinerules`.
-    *   **Details:** Add "Sub-Task Result Handling" section with explicit rules for processing `attempt_completion` based on status/result content (standard JSON structure recommended). Define context passing strategy (MB refs vs. message content), noting pros/cons (efficiency vs. debuggability). **Add sequence diagrams** to Arch Doc or separate doc (See Rec 3.12) illustrating key delegation flows.
+    *   **Details:** Add "Sub-Task Result Handling" section with explicit rules for processing `attempt_completion` based on status/result content (standard JSON structure recommended). Define context passing strategy (MB refs vs. message content), noting pros/cons (efficiency vs. debuggability). **Add sequence diagrams** to Arch Doc or separate doc (See Rec 3.12) illustrating key delegation flows (e.g., research task, analysis task).
 4.  **Enforce File Tool Best Practices:**
     *   **Action:** Update `general.error_handling_protocol` in all relevant `.clinerules`.
     *   **Details:** Add rules prioritizing `apply_diff`/`insert_content` with justification (documented `write_to_file` risks). Mandate partial reads. Add specific error handling for `apply_diff` context mismatch (compare content before retry). Provide concrete examples (see Sec 2.2).
@@ -117,10 +117,10 @@ V18.3.3 maintains strong conceptual alignment with RooCode (Modes, Tools, MB pat
     *   **Details (Arch Doc):** Add subsection explaining Checkpoints (shadow Git per task, auto-triggers, UI restore/diff), clarifying task isolation, role as safety net, and **potential UX implications (awareness, UI interaction)**.
 9.  **Define Testing Strategy (Enhanced):**
     *   **Action:** Create `docs/testing/strategy_v1.md`.
-    *   **Details:** Outline unit, integration (mode interactions, MB/KB state validation), E2E tests. Include MCP mock strategy. Define validation metrics (KB consistency, task success rate, rigor coverage). Specify Git rollback procedures. **Crucially, detail specific integration test scenarios for distributed KB maintenance (incl. simulated partial failures - see Rec 3.13) and E2E tests for MCP workflows.**
+    *   **Details:** Outline unit, integration (mode interactions, MB/KB state validation), E2E tests. Include MCP mock strategy. Define validation metrics (KB consistency, task success rate, rigor coverage). Specify Git rollback procedures. **Crucially, detail specific integration test scenarios for distributed KB maintenance (e.g., simulate `MetaReflector` failing during a check, ensure `VerificationAgent` still catches inconsistencies in workflow) and E2E tests for MCP workflows.**
 10. **Standardize Cross-Mode Patterns (Enhanced):**
     *   **Action:** Recommend updates for `docs/standards/clinerules_standard_v1.md` (implementation separate - See Rec 3.15).
-    *   **Details:** Define need for standard patterns/snippets for: MB I/O (incl. batching), KB validation hooks (e.g., conceptual `on_kb_write: validate_schema(entry_path)`), error logging, `apply_diff` mismatch handling, MCP interaction (incl. error handling). **Explicitly address rule inheritance mechanisms (e.g., using YAML anchors/includes if parser supports) and patterns for multi-mode coordination on shared KB entries (e.g., locking, sequencing, merge strategies).**
+    *   **Details:** Define need for standard patterns/snippets for: MB I/O (incl. batching), KB validation hooks (e.g., conceptual `on_kb_write: validate_schema(entry_path)` triggered via Orchestrator), error logging, `apply_diff` mismatch handling, MCP interaction (incl. error handling). **Explicitly address rule inheritance mechanisms (e.g., using YAML anchors/includes if parser supports, explaining how base rules are merged/overridden) and patterns for multi-mode coordination on shared KB entries (e.g., file locking, optimistic locking with merge resolution via `Orchestrator`, event-based updates).**
 11. **(New) Create MCP Integration Blueprint:**
     *   **Action:** Recommend creation of `docs/blueprints/mcp_integration_v1.md` (separate task).
     *   **Details:** This document should provide the detailed implementation plan for MCPs, including chosen approach (dedicated mode vs. distributed calls comparison), sample configs, delegation patterns, and error handling specifics.
@@ -130,19 +130,19 @@ V18.3.3 maintains strong conceptual alignment with RooCode (Modes, Tools, MB pat
 13. **(New) Create KB Maintenance Test Plan:**
     *   **Action:** Recommend creation of `docs/testing/kb_maintenance_plan_v1.md` (separate task, potentially for QA Tester).
     *   **Details:** Detail specific test cases, data setup, expected outcomes, and validation metrics for the distributed KB maintenance approach, including failure/chaos scenarios.
-14. **(New) Define Versioning Strategy:** (Was 11)
+14. **(New) Define Versioning Strategy:**
     *   **Action:** Add section to Arch Doc or create `docs/project/versioning.md`.
     *   **Details:** Specify Git branches (features), tags (releases). Recommend `version` metadata within `.clinerules`.
-15. **(New) Enhance Standards Document:** (Was 17)
+15. **(New) Enhance Standards Document:**
     *   **Action:** Recommend dedicated task to update `docs/standards/clinerules_standard_v1.md`.
     *   **Details:** Implement the enhancements identified in Rec 3.10 (inheritance examples, multi-mode coordination patterns).
-16. **(New) Define Rollback Procedures:** (Was 12)
+16. **(New) Define Rollback Procedures:**
     *   **Action:** Add section to `docs/testing/strategy_v1.md` or `docs/project/operations.md`.
     *   **Details:** Clarify Git for architectural rollback, Checkpoints for task-level rollback. Emphasize development branches.
-17. **(New) Define Migration Strategy:** (Was 18)
+17. **(New) Define Migration Strategy:**
     *   **Action:** Recommend creation of `docs/project/migration_strategy_v1.md` (separate task).
     *   **Details:** Outline incremental steps for implementing the recommended architectural changes, including rollback contingencies.
 
-## 4. Conclusion (v6)
+## 4. Conclusion (v7)
 
 V18.3.3 provides a solid conceptual foundation but requires significant practical refinement and strategic planning to become a robust, scalable, and user-friendly system. Implementing these enhanced recommendations—prioritizing MCP integration (with a dedicated blueprint), correcting documentation, standardizing patterns (incl. multi-mode coordination), defining comprehensive testing (esp. for distributed maintenance), considering UX impacts, and planning for migration—is crucial for realizing the potential of `philoso-roo` aligned with RooCode best practices.
