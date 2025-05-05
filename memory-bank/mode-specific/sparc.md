@@ -1,27 +1,45 @@
 # SPARC Orchestrator Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
+### [2025-05-05 08:08:07] Intervention: Insufficient Context Gathering & Delegation Detail (Retry)
+- **Trigger**: User feedback upon task resumption.
+- **Context**: SPARC was preparing to re-delegate the Mermaid diagram update task after a previous denial for insufficient detail.
+- **User Instruction**: SPARC failed to read the evaluation document (`docs/reports/architecture_v18_evaluation_v1.md`) itself before delegating. The delegation message also lacked a detailed summary of the Architect's previous review findings (user provided summary). User suggested SPARC also read the `.clinerules` standard enhancements proposal (`docs/proposals/clinerules_standard_enhancements_v1.md`).
+- **Action Taken**: Acknowledged feedback. Halted re-delegation attempt. Logged intervention in `sparc-feedback.md`. Preparing to log intervention here, read the specified evaluation report and proposal document, and then re-delegate the Mermaid diagram task with enhanced instructions incorporating the review summary provided by the user.
+- **Rationale**: Ensure SPARC has sufficient context before delegating and that delegation messages provide comprehensive information, including relevant summaries and initialization steps, for the receiving mode.
+- **Outcome**: Re-delegation paused pending context gathering and instruction revision.
+- **Follow-up**: Read `docs/reports/architecture_v18_evaluation_v1.md`, read `docs/proposals/clinerules_standard_enhancements_v1.md`, revise `new_task` message for `architect` mode, re-delegate.
+### [2025-05-05 08:03:33] Intervention: `new_task` Delegation Denied (Insufficient Detail & Initialization)
+- **Trigger**: User denied `new_task` delegation to `architect`.
+- **Context**: SPARC attempted to delegate the task of updating the Mermaid diagram in `docs/architecture/architecture_v18.md`.
+- **User Instruction**: "(1) read the relevant contextual files first so you get a better sense of what is happening and then (2) try to redelegate to architect with a much more detailed set of instructions including initialization procedure (what to read)"
+- **Action Taken**: Acknowledged feedback. Halted delegation. Read `docs/architecture/architecture_v18.md`. Logged intervention in `sparc-feedback.md`. Preparing to log intervention here and re-delegate to `architect` with detailed instructions, including a specific initialization procedure.
+- **Rationale**: Ensure delegation messages provide sufficient context and guidance for the receiving mode, including necessary initialization steps, as per user requirements and best practices.
+- **Outcome**: Delegation paused pending logging and revision.
+- **Follow-up**: Re-delegate task to `architect` with detailed initialization instructions.
 ### [2025-05-05 00:31:48] Task: Research RooCode Docs & Evaluate Architecture V18.3.3
 - Assigned to: architect
 - Description: Research RooCode documentation and ecosystem using MCP tools (Brave Search, GitHub). Evaluate the current `philoso-roo` architecture (`docs/architecture/architecture_v18.md` V18.3.3) against RooCode system affordances. Assess if the architecture leverages built-in tools appropriately and identify potential improvements based on RooCode capabilities.
-- Expected deliverable: A report summarizing RooCode research findings and an evaluation of the V18.3.3 architecture with recommendations.
-- Status: pending
-- Link to Progress Entry: [Progress update pending completion]
+- Expected deliverable: Research report (`docs/reports/roocode_research_summary_v1.md`), Evaluation report (`docs/reports/architecture_v18_evaluation_v1.md`), Relevance report (`docs/reports/roocode_research_v1/philoso_roo_relevance.md`).
+- Status: completed
+- Completion time: [2025-05-05 05:44:38]
+- Outcome: Completed research, verified self-critique, and generated final reports: Evaluation v7 (`docs/reports/architecture_v18_evaluation_v1.md`) and Relevance v6 (`docs/reports/roocode_research_v1/philoso_roo_relevance.md`), incorporating iterative feedback. SPARC attempted to delegate diagram correction directly, but user intervened requesting Architect plan integration first.
+- Link to Progress Entry: [See Global Progress: 2025-05-05 05:44:38]
 ### [2025-05-04 22:39:00] Task: Create Handover Plan Document
 - Assigned to: docs-writer
-- Description: Create `docs/plans/handoff_plan_linux_migration_v1.md` detailing current state (V18.3.3 arch verified), overall trajectory, and next steps for post-Linux migration handover.
-- Expected deliverable: `docs/plans/handoff_plan_linux_migration_v1.md`
-- Status: completed
-- Completion time: [2025-05-04 22:39:08]
-- Outcome: Handover plan document successfully created. Project ready for migration and handover.
-- Link to Progress Entry: [See Global Progress: 2025-05-04 22:01:00]
+- Description: Plan and Integrate V18.3.3 Evaluation Feedback. Read evaluation report, create integration plan, execute plan.
+- Expected deliverable: Integration plan (`docs/plans/v18_integration_plan_v1.md`), updated architecture (`docs/architecture/architecture_v18.md`), MCP blueprint (`docs/blueprints/mcp_integration_v1.md`), testing docs (`docs/testing/`), updated `.clinerules`.
+- Status: completed (Early Return)
+- Completion time: [2025-05-05 06:40:02]
+- Outcome: Created plan, executed steps 1-6 (arch v18.3.4, blueprint, testing docs, some rules updated). Handover triggered due to high context (57%) before Step 7.
+- Link to Progress Entry: [See Global Progress: 2025-05-05 06:40:02]
 
 # Workflow State (Current - Overwrite this section)
-- Current phase: Architecture (Evaluation)
-- Phase start: [2025-05-05 00:30:56]
-- Current focus: Received user instruction to prioritize RooCode documentation research and architecture evaluation (V18.3.3) using MCP tools via Architect mode. Project renamed to `philoso-roo`. Memory Bank updated.
-- Next actions: [Delegate research & evaluation task to Architect mode via `new_task`.]
-- Last Updated: [2025-05-05 00:32:22]
+- Current phase: Architecture (Review & Refinement)
+- Phase start: [2025-05-05 06:40:02]
+- Current focus: Received Early Return from Architect after partial execution of integration plan (up to Step 6). Handover triggered due to high context (57%). Memory Bank updated.
+- Next actions: [Delegate review tasks (Architecture Integration Review, Standards Evaluation) to a new Architect instance via `new_task` as per handover instructions.]
+- Last Updated: [2025-05-05 06:41:24]
 ### [2025-05-04 15:44:00] Current Plan &amp; Detailed Feedback (Architecture V18.3.2 Revision - Corrected Log)
 
 **Detailed Feedback Received on `docs/architecture/architecture_v18.md` (V18.3.2):**
@@ -299,14 +317,35 @@
 - **Follow-up**: Revise `new_task` message with more detail and file path specifications, then re-delegate.
 ### [SPARC_TIMESTAMP] Intervention: Significant Token Drop Detected (Recovery Triggered)
 - **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~28.1% to ~16.6%.
+### [2025-05-05 03:23:03] Intervention: Incorrect Handover Target Mode
+- **Trigger**: User denied `new_task` delegation [See Feedback Log: 2025-05-05 03:23:03].
+- **Context**: SPARC incorrectly targeted a new SPARC instance for handover instead of a new Architect instance.
+- **Action Taken**: Halted incorrect delegation. Logged feedback. Preparing to re-delegate to `architect`.
+- **Rationale**: Adhering to user correction regarding the appropriate mode for the handover task.
+- **Outcome**: Delegation paused pending correction.
+- **Follow-up**: Update workflow state, revise `new_task` message for `architect` mode, re-delegate.
 - **Context**: Occurred after receiving completion message for `philosophy-orchestrator.clinerules` update from `code` mode.
 - **Action Taken**: Initiated recovery procedure as per rules: Logged event in `activeContext.md` and here. Proceeding to re-initialize Memory Bank and re-read key documents. Task progression paused.
 - **Rationale**: Potential context truncation occurred, requiring state refresh to ensure reliability before proceeding.
 - **Outcome**: Recovery procedure underway.
+### [2025-05-05 05:49:14] Intervention: Incorrect Delegation Strategy (Direct Implementation vs. Planning)
+- **Trigger**: User denied `new_task` delegation [See Feedback Log: 2025-05-05 05:49:14].
+- **Context**: SPARC attempted to delegate direct implementation of evaluation report recommendations instead of having Architect read, plan, and then implement.
+- **Action Taken**: Halted incorrect delegation. Logged feedback. Preparing to re-delegate with revised instructions (read, plan, implement).
+- **Rationale**: Adhering to user's preferred workflow for mode analysis and planning.
+- **Outcome**: Delegation paused pending correction.
+- **Follow-up**: Update workflow state, revise `new_task` message for `architect` mode, re-delegate.
 - **Follow-up**: Execute Memory Bank re-initialization reads (`activeContext.md`, `globalContext.md`, `sparc.md`, `sparc-feedback.md`). Then re-read relevant V18.3 context docs (`architecture_v18.md`, `v18_requirements_spec_v1.md`).
 ### [2025-05-02 13:46:07] Intervention: Second Significant Token Drop Detected (Recovery Triggered)
 - **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~211k to ~146k tokens (~31%).
 - **Context**: Occurred immediately after receiving V17 architecture completion message from Architect mode.
+### [2025-05-05 07:04:22] CRITICAL Intervention: Duplicate Task Delegation (SPARC Error)
+- **Trigger**: User Input correcting SPARC's duplicate delegation attempt [See Feedback Log: 2025-05-05 07:04:22].
+- **Context**: SPARC failed to recognize that the "Architecture & Standards Review" task had already completed and attempted to delegate it again.
+- **Action Taken**: Halted duplicate delegation. Logged feedback. Verified Memory Bank state reflects actual completion. Determining correct next step.
+- **Rationale**: Correcting severe failure in SPARC's internal state management and task tracking.
+- **Outcome**: Duplicate delegation aborted. Workflow state verified.
+- **Follow-up**: Determine and delegate the *actual* next task based on the completed review findings (addressing architecture gaps).
 - **Action Taken**: Initiated recovery procedure AGAIN as per rules: Logged event, proceeding to re-initialize Memory Bank and re-read key documents. Handover preparation paused.
 - **Rationale**: Potential context truncation occurred again, requiring another state refresh to ensure reliability before proceeding with Memory Bank updates and handover.
 - **Outcome**: Recovery procedure underway. Handover preparation paused.
@@ -322,6 +361,13 @@
 - **Trigger**: User Input [Timestamp: 2025-05-02 13:29:56] confirming manual update.
 - **Context**: Following repeated faulty handovers triggered by incorrect system-reported context percentage.
 - **Action Taken**: Acknowledged user's direct update to SPARC custom instructions (`.clinerules-sparc`) adding rules for manual context calculation, ignoring system percentage, and token drop recovery. Aborted incorrect handover attempt.
+### [2025-05-05 07:50:05] CRITICAL Intervention: SPARC Loop (Re-delegating MB Doctor) & User Invoked Delegate Clause
+- **Trigger**: User Input identifying SPARC loop and invoking Delegate Clause [See Feedback Log: 2025-05-05 07:50:05].
+- **Context**: SPARC incorrectly attempted to re-delegate the MB Doctor task after it had already completed successfully, indicating a critical state management failure. Context ~44.4%.
+- **Action Taken**: Halted incorrect delegation. Logged feedback. Preparing mandatory handover to new SPARC instance due to repeated critical errors and user invocation of Delegate Clause.
+- **Rationale**: Critical failure to process task completion and maintain state requires handover to a fresh instance. Adherence to Delegate Clause and user instruction.
+- **Outcome**: Handover sequence initiated.
+- **Follow-up**: Prepare comprehensive handover message for new SPARC instance, execute `new_task`.
 - **Rationale**: To correct faulty context monitoring behavior and prevent further unnecessary interruptions, incorporating user's fix directly.
 - **Outcome**: New context monitoring rules are active. Proceeding with V16 architecture delegation.
 - **Follow-up**: Delegate V16 architecture task to `architect`. [See Active Context: 2025-05-02 13:29:56]
