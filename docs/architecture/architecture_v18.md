@@ -1,7 +1,7 @@
 # Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
 **Date:** 2025-05-04
-**Version:** 18.3.3 (KB Script Re-evaluation &amp; Feedback Integration)
+**Version:** 18.3.4 (MCP Strategy Integration)
 **Status:** Draft
 **Based On:**
 *   `docs/architecture/architecture_v18.md` (V18.3.1 - Text Processor Workflow Correction)
@@ -105,6 +105,7 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
 
 ## 4. Mode Structure & Responsibilities (V18.3.2 - Text Processor Root Index Update)
 
+*   **MCP Integration (V18.3.4):** Modes requiring external data access (e.g., web search, URL fetching) will utilize the Model Context Protocol (MCP). The chosen strategy is **Distributed MCP Calls**, where relevant modes directly invoke MCP tools. This requires strict adherence to standardized call patterns, error handling, and security measures defined in `docs/standards/clinerules_standard_v1.md`. API keys MUST be managed via environment variables accessible only to the MCP servers. See `docs/blueprints/mcp_integration_v1.md` for the detailed strategy and implementation patterns.
 ### 4.2. Text Processing & Analysis Modes
 
 *   **`philosophy-text-processor` (V18.3.2 Corrected Workflow & Root Index Update):**
@@ -489,6 +490,7 @@ Addressing the dynamic nature of philosophical interpretation requires specific 
 4.  **Storage (Analysis + Rigor):** Analysis modes **directly write** findings to KB, **populating rigor fields** and ensuring links.
 5.  **Logging:** Analysis modes **directly write** detailed operational logs to their specific file in `phil-memory-bank/mode-specific/`.
 6.  **Refinement:** `philosophy-questioning` reads KB and `phil-memory-bank/` context, refines questions.
+*   **(MCP Integration):** If source material is external (e.g., web article, online database), the responsible mode (e.g., `pre-lecture`, `secondary-lit`) uses MCP tools (`fetcher`, `brave-search`, etc.) to retrieve it, following the patterns defined in `docs/blueprints/mcp_integration_v1.md`.
 7.  **Storage (Refined Qs + Rigor):** `philosophy-questioning` writes refined questions to KB and logs to `phil-memory-bank/`.
 8.  **Thesis Development:** `philosophy-essay-prep` reads KB and `phil-memory-bank/` context, develops thesis.
 9.  **Storage (Thesis + Rigor):** `philosophy-essay-prep` writes thesis to KB and logs to `phil-memory-bank/`.
