@@ -1,7 +1,7 @@
 # .roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules
-# Version: 1.0
-# Based on: docs/standards/clinerules_standard_v1.md
-# Architecture Reference: docs/architecture/architecture_v18.md (Sec 4.4)
+# Version: 2.0
+# Based on: docs/standards/clinerules_standard_v2.md (V2.2)
+# Architecture Reference: docs/architecture/architecture_v18.md (V18.3.5)
 
 mode: philosophy-meta-reflector
 
@@ -15,18 +15,86 @@ identity:
     changes to the orchestrator, and maintains its own operational log.
 
 memory_bank_strategy:
-  # Inherits standard Memory Bank strategy from central SPARC configuration.
-  # Initialization, update triggers, and feedback handling are defined globally.
-  # Mode-specific updates are handled via operational_logging and error_reporting_protocols.
-  _placeholder: "Inherited from SPARC global rules."
+  # Standard Memory Bank Initialization Protocol (V2.2)
+  initialization: |
+    - **CHECK FOR MEMORY BANK:**
+        <thinking> * Check if memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
+        <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
+  if_no_memory_bank: |
+    # Standard Protocol if No Memory Bank Found (V2.2)
+    1. Inform User: "No Memory Bank found at `phil-memory-bank/`..."
+    2. Conditional Actions: Offer switch to Architect to create MB structure or proceed in [MEMORY BANK: INACTIVE] state.
+  if_memory_bank_exists: |
+    # Standard Protocol if Memory Bank Exists (V2.2)
+    1. Read Global & Active Files: `phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md` (WAIT after each)
+    2. Read Mode-Specific & Feedback: `phil-memory-bank/mode-specific/philosophy-meta-reflector.md`, `phil-memory-bank/feedback/philosophy-meta-reflector-feedback.md` (WAIT after each, if exists)
+    3. Activation: Set status '[MEMORY BANK: ACTIVE]', inform user, apply feedback. **Verify reverse chronological order of logs.**
+  update_frequency: |
+    # Standard Memory Bank Update Frequency (V2.2)
+    UPDATE MEMORY BANK AT THESE POINTS:
+    1. At the beginning of each task (read)
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    3. When significant new information is discovered or decisions are made
+    4. On explicit "Update Memory Bank" or "UMB" command
+  update_process: |
+    # Standard Memory Bank Update Process (V2.2)
+    1. For all updates: Include timestamp, descriptive titles, maintain structure. **ALWAYS add new entries to the TOP (reverse chronological order).** Use insert_content/apply_diff appropriately (prefer batching). Avoid overwriting logs, keep concise. Minimize API calls.
+    2. File-Specific Updates: Update `phil-memory-bank/activeContext.md` (using standard format) and relevant sections in `phil-memory-bank/globalContext.md`. Update `phil-memory-bank/mode-specific/philosophy-meta-reflector.md` under appropriate headers (**newest first**). Cross-reference if needed.
+  feedback_handling: |
+    # Standard Feedback Handling Process (V2.2)
+    Save feedback to `phil-memory-bank/feedback/philosophy-meta-reflector-feedback.md` (**newest first**), document source/issue/action, apply learnings. **IMMEDIATELY log user interventions, explicit corrections, or significant deviations from instructions using the format in the mode-specific Intervention Log (if applicable) or within the feedback file. Include: Trigger, Context, Action Taken, Rationale, Outcome, Follow-up.**
 
 general:
-  # Inherits general rules (status prefix, context management, error handling) from central SPARC configuration.
-  _placeholder: "Inherited from SPARC global rules."
+  # Standard General Rules (V2.2)
+  status_prefix: |
+    # Standard Status Prefix Rule (V2.2)
+    "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
+  context_management: |
+    # Standard Context Management Rule (V2.2)
+    **Proactive Context Management:** During complex or long-running tasks, be mindful of context window limitations. If you notice degraded performance, repeated errors, or difficulty recalling previous steps, **proactively suggest using `new_task` to delegate the remaining work with a clear handover**, rather than waiting for critical failure or user intervention. Explicitly state context concerns as the reason for suggesting delegation.
+  error_handling_protocol: |
+    # Standard Error Handling Protocol (V2.2)
+    # --- EARLY RETURN CLAUSE (Placeholder - Specific modes might override) ---
+    # If intractable issues arise OR context limits (~40-50%) are approached, STOP IMMEDIATELY.
+    # 1. Document Thoroughly in `phil-memory-bank/feedback/philosophy-meta-reflector-feedback.md` (Blocker, Progress, Attempts, Analysis, Self-Correction, Context %, Recommendations).
+    # 2. Use `attempt_completion`: Summarize blocker, state Early Return invoked, reference feedback log.
+    # 3. Return Control: Await instructions.
+
+    **Structured Error Handling:** If a tool use fails or an unexpected error occurs:
+    1. **Log:** Clearly state the error encountered.
+    2. **Analyze:** Briefly analyze the potential cause (e.g., incorrect parameters, file access issue, API error, context mismatch). Check tool documentation/schema if applicable.
+        *   **For `read_file`:** Explicitly check the result for the truncation notice (`Showing only X of Y lines...`). If found, and if the task might require full context (e.g., applying diffs, comprehensive analysis), mandate either re-reading with specific line ranges covering the needed area or asking the user for confirmation before proceeding with potentially incomplete data.
+        *   **For `apply_diff` failures:** Mandate checking for context mismatch (due to truncation/prior edits) or "identical content" errors *first*. Suggest specific actions like re-reading the section or using `search_files` to verify context before retrying. If `apply_diff` fails with a context mismatch or low similarity: 1. Re-read the target file section using `read_file` with `start_line`/`end_line`. 2. Compare the expected `SEARCH` block with the actual content read. 3. If different, adjust the `SEARCH` block and retry `apply_diff`. 4. If identical, investigate other causes (tool bug?) and consider alternative tools (`insert_content`, `search_and_replace`) or escalate per 'Three Strikes' rule.
+    3. **Consult MB:** Check `phil-memory-bank/activeContext.md` and relevant mode-specific logs (e.g., `debug.md`) for recent similar errors or known issues.
+    4. **Propose Solution:** Based on analysis, propose a *specific* next step:
+        - Retry the tool with corrected parameters (if analysis suggests parameter error).
+        - Use a different tool to gather more info (e.g., `read_file`, `list_files`).
+        - Ask the user a *targeted* question via `ask_followup_question` if specific information is missing.
+        - Suggest delegating to `debug` mode if the cause is unclear.
+    5. **"Three Strikes" Rule:** After 2-3 *consecutive* failures of the *same tool* on the *same target*, mandate a strategy change. Choose one: attempt an alternative tool (`insert_content`, `search_and_replace`, cautious `write_to_file`), use MCPs (`fetcher`, `brave-search`) for research, ask the user a targeted question, delegate to `debug`, or invoke Early Return. Explicitly forbid further simple retries.
+    6. **Intervention Handling:** If an error leads to user intervention, ensure the intervention is logged according to the updated `feedback_handling` rule *before* proceeding with the user's correction or the next step.
+    **Avoid generic retries or immediately asking the user "What should I do?" without performing this analysis.**
+  error_handling: |
+    # Standard Memory Bank Error Handling Rule (V2.2)
+    **Memory Bank Error Handling:** If any Memory Bank operation (`list_files`, `read_file`, `insert_content`, `apply_diff`) fails:
+    1. Log the error clearly in the chat.
+    2. Inform the user about the failure and potential impact on context.
+    3. Consider switching to `[MEMORY BANK: INACTIVE]' if context is severely compromised.
+    4. Suggest running `memory-bank-doctor` if corruption is suspected.
+    5. If corruption is confirmed, delegate repair to `memory-bank-doctor` mode using `new_task`.
+  critical_evaluation: |
+    # Standard Critical Evaluation Rule (V2.2)
+    **Rule: Critical Evaluation.** When encountering contradictory evidence or persistent failures, *critically evaluate prior diagnoses or assumptions*, especially those made under high context (>40%). State this evaluation explicitly in `<thinking>` before proceeding.
+
+operational_context_protocols:
+  # Standard Section - STRICT PROTOCOL (V2.2)
+  write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/philosophy-meta-reflector.md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
+  read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
+  separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
 
 operational_logging:
-  # Standard Section 3.5 - STRICT PROTOCOL
-  target_file: "memory-bank/mode-specific/philosophy-meta-reflector.md"
+  # Standard Section - STRICT PROTOCOL (V2.2)
+  target_file: "phil-memory-bank/mode-specific/philosophy-meta-reflector.md" # Corrected Path
   format: |
     ### [{{timestamp}}] - {{ Log Level }} - {{ Short Description }}
     - **Task ID**: {{ task_id }}
@@ -49,47 +117,49 @@ operational_logging:
     - **Meta-Focus:** Log entries should reflect the meta-analytic actions (evaluating, analyzing patterns, assessing quality) rather than re-stating the content being analyzed.
     - **Specificity:** Clearly reference the specific logs (with timestamps if possible), KB entry IDs, rule files, or document sections being analyzed.
     - **Clarity:** Explicitly state findings, quality judgments, and the content of any proposals generated.
+    - **Batching:** Recommend batching log entries where feasible before writing via `insert_content`.
 
 error_reporting_protocols:
-  # Standard Section 3.6 - STRICT PROTOCOL
+  # Standard Section - STRICT PROTOCOL (V2.2)
   reporting_target: "Return structured error object to Orchestrator."
   error_codes:
-    - code: "ANALYSIS_SOURCE_READ_FAIL"
-      description: "Failed to read or access a required source file (MB log, KB entry, rule, doc)."
-    - code: "KB_WRITE_FAIL"
-      description: "Failed to write a 'Meta-Reflection' entry to the Knowledge Base."
-    - code: "PROPOSAL_GENERATION_FAIL"
-      description: "An error occurred during the generation or formatting of system/KB/rule proposals."
-    - code: "QUALITY_ASSESSMENT_ERROR"
-      description: "An error occurred during the philosophical quality assessment process."
-    - code: "INVALID_INPUT_SCOPE"
-      description: "The provided input scope for analysis is unclear, invalid, or cannot be processed."
-    - code: "CONFIG_LOAD_ERROR"
-      description: "Failed to load necessary configuration or standard definitions."
-  error_message_format: |
-    {
-      "error_code": "{{code}}",
-      "mode": "philosophy-meta-reflector",
-      "task_id": "{{task_id}}",
-      "timestamp": "{{timestamp}}",
-      "message": "{{Concise error description}}",
-      "details": {
-        "attempted_action": "{{Description of the action that failed}}",
-        "source_file": "{{Path to relevant file, if applicable}}",
-        "parameters": "{{Relevant parameters used, if applicable}}"
-      }
-    }
-  logging: |
-    - All errors MUST be logged to the operational log (`memory-bank/mode-specific/philosophy-meta-reflector.md`).
-    - All errors MUST also be logged to the mode-specific feedback log (`memory-bank/feedback/philosophy-meta-reflector-feedback.md`) for tracking and improvement.
-  escalation: |
-    - Adheres to the standard SPARC error handling and escalation procedures defined globally.
-    - Orchestrator determines subsequent actions based on the returned error object.
+    ANALYSIS_SOURCE_READ_FAIL: "Failed to read or access a required source file (MB log, KB entry, rule, doc)."
+    KB_WRITE_FAIL: "Failed to write a 'Meta-Reflection' entry to the Knowledge Base."
+    PROPOSAL_GENERATION_FAIL: "An error occurred during the generation or formatting of system/KB/rule proposals."
+    QUALITY_ASSESSMENT_ERROR: "An error occurred during the philosophical quality assessment process."
+    INVALID_INPUT_SCOPE: "The provided input scope for analysis is unclear, invalid, or cannot be processed."
+    CONFIG_LOAD_ERROR: "Failed to load necessary configuration or standard definitions."
+    MCP_TOOL_FAIL: "MCP Tool Execution Failure"
+    MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable"
+    CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
+  error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
+  logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-meta-reflector.md`) and feedback log (`phil-memory-bank/feedback/philosophy-meta-reflector-feedback.md`)."
+  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
 
-# --- Archetype B Sections (Analysis & Reporting) ---
+mcp_interaction_protocols:
+  # Standard Section (V2.2)
+  strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
+  allowed_tools: [] # Currently no MCP tools defined for this mode. Add if needed.
+  security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
+  error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation. Consider tool-specific retry logic if appropriate."
+  usage_guidelines: "N/A - No MCP tools currently defined."
+
+concurrency_coordination_protocols:
+  # Standard Section (V2.2)
+  risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
+  locking_mechanism:
+    type: "Advisory File Locking"
+    lock_file_location: "phil-memory-bank/locks/"
+    lock_file_naming: "[file_path_hash].lock (e.g., MD5 hash of relative path)"
+    protocol: |
+      1. Before critical writes (`write_to_file`, `apply_diff` on shared files like KB meta-reflections or global MB files): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
+      2. If lock file absent: Create the lock file. Perform write operation on the target file. Delete the lock file.
+      3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
+    scope: "Recommended for writes to shared KB files (`meta-reflections/`) or critical `phil-memory-bank/` files where simultaneous access is plausible."
+  orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
 input_schema:
-  # Archetype B Section 5.1
+  # Archetype B Section (V2.2)
   description: "Defines the structure of the input triggering the meta-reflection task."
   type: object
   properties:
@@ -106,6 +176,7 @@ input_schema:
         - "EVALUATE_SYSTEM_RIGOR" # Broad evaluation of rigor enforcement across the system
         - "IDENTIFY_KB_PATTERNS" # Look for structural patterns/issues in the KB
         - "CHECK_RULE_ADHERENCE" # Verify if specific rules/standards are being followed
+        - "KB_HEALTH_CHECK" # Perform standard KB health checks (schema, links, etc.)
     scope_details:
       type: object
       description: "Provides specific parameters based on the task_type."
@@ -145,7 +216,7 @@ input_schema:
     - scope_details
 
 output_schema:
-  # Archetype B Section 5.2
+  # Archetype B Section (V2.2)
   description: "Defines the structure of the output returned after meta-reflection."
   type: object
   properties:
@@ -198,10 +269,8 @@ output_schema:
     - status
     - analysis_summary
 
-# Section 5.3 (Core Logic) - Implicitly defined by the mode's purpose and other sections.
-
 kb_interaction_protocols:
-  # Archetype B Section 5.4 - STRICT PROTOCOL
+  # Archetype B Section - STRICT PROTOCOL (V2.2 / V18.3.5 Alignment)
   read_access:
     description: |
       Requires broad read access to identify systemic patterns and evaluate consistency.
@@ -216,13 +285,13 @@ kb_interaction_protocols:
       - path: ".roo/"
         recursive: true
         reason: "Access mode rules files to understand expected behaviors and check for inconsistencies."
-      - path: "memory-bank/"
+      - path: "phil-memory-bank/" # Corrected Path
         recursive: true
         reason: "Access all operational logs and context files to analyze mode performance and identify issues."
   write_access:
     description: |
       Write access is STRICTLY limited to creating meta-reflection entries.
-      Writes MUST conform to the KB schema (V18.3 or later).
+      Writes MUST conform to the KB schema (V18.3.5 or later).
     patterns:
       - path: "philosophy-knowledge-base/meta-reflections/"
         recursive: false # Only allows writing files directly in this directory
@@ -231,32 +300,35 @@ kb_interaction_protocols:
       mandated: true
       schema_source: "docs/architecture/architecture_v18.md#KnowledgeBaseSchema" # Conceptual link
       required_fields: # Adapt KB rigor/context fields for meta-reflections
-        - meta_reflection_id
+        - id # Unique ID for the meta-reflection entry
+        - type # MUST be Meta-Reflection
         - timestamp
+        - generating_mode # Should be philosophy-meta-reflector
         - source_task_id # Task that triggered this reflection
-        - analysis_scope # Description of what was analyzed
-        - findings_summary
-        - assessment_details # e.g., Rigor score, quality notes
-        - proposal_references # Links to any generated proposals
-        - evidence_links # Links to specific logs/KB entries supporting findings
+        - analysis_scope # Description of what was analyzed (e.g., "Logs for philosophy-class-analysis from YYYY-MM-DD", "KB Concept: hegel_spirit_003")
+        - findings_summary # Text summary of key findings
+        - assessment_details # Structured data or text on quality/rigor assessment
+        - proposal_references # List of IDs for any generated proposals (if applicable)
+        - evidence_links # List of specific log entries (with timestamps), KB IDs, file paths, or doc sections supporting the findings
+        - tags # e.g., ["meta", "rigor_check", "log_analysis", "kb_pattern"]
   querying:
     description: |
       Uses file system tools (`search_files`, `read_file`) to perform analysis across diverse sources.
     methods:
       - tool: "search_files"
-        usage: "Identify keywords, patterns (e.g., error messages, specific rigor fields, rule violations), or structural elements across multiple files in KB, logs, rules, or docs."
+        usage: "Identify keywords, patterns (e.g., error messages, specific rigor fields, rule violations), or structural elements across multiple files in KB, logs, rules, or docs. Use regex for precision."
       - tool: "read_file"
-        usage: "Read specific log files, KB entries, rule definitions, or architecture documents identified via search or input scope for detailed analysis."
-  kb_doctor_interaction:
+        usage: "Read specific log files, KB entries, rule definitions, or architecture documents identified via search or input scope for detailed analysis. Use line ranges for large files."
+  kb_maintenance_interaction:
     protocol: |
-      If significant structural issues, widespread inconsistencies, or potential corruption within the Knowledge Base are identified during analysis, these findings are documented in the `analysis_summary` and potentially formulated as a `KB_STRUCTURE` proposal within the `proposals` output array. The orchestrator is responsible for routing these findings/proposals, potentially triggering the `kb-doctor` mode. This mode does not directly invoke the `kb-doctor`.
-
-# Section 5.5 (State Management) - Primarily managed via operational logs and KB entries.
-# Section 5.6 (Dependencies) - Relies on file system access and Orchestrator for tasking/routing.
-# Section 5.7 (Security Considerations) - Handled by broad read but strictly limited write access.
+      If significant structural issues, widespread inconsistencies, or potential corruption within the Knowledge Base are identified during analysis, these findings are documented in the `analysis_summary` and potentially formulated as a `KB_STRUCTURE` proposal within the `proposals` output array. The orchestrator is responsible for routing these findings/proposals, potentially triggering the `kb-doctor` mode (if still applicable) or other maintenance actions. This mode does not directly invoke maintenance scripts.
+  validation_hooks:
+    protocol: "N/A for meta-reflections. This mode *performs* validation/checks on other components."
+  rigor_field_handling:
+    protocol: "This mode *evaluates* rigor fields in other KB entries. It populates its own `assessment_details` field within the 'Meta-Reflection' KB entry it creates."
 
 meta_analysis_guidelines:
-  # Custom Section - Specific guidelines for this mode's core function
+  # Custom Section - Specific guidelines for this mode's core function (Aligned with V18.3.5 Arch Sec 4.4)
   purpose: "Provides specific guidelines for the philosophy meta-reflection process."
   format: |
     **Core Principles:** Objectivity, Thoroughness, Constructiveness, Systemic Focus.
@@ -264,41 +336,41 @@ meta_analysis_guidelines:
     **1. Rigor Evaluation:**
     *   **Scope:** Check specified KB entries or a representative sample across modes/types.
     *   **Method:**
-        *   Verify presence and appropriate population of mandatory rigor fields (e.g., `positive_determination`, `negative_determination`, `epistemic_status`, `evidence_links`, `confidence_score`) as defined in the current KB schema standard.
-        *   Assess the *quality* and *relevance* of `evidence_links`. Do they actually support the claims?
+        *   Verify presence and appropriate population of mandatory rigor fields (e.g., `positive_determination`, `negative_determination`, `presuppositions`, `counter_arguments`, `evidence_links`, `verification_status`) as defined in the V18.3.5 KB schema.
+        *   Assess the *quality* and *relevance* of `evidence_links` and `extraction_markers`. Do they accurately support the claims and point to the correct source locations?
         *   Look for consistency in rigor application across related entries or by the same generating mode. Are standards applied uniformly?
-        *   Identify entries with low confidence scores or missing rigor fields and analyze potential causes (e.g., complex topic, mode limitation, rule ambiguity).
+        *   Identify entries with `verification_status: Disputed` or `Unverified` and analyze potential causes.
     *   **Output:** Report quantitative findings (e.g., % entries missing fields) and qualitative assessments (e.g., common issues in evidence linking). Formulate proposals if systemic issues are found.
 
-    **2. Log Analysis (memory-bank/):**
+    **2. Log Analysis (`phil-memory-bank/`):**
     *   **Scope:** Focus on logs specified by input (specific mode, timeframe) or conduct broader analysis if evaluating system health.
     *   **Method:**
-        *   Use `search_files` to identify patterns: frequent error codes, repeated warnings, specific failure points (e.g., "KB_WRITE_FAIL"), excessive retries.
+        *   Use `search_files` to identify patterns: frequent error codes, repeated warnings, specific failure points (e.g., "KB_WRITE_FAIL", "CONCURRENCY_CONFLICT"), excessive retries.
         *   Analyze task durations for potential bottlenecks.
-        *   Examine handoff points between modes for communication failures or context loss.
+        *   Examine handoff points between modes for communication failures or context loss (check `activeContext.md` and mode logs).
         *   Correlate log events with KB entries or rule changes to understand causal relationships.
-        *   Look for deviations from documented workflows or rule protocols.
+        *   Look for deviations from documented workflows or rule protocols (`.roo/` files, `docs/`).
     *   **Output:** Summarize identified patterns, bottlenecks, or frequent errors. Propose rule clarifications, process improvements, or targeted debugging if needed.
 
-    **3. KB Pattern Analysis (philosophy-knowledge-base/):**
+    **3. KB Pattern Analysis (`philosophy-knowledge-base/`):**
     *   **Scope:** Analyze overall structure, specific entry types, or relationships as defined by input.
     *   **Method:**
-        *   Check for orphaned entries (entries without necessary links or context).
-        *   Identify potential redundancy or conflicting information between entries.
-        *   Analyze the density and quality of relationships (e.g., `related_to`, `derived_from`). Are concepts well-connected?
-        *   Evaluate adherence to naming conventions and structural standards defined for the KB.
+        *   Check for orphaned entries (entries without necessary links or context). Use `related_ids`, `source_ref_keys`.
+        *   Identify potential redundancy or conflicting information between entries (compare content of entries with similar tags or linked via `related_ids`).
+        *   Analyze the density and quality of relationships (e.g., `related_ids`). Are concepts well-connected? Are relationship types used consistently?
+        *   Evaluate adherence to naming conventions and structural standards defined for the KB (schemas in `_operational/formatting_templates_rules/`).
         *   Assess the balance and distribution of entry types.
     *   **Output:** Report structural findings, inconsistencies, or areas for improvement. Propose `KB_STRUCTURE` changes (e.g., new relationship types, schema adjustments, cleanup tasks) to the orchestrator.
 
     **4. Quality Assessment (Philosophical Content):**
-    *   **Scope:** Evaluate specific outputs (analyses, essays) provided via `content_path`.
+    *   **Scope:** Evaluate specific outputs (analyses, essays) provided via `content_path` or identified KB entries.
     *   **Method:** (Requires sophisticated NLU/philosophical understanding)
         *   Assess clarity, coherence, and logical consistency of arguments.
-        *   Evaluate the depth of analysis and engagement with philosophical concepts/texts.
-        *   Check for appropriate use and citation of evidence/sources.
+        *   Evaluate the depth of analysis and engagement with philosophical concepts/texts, referencing KB context.
+        *   Check for appropriate use and citation of evidence/sources (`source_ref_keys`, `extraction_markers`).
         *   Identify potential biases, unsupported claims, or superficial treatment of complex issues.
-        *   Compare against established philosophical interpretations or standards where applicable.
-        *   Reference criteria outlined in Arch V18.3, Sec 4.4 (line 180).
+        *   Compare against established philosophical interpretations or standards where applicable (using KB secondary lit entries).
+        *   Reference criteria outlined in Arch V18.3.5, Sec 4.4 (line 181).
     *   **Output:** Provide a structured assessment summary, highlighting strengths and weaknesses. Store detailed assessment in a `Meta-Reflection` KB entry.
 
     **5. Proposal Formulation:**
@@ -307,3 +379,84 @@ meta_analysis_guidelines:
     *   **Actionability:** Proposals should be specific, measurable, achievable, relevant, and time-bound (SMART) where possible. Clearly state the problem, the proposed solution, and the expected benefit.
     *   **Targeting:** Clearly identify the target (rule file, KB section, mode behavior, architectural component).
     *   **Rationale:** Provide clear justification linking the finding to the proposed solution.
+
+rules:
+  - name: Perform KB Health Check
+    description: "Executes KB health checks based on input scope."
+    trigger:
+      event: task_received
+      condition: "{{ task.input.task_type == 'KB_HEALTH_CHECK' }}"
+    actions:
+      - log: "[INFO] Starting KB Health Check. Scope: {{ task.input.scope_details }}"
+      # 1. Schema Validation (Placeholder - Requires specific schema validation logic/tool)
+      - log: "[INFO] Simulating KB Schema Validation..."
+      # Conceptually: Read schema rules from `philosophy-knowledge-base/_operational/formatting_templates_rules/`.
+      # Use `search_files` to get list of KB entries.
+      # Use `read_file` for each entry.
+      # Parse YAML frontmatter.
+      # Compare against schema rules. Log violations.
+      - variable: schema_issues
+        value: [] # Populate with found schema violations
+
+      # 2. Link Integrity Check
+      - log: "[INFO] Starting Link Integrity Check..."
+      - variable: broken_links
+        value: []
+      - tool: search_files
+        args:
+          path: "philosophy-knowledge-base/"
+          regex: "(related_ids|source_ref_keys|counter_arguments|secondary_source_links|other_philosopher_views):\\s*\\[\\[(.*?)\\]\\]" # Regex to find linked IDs
+          file_pattern: "*.md"
+        on_success:
+          - log: "[INFO] Found {{ result.count }} potential link sets. Checking targets..."
+          # Conceptual Loop: Iterate through result.matches
+          # For each match:
+          #   source_file = match.path
+          #   linked_ids_str = match.captures[1]
+          #   linked_ids = parse linked_ids_str (split by comma, trim whitespace)
+          #   For each linked_id in linked_ids:
+          #     target_path = determine_target_path(linked_id) # Logic needed to map ID to expected file path
+          #     Check if target_path exists using list_files or read_file(target_path)
+          #     If not exists: broken_links.append({ source: source_file, target_id: linked_id, target_path: target_path })
+          - log: "[INFO] Link Integrity Check (Simulated) completed. Found {{ broken_links | length }} broken links." # Update with actual count
+        on_error:
+          - log: "[WARN] Link Integrity Check failed during search: {{ error.message }}"
+
+      # 3. Rigor Consistency Check (Example)
+      - log: "[INFO] Starting Rigor Consistency Check (Example: Verified entries missing evidence)..."
+      - variable: rigor_issues
+        value: []
+      - tool: search_files
+        args:
+          path: "philosophy-knowledge-base/"
+          # Regex needs refinement: Find entries where verification_status is Verified but source_ref_keys is empty/missing
+          regex: "verification_status:\\s*Verified\\s*[\\s\\S]*?---" # Placeholder - needs better logic
+          file_pattern: "*.md"
+        on_success:
+          # Conceptual Loop: Iterate through results
+          # For each match:
+          #   Read the file content.
+          #   Check if `source_ref_keys` exists and is non-empty in YAML.
+          #   If status is Verified and keys are missing/empty: rigor_issues.append({ file: match.path, issue: "Verified but missing source_ref_keys" })
+          - log: "[INFO] Rigor Consistency Check (Simulated) completed. Found {{ rigor_issues | length }} issues."
+        on_error:
+          - log: "[WARN] Rigor Consistency Check failed during search: {{ error.message }}"
+
+      # 4. Generate Report & Complete
+      - log: "[INFO] Aggregating KB Health Check results."
+      - variable: all_issues
+        value: "{{ schema_issues + broken_links + rigor_issues }}" # Combine issues
+      - variable: summary_message
+        value: "KB Health Check completed. Schema Issues: {{ schema_issues | length }}. Broken Links: {{ broken_links | length }}. Rigor Issues: {{ rigor_issues | length }}."
+      - tool: attempt_completion
+        args:
+          status: success # Meta-reflection task succeeded, even if issues were found
+          result:
+            task_id: "{{ task.input.task_id }}"
+            status: "{{ 'pass' if not all_issues else 'issues_found' }}" # Status of the KB health
+            analysis_summary: "{{ summary_message }}"
+            issues_found: "{{ all_issues }}" # Pass the structured list of issues
+
+  # Add other rules based on task_types (ANALYZE_KB_ENTRIES, REVIEW_MODE_LOGS, etc.)
+  # These would involve similar patterns: log start, use search_files/read_file, analyze content,
+  # potentially write a meta-reflection KB entry, formulate proposals, log end, attempt_completion.
