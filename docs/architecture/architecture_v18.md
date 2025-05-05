@@ -198,6 +198,7 @@ graph TD
     end
 
     %% KB Maintenance & Rigor Validation (Responsibilities moved to Orchestrator/MetaReflector/Verify)
+    %% KBDoctor subgraph removed
 
     subgraph Text Processing
         TextProc(philosophy-text-processor) -- Runs --> Scripts((scripts/process_source_text.py))
@@ -241,7 +242,6 @@ graph TD
              CiteMan -- Writes --> OpMemBank_ModeLogs
              Verify -- Writes --> OpMemBank_ModeLogs
              MetaReflector -- Writes --> OpMemBank_ModeLogs
-             %% KBDoctor -- Writes --> OpMemBank_ModeLogs (Removed)
              %% All modes can read all OpCtx files
              Orchestrator -- Reads --> OpMemBank_Global
              Orchestrator -- Reads --> OpMemBank_ModeLogs
@@ -257,7 +257,6 @@ graph TD
              CiteMan -- Reads --> OpMemBank_Global; CiteMan -- Reads --> OpMemBank_ModeLogs
              Verify -- Reads --> OpMemBank_Global; Verify -- Reads --> OpMemBank_ModeLogs
              MetaReflector -- Reads --> OpMemBank_Global; MetaReflector -- Reads --> OpMemBank_ModeLogs; MetaReflector -- Reads --> OpMemBank_Feedback
-             %% KBDoctor -- Reads --> OpMemBank_Global; KBDoctor -- Reads --> OpMemBank_ModeLogs (Removed)
         end
         subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
@@ -290,8 +289,8 @@ graph TD
     Orchestrator -- Delegate Tasks --> EssayPrep
     Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
     Orchestrator -- Coordinate Commit? --> EssayPrep
-    Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector
-    Orchestrator -- Trigger KB Maintenance/Validation --> Verify
+    Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector %% Updated
+    Orchestrator -- Trigger KB Maintenance/Validation --> Verify %% Updated
     Orchestrator -- Route KB/System Mod Proposal --> User
     Orchestrator -- Relay Approval --> Architect
     Orchestrator -- Relay Approval --> DevOps
@@ -353,16 +352,7 @@ graph TD
     MetaReflector -- Propose Arch Mod --> Orchestrator
     MetaReflector -- Propose Method/Git Mod --> Orchestrator
 
-    %% KB Doctor Interactions (Removed - Handled by Orchestrator/MetaReflector/Verify)
-    %% KBDoctor -- Triggers --> KB_Scripts (Removed)
-    %% KB_Scripts -- Read/Write --> PhilKB_Data (Removed)
-    %% KB_Scripts -- Read/Write --> KB_Indices (Removed)
-    %% KB_Scripts -- Write Logs --> KB_Logs (Removed)
-    %% KB_Scripts -- Write Status --> KB_Status (Removed)
-    %% KB_Scripts -- Perform Rigor Validation --> PhilKB_Data (Removed)
-    %% KBDoctor -- Reads Status/Logs --> PhilKB_Ops (Removed)
-    %% KBDoctor -- Writes Reports (incl. Rigor Summary) --> KB_Reports (Removed)
-    %% KBDoctor -- Report Status/Rigor --> Orchestrator (Removed)
+    %% KB Maintenance & Validation Interactions (V18.3.3 - Distributed)
     MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Data
     MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Ops
     Verify -- Performs Rigor Validation --> PhilKB_Data
@@ -597,17 +587,33 @@ Clarifying user interaction loops:
     6.  User selects an option or provides clarification.
     7.  `Orchestrator` receives clarification and delegates a more focused task to the appropriate analysis mode.
 
-## 8. Version Control (V14 - Retained, Linux Paths)
+## 8. Version Control & Release Strategy (V18.3.4)
 
-*   **Primary Scope:** `essay_prep/` managed by `philosophy-essay-prep` using Git via `execute_command`.
+*   **Tool:** Git, managed via `execute_command`.
+*   **Primary Scope:** `essay_prep/` directory managed by `philosophy-essay-prep` mode for essay drafts and related artifacts.
+*   **Branching Strategy:**
+    *   **`main`:** Represents the stable, production-ready state of the system and documentation. Merges only occur after features/fixes are complete and verified.
+    *   **Feature Branches:** All development (new features, bug fixes, architectural changes) MUST occur on separate feature branches (e.g., `feature/add-mcp-support`, `fix/kb-linking-bug`). Branches should be created from `main`.
+    *   **Pull Requests:** Merges into `main` should ideally occur via Pull Requests (if using a platform like GitHub/GitLab) to facilitate review.
+*   **Tagging Strategy:**
+    *   Releases are marked on the `main` branch using annotated Git tags following Semantic Versioning (e.g., `v18.3.4`, `v19.0.0`).
+*   **`.clinerules` Versioning:** Recommend adding a `version` metadata field to `.clinerules` files (e.g., `version: "1.2.0"`) to track compatibility with specific architecture versions or standards.
 *   **Potential Expansion (Considerations):**
-    *   KB Versioning (`philosophy-knowledge-base/`).
-    *   Operational Context Versioning (`phil-memory-bank/`).
-    *   System Evolution Branching.
-*   **Implementation:** Via `execute_command`.
+    *   Versioning for `philosophy-knowledge-base/` (complex, requires careful strategy).
+    *   Versioning for `phil-memory-bank/` (potentially useful for debugging, but high churn).
+    *   More complex branching models (e.g., `develop` branch) if team size/complexity increases.
+*   **Note:** See Section 8.1 regarding RooCode Checkpoints for task-level rollback.
 
 ## 9. Configuration Structure (V18.2 - Linux Paths)
 
+### 8.1 RooCode Checkpoints (Task-Level Rollback)
+
+*   **Description:** RooCode provides a "Checkpoints" feature, which acts as a task-specific, temporary version control system, distinct from the main project Git history. It automatically creates snapshots (like lightweight commits in a shadow Git repository) at key points during a task execution (e.g., before/after tool use, before `attempt_completion`).
+*   **Purpose:** Serves as a safety net, allowing users to easily revert the workspace to a previous state *within the current task* if an AI operation produces undesirable results or errors occur. This is particularly valuable for complex operations like large code refactoring or document generation.
+*   **Mechanism:** Checkpoints are managed internally by the RooCode framework. Users can typically view, compare (diff), and restore checkpoints via the RooCode user interface.
+*   **Isolation:** Checkpoint history is isolated to the specific task instance and does not pollute the main Git repository history (`main`, feature branches). This keeps the primary version control clean and focused on deliberate, verified changes.
+*   **Status:** Enabled for the `philoso-roo` project (Decision Log approx. [2025-05-02 13:35:26]).
+*   **UX Considerations:** Users should be aware of the Checkpoint feature and how to access it via the UI. Modes (like `EssayPrep` or `Code`) might suggest creating manual checkpoints before potentially risky operations. Clear UI indicators for checkpoint creation and restoration are important.
 *   **Mode Definition File (`.roo/.roomodes`):** Defines all V18.2 modes and their `.clinerules` paths. Uses forward slashes (`/`). **`philosophy-operational-context-manager` removed.**
     ```json
     {
@@ -628,3 +634,20 @@ Clarifying user interaction loops:
     }
     ```
 *   **Rules File Directory Structure:** `.roo/rules-[mode-slug]/[mode-slug].clinerules`. `.clinerules` for relevant modes must be updated per V18.3.2 specs (direct KB access logic, direct `phil-memory-bank/` access logic, rigor element handling, KB Doctor interaction if applicable, corrected text processor workflow including root index update). Uses forward slashes (`/`).
+## 10. Operational Context Management (Memory Bank) (V18.3.4)
+
+*   **Purpose:** The `phil-memory-bank/` directory serves as the persistent storage mechanism for **operational context**, distinct from the `philosophy-knowledge-base/` which holds domain knowledge. It tracks the system's state, decisions, progress, and inter-mode communication logs during task execution.
+*   **Structure:**
+    *   `activeContext.md`: Chronological log of the currently active task's high-level steps, delegations, and status updates. Primarily managed by `Orchestrator`.
+    *   `globalContext.md`: Stores system-wide decisions, progress summaries across tasks, definitions of established system patterns, and potentially long-term goals or constraints. Primarily managed by `Orchestrator`.
+    *   `mode-specific/`: Contains individual log files for each mode (e.g., `philosophy-orchestrator.md`, `philosophy-dialectical-analysis.md`). Modes are responsible for writing detailed logs of their operations, inputs, outputs, and decisions to their respective files.
+    *   `feedback/`: Stores user feedback, intervention logs, and error reports, typically organized by mode (e.g., `architect-feedback.md`).
+    *   `locks/` (Optional/Potential): May contain temporary lock files to manage concurrent access to shared resources (e.g., critical KB files), if the locking mechanism (See Section 2.4) is implemented.
+*   **Interaction Pattern (V18.2+):** Modes interact directly with files within `phil-memory-bank/` using standard file tools (`read_file`, `insert_content`, `apply_diff`, `search_files`).
+    *   **Writes:** Modes MUST write logs to their own `mode-specific/` file. `Orchestrator` primarily writes to global files. New entries are typically added in reverse chronological order (newest first) using `insert_content` at line 1 or via `apply_diff` if updating specific sections. Batching multiple log entries into a single write operation is recommended for efficiency.
+    *   **Reads:** All modes CAN read any file within `phil-memory-bank/` to gather necessary operational context, guided by information provided during task delegation or by searching logs based on timestamps or keywords.
+*   **Persistence Mechanism:** Persistence relies entirely on the standard file system saving the Markdown (`.md`) files within the `phil-memory-bank/` directory. RooCode itself does not provide a separate database or specialized persistence layer for the Memory Bank beyond these file operations.
+*   **Scalability & Maintenance:** As logs grow, performance for reading/searching may degrade. Future considerations include:
+    *   **Log Rotation:** Periodically archiving older log entries from `activeContext.md` or mode-specific logs.
+    *   **Summarization:** Implementing logic (potentially within `MetaReflector`) to summarize older log periods or completed tasks in `globalContext.md`.
+*   **Cross-Reference:** Evaluation Report Rec 3.5.
