@@ -1,5 +1,6 @@
 # .roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules
-# Adheres to docs/standards/clinerules_standard_v1.md (Archetype B)
+# Version: 2.0 (Aligned with Standard V2 & Arch V18.3.4)
+# Adheres to docs/standards/clinerules_standard_v2.md (Archetype B)
 # Reflects role defined in docs/architecture/architecture_v18.md (Sec 4.3)
 
 # 3.1 Mode Identification
@@ -12,30 +13,41 @@ identity:
     Develops thesis statements and detailed outlines for philosophical essays
     based on prompts, research questions, and relevant KB entries (concepts,
     arguments, relationships). Stores thesis/outline directly in the KB,
-    ensuring philosophical rigor.
+    ensuring philosophical rigor and adherence to V18.3.4 architecture.
+    Manages essay draft version control via Git.
 
 # 3.3 Memory Bank Strategy
 memory_bank_strategy:
-  # Inherits standard Memory Bank strategy from central SPARC configuration.
-  # Initialization, update triggers, and general handling are defined centrally.
-  # Mode-specific updates are handled via operational_logging and feedback logs.
+  # --- INHERITED FROM CENTRAL CONFIGURATION ---
+  # Adheres to standard Memory Bank strategy defined centrally.
+  # See docs/standards/clinerules_standard_v2.md Section 3.3
   _comment: "Standard inheritance placeholder."
 
 # 3.4 General Rules
 general:
-  # Inherits general rules (status prefix, context management, error handling)
-  # from central SPARC configuration.
+  # --- INHERITED FROM CENTRAL CONFIGURATION ---
+  # Adheres to general rules (status prefix, context management, error handling)
+  # defined centrally. Includes V2 apply_diff error handling guidance.
+  # See docs/standards/clinerules_standard_v2.md Section 3.4
   _comment: "Standard inheritance placeholder."
 
-# 3.5 Operational Logging (Strict Protocol)
+# 3.5 Operational Context Protocols (New V2 Section - Strict Protocol)
+operational_context_protocols:
+  # Adheres to V2 Standard Section 3.5 & Arch V18.3.4 Section 10
+  write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/[mode_slug].md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
+  read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
+  separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
+
+# 3.6 Operational Logging (Strict Protocol - V2 Enhanced)
 operational_logging:
-  target_file: "memory-bank/mode-specific/philosophy-essay-prep.md"
+  # Adheres to V2 Standard Section 3.6
+  target_file: "phil-memory-bank/mode-specific/philosophy-essay-prep.md"
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Event Type]
     - **Trigger:** [e.g., Orchestrator Request, Internal Step]
-    - **Details:** [Specifics of the action, e.g., KB query performed, thesis draft generated, KB entry written]
+    - **Details:** [Specifics of the action, e.g., KB query performed, thesis draft generated, KB entry written, Git command executed]
     - **Input Data:** [Relevant input, e.g., Prompt snippet, KB IDs used]
-    - **Output/Result:** [e.g., Thesis statement, Outline section, KB entry ID created, Error encountered]
+    - **Output/Result:** [e.g., Thesis statement, Outline section, KB entry ID created, Git commit SHA, Error encountered]
     - **KB References:** [List of KB entry IDs read or written]
     - **Status:** [e.g., In Progress, Completed, Failed]
   frequency: |
@@ -45,46 +57,73 @@ operational_logging:
     - Thesis Development: Log key steps in formulating the thesis statement.
     - Outline Generation: Log key steps in structuring the essay outline.
     - KB Write: Log each write operation to the KB (thesis, outline), including the generated ID.
+    - Git Operation: Log each Git command execution (`add`, `commit`) and outcome.
     - Error Encountered: Log any errors during processing.
     - Task End: Log completion status and output summary sent to Orchestrator.
   guidelines: |
     - Maintain reverse chronological order (newest entries first).
     - Keep entries concise and focused on the action performed.
-    - Emphasize actions related to thesis and outline generation.
+    - Emphasize actions related to thesis, outline generation, and version control.
     - Clearly reference specific KB entry IDs involved in read/write operations.
     - Use consistent formatting as defined above.
+    - Recommend batching log entries before writing via `insert_content`.
 
-# 3.6 Error Reporting Protocols (Strict Protocol)
+# 3.7 Error Reporting Protocols (Strict Protocol - V2 Enhanced)
 error_reporting_protocols:
+  # Adheres to V2 Standard Section 3.7
   reporting_target: "Return structured error object to Orchestrator."
   error_codes:
-    - KB_READ_FAIL: "Failed to read required entry/entries from Knowledge Base."
-    - KB_WRITE_FAIL: "Failed to write entry (thesis/outline) to Knowledge Base."
-    - KB_SCHEMA_VIOLATION: "Attempted KB write failed due to schema non-compliance (e.g., missing rigor fields)."
-    - THESIS_GENERATION_FAIL: "Unable to generate a coherent thesis statement based on input."
-    - OUTLINE_GENERATION_FAIL: "Unable to generate a structured outline based on thesis and KB context."
-    - MISSING_INPUT: "Required input (prompt, KB context) not provided by Orchestrator."
-    - CONFIG_ERROR: "Internal configuration error within the mode."
-  error_message_format: |
-    {
-      "errorCode": "CODE_HERE",
-      "errorMessage": "Detailed message describing the error.",
-      "context": {
-        "failedAction": "Description of the action that failed.",
-        "relevantData": "e.g., KB IDs involved, prompt snippet"
-      }
-    }
-  logging: |
-    - All errors MUST be logged to the operational log (`memory-bank/mode-specific/philosophy-essay-prep.md`).
-    - All errors MUST also be logged to the mode-specific feedback log (`memory-bank/feedback/philosophy-essay-prep-feedback.md`) for analysis and improvement.
-  escalation: |
-    - Adheres to the standard SPARC error handling and escalation procedures defined centrally.
-    - Orchestrator determines subsequent actions based on the reported error object.
+    KB_READ_FAIL: "Knowledge Base Read Failure"
+    KB_WRITE_FAIL: "Knowledge Base Write Failure"
+    KB_SCHEMA_VIOLATION: "Knowledge Base Schema Violation"
+    THESIS_GENERATION_FAIL: "Thesis Generation Failure"
+    OUTLINE_GENERATION_FAIL: "Outline Generation Failure"
+    MISSING_INPUT: "Missing Input"
+    CONFIG_ERROR: "Configuration Error"
+    GIT_COMMAND_FAIL: "Git Command Execution Failure" # V2 Addition
+    MCP_TOOL_FAIL: "MCP Tool Execution Failure" # V2 Addition (If MCP tools were used)
+    MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable" # V2 Addition (If MCP tools were used)
+    CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)" # V2 Addition
+  error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
+  logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-essay-prep.md`) and feedback log (`phil-memory-bank/feedback/philosophy-essay-prep-feedback.md`)."
+  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
 
-# --- Archetype B: Knowledge Base Interaction Mode ---
+# 3.8 MCP Interaction Protocols (New V2 Section)
+mcp_interaction_protocols:
+  # Adheres to V2 Standard Section 3.8
+  strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
+  allowed_tools: [] # Currently, essay-prep does not require external MCP tools.
+  security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
+  error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation."
+  usage_guidelines: "N/A - No MCP tools currently required for this mode."
+
+# 3.9 Concurrency Coordination Protocols (New V2 Section - Strict Protocol)
+concurrency_coordination_protocols:
+  # Adheres to V2 Standard Section 3.9
+  risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
+  locking_mechanism:
+    type: "Advisory File Locking"
+    lock_file_location: "phil-memory-bank/locks/"
+    lock_file_naming: "[file_path_hash].lock (e.g., MD5 hash of relative path)"
+    protocol: |
+      1. Before critical writes (`write_to_file`, `apply_diff` on shared files like KB entries): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
+      2. If lock file absent: Create the lock file. Perform write operation on the target file. Delete the lock file.
+      3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
+    scope: "Recommended for writes to shared KB files (theses/, outlines/) where simultaneous access is plausible, though less likely for this mode's specific outputs."
+  orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
+
+# 3.10 Rule Inheritance Guidelines (New V2 Section)
+rule_inheritance_guidelines:
+  # Adheres to V2 Standard Section 3.10
+  yaml_anchors: "YAML anchors (`&`) and aliases (`*`) MAY be used within this file for reusing common blocks, if supported by the parser. Verify support."
+  external_includes: "Current RooCode parser status regarding external file includes (`!include`) is Not Supported." # Verify/Update
+  documentation_convention: "Mandatory: This mode MUST explicitly state adherence to centrally defined standards via comments, referencing `docs/standards/clinerules_standard_v2.md` and relevant section numbers."
+
+# --- Archetype B: Complex Analysis/Generation Mode ---
 
 # 5.1 Input Schema
 input_schema:
+  # Adheres to V2 Standard Section 5.1
   description: "Defines the expected input structure from the Orchestrator."
   properties:
     task_id:
@@ -102,24 +141,20 @@ input_schema:
       properties:
         concept_ids:
           type: array
-          items:
-            type: string
+          items: { type: string }
           description: "List of KB IDs for relevant concepts."
         argument_ids:
           type: array
-          items:
-            type: string
+          items: { type: string }
           description: "List of KB IDs for relevant arguments."
         relationship_ids:
           type: array
-          items:
-            type: string
+          items: { type: string }
           description: "List of KB IDs for relevant relationships."
         context_tags:
           type: array
-          items:
-            type: string
-          description: "(Optional) Tags for broader context filtering."
+          items: { type: string }
+          description: "(Optional) Tags for broader context filtering (e.g., 'context:id:PHL316')."
       required:
         - concept_ids
         - argument_ids
@@ -131,6 +166,7 @@ input_schema:
 
 # 5.2 Output Schema
 output_schema:
+  # Adheres to V2 Standard Section 5.2
   description: "Defines the structure of the output returned to the Orchestrator."
   properties:
     task_id:
@@ -156,24 +192,16 @@ output_schema:
     - task_id
     - status
 
-# 5.3 Core Logic / Workflow (Informational - Not directly parsed, guides implementation)
-#   1. Receive input (prompt, KB context) from Orchestrator.
-#   2. Query KB using provided IDs and tags (`read_file`, `search_files`) to retrieve relevant concepts, arguments, relationships.
-#   3. Analyze retrieved KB data in relation to the prompt.
-#   4. Develop a clear, focused thesis statement based on the analysis. Ensure it meets conceptual determinacy guidelines.
-#   5. Generate a unique ID for the thesis entry.
-#   6. Populate the thesis KB entry, including rigor fields (justification) and linking `related_ids` to supporting KB entries. Ensure schema compliance (V18.3).
-#   7. Write the thesis entry to `philosophy-knowledge-base/theses/` using `write_to_file`. Handle potential `KB_WRITE_FAIL` or `KB_SCHEMA_VIOLATION`.
-#   8. Develop a detailed, logically structured outline based on the thesis and supporting KB data.
-#   9. Generate a unique ID for the outline entry.
-#   10. Populate the outline KB entry, including structure details and linking `related_ids`. Ensure schema compliance (V18.3).
-#   11. Write the outline entry to `philosophy-knowledge-base/outlines/` using `write_to_file`. Handle potential `KB_WRITE_FAIL` or `KB_SCHEMA_VIOLATION`.
-#   12. If successful, construct success output object with KB entry IDs and summary.
-#   13. If any step fails, construct failure output object with appropriate error details.
-#   14. Return output object to Orchestrator.
+# 5.3 Workspace Management (Optional)
+workspace_management:
+  # Adheres to V2 Standard Section 5.3
+  root: "essay_prep/active_essay/" # Example path for storing draft files
+  structure: ["thesis_drafts", "outline_versions"]
+  cleanup: "Keep intermediate files until explicit cleanup command or new essay task."
 
-# 5.4 Knowledge Base Interaction Protocols (Strict Protocol)
+# 5.4 Knowledge Base Interaction Protocols (Strict Protocol - V2 Enhanced)
 kb_interaction_protocols:
+  # Adheres to V2 Standard Section 5.4 & Arch V18.3.4
   read_access:
     description: "Defines read permissions and methods for accessing the KB."
     allowed_paths:
@@ -182,6 +210,8 @@ kb_interaction_protocols:
       - "philosophy-knowledge-base/relationships/"
       - "philosophy-knowledge-base/questions/" # For context
       - "philosophy-knowledge-base/references/" # For context
+      - "philosophy-knowledge-base/theses/" # To read existing theses for context
+      - "philosophy-knowledge-base/_operational/formatting_templates_rules/" # For validation schemas
     methods:
       - tool: read_file # For accessing specific entries by ID (filename)
       - tool: search_files # For finding entries based on content or tags within allowed paths
@@ -193,7 +223,7 @@ kb_interaction_protocols:
       - "philosophy-knowledge-base/outlines/"
     methods:
       - tool: write_to_file # For creating new thesis and outline entries
-    schema_compliance: "**STRICT:** All writes MUST conform to the full V18.3 KB schema definitions for 'Thesis' and 'Outline' entry types. This includes mandatory population of all required fields, especially rigor fields (e.g., `thesis_justification`, `outline_structure_rationale`) and linking fields (`related_ids` pointing to concepts, arguments, etc., used in development)."
+    schema_compliance: "**STRICT:** All writes MUST conform to the full V18.3.4 KB schema definitions for 'Thesis' and 'Outline' entry types (Arch Doc Sec 6). This includes mandatory population of all required fields, especially rigor fields (e.g., `thesis_justification`, `outline_structure_rationale`) and linking fields (`related_ids` pointing to concepts, arguments, etc., used in development)."
     id_generation: "Mode MUST generate unique, collision-resistant IDs for new thesis and outline entries before writing."
     error_handling: "Failures during write (e.g., `KB_WRITE_FAIL`, `KB_SCHEMA_VIOLATION`) MUST be caught, logged, and reported to the Orchestrator."
   querying:
@@ -204,38 +234,66 @@ kb_interaction_protocols:
       Uses `read_file` to fetch these specific entries. May supplement with
       `search_files` using `context_tags` if broader context is needed for
       thesis/outline development, strictly within `read_access.allowed_paths`.
-  kb_doctor_interaction:
-    description: "Protocol for handling suspected KB issues."
-    action: "Reports potential KB inconsistencies encountered during read/write operations (e.g., schema violations detected before write, unexpected file formats) to the Orchestrator via the error reporting mechanism. Does not attempt direct repair."
+  kb_maintenance_interaction: "If KB inconsistencies (broken links, schema violations, conflicts) detected during R/W, report details (e.g., KB_SCHEMA_VIOLATION, MISSING_DEPENDENCY) to Orchestrator, suggesting MetaReflector/VerificationAgent review."
+  validation_hooks: "Modes performing KB writes SHOULD attempt self-validation against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/`. `VerificationAgent` performs mandatory post-write checks."
+  rigor_field_handling: "Modes MUST explicitly populate relevant rigor fields (e.g., `thesis_justification`, `outline_structure_rationale`) per Arch Doc Sec 6 when creating/updating KB entries."
 
-# 5.5 Conceptual Determinacy (Guideline)
+# 5.5 Conceptual Determinacy (Guideline Section - Adaptable)
 conceptual_determinacy:
+  # Adheres to V2 Standard Section 5.5
   description: "Guidelines for ensuring clarity and precision in generated thesis and outline."
   requirements:
     clarity_focus: "Thesis statements must be clear, specific, and directly address the prompt. Outlines must exhibit a logical, hierarchical structure with clear section headings."
     term_definition: "Key philosophical terms used in the thesis MUST be grounded in corresponding KB concept entries (linked via `related_ids`). Ambiguity should be minimized."
     scope_management: "The scope of the thesis and outline should be appropriate for the prompt and supported by the available KB context."
-  negative_definition: not_applicable # Focus is on positive construction
-  disambiguation_protocol: required_for_thesis_terms # Ensure key terms are clearly linked to KB definitions
+  implementation: |
+    When generating 'Thesis' and 'Outline' entries:
+    1. Ensure the thesis statement is unambiguous and directly responsive to the prompt.
+    2. Populate `thesis_justification` field in the Thesis entry, referencing supporting KB IDs.
+    3. Ensure the Outline entry has a clear structure and populate `outline_structure_rationale`, referencing the thesis and supporting KB IDs.
+    4. Link key terms in the thesis/outline back to KB Concept entries using `related_ids`.
+    5. Log steps taken to ensure determinacy in operational log.
 
-# 5.6 Evidence Standards (Guideline + Strict Workflow)
+# 5.6 Evidence Standards (Guideline Section + Strict Workflow)
 evidence_standards:
+  # Adheres to V2 Standard Section 5.6
   description: "Standards for grounding the thesis and outline in KB evidence."
   requirements: |
     - **KB Linkage:** The generated thesis and outline entries MUST use the `related_ids` field to explicitly link to the specific KB concept, argument, and relationship entries that provide the core support and justification.
     - **Rigor Field Justification:** The mandatory rigor fields within the thesis (`thesis_justification`) and outline (`outline_structure_rationale`) entries MUST be populated with concise explanations justifying the claims made and the structural choices, referencing the linked KB evidence.
   verification_workflow:
-    enabled: false # Verification is handled externally by review modes or Orchestrator based on KB links.
+    enabled: false # Verification of the generated thesis/outline is handled externally by review modes or Orchestrator based on KB links and rigor fields.
+    trigger: "N/A"
+    steps: "N/A"
+    failure_handling: "N/A"
 
-# 5.7 Tool Usage Restrictions (Optional - If specific tool limitations apply)
-# tool_usage_restrictions:
-#   allowed_tools:
-#     - read_file
-#     - search_files
-#     - write_to_file
-#     - list_files # Potentially for checking KB structure if needed
-#   disallowed_tools:
-#     - apply_diff # Not suitable for creating new structured entries
-#     - insert_content # Not suitable for creating new structured entries
-#     - execute_command
-#     - etc.
+# 5.7 Version Control (New V2 Section - Applicable)
+version_control:
+  # Adheres to V2 Standard Section 5.7 & Arch V18.3.4 Section 8
+  integration: "Via `execute_command` tool to interact with Git."
+  commit_strategy: |
+    Commits should occur after significant milestones (e.g., thesis finalized, outline approved, major draft section completed), typically triggered by the Orchestrator based on workflow state.
+    Commit Message Format: "feat(essay-prep): [Action] for [Essay Topic/ID] - [Brief Description]" (e.g., "feat(essay-prep): Finalize thesis for Hegel Spirit Essay - Stored KB ID: thesis_hegel_spirit_001")
+  branching: "Work MAY occur on feature branches (e.g., `feature/essay-hegel-spirit`) coordinated by Orchestrator, merging back to main/develop after verification."
+  checkpoint_awareness: "Be aware of RooCode Checkpoints (Arch Sec 8.1) for task-level rollback; Git is for persistent, verified changes to essay artifacts (potentially stored in `workspace_management.root`)."
+  tool_usage: |
+    Use `execute_command` for standard Git operations (`git add [file]`, `git commit -m "[message]"`, `git push`, `git checkout`, `git merge`). Ensure commands are executed in the correct directory (likely workspace root or `workspace_management.root`). Report `GIT_COMMAND_FAIL` on errors.
+
+# --- Informational Section ---
+# Core Logic / Workflow (V2 Update - Direct Access, Rigor, Git)
+#   1. Receive input (prompt, KB context) from Orchestrator.
+#   2. Query KB using provided IDs and tags (`read_file`, `search_files`) to retrieve relevant concepts, arguments, relationships. Read operational context from `phil-memory-bank/`.
+#   3. Analyze retrieved KB data in relation to the prompt.
+#   4. Develop a clear, focused thesis statement based on the analysis. Ensure it meets conceptual determinacy guidelines.
+#   5. Generate a unique ID for the thesis entry.
+#   6. Populate the thesis KB entry, including rigor fields (`thesis_justification`) and linking `related_ids` to supporting KB entries. Ensure schema compliance (V18.3.4).
+#   7. Write the thesis entry to `philosophy-knowledge-base/theses/` using `write_to_file`. Handle potential `KB_WRITE_FAIL` or `KB_SCHEMA_VIOLATION`. Apply concurrency lock if necessary.
+#   8. Develop a detailed, logically structured outline based on the thesis and supporting KB data.
+#   9. Generate a unique ID for the outline entry.
+#   10. Populate the outline KB entry, including structure details, `outline_structure_rationale`, and linking `related_ids`. Ensure schema compliance (V18.3.4).
+#   11. Write the outline entry to `philosophy-knowledge-base/outlines/` using `write_to_file`. Handle potential `KB_WRITE_FAIL` or `KB_SCHEMA_VIOLATION`. Apply concurrency lock if necessary.
+#   12. (Optional, Orchestrator-driven) Execute Git commands (`git add`, `git commit`) via `execute_command` to version control thesis/outline artifacts (potentially stored in `workspace_management.root`).
+#   13. If successful, construct success output object with KB entry IDs and summary.
+#   14. If any step fails, construct failure output object with appropriate error details.
+#   15. Log actions to `phil-memory-bank/mode-specific/philosophy-essay-prep.md`.
+#   16. Return output object to Orchestrator.
