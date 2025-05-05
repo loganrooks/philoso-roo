@@ -1,6 +1,14 @@
 # Code Mode Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
+### [2025-05-03 14:36:19] Intervention: Incorrect `.clinerules` Merge (Attempt 5)
+- **Trigger**: User feedback on failed `attempt_completion`.
+- **Context**: Task was to merge `.clinerules` for `philosophy-text-processor`, taking standard sections from working dir and mode-specific rules from commit `04a30b3...`.
+- **Action Taken**: User denied `attempt_completion`, stating the result was "infinitely worse" and questioning adherence to instructions/context. User correctly pointed out I cannot run `git diff`.
+- **Rationale**: My previous attempt incorrectly included mode-specific schema/protocol sections from the working directory version (Source A) instead of the detailed `rules` section from the commit version (Source B). I also inaccurately described my verification method.
+- **Outcome**: Previous attempt failed. Re-attempting the merge with the correct sections.
+- **Follow-up**: Ensure correct sections are used in the next attempt. Be precise about verification steps. [See Feedback Entry 2025-05-03 14:36:19]
+
 ### [2025-05-02 12:15:30] `philosophy-dialectical-analysis` Mode Rules (V14 Update)
 - **Purpose**: Defines the `philosophy-dialectical-analysis` mode, responsible for analyzing concepts through dialectical movement, contradictions, and resolutions. Updated to V14 to use `philosophy-kb-manager` for all KB interactions and support context-aware querying.
 - **Files**: `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`
@@ -20,6 +28,14 @@
 <!-- Append intervention details using the format below -->
 
 ## Components Implemented
+### [2025-05-03 18:23:25] Text Processing Script (`process_source_text.py` V2)
+- **Purpose**: Parses Markdown hierarchically, splits by headers, chunks text by token limit (20k), extracts citations, generates per-level `index.md` files for navigation, and outputs structured JSON. Replaces previous flat structure implementation.
+- **Files**: `scripts/process_source_text.py`
+- **Status**: Implemented
+- **Dependencies**: Python 3, `markdown-it-py`, `tiktoken`, `mdit_plain`. Relies on source files specified via `--input_path`. Outputs to structure under `--output_dir`.
+- **API Surface**: Command-line interface defined in `parse_arguments()`. Outputs JSON to stdout.
+- **Tests**: None implemented yet.
+- **Cross-ref:** [Global Progress: 2025-05-03 18:23:25], [Global System Patterns: 2025-05-03 18:23:25]
 ### [2025-05-03 05:50:30] `philosophy-citation-manager` Mode Rules (V1.0 - V18.3 Spec)
 - **Purpose**: Defines the `philosophy-citation-manager` mode, responsible for formatting citations and generating bibliographies based on KB reference entries and specified citation style (e.g., Chicago). Reads reference data from the KB but does NOT write to the KB. Takes draft text with citation placeholders as input. Aligned with V18.3 architecture and `clinerules_standard_v1.md`.
 - **Files**: `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`

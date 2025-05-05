@@ -1,3 +1,35 @@
+### [2025-05-04 22:01:00] - Progress Update: Architecture V18.3.3 Verified, Preparing Handover
+- **Status:** Completed Architecture Revision & Verification. Preparing for Linux Migration Handover.
+- **Details:** Verified `docs/architecture/architecture_v18.md` (V18.3.3) revised by Architect mode. Changes address all feedback and remove `kb-doctor`/scripts. Current task is to prepare a handover plan and message for migration to a Linux environment.
+- **Next Step**: Create handover plan document (`docs/plans/handoff_plan_linux_migration_v1.md`).
+- **Link to Active Context:** [See Active Context 2025-05-04 22:01:00]
+- **Link to System Pattern:** [See System Pattern 2025-05-04 22:01:00]
+- **Link to Decision Log:** [See Decision Log 2025-05-04 22:01:00]
+
+### [2025-05-04 22:01:00] - System Pattern V18.3.3: Hegel Philosophy Suite (KB Doctor Removed)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.3).*
+- **Description:** Architecture V18.3.2 revised to V18.3.3. Key changes: Corrected system name ("Hegel Philosophy RooCode Suite"), standardized operational memory path to `phil-memory-bank/`, enhanced detail in error handling/cross-mode communication, clarified citation mechanism (`source_ref_keys`, `extraction_markers`), and **removed `philosophy-kb-doctor` mode and dependency on external maintenance scripts.** KB maintenance/validation responsibilities are now distributed to `Orchestrator`, `MetaReflector`, and `VerificationAgent`.
+- **Diagram:** See `docs/architecture/architecture_v18.md` Section 5 (V18.3.3 Diagram).
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.3)
+- **Cross-ref:** [Global Decision Log: 2025-05-04 22:01:00], [Global Progress: 2025-05-04 22:01:00], [Feedback Log: 2025-05-04 15:36:12], [Feedback Log: 2025-05-04 17:12:08]
+
+### [2025-05-04 22:01:00] - Decision: Adopt V18.3.3 Architecture & Prepare for Linux Migration Handover
+- **Decision**: Adopt V18.3.3 architecture as defined in `docs/architecture/architecture_v18.md`. Key enhancements over V18.3.2: Feedback integration (Name, Path, Verbosity, Detail, Citation) and removal of `kb-doctor`/scripts, redistributing maintenance/validation tasks. Prepare for handover to a new SPARC instance in a Linux environment.
+- **Rationale**: Incorporates user feedback and simplifies architecture by removing script dependency. Prepares for environment migration as requested by user.
+- **Outcome**: V18.3.3 architecture adopted. Next step is creating a handover plan document.
+- **Cross-ref:** [Global System Patterns: 2025-05-04 22:01:00], [Global Progress: 2025-05-04 22:01:00], [Active Context: 2025-05-04 22:01:00]
+### [2025-05-04 21:33:00] - System Pattern V18.3.3: Hegel Philosophy Suite (KB Script Re-evaluation)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.3).*
+- **Description:** Architecture V18.3.3 simplifies the design by removing the `philosophy-kb-doctor` mode and its reliance on external maintenance scripts. KB validation and maintenance responsibilities are now handled by `verification-agent` (during workflows) and `meta-reflector` (periodic/triggered checks), orchestrated by `philosophy-orchestrator`. This addresses feedback questioning script necessity. Other V18.3.2 elements (direct KB/operational context access, rigor focus, citation clarity) remain.
+- **Diagram:** See `docs/architecture/architecture_v18.md` Section 5 (V18.3.3 Diagram - Updated).
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.3)
+- **Cross-ref:** [Global Decision Log: 2025-05-04 21:33:00], [Global Progress: 2025-05-04 21:33:00], [Feedback Log: 2025-05-04 17:12:08]
+### [2025-05-04 16:40:14] - System Pattern V18.3.3: Hegel Philosophy Suite (Feedback Integration)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.3).*
+- **Description:** Architecture V18.3.2 revised to V18.3.3 to incorporate feedback. Key changes: Corrected system name ("Hegel Philosophy RooCode Suite"), standardized operational memory path to `phil-memory-bank/`, enhanced detail in error handling/cross-mode communication sections, and clarified citation mechanism (`source_ref_keys`, `extraction_markers`).
+- **Diagram:** See `docs/architecture/architecture_v18.md` Section 5 (V18.3.3 Diagram).
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.3)
+- **Cross-ref:** [Global Decision Log: 2025-05-04 16:40:14], [Global Progress: 2025-05-04 16:40:14], [Feedback Log: 2025-05-04 15:36:12]
 ### [2025-05-03 03:29:49] Progress Update: `.roomodes` Aligned with V18.3
 - **Status:** Completed
 - **Details:** Updated `.roo/.roomodes` to reflect the 13 modes defined in `docs/architecture/architecture_v18.md` (V18.3). Removed `philosophy-evidence-manager`, added `philosophy-kb-doctor` and `philosophy-meta-reflector`.
@@ -7,12 +39,47 @@
 - **Status:** Handover Initiated (Critical Context)
 - **Details:** Completed Corrective Step 1.4 (Rewrite `.roo/.roomodes`). Context reached 123%. Handing over to new SPARC instance before delegating Corrective Step 2 (`.clinerules` revision planning) to Architect.
 - **Link:** [See Active Context 2025-05-01 17:33:07]
+### [2025-05-04 17:13:16] - Decision: Re-evaluate KB Script Necessity in V18.3.3
+- **Decision**: Based on user feedback [See Feedback Log: 2025-05-04 17:12:08], the upcoming architecture revision (V18.3.3) delegated to `architect` mode must include a critical re-evaluation of the necessity and scope of `KB_scripts` (Section 4.1, etc.).
+- **Rationale**: User questioned potential overcomplexity introduced by scripts versus leveraging direct LLM capabilities within modes for tasks like indexing, validation, and cleanup. This evaluation ensures the architecture balances efficiency, flexibility, and maintainability.
+- **Outcome**: Architecture revision task scope expanded. `architect` mode will be instructed to assess if tasks assigned to `KB_scripts` can be handled directly by modes using LLM logic and file tools, simplifying the design if feasible.
+- **Cross-ref:** [SPARC MB Feedback Log: 2025-05-04 17:12:08], [SPARC MB Intervention Log: 2025-05-04 17:12:08]
+### [2025-05-04 16:40:14] - Decision: Adopt V18.3.3 Architecture (Feedback Integration)
+- **Decision**: Adopt V18.3.3 architecture as defined in `docs/architecture/architecture_v18.md`. Key enhancements over V18.3.2:
+    1.  **System Naming:** Replaced "SPARC" with "Hegel Philosophy RooCode Suite".
+    2.  **Path Consistency:** Standardized operational memory path to `phil-memory-bank/`.
+    3.  **Verbosity:** Removed purely documentary comments.
+    4.  **Detail Enhancement:** Increased detail in error handling (Sec 7.1, 7.2, 7.3) and cross-mode communication (Sec 4.2).
+    5.  **Citation Clarity:** Revised Section 6 KB Entry Format to clarify `source_ref_keys` and `extraction_markers` linkage.
+- **Rationale**: Incorporates user feedback [See Feedback Log: 2025-05-04 15:36:12] to address naming, path consistency, detail level, and citation clarity.
+- **Outcome**: V18.3.3 architecture defined and documented.
+- **Cross-ref:** [Global System Patterns: 2025-05-04 16:40:14], [Global Progress: 2025-05-04 16:40:14], [Active Context: 2025-05-04 16:40:14]
 # Product Context
 ### [2025-05-01 19:21:04] - Decision: Pause Implementation & Revise Architecture
 - **Decision**: Pause corrective actions on `.clinerules` files. Prioritize documenting new requirements (`philosophy-text-processor`, version control) and revising the system architecture (`docs/architecture/architecture_v12.md`) and overall plan (`docs/plans/philosophy_mode_improvement_plan_v2.md`).
 - **Rationale**: Address significant user intervention [See Feedback: 2025-05-01 19:21:04] regarding flawed handover, context calculation, and major new functional requirements before proceeding with detailed implementation. Ensures changes are integrated systematically.
 - **Outcome**: Plan adjusted. Next step is delegating documentation task to Architect.
 ## Decision Log
+### [2025-05-03 18:02:30] - Decision: Resolve Text Processing Workflow Conflict (Revised)
+- **Decision**: Based on revised analysis in `docs/reviews/text_processing_conflict_analysis_v1.md` (v1.1) incorporating user feedback [See Feedback Log: 2025-05-03 18:01:24], recommend Option 1 (Revised): Modify `scripts/process_source_text.py` to generate hierarchical `index.md` files for navigation *and* structured JSON output for KB data. Correct V18.3 architecture/rules to reflect this dual output and the navigational purpose of `index.md`.
+### [2025-05-04 21:33:00] - Decision: Adopt V18.3.3 Architecture (KB Script Re-evaluation)
+- **Decision**: Adopt V18.3.3 architecture as defined in `docs/architecture/architecture_v18.md`. Key change from V18.3.2: Removed `philosophy-kb-doctor` mode and reliance on external maintenance scripts based on user feedback [Feedback Log: 2025-05-04 17:12:08]. KB validation/maintenance responsibilities reassigned to `verification-agent` and `meta-reflector`, triggered by `Orchestrator`.
+- **Rationale**: Simplifies architecture, reduces external dependencies, leverages LLM capabilities within modes, and addresses user feedback questioning script necessity.
+- **Outcome**: V18.3.3 architecture defined and documented, reflecting a scriptless approach to KB maintenance.
+- **Cross-ref:** [Global System Patterns: 2025-05-04 21:33:00], [Global Progress: 2025-05-04 21:33:00], [Active Context: 2025-05-04 21:33:00]
+- **Rationale**: Directly addresses user's requirement for navigational `index.md` files while maintaining a robust mechanism (JSON) for KB data transfer, aligning with V18.3's direct write pattern for the mode. Corrects misalignment in V18.3 docs/rules.
+- **Outcome**: Revised analysis report created. Next step is planning and delegating script modification and documentation correction tasks.
+- **Cross-ref:** `docs/reviews/text_processing_conflict_analysis_v1.md` (v1.1), [Active Context: 2025-05-03 18:02:30], [Architect MB: 2025-05-03 18:02:30]
+### [2025-05-03 17:27:00] - Decision: Resolve Text Processing Workflow Conflict
+- **Decision**: Based on analysis in `docs/reviews/text_processing_conflict_analysis_v1.md`, recommend Option 1: Modify `scripts/process_source_text.py` to align with V18.3 architecture and `.clinerules`.
+- **Rationale**: Prioritizes architectural consistency and robustness over short-term implementation ease. Ensures implementation matches documented V18.3 intent (structured JSON output from script, direct KB writes by mode).
+- **Outcome**: Analysis report created. Next step is planning and delegating script modification task.
+- **Cross-ref:** `docs/reviews/text_processing_conflict_analysis_v1.md`, [Active Context: 2025-05-03 17:27:00], [Architect MB: 2025-05-03 17:27:00]
+### [2025-05-03 13:54:11] - Decision: Corrected `philosophy-text-processor.clinerules` Generation
+- **Decision**: Rewrote `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to correctly implement the nested structure for `input_schema` and `output_schema` as defined in `docs/standards/clinerules_standard_v1.md`. Ensured all standard and mode-specific sections were explicitly included based on V18.3 architecture and standards.
+- **Rationale**: Addresses repeated user feedback indicating previous attempts were incorrect ("worse"), specifically diagnosing and correcting the schema format error after re-reading the generated file and documentation. Aims for full compliance and explicitness.
+- **Outcome**: Corrected `.clinerules` file generated and saved.
+- **Cross-ref:** [See Active Context: 2025-05-03 13:54:11], [See Code Feedback Log: 2025-05-03 13:52:28]
 ### [2025-05-02 23:50:14] - Decision: Define Standardized `.clinerules` Structures
 - **Decision**: Define a set of standard, detailed structures for `.clinerules` files, inspired by `.clinerules-philosophy-essay-prep` but adapted for the orchestrated system (removing unnecessary inter-mode handoff logic). Standards will include guidelines for philosophical rigor and strict definitions for critical workflows (e.g., KB interaction, verification).
 - **Rationale**: Address user feedback regarding inconsistent detail levels in `.clinerules` files [See User Feedback: 2025-05-02 23:50:14]. Ensure consistency, maintain rigor, and prevent errors in critical operations while allowing flexibility where appropriate.
@@ -231,7 +298,37 @@
 - **Artifact:** `docs/specs/v18_requirements_spec_v1.md`
 - **Next Step:** Initiate Implementation phase: Update `.clinerules` files based on V18.3 architecture and specification, prioritizing architecture.
 - **Related Decision:** [See Decision Log SPARC_TIMESTAMP]
+### [2025-05-04 13:35:00] Progress Update: `philosophy-text-processor.clinerules` Updated & Verified
+- **Status:** Completed
+- **Details:** Delegated update task to `code` mode [See SPARC MB Delegations Log: 2025-05-04 03:20:13]. Received completion report. Verified changes via `git diff`. File `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` now aligns with V18.3.2 architecture, standard structure, preserves detail, and is fully explicit.
+- **Next Step**: Proceed with correcting the remaining `.clinerules` files sequentially.
+- **Link to Active Context:** [See Active Context 2025-05-04 13:35:00]
 ## Progress
+### [2025-05-04 22:13:07] - Progress Update: Handover Plan Created
+- **Status:** Completed
+- **Details:** Created handover plan document `docs/plans/handoff_plan_linux_migration_v1.md` to guide the transition to a Linux environment and continuation of V18.3.3 implementation.
+- **Artifact:** `docs/plans/handoff_plan_linux_migration_v1.md`
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-04 22:13:07]
+### [2025-05-04 02:11:55] Progress Update: Architecture V18.3.2 (Processed Root Index)
+- **Status:** Completed
+- **Details:** Updated `docs/architecture/architecture_v18.md` to V18.3.2, incorporating feedback regarding the need for a root `index.md` in `source_materials/processed/`. Clarified its purpose (library overview) and assigned update responsibility to `philosophy-text-processor`.
+- **Artifact:** `docs/architecture/architecture_v18.md` (Version 18.3.2)
+- **Next Step:** Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-04 02:11:55]
+- **Link to Feedback:** [See Feedback Log 2025-05-04 02:09:28]
+### [2025-05-04 01:57:52] Progress Update: Architecture V18.3.1 (Text Processor Correction)
+- **Status:** Completed
+- **Details:** Updated `docs/architecture/architecture_v18.md` to V18.3.1, correcting the `philosophy-text-processor` workflow description based on `docs/reviews/text_processing_conflict_analysis_v1.md` (V1.1). Clarified the script's dual output (hierarchical `index.md` for navigation, JSON for KB data), the mode's role in parsing JSON, and the direct KB write mechanism. Updated diagram and related sections.
+- **Artifact:** `docs/architecture/architecture_v18.md` (Version 18.3.1)
+- **Next Step:** Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-04 01:57:52]
+### [2025-05-03 18:23:25] Progress Update: Text Processing Script V2 Implemented
+- **Status:** Completed
+- **Details:** Rewrote `scripts/process_source_text.py` to support hierarchical Markdown splitting based on headers, generation of `index.md` files at each level for navigation, chunking based on token limits (20k), and outputting structured JSON containing all extracted metadata, summaries, concepts, arguments, and citation details. This aligns with the revised V18.3 workflow decision [See Decision Log: 2025-05-03 18:02:30].
+- **Artifact:** `scripts/process_source_text.py` (Version 2.0 - Hierarchical/JSON Output)
+- **Next Step:** Testing the script and integrating its JSON output with the `philosophy-text-processor` mode for KB writes. Recommend TDD run.
+- **Link to Active Context:** [See Active Context 2025-05-03 18:23:25]
 ### [2025-05-03 05:50:30] Progress Update: V18.3 Implementation - Step 4 Pending
 - **Status:** `philosophy-citation-manager.clinerules` Content Prepared.
 - **Details:** Code mode prepared the content for `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` based on V18.3 architecture (`docs/architecture/architecture_v18.md`) and standards (`docs/standards/clinerules_standard_v1.md`).
@@ -607,8 +704,27 @@ graph TD
     class SPARCMB sparcmb;
     classDef kbcontent fill:#fffacd,stroke:#8a6d3b,stroke-width:1px,stroke-dasharray: 5 5;
     class Concepts,Arguments,Quotations,References,Questions,Theses,Relationships,Methods,MetaReflections,ProcessedTexts,Analyses,Citations kbcontent;
+### [2025-05-03 18:23:25] - System Pattern: `process_source_text.py` (V2 - Hierarchical/JSON)
+*Maintained primarily by Code, reflects implementation in `scripts/process_source_text.py`.*
+- **Description:** Python script responsible for processing a single Markdown source file. It performs hierarchical splitting based on headers, creates a corresponding directory structure, chunks content below a token threshold, generates navigational `index.md` files at each level, and outputs a comprehensive structured JSON object containing all extracted metadata, summaries, concepts, arguments, and citation details.
+- **Key Aspects:**
+    - Input: `--input_path` (Markdown file), `--output_dir` (base output).
+    - Output 1 (Filesystem): Hierarchical directories under `[output_dir]/[source_id]/level_N...` containing `chunk_*.md` files and `index.md` files at each level.
+    - Output 2 (stdout): Structured JSON object containing processing status, source metadata, and detailed data for each generated node and chunk (summaries, concepts, arguments, citations, relative paths).
+    - Dependencies: Python 3, `markdown-it-py`, `tiktoken`, `mdit_plain`.
+    - Invoked by: `philosophy-text-processor` mode via `execute_command`.
+- **Link:** `scripts/process_source_text.py`
+- **Cross-ref:** [Global Progress: 2025-05-03 18:23:25], [Code MB Component: 2025-05-03 18:23:25]
     classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
     class Indices,Operational,OpLogs,OpStatus,OpScripts kbops;
+### [2025-05-04 02:11:55] - System Pattern V18.3.2: Processed Source Library Structure
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.2).*
+- **Description:** Defines the structure of the `source_materials/processed/` directory, which includes a root `index.md` file acting as a library manifest, and subdirectories for each processed source (`[source_id]`) containing hierarchical navigational `index.md` files and content chunks.
+- **Key Aspects:**
+    - Root Index: `source_materials/processed/index.md` lists all processed sources. Updated by `philosophy-text-processor`.
+    - Source Structure: `source_materials/processed/[source_id]/` contains hierarchical `index.md` files and `chunk_*.md` files generated by `scripts/process_source_text.py`.
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.2), Section 3.
+- **Cross-ref:** [Global Progress: 2025-05-04 02:11:55], [Architect MB: 2025-05-04 02:11:55], [Feedback Log: 2025-05-04 02:09:28]
 ```
 - **Link:** `docs/architecture/architecture_v16.md`
 - **Cross-ref:** [Global Decision Log: 2025-05-02 13:13:23], [Active Context: 2025-05-02 13:19:52]
@@ -616,6 +732,16 @@ graph TD
 ### [2025-05-02 13:40:50] - System Architecture V16 (Detailed): Hegel Philosophy Suite (Strict Separation)
 *Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v16.md`.*
 - **Description:** Architecture V15 revised to V16 to enforce strict separation between `memory-bank/` (SPARC operational context) and `philosophy-knowledge-base/` (domain knowledge + domain-specific operational mechanisms). All philosophy-specific operational data/mechanisms (indexing, status, logs, scripts) MUST reside within `philosophy-knowledge-base/_operational/`. `philosophy-kb-doctor` orchestrates KB-internal maintenance scripts.
+### [2025-05-04 01:57:52] - System Pattern V18.3.1: `philosophy-text-processor` Workflow (Corrected)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.1).*
+- **Description:** Defines the corrected workflow for processing source texts. `philosophy-text-processor` orchestrates `scripts/process_source_text.py`. The script generates hierarchical `index.md` files in `source_materials/processed/` for navigation AND outputs structured JSON to stdout. The mode parses this JSON and performs direct writes to `philosophy-knowledge-base/`.
+- **Key Aspects:**
+    - Script Output 1: Hierarchical `index.md` files (navigational).
+    - Script Output 2: Structured JSON (stdout - for KB data).
+    - Mode Responsibility: Execute script, parse JSON, perform direct KB writes.
+- **Diagram:** See `docs/architecture/architecture_v18.md` Section 5 (V18.3.1 Diagram).
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.1)
+- **Cross-ref:** [Global Progress: 2025-05-04 01:57:52], [Architect MB: 2025-05-04 01:57:52], `docs/reviews/text_processing_conflict_analysis_v1.md` (V1.1)
 ```mermaid
 ### [2025-05-02 15:25:15] - System Architecture V18: Hegel Philosophy Suite (Direct KB Access + KB Doctor)
 *Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md`.*
@@ -1797,6 +1923,13 @@ graph TD
 - **Details:** Modified 5 `.clinerules` files (`philosophy-orchestrator`, `philosophy-essay-prep`, `philosophy-citation-manager`, `philosophy-draft-generator`, `philosophy-verification-agent`) to include mandatory user confirmation before handover (orchestrator) or early return (other modes) due to context limits, per `docs/reports/clinerules_verification_report_v1.md`. [See Active Context: 2025-05-01 22:41:54]
 - **Next Step**: Task complete. Awaiting further instructions or next phase.
 # Progress
+### [2025-05-04 16:40:14] Progress Update: Architecture V18.3.3 (Feedback Integration)
+- **Status:** Completed
+- **Details:** Updated `docs/architecture/architecture_v18.md` to V18.3.3, incorporating feedback on system naming, operational memory path (`phil-memory-bank/`), comment verbosity, detail regression (error handling, cross-mode communication), and citation mechanism clarity. File written using `write_to_file` + `insert_content` mitigation.
+- **Artifact:** `docs/architecture/architecture_v18.md` (Version 18.3.3)
+- **Next Step:** Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-04 16:40:14]
+- **Link to Feedback:** [See Feedback Log 2025-05-04 15:36:12]
 ### [2025-05-01 22:10:18] Progress Update: `.clinerules` Verification Completed
 - **Status:** Verification of 6 `.clinerules` files against V12 specs and feedback completed.
 - **Details:** Architect mode generated `docs/reports/clinerules_verification_report_v1.md`. Found functional V12 alignment but identified a critical gap: missing user confirmation rule for handover delegation in standard MB strategy sections across multiple modes. Also noted `philosophy-text-processor` rules are minimal.

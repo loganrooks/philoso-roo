@@ -1,4 +1,39 @@
 # Architect Specific Memory
+### [2025-05-04 21:33:00] Task: Revise Architecture to V18.3.3
+- **Action**: Revised `docs/architecture/architecture_v18.md` to V18.3.3 based on user feedback [Feedback Log: 2025-05-04 15:44:00] and KB script re-evaluation [Feedback Log: 2025-05-04 17:12:08].
+- **Changes**:
+    - Updated version to `18.3.3 (KB Script Re-evaluation & Feedback Integration)`.
+    - Verified system name ("Hegel Philosophy RooCode Suite") and operational memory path (`phil-memory-bank/`) consistency.
+    - Verified no purely documentary comments remain.
+    - Enhanced detail in Section 4.2 (Cross-Mode Communication) and Section 7 (Failure Handling).
+    - Clarified citation mechanism (`source_ref_keys`, `extraction_markers`) in Section 6.
+    - Re-evaluated KB script necessity: Removed `philosophy-kb-doctor` mode and script dependencies. Updated Sections 4.4, 5, and 6 to reflect reassigned responsibilities (to `Orchestrator`, `meta-reflector`, `verification-agent`).
+- **Output**: Updated `docs/architecture/architecture_v18.md` (V18.3.3). Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: Revision complete. File updated via `search_and_replace` and `apply_diff`. Ready for completion.
+- **Cross-ref:** [Global Progress: 2025-05-04 21:33:00], [Global System Patterns: 2025-05-04 21:33:00], [Global Decision Log: 2025-05-04 21:33:00], [Active Context: 2025-05-04 21:33:00]
+### [2025-05-04 16:40:14] Task: Revise Architecture to V18.3.3
+- **Action**: Revised `docs/architecture/architecture_v18.md` to V18.3.3 based on user feedback [Feedback Log: 2025-05-04 15:36:12].
+- **Changes**:
+    - Replaced "SPARC" with "Hegel Philosophy RooCode Suite" throughout.
+    - Corrected operational memory path to `phil-memory-bank/` throughout.
+    - Reviewed and removed purely documentary comments.
+    - Enhanced detail in Failure Handling subsections (7.1, 7.2, 7.3) and Cross-Mode Communication notes (4.2).
+    - Clarified citation mechanism (`source_ref_keys`, `extraction_markers`) in Section 6 KB Entry Format and added detailed explanation.
+- **Output**: Updated `docs/architecture/architecture_v18.md` (V18.3.3). Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
+- **Status**: Revision complete. File written using `write_to_file` + `insert_content` mitigation. Ready for completion.
+- **Cross-ref:** [Global Progress: 2025-05-04 16:40:14], [Global System Patterns: 2025-05-04 16:40:14], [Global Decision Log: 2025-05-04 16:40:14], [Active Context: 2025-05-04 16:40:14]
+### [2025-05-03 18:02:30] Task: Analyze Text Processing Workflow Conflict (Revised)
+- **Action**: Re-analyzed workflow conflict after user feedback [See Feedback Log: 2025-05-03 18:01:24] clarified the requirement for script-generated hierarchical `index.md` files for navigation. Revised analysis report (`docs/reviews/text_processing_conflict_analysis_v1.md` v1.1).
+- **Revised Findings**: Conflict exists between user requirement/V14 intent (hierarchical `index.md` files) and current script implementation (flat structure, single `index.md`). V18.3 docs/rules also misaligned (appeared to forbid `index.md` generation).
+- **Revised Recommendation**: Modify script to produce hierarchical `index.md` files *and* structured JSON output (for KB writes by mode). Correct V18.3 docs/rules to reflect this dual output and the navigational purpose of `index.md`.
+- **Output**: Revised analysis report `docs/reviews/text_processing_conflict_analysis_v1.md` (v1.1).
+- **Status**: Analysis revised, report updated. Memory Bank updated.
+- **Cross-ref:** `docs/reviews/text_processing_conflict_analysis_v1.md` (v1.1), [Global Decision Log: 2025-05-03 18:02:30], [Active Context: 2025-05-03 18:02:30]
+### [2025-05-03 17:27:00] Task: Analyze Text Processing Workflow Conflict
+- **Action**: Reviewed V14 spec (`docs/specs/new_requirements_spec_v1.md`), V18.3 architecture (`docs/architecture/architecture_v18.md`), mode rules (`.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`), and script (`scripts/process_source_text.py`). Identified conflicts regarding script output format (Markdown index vs. structured JSON), output structure (flat vs. hierarchical), and KB write responsibility (script vs. mode).
+- **Output**: Created analysis report `docs/reviews/text_processing_conflict_analysis_v1.md` detailing conflicts and recommending Option 1 (modify script to align with V18.3 architecture/rules).
+- **Status**: Analysis complete, report generated. Memory Bank updated.
+- **Cross-ref:** `docs/reviews/text_processing_conflict_analysis_v1.md`, [Global Decision Log: 2025-05-03 17:27:00], [Active Context: 2025-05-03 17:27:00]
 ### [2025-05-02 23:54:29] Task: Define Standard `.clinerules` Structures (V1)
 - **Action**: Based on user task [2025-05-02 23:50:14] and decision log entry, defined standard structures (Simple Task Mode, Complex Analysis/Generation Mode) for philosophy mode `.clinerules` files. Aligned standards with V18.3 architecture (Direct KB Access, Orchestrator focus), incorporated rigor guidelines, and defined strict protocols for critical workflows (KB interaction, logging, error reporting, verification). Inspired by `.clinerules-philosophy-essay-prep`.
 - **Output**: Created `docs/standards/clinerules_standard_v1.md`. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
@@ -12,6 +47,18 @@
 - **Output**: Overwrote `docs/architecture/architecture_v18.md` with V18.1 design. Updated Memory Bank (`activeContext.md`, `globalContext.md`, `architect.md`).
 - **Status**: V18.1 design complete and documented. Ready for review/implementation planning. Cross-ref: [Global Context System Patterns: V18.1 - 2025-05-02 15:54:35], [Global Decision Log: V18.1 - 2025-05-02 15:54:35], [Active Context: 2025-05-02 15:56:11]
 
+### Component Specification: philosophy-text-processor (V18.3.2 Root Index Update) - [2025-05-04 02:11:55]
+- **Responsibility**: Orchestrates `scripts/process_source_text.py`, parses script JSON output, performs direct KB writes, and **updates the root processed library index (`source_materials/processed/index.md`)**.
+- **Dependencies**: `philosophy-orchestrator`, `scripts/process_source_text.py`, `execute_command`, File system tools (for KB, `processed/`, `phil-memory-bank/`), JSON parsing library.
+- **Interfaces Exposed**: Accepts task delegation. Executes script. Parses JSON. Writes to KB. **Updates `source_materials/processed/index.md`**. Writes operational logs.
+- **Workflow Summary**: Receives path -> Extracts context -> Executes script -> Script generates hierarchical `index.md` files & JSON output -> Mode parses JSON -> Mode performs direct KB writes -> **Mode updates root `processed/index.md`**.
+- **Cross-ref:** `docs/architecture/architecture_v18.md` (V18.3.2), [Global System Patterns: 2025-05-04 02:11:55], [Feedback Log: 2025-05-04 02:09:28]
+### Component Specification: philosophy-text-processor (V18.3.1 Corrected) - [2025-05-04 01:57:52]
+- **Responsibility**: Orchestrates the pre-processing of source texts from `source_materials/raw/` by executing `scripts/process_source_text.py`. Parses the script's JSON output and performs direct writes to `philosophy-knowledge-base/`.
+- **Dependencies**: `philosophy-orchestrator` (trigger), `scripts/process_source_text.py`, `execute_command`, File system tools (for KB and `phil-memory-bank/` access), JSON parsing library.
+- **Interfaces Exposed**: Accepts task delegation. Executes script. Parses JSON output. Writes data directly to KB. Writes operational logs directly to `phil-memory-bank/mode-specific/`.
+- **Workflow Summary**: Receives path -> Extracts context -> Executes script -> Script generates hierarchical `index.md` files in `source_materials/processed/` AND outputs JSON to stdout -> Mode parses JSON -> Mode performs direct KB writes using parsed data.
+- **Cross-ref:** `docs/architecture/architecture_v18.md` (V18.3.1), [Global System Patterns: 2025-05-04 01:57:52]
 ### Component Specification: philosophy-kb-doctor (V18.1 Enhanced) - [2025-05-02 15:56:11]
 - **Responsibility**: Orchestrates KB maintenance tasks (indexing, validation, cleanup, linking). Triggered by `philosophy-orchestrator`. Executes scripts located in `philosophy-knowledge-base/_operational/maintenance_scripts/`. **V18.1:** Scripts may include validation checks for rigor elements (e.g., presence of determinacy fields, links to counter-arguments, source validity checks). Reads KB operational logs/status from `philosophy-knowledge-base/_operational/`. Reports KB status and rigor validation summaries to `philosophy-orchestrator`. **Does NOT perform maintenance directly; orchestrates KB-internal processes. Does NOT gate read/write access for other modes.**
 - **Dependencies**: `philosophy-orchestrator` (trigger), scripts within `philosophy-knowledge-base/_operational/maintenance_scripts/`, data within `philosophy-knowledge-base/_operational/`, `philosophy-evidence-manager` (for SPARC context).
@@ -962,6 +1009,10 @@ graph TD
 - **Description:** Overall mode interaction and data flow for V14. Integrates V13 KB/Workflows with V14 Source Context Handling (raw source structure, context extraction/tagging, context-aware querying).
 ```mermaid
 graph TD
+### Diagram: Hegel Philosophy Suite V18.3.1 (Text Processor Correction) - [2025-05-04 01:57:52]
+- **Description:** Overall mode interaction for V18.3.1. Corrects the `philosophy-text-processor` workflow to show script execution, generation of hierarchical `index.md` files, JSON output parsing by the mode, and subsequent direct KB write by the mode.
+- **Diagram Code:** See `docs/architecture/architecture_v18.md` Section 5.
+- **Notes:** Reflects V18.3.1 architecture documented in `docs/architecture/architecture_v18.md`.
     subgraph User Interaction
         User(User)
     end

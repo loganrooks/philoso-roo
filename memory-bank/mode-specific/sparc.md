@@ -1,6 +1,189 @@
 # SPARC Orchestrator Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
+### [2025-05-04 22:39:00] Task: Create Handover Plan Document
+- Assigned to: docs-writer
+- Description: Create `docs/plans/handoff_plan_linux_migration_v1.md` detailing current state (V18.3.3 arch verified), overall trajectory, and next steps for post-Linux migration handover.
+- Expected deliverable: `docs/plans/handoff_plan_linux_migration_v1.md`
+- Status: completed
+- Completion time: [2025-05-04 22:39:08]
+- Outcome: Handover plan document successfully created. Project ready for migration and handover.
+- Link to Progress Entry: [See Global Progress: 2025-05-04 22:01:00]
+
+# Workflow State (Current - Overwrite this section)
+- Current phase: Completion (Handover Preparation)
+- Phase start: [2025-05-04 22:01:00]
+- Current focus: Architecture V18.3.3 verified. Handover plan document (`docs/plans/handoff_plan_linux_migration_v1.md`) created. Ready for user to initiate Linux migration and start new SPARC task using the handover plan.
+- Next actions: [Await user action for migration and new task initiation.]
+- Last Updated: [2025-05-04 22:39:00]
+### [2025-05-04 15:44:00] Current Plan &amp; Detailed Feedback (Architecture V18.3.2 Revision - Corrected Log)
+
+**Detailed Feedback Received on `docs/architecture/architecture_v18.md` (V18.3.2):**
+1.  **Incorrect System Name:** The document contains references to "SPARC". These must be removed and replaced with the correct system name, "Hegel Philosophy RooCode Suite".
+2.  **Inconsistent Logging Path:** The document inconsistently uses `memory-bank/` when referring to the operational logging directory for the Hegel suite modes. This must be corrected to consistently use the confirmed correct path: `phil-memory-bank/`.
+3.  **Verbosity/Unnecessary Comments:** The document contains comments that appear purely documentary and do not add instructional value for the AI agents (e.g., comments indicating source of merged content). These should be reviewed and removed to improve conciseness and reduce token usage.
+4.  **Quality/Detail Regression:** There is concern that the level of detail, particularly in sections like error reporting protocols, may have decreased compared to previous versions or intentions. A review is needed during revision to ensure sufficient detail and quality are maintained or restored, matching the high standard expected.
+5.  **Citation Mechanism Clarity:** The explanation of the citation mechanism, specifically how `source_ref_keys` (linking to KB Reference entries) and `extraction_markers` (linking to specific locations in processed source files) work together to provide precise linkage back to specific paragraphs/sections within the hierarchical `source_materials/processed/` structure, is unclear. It needs significant improvement to detail how this precise referencing is achieved, addressing the concern that simple IDs might imply an unfeasible need to ID every paragraph. The explanation should align with the hierarchical nature of the processed sources.
+
+**Revised Plan Forward:**
+1.  **Document Plan & Feedback:** (This Entry) Record detailed feedback and the full plan in `sparc.md`. Log detailed feedback also in `sparc-feedback.md`.
+2.  **Log Feedback:** Ensure the detailed feedback points are logged correctly in `memory-bank/feedback/sparc-feedback.md`.
+3.  **Handover:** Initiate handover to a new SPARC instance due to context window size exceeding threshold (currently ~55.9%). The handover message will include this documented plan and feedback.
+4.  **(New Instance Task 1):** Initialize Memory Bank.
+5.  **(New Instance Task 2):** Read Full Architecture Doc: Use `read_file` for `docs/architecture/architecture_v18.md`.
+6.  **(New Instance Task 3):** Delegate Architecture Revision: Delegate revision to `architect` mode, providing full content and clear instructions addressing all 5 detailed feedback points.
+7.  **(New Instance Task 4):** Verify Architecture Revision: SPARC verifies the updated architecture document via `read_file` and manual review.
+8.  **(New Instance Task 5):** Update `.clinerules`: Delegate update of `philosophy-text-processor.clinerules` to `code` mode (instructing MB init bypass and context file reading). Verify with `git diff`.
+9.  **(New Instance Task 6):** Correct Remaining `.clinerules`: Delegate sequentially. Verify each.
+10. **(New Instance Task 7):** Update `.roomodes`: Delegate update. Verify.
+11. **(New Instance Task 8):** Integration Verification: Perform original Phase 3, Step 2 task against the V18.3.x baseline. Generate `integration_verification_report_v18.3.x.md`.
+12. **(New Instance Task 9):** Complete: Use `attempt_completion`.
+### [2025-05-04 17:38:07] Intervention: Denied Architect Delegation & Manual Revert
+- **Trigger**: User Input denying `new_task` delegation to `architect`.
+- **Context**: SPARC attempted to re-delegate the architecture revision task [See SPARC MB Intervention Log: 2025-05-04 17:13:46]. User denied the task and stated they will manually revert the incorrect append changes previously made to `docs/architecture/architecture_v18.md`.
+- **Action Taken**: Acknowledged user denial and manual revert action. Halted delegation attempt. Logged in feedback file [See Feedback Log: 2025-05-04 17:38:07]. Will re-read the architecture file after user confirms revert is complete before re-delegating.
+- **Rationale**: Ensure the `architect` mode receives the correct baseline V18.3.2 content for revision.
+- **Outcome**: Delegation paused pending file revert and re-read.
+- **Follow-up**: Await user confirmation of revert, then use `read_file` on `docs/architecture/architecture_v18.md`, then re-delegate to `architect`.
+### [2025-05-04 17:12:08] Intervention: Architect Edit Method & KB Script Necessity
+- **Trigger**: User Input following cancelled `new_task` delegation to `architect`.
+- **Context**: User observed a previous (cancelled) attempt by `architect` to modify `docs/architecture/architecture_v18.md` by appending content, which is unacceptable. User suggested `apply_diff` or `insert_content` as better methods. User also questioned the necessity of `KB_scripts` mentioned in the architecture doc (Section 4.1, Example Task), suggesting direct LLM capabilities might suffice and scripts could add unnecessary complexity. User requested a `git diff` check.
+- **Action Taken**: Acknowledged feedback. Logged in feedback file [See Feedback Log: 2025-05-04 17:12:08]. Will check `git status`. Will address KB script rationale and propose re-evaluation. Will ensure future delegation to `architect` includes guidance on preferred editing tools (`apply_diff`, `insert_content`).
+- **Rationale**: Incorporate user feedback on tool usage and architectural choices. Ensure clarity and efficiency in system design and operation.
+- **Outcome**: Plan adjusted to address feedback before re-delegating architecture revision.
+- **Follow-up**: Run `git status`. Discuss KB scripts. Re-delegate architecture task with refined instructions.
+### [2025-05-04 15:38:00] Current Plan &amp; Detailed Feedback (Architecture V18.3.2 Revision)
+
+**Detailed Feedback Received on `docs/architecture/architecture_v18.md` (V18.3.2):**
+1.  **Incorrect System Name:** The document contains references to "SPARC". These must be removed and replaced with the correct system name, "Hegel Philosophy RooCode Suite".
+2.  **Inconsistent Logging Path:** The document inconsistently uses `memory-bank/` when referring to the operational logging directory for the Hegel suite modes. This must be corrected to consistently use the confirmed correct path: `phil-memory-bank/`.
+3.  **Verbosity/Unnecessary Comments:** The document contains comments that appear purely documentary and do not add instructional value for the AI agents. These should be reviewed and removed to improve conciseness and reduce token usage.
+4.  **Quality/Detail Regression:** There is concern that the level of detail, particularly in sections like error reporting protocols, may have decreased compared to previous versions or intentions. A review is needed to ensure sufficient detail and quality are maintained or restored.
+5.  **Citation Mechanism Clarity:** The explanation of the citation mechanism, specifically how `source_ref_keys` and `extraction_markers` link KB entries back to precise locations (e.g., paragraphs, sections) within the hierarchically processed source files (`source_materials/processed/`), is unclear. It needs significant improvement to detail how this precise referencing works within the hierarchical structure, addressing the concern that simple IDs might imply an unfeasible need to ID every paragraph.
+
+**Revised Plan Forward:**
+1.  **Document Plan & Feedback:** (This Entry) Record detailed feedback and the full plan in `sparc.md`. Log detailed feedback also in `sparc-feedback.md`.
+2.  **Log Feedback:** Ensure the detailed feedback points are logged correctly in `memory-bank/feedback/sparc-feedback.md`.
+3.  **Handover:** Initiate handover to a new SPARC instance due to context window size exceeding threshold (currently ~53%). The handover message will include this documented plan and feedback.
+4.  **(New Instance Task 1):** Initialize Memory Bank.
+5.  **(New Instance Task 2):** Read Full Architecture Doc: Use `read_file` for `docs/architecture/architecture_v18.md`.
+6.  **(New Instance Task 3):** Delegate Architecture Revision: Delegate revision to `architect` mode, providing full content and clear instructions addressing all 5 detailed feedback points.
+7.  **(New Instance Task 4):** Verify Architecture Revision: SPARC verifies the updated architecture document via `read_file` and manual review.
+8.  **(New Instance Task 5):** Update `.clinerules`: Delegate update of `philosophy-text-processor.clinerules` to `code` mode (instructing MB init bypass and context file reading). Verify with `git diff`.
+9.  **(New Instance Task 6):** Correct Remaining `.clinerules`: Delegate sequentially. Verify each.
+10. **(New Instance Task 7):** Update `.roomodes`: Delegate update. Verify.
+11. **(New Instance Task 8):** Integration Verification: Perform original Phase 3, Step 2 task against the V18.3.x baseline. Generate `integration_verification_report_v18.3.x.md`.
+12. **(New Instance Task 9):** Complete: Use `attempt_completion`.
+### [2025-05-04 15:36:12] Plan &amp; Feedback Summary (Architecture V18.3.2 Revision)
+
+**Summary of Feedback on `docs/architecture/architecture_v18.md` (V18.3.2):**
+1.  **Incorrect System Name:** Contains "SPARC" references; must be replaced with "Hegel Philosophy RooCode Suite".
+2.  **Inconsistent Logging Path:** Uses `memory-bank/` in some places; must consistently use the correct path `phil-memory-bank/` for Hegel suite operational logs.
+3.  **Verbosity:** Remove unnecessary comments intended only for documentation, not AI instruction.
+4.  **Quality/Detail Regression:** Review sections, especially error reporting, to ensure detail level meets or exceeds previous high-quality versions/intentions.
+5.  **Citation Clarity:** Significantly improve the explanation of how `source_ref_keys` and `extraction_markers` provide precise linkage back to specific paragraphs/sections within the hierarchical `source_materials/processed/` structure. The current explanation using only `KB_REF_ID` is insufficient and potentially misleading.
+
+**Revised Plan Forward:**
+1.  **Document Plan & Feedback:** (This Entry) Record detailed feedback and plan in `sparc.md`. Log feedback also in `sparc-feedback.md`.
+2.  **Read Full Architecture Doc:** Use `read_file` for `docs/architecture/architecture_v18.md` (if needed by the next instance after handover).
+3.  **Delegate Architecture Revision:** Delegate revision of `docs/architecture/architecture_v18.md` to `architect` mode, providing full content and clear instructions addressing all 5 feedback points.
+4.  **Verify Architecture Revision:** SPARC verifies the updated architecture document via `read_file` and manual review.
+5.  **Update `.clinerules`:** Delegate update of `philosophy-text-processor.clinerules` to `code` mode (instructing MB init bypass and context file reading). Verify with `git diff`.
+6.  **Correct Remaining `.clinerules`:** Delegate sequentially. Verify each.
+7.  **Update `.roomodes`:** Delegate update. Verify.
+8.  **Integration Verification:** Perform original Phase 3, Step 2 task against the V18.3.x baseline. Generate `integration_verification_report_v18.3.x.md`.
+9.  **Complete:** Use `attempt_completion`.
+10. **Handover:** Initiate handover to a new SPARC instance due to context window size exceeding threshold (currently ~53.6%).
+### [2025-05-04 15:36:00] Current Plan &amp; Feedback (Architecture V18.3.2 Revision)
+
+**Feedback Received on `docs/architecture/architecture_v18.md` (V18.3.2):**
+1.  **Incorrect System Name:** Contains "SPARC" references; replace with "Hegel Philosophy RooCode Suite".
+2.  **Inconsistent Logging Path:** Uses `memory-bank/` in places; must consistently use `phil-memory-bank/` for Hegel suite operational logs.
+3.  **Verbosity:** Remove unnecessary/purely documentary comments.
+4.  **Quality/Detail Regression:** Review sections (esp. error reporting) for potential loss of detail compared to previous versions/intentions.
+5.  **Citation Clarity:** Improve explanation of `source_ref_keys`/`extraction_markers` linkage to hierarchical processed sources (`source_materials/processed/`). Clarify how specific paragraphs/sections are referenced.
+
+**Plan Forward:**
+1.  **Document Plan & Feedback:** (This Entry) Record feedback and plan in `sparc.md` and `sparc-feedback.md`.
+2.  **Read Full Architecture Doc:** Use `read_file` for `docs/architecture/architecture_v18.md`.
+3.  **Delegate Architecture Revision:** Delegate revision to `architect` mode, providing full content and instructions addressing all 5 feedback points.
+4.  **Verify Architecture Revision:** SPARC verifies the updated architecture document via `read_file` and manual review.
+5.  **Update `.clinerules`:** Delegate update of `philosophy-text-processor.clinerules` to `code` mode (instructing MB init bypass and context file reading). Verify with `git diff`.
+6.  **Correct Remaining `.clinerules`:** Delegate sequentially. Verify each.
+7.  **Update `.roomodes`:** Delegate update. Verify.
+8.  **Integration Verification:** Perform original Phase 3, Step 2 task against the V18.3.x baseline. Generate `integration_verification_report_v18.3.x.md`.
+9.  **Complete:** Use `attempt_completion`.
+10. **Handover Check:** Re-evaluate context window size after completing immediate documentation steps. Initiate handover if still over threshold (~50%).
+### [2025-05-03 16:09:00] Intervention: Bypassing `code` Mode MB Initialization
+- **Trigger**: User Input, `code` mode Early Return (Initialization Loop).
+- **Context**: `code` mode failed Attempt 7 due to initialization loop.
+- **Action Taken**: Decided to retry delegation (Attempt 8) instructing `code` mode to skip standard MB init and read essential context files directly.
+- **Rationale**: Workaround for `code` mode's initialization failure.
+- **Outcome**: Preparing Attempt 8 delegation.
+- **Follow-up**: Monitor Attempt 8. Logged also in `sparc-feedback.md`.
+### [2025-05-03 15:48:00] Intervention: SPARC Logging Error &amp; Flawed Verification
+- **Trigger**: User Input
+- **Context**: SPARC attempted incorrect logging location after user identified flawed verification (Attempt 5/6) and prior logging failures.
+- **Action Taken**: Halted incorrect logging. Acknowledged errors. Logged correctly to feedback file. Preparing to log here.
+- **Rationale**: Adherence to `feedback_handling` rules. Maintain accurate intervention record.
+- **Outcome**: Correct logging path identified and used for feedback file.
+- **Follow-up**: Log entry here. Re-delegate synthesis task (Attempt 7) with refined instructions.
+
+### [2025-05-03 15:25:00] Intervention: SPARC Verification Failure (Attempt 5)
+- **Trigger**: User Input confirming quality regression.
+- **Context**: SPARC ran `git diff` but misinterpreted results, failing to see quality loss in `philosophy-text-processor.clinerules`.
+- **Action Taken**: Acknowledged critical verification error. Logged failure retroactively in feedback.
+- **Rationale**: SPARC must verify quality/detail, not just structure.
+- **Outcome**: Deeper understanding of verification needs. Plan revised for Attempt 7.
+- **Follow-up**: Stricter SPARC-level verification.
+
+### [2025-05-03 15:06:00] Intervention: User Rejection &amp; Clarification (Attempt 6 Prep)
+- **Trigger**: User Input (Denied `new_task`).
+- **Context**: User rejected SPARC's Attempt 6 delegation due to 'merge' framing.
+- **Action Taken**: Acknowledged feedback. Refined goal to 'synthesis'. Logged retroactively in feedback.
+- **Rationale**: Instructions must match nuanced goal (quality preservation).
+- **Outcome**: Plan revised for Attempt 7.
+- **Follow-up**: Improve delegation clarity.
+
+### [2025-05-03 14:51:00] Intervention: `code` Mode Early Return (Attempt 5)
+- **Trigger**: `code` mode Early Return.
+- **Context**: `code` mode failed `git diff` self-verification during Attempt 5.
+- **Action Taken**: Received Early Return. Logged retroactively in feedback. Initiated SPARC-level verification.
+- **Rationale**: Agent followed protocol. SPARC verification required.
+- **Outcome**: SPARC verification initiated.
+- **Follow-up**: SPARC performs `git diff`.
+
+### [2025-05-03 14:36:00] Intervention: User Correction on Verification (Attempt 4)
+- **Trigger**: User Input.
+- **Context**: SPARC failed to see `code` mode removed sections in Attempt 4 output.
+- **Action Taken**: Acknowledged error. Logged retroactively in feedback. Revised plan for Attempt 5.
+- **Rationale**: SPARC verification must be thorough.
+- **Outcome**: Plan revised.
+- **Follow-up**: Improve SPARC `git diff` analysis.
+
+### [2025-05-03 14:07:00] Intervention: User Correction on Commit & `git diff` (Attempt 3)
+- **Trigger**: User Input.
+- **Context**: SPARC failed to use `git diff` and misunderstood commit status after Attempt 3.
+- **Action Taken**: Acknowledged error. Logged retroactively in feedback. Found correct commit (`04a30b3...`), gathered context. Prepared Attempt 5.
+- **Rationale**: Must follow instructions (use `git diff`) and interpret git correctly.
+- **Outcome**: Correct context gathered.
+- **Follow-up**: Mandate SPARC `git diff` verification.
+
+### [2025-05-03 13:59:00] Intervention: `code` Mode Early Return (Batch Rewrite)
+- **Trigger**: `code` mode Early Return.
+- **Context**: `code` mode failed batch rewrite task.
+- **Action Taken**: Received Early Return. Acknowledged failure. Logged retroactively in feedback. Revised plan to sequential.
+- **Rationale**: Batch task likely too complex/poorly instructed.
+- **Outcome**: Plan revised.
+- **Follow-up**: Implement sequential plan.
+
+### [2025-05-03 13:53:00] Intervention: User Feedback on Implicit Inheritance & Batching
+- **Trigger**: User Input.
+- **Context**: User identified SPARC's critical error allowing implicit inheritance. Suggested batching.
+- **Action Taken**: Acknowledged error. Logged retroactively in feedback. Revised plan for batch rewrite (explicit).
+- **Rationale**: `.clinerules` must be explicit. Fundamental error by SPARC.
+- **Outcome**: Plan revised (batch rewrite later failed).
+- **Follow-up**: Enforce explicitness rigorously.
 ### [SPARC_TIMESTAMP] Intervention: CRITICAL - Repeated Failure to Ignore System Context Report
 ### [SPARC_TIMESTAMP] Intervention: Significant Token Drop Detected (Recovery Triggered)
 - **Trigger**: Automated Check (Rule: CONTEXT MONITORING & RECOVERY, Step 3). Context dropped from ~19.3% to ~12.2%.
@@ -520,6 +703,14 @@ to resolve the perceived architectural/spec issue before proceeding with impleme
 - Next actions: [Complete MB updates. Delegate V18.3 Specification creation to `spec-pseudocode`.]
 - Last Updated: [SPARC_TIMESTAMP]
 
+### [2025-05-04 03:20:13] Task: Update `philosophy-text-processor.clinerules` (Attempt 9 - Synthesis)
+- Assigned to: code
+- Description: Update `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to be fully explicit, align with V18.3.2 architecture, use standard structure, and preserve detail from commit `04a30b3...`. Instructed to skip standard MB init.
+- Expected deliverable: Updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` file content.
+- Status: completed
+- Completion time: [2025-05-04 13:34:53]
+- Outcome: Code mode reported successful synthesis and file update. SPARC verified changes via `git diff`. File aligns with V18.3.2, standards, detail preservation, and explicitness.
+- Link to Progress Entry: [See globalContext Progress: 2025-05-04 13:35:00]
 ## Delegations Log
 ### [2025-05-02 23:50:59] Task: Define Standard `.clinerules` Structures and Guidelines
 - Assigned to: architect
