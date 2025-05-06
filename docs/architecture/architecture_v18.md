@@ -1,7 +1,7 @@
 # Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
-**Date:** 2025-05-05
-**Version:** 18.3.5 (Inheritance Review)
+**Date:** 2025-05-06
+**Version:** 18.3.6 (Added philosophy-evidence-manager)
 **Status:** Draft
 **Based On:**
 *   `docs/architecture/architecture_v18.md` (V18.3.1 - Text Processor Workflow Correction)
@@ -185,6 +185,17 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
     *   **Interaction (V18.2):** Directly Reads operational context from `phil-memory-bank/`, docs/rules, and KB content using file tools. Directly Writes findings to KB. Sends proposals to `Orchestrator`. Directly Writes operational logs.
     *   **Dependencies:** `philosophy-orchestrator`, File system tools (for KB and `phil-memory-bank/` access), potentially `architect`, `devops`.
 
+### 4.5 Utility & Data Access Modes
+
+*   **`philosophy-evidence-manager` (New V18.3.6):**
+    *   **Responsibility:** Retrieves evidence and associated rigor context (source links, extraction markers) directly from the Knowledge Base (`philosophy-knowledge-base/`) based on queries or specific markers. It acts as a specialized data retrieval interface for other modes needing precise information from the KB.
+    *   **Interaction (V18.3.6):**
+        *   **Read KB:** Directly Reads KB files (`philosophy-knowledge-base/`) using file tools (`read_file`, `search_files`) based on specific queries (ID, marker, keywords).
+        *   **Read Operational Context:** Directly Reads relevant files within `phil-memory-bank/` for operational context as needed.
+        *   **Output:** Provides structured evidence results (snippets, KB entry IDs, paths, rigor fields) to the requesting mode (typically via `Orchestrator`).
+        *   **Write Operational Log:** Directly Writes detailed operational logs (query, results, errors) to its own file in `phil-memory-bank/mode-specific/philosophy-evidence-manager.md`.
+    *   **Dependencies:** `philosophy-orchestrator` (for task delegation), File system tools (for KB and `phil-memory-bank/` access).
+
 ## 5. V18.3.2 Mode Interaction Diagram (Mermaid - Processed Root Index Added)
 
 ```mermaid
@@ -195,6 +206,12 @@ graph TD
 
     subgraph Orchestration
         Orchestrator(philosophy-orchestrator)
+    end
+
+    subgraph Evidence Retrieval %% New Subgraph for clarity
+        style EvidSubgraph fill:#f0e68c,stroke:#666,stroke-width:1px
+        EvidMan(philosophy-evidence-manager)
+        class EvidMan mode;
     end
 
     %% KB Maintenance & Rigor Validation (Responsibilities moved to Orchestrator/MetaReflector/Verify)
@@ -242,6 +259,7 @@ graph TD
              CiteMan -- Writes --> OpMemBank_ModeLogs
              Verify -- Writes --> OpMemBank_ModeLogs
              MetaReflector -- Writes --> OpMemBank_ModeLogs
+             EvidMan -- Writes Log --> OpMemBank_ModeLogs %% Added for EvidMan
              %% All modes can read all OpCtx files
              Orchestrator -- Reads --> OpMemBank_Global
              Orchestrator -- Reads --> OpMemBank_ModeLogs
@@ -257,6 +275,7 @@ graph TD
              CiteMan -- Reads --> OpMemBank_Global; CiteMan -- Reads --> OpMemBank_ModeLogs
              Verify -- Reads --> OpMemBank_Global; Verify -- Reads --> OpMemBank_ModeLogs
              MetaReflector -- Reads --> OpMemBank_Global; MetaReflector -- Reads --> OpMemBank_ModeLogs; MetaReflector -- Reads --> OpMemBank_Feedback
+             EvidMan -- Reads OpCtx --> OpMemBank_Global %% Added for EvidMan
         end
         subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
@@ -288,6 +307,7 @@ graph TD
     Orchestrator -- Delegate Tasks --> Quest
     Orchestrator -- Delegate Tasks --> EssayPrep
     Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
+    Orchestrator -- Delegate Evidence Retrieval --> EvidMan %% Added
     Orchestrator -- Coordinate Commit? --> EssayPrep
     Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector %% Updated
     Orchestrator -- Trigger KB Maintenance/Validation --> Verify %% Updated
@@ -322,6 +342,7 @@ graph TD
     SecLit -- Reads Nav Index --> ProcessedSource
     DialAn -- Reads Nav Index --> ProcessedSource
     Quest -- Reads Nav Index --> ProcessedSource
+    %% Analysis modes may request specific evidence via Orchestrator -> EvidMan
 
     %% Essay Flow (V18.2 Direct R/W + Rigor)
     EssayPrep -- Direct Read KB (Thesis Context + Rigor) --> PhilKB_Data
@@ -330,6 +351,7 @@ graph TD
     EssayPrep -- Request Citation --> CiteMan
     EssayPrep -- Request Verification --> Verify
     EssayPrep -- Manage Files --> Workspace
+    %% Essay modes may request specific evidence via Orchestrator -> EvidMan
 
     DraftGen -- Direct Read KB (Evidence + Rigor) --> PhilKB_Data
     DraftGen -- Draft --> EssayPrep
@@ -352,6 +374,9 @@ graph TD
     MetaReflector -- Propose Arch Mod --> Orchestrator
     MetaReflector -- Propose Method/Git Mod --> Orchestrator
 
+    %% Evidence Manager Interactions
+    EvidMan -- Direct Read KB --> PhilKB_Data %% Added
+
     %% KB Maintenance & Validation Interactions (V18.3.3 - Distributed)
     MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Data
     MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Ops
@@ -361,7 +386,7 @@ graph TD
     classDef kb fill:#f9f,stroke:#333,stroke-width:2px;
     class PhilKB_Data, PhilKB_Ops kb;
     classDef mode fill:#ccf,stroke:#333,stroke-width:1px;
-    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,MetaReflector mode;
+    class Orchestrator,TextProc,PreLec,ClassAn,SecLit,DialAn,Quest,EssayPrep,DraftGen,CiteMan,Verify,MetaReflector,EvidMan mode; %% Added EvidMan
     classDef script fill:#f0ad4e,stroke:#333,stroke-width:1px;
     class Scripts script;
     classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
@@ -372,12 +397,15 @@ graph TD
     class RawSource,ProcessedSource source;
     classDef kbops fill:#add8e6,stroke:#00008b,stroke-width:1px,stroke-dasharray: 2 2;
     class KB_Indices,KB_Logs,KB_Status,KB_Reports kbops;
+    classDef evidsubgraph fill:#f0e68c,stroke:#666,stroke-width:1px; %% Style for EvidMan subgraph
+    class EvidSubgraph evidsubgraph;
 ```
 
 **Diagram Notes:**
 *   Reflects V18.3.2: Added Root Index Update by `TextProc`.
 *   `TextProc` now interacts with `ProcessedSource` to update the root `index.md`.
 *   Other V18.3.1 elements remain.
+*   **V18.3.6 Update:** Added `philosophy-evidence-manager` (EvidMan) node and its interactions with Orchestrator, PhilKB_Data, and OpMemBank.
 
 ## 6. Philosophy Knowledge Base (KB) - V18.1 Design (Rigor Enhanced, Linux Paths)
 
@@ -618,6 +646,7 @@ Clarifying user interaction loops:
     ```json
     {
       "philosophy-orchestrator": ".roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules",
+      "philosophy-evidence-manager": ".roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules",
       "philosophy-text-processor": ".roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules",
       "philosophy-pre-lecture": ".roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules",
       "philosophy-class-analysis": ".roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules",
