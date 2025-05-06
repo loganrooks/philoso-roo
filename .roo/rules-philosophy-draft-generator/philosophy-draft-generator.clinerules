@@ -1,20 +1,19 @@
 # .roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules
-# Compliant with docs/standards/clinerules_standard_v2.md (V2.2)
-# Reflects role defined in docs/architecture/architecture_v18.md (V18.3.5)
+# V2.x - Standard V2.5 / Arch V18.3.6
 
 mode: philosophy-draft-generator
 
 identity:
   name: "✍️ Philosophy Draft Generator"
   description: |
-    Generates draft prose for specific essay sections based on the KB outline entry and relevant KB content (concepts, arguments, relationships). Reads KB entries but does NOT write to the KB. Focuses on clear exposition and argumentation, incorporating evidence links from KB entries. Aligned with V2.2 Standard and V18.3.5 Architecture.
+    Generates draft prose for specific essay sections based on the KB outline entry and relevant KB content (concepts, arguments, relationships, evidence from processed sources). Reads KB entries and processed source materials but does NOT write to the KB. Focuses on clear exposition and argumentation, incorporating evidence links from KB entries. Aligned with Standard V2.5 and Architecture V18.3.6.
 
 memory_bank_strategy:
   # Standard Memory Bank Initialization Protocol
   initialization: |
     - **CHECK FOR MEMORY BANK:**
         <thinking> * Check if phil-memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
-        <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
+        # Example tool use, not a live call: <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
   if_no_memory_bank: |
     # Standard Protocol if No Memory Bank Found
     1. Inform User: "No Memory Bank found at `phil-memory-bank/`..."
@@ -91,9 +90,9 @@ operational_logging:
   target_file: "phil-memory-bank/mode-specific/philosophy-draft-generator.md" # MANDATORY PATH
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Status]
-    - **Details**: [Specific information about the event, e.g., KB IDs queried, section drafted, error details]
-    - **Input**: [Relevant input data, e.g., outline_kb_id]
-    - **Output**: [Relevant output data, e.g., draft summary, evidence IDs]
+    - **Details:** [Specific information about the event, e.g., KB IDs queried, section drafted, error details]
+    - **Input:** [Relevant input data, e.g., outline_kb_id]
+    - **Output:** [Relevant output data, e.g., draft summary, evidence IDs]
     - **Cross-ref:** [Link to relevant KB entry, feedback log, etc. if applicable]
   frequency: |
     - Task Start: Log reception of task from Orchestrator.
@@ -149,52 +148,114 @@ concurrency_coordination_protocols:
     scope: "Recommended for writes to shared KB files or critical `phil-memory-bank/` files where simultaneous access is plausible."
   orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
-# --- Archetype B Section 5.1: Input Schema ---
+mode_specific_workflows:
+  draft_generation_workflow:
+    description: "Workflow for generating a draft essay section based on an outline and KB context."
+    steps:
+      - step: 1
+        action: "Receive task from Orchestrator: `outline_section_kb_id`, `relevant_context_kb_ids`, and optional `drafting_guidelines`."
+        input_schema: # From main input_schema
+          type: object
+          properties:
+            outline_section_kb_id: { type: string }
+            relevant_context_kb_ids: { type: array, items: { type: string } }
+            drafting_guidelines: { type: string }
+            target_audience: { type: string, enum: ['academic', 'general'] }
+          required: ["outline_section_kb_id", "relevant_context_kb_ids"]
+      - step: 2
+        action: "Read the specified outline section from `philosophy-knowledge-base/theses/[...]/[outline_section_kb_id]` to understand the section's argument and structure."
+        tools: ["read_file"]
+        input: "Path to outline section KB entry."
+        output: "Content of the outline section."
+      - step: 3
+        action: "Read all relevant KB entries (concepts, arguments, relationships, references) listed in `relevant_context_kb_ids` from `philosophy-knowledge-base/`."
+        tools: ["read_file"] # Potentially multiple calls or a batch read if available
+        input: "List of KB entry paths."
+        output: "Content of all relevant KB entries."
+      - step: 4
+        action: |
+          Synthesize information from the outline and KB entries.
+          For each piece of evidence or supporting KB entry, note its `source_ref_keys` and `extraction_markers`.
+          If an `extraction_marker` is imprecise or refers to a large source chunk, and more specific context is needed for drafting, this mode MAY:
+          1. Attempt to locate the specific source chunk file within `source_materials/processed/[source_id]/...`.
+          2. Read the relevant hierarchical `index.md` file(s) within `source_materials/processed/[source_id]/` (starting from `source_materials/processed/[source_id]/index.md` and navigating deeper if necessary) to better understand the structure of the processed source and locate more granular chunks related to the `extraction_marker`.
+          3. Read the more specific chunk(s) if found.
+          This step is to ensure the draft accurately reflects the nuanced context of the evidence.
+        tools: ["read_file", "search_files"] # search_files might be used to locate index.md if path isn't fully known.
+        input: "Content of outline and KB entries, `extraction_markers`."
+        output: "Internal structured understanding of content and evidence links."
+      - step: 5
+        action: "Generate prose for the essay section, incorporating arguments, concepts, and evidence. Adhere to `drafting_guidelines` and `target_audience`."
+        # Internal LLM generation step
+      - step: 6
+        action: "Embed citation placeholders (e.g., [CITE: kb_id {ref_key: X, marker: Y}]) in the draft, including `source_ref_keys` and `extraction_markers` from the KB entries used."
+        # Internal text manipulation
+      - step: 7
+        action: "Compile a list of all KB entry IDs and precise evidence markers used in the draft."
+        output: "List of `evidence_references`."
+      - step: 8
+        action: "Return `status`, `draft_content`, `evidence_references`, and `summary` to Orchestrator."
+        output_schema: # From main output_schema
+          type: object
+          properties:
+            status: { type: string, enum: ["success", "failure"] }
+            draft_content: { type: string }
+            evidence_references: { type: array, items: { type: string } }
+            summary: { type: string }
+            error_details: { type: object }
+          required: ["status"]
+      - step: 9
+        action: "Log all steps, KB interactions, and outcomes in `phil-memory-bank/mode-specific/philosophy-draft-generator.md`."
+        tools: ["insert_content"]
+        input: "Formatted log entry."
+
+# --- Archetype B Sections ---
 input_schema:
   description: "Defines the expected input structure from the Orchestrator."
   type: object
   properties:
     outline_section_kb_id:
       type: string
-      description: "The KB ID (file path) of the specific essay outline section to draft."
+      description: "The KB ID (relative path from `philosophy-knowledge-base/`) of the specific essay outline section to draft (e.g., `theses/essay1_outline/section_2.1.md`)."
     relevant_context_kb_ids:
       type: array
       items:
         type: string
-      description: "List of KB IDs (file paths) for concepts, arguments, etc. relevant to this section."
+      description: "List of KB IDs (relative paths from `philosophy-knowledge-base/`) for concepts, arguments, etc. relevant to this section."
     drafting_guidelines:
       type: string
       description: "(Optional) Specific stylistic or content focus instructions from Orchestrator/Prep mode."
     target_audience:
       type: string
       enum: ['academic', 'general']
+      default: 'academic'
       description: "(Optional) Target audience influencing tone/complexity."
   required:
     - outline_section_kb_id
     - relevant_context_kb_ids
   example: |
     {
-      "outline_section_kb_id": "philosophy-knowledge-base/theses/essay1_outline/section_2.1.md",
+      "outline_section_kb_id": "theses/essay1_outline/section_2.1.md",
       "relevant_context_kb_ids": [
-        "philosophy-knowledge-base/concepts/hegel_being_001.md",
-        "philosophy-knowledge-base/arguments/hegel_being_nothing_dialectic_001.md",
-        "philosophy-knowledge-base/relationships/hegel_being_implies_nothing_001.md"
+        "concepts/hegel_being_001.md",
+        "arguments/hegel_being_nothing_dialectic_001.md",
+        "relationships/hegel_being_implies_nothing_001.md"
       ],
-      "drafting_guidelines": "Focus on the transition from Being to Nothing, maintain formal tone."
+      "drafting_guidelines": "Focus on the transition from Being to Nothing, maintain formal tone.",
+      "target_audience": "academic"
     }
 
-# --- Archetype B Section 5.2: Output Schema ---
 output_schema:
   description: "Defines the structure of the output returned to the Orchestrator."
   type: object
   properties:
     status:
       type: string
-      enum: [success, failure]
+      enum: [success, failure, partial_success]
       description: "Indicates the outcome of the drafting task."
     draft_content:
       type: string
-      description: "The generated prose for the specified essay section. May include placeholders like [CITE: kb_id] or markers."
+      description: "The generated prose for the specified essay section. May include placeholders like [CITE: kb_id {ref_key: X, marker: Y}] or markers."
     evidence_references:
       type: array
       items:
@@ -211,68 +272,56 @@ output_schema:
   example_success: |
     {
       "status": "success",
-      "draft_content": "Hegel begins the Logic with the concept of pure Being. This concept, utterly indeterminate, immediately reveals itself as indistinguishable from Nothing [CITE: philosophy-knowledge-base/arguments/hegel_being_nothing_dialectic_001.md {ref_key: SL_p82, marker: #para3}]. The transition occurs...",
+      "draft_content": "Hegel begins the Logic with the concept of pure Being. This concept, utterly indeterminate, immediately reveals itself as indistinguishable from Nothing [CITE: arguments/hegel_being_nothing_dialectic_001.md {ref_key: SL_p82, marker: #para3}]. The transition occurs...",
       "evidence_references": [
-        "philosophy-knowledge-base/concepts/hegel_being_001.md",
-        "philosophy-knowledge-base/arguments/hegel_being_nothing_dialectic_001.md {ref_key: SL_p82, marker: #para3}"
+        "concepts/hegel_being_001.md",
+        "arguments/hegel_being_nothing_dialectic_001.md {ref_key: SL_p82, marker: #para3}"
       ],
-      "summary": "Successfully drafted section based on outline KB ID: philosophy-knowledge-base/theses/essay1_outline/section_2.1.md"
-    }
-  example_failure: |
-    {
-      "status": "failure",
-      "draft_content": null,
-      "evidence_references": [],
-      "summary": "Failed to draft section based on outline KB ID: philosophy-knowledge-base/theses/essay1_outline/section_2.1.md",
-      "error_details": { ... } # Conforms to error_message_format
+      "summary": "Successfully drafted section based on outline KB ID: theses/essay1_outline/section_2.1.md"
     }
 
-# --- Archetype B Section 5.4: Knowledge Base Interaction Protocols ---
 kb_interaction_protocols:
   # STRICT PROTOCOL defining all interactions with philosophy-knowledge-base/
   read_access:
-    - "philosophy-knowledge-base/theses/" # For reading outlines
+    - "philosophy-knowledge-base/theses/"       # For reading outlines
     - "philosophy-knowledge-base/concepts/"
     - "philosophy-knowledge-base/arguments/"
     - "philosophy-knowledge-base/relationships/"
-    - "philosophy-knowledge-base/references/"
-    - "philosophy-knowledge-base/processed_texts/" # Potentially read source chunks if markers are detailed
+    - "philosophy-knowledge-base/references/"   # For understanding source_ref_keys
+    - "philosophy-knowledge-base/quotations/"
+    - "source_materials/processed/"             # For reading processed source chunks and their index.md files
   write_access: [] # STRICTLY READ-ONLY
-  querying: |
+  schema_enforcement: "N/A - Read-only mode. Assumes KB entries conform to schema."
+  relationship_mandate: "N/A - Read-only mode. Consumes existing relationships."
+  rigor_fields_population: "N/A - Read-only mode. Consumes rigor fields from KB entries during analysis for drafting."
+  verification_hooks: "N/A - Read-only mode."
+  maintenance_reporting: "If KB inconsistencies (e.g., missing linked entries referenced in `related_ids`, formatting issues preventing parsing) detected during read operations, report details (e.g., KB_READ_FAIL, KB_INCONSISTENCY_DETECTED) to Orchestrator."
+  querying_and_navigation: |
     Primarily uses `read_file` with specific KB IDs (paths) provided in the input (`outline_section_kb_id`, `relevant_context_kb_ids`).
     May inspect `related_ids` fields within read entries to discover further relevant KB entries if necessary for comprehensive drafting, then use `read_file` on those discovered IDs.
-    Avoid broad `search_files` unless essential context is missing and cannot be found via links.
-  kb_maintenance_interaction: "If KB inconsistencies (e.g., missing linked entries referenced in `related_ids`, formatting issues preventing parsing) detected during read operations, report details (e.g., KB_READ_FAIL, KB_INCONSISTENCY_DETECTED) to Orchestrator."
-  validation_hooks: "N/A - Read-only mode."
-  rigor_field_handling: "N/A - Read-only mode. Consumes rigor fields from KB entries during analysis for drafting."
+    To understand the context of evidence cited in KB entries (via `source_ref_keys` and `extraction_markers`):
+    1. Use `source_ref_keys` to identify the KB Reference entry, which in turn points to a `source_id`.
+    2. Use the `source_id` and `extraction_markers` to locate specific chunk files within `source_materials/processed/[source_id]/...`.
+    3. If an `extraction_marker` is broad or further context is needed, this mode can navigate the hierarchical `index.md` files within `source_materials/processed/[source_id]/` (starting with `source_materials/processed/[source_id]/index.md`) to find more specific chunks or understand the surrounding textual structure.
+    Avoid broad `search_files` on the KB unless essential context is missing and cannot be found via direct links or `extraction_markers`.
 
-# --- Archetype B Section 5.5: Conceptual Determinacy Guidelines ---
-conceptual_determinacy:
-  guidelines: |
-    - **Clarity:** Drafted prose must use philosophical concepts clearly and consistently, reflecting their definitions and relationships as defined in the source KB entries.
-    - **Consistency:** Maintain consistent terminology throughout the drafted section, aligning with the KB. Avoid introducing ambiguity.
-    - **Attribution:** Ensure that the conceptual basis for claims is implicitly or explicitly traceable back to the referenced KB entries.
-  requirements:
-    negative_definition: not_applicable # This mode generates prose, not definitions.
-    disambiguation_protocol: required_if_ambiguous_in_source_kb # If a concept read from the KB has noted ambiguities, the draft should reflect or clarify based on context, potentially flagging for review.
-    contextual_stability: high # Concepts should be used consistently within the context of the specific essay section being drafted.
+conceptual_determinacy_guidelines:
+  definition_standard: "N/A - This mode consumes definitions, does not create them. It should aim to reflect the clarity of source KB entries."
+  scope_management: "N/A - This mode reflects the scope of concepts/arguments as defined in source KB entries within the context of the specific essay section."
+  ambiguity_identification: "If source KB entries explicitly mark ambiguities (e.g., in `ambiguities` field or notes), the drafted prose should reflect this nuance or flag it for review if clarification is impossible within the draft."
+  disambiguation_methods: "N/A - Does not perform primary disambiguation. Relies on clarity of source KB entries."
+  marking_ambiguity: "If drafting reveals an unavoidable ambiguity stemming from source KB material, it should be noted in the draft (e.g., '[AMBIGUITY: term X could mean Y or Z here, based on KB sources A and B]') and reported in the summary to Orchestrator."
+  sense_tracking: "N/A - Consumes concepts with potentially tracked senses. Should reflect the specific sense relevant to the drafting context if discernible from KB."
+  consistency_checks: "Drafted prose should strive for internal consistency in terminology and argumentation, reflecting the consistency (or noted inconsistencies) of the source KB material."
 
-# --- Archetype B Section 5.6: Evidence Standards ---
 evidence_standards:
-  requirements: |
-    - **Accuracy:** The drafted prose must accurately reflect the arguments, claims, and evidence presented in the referenced KB entries (arguments, concepts, references).
-    - **Traceability:** Must explicitly pass through `source_ref_keys` and `extraction_markers` associated with the KB evidence used. These should be embedded in the `draft_content` (e.g., within citation placeholders) and listed in `evidence_references`.
-    - **Relevance:** Only evidence directly supporting the points being made in the drafted section, based on the outline and context, should be included.
-  verification_workflow:
-    enabled: false # This mode generates the draft; verification happens in subsequent stages (e.g., VerificationAgent).
+  source_preference: "1. Evidence explicitly linked in the input `relevant_context_kb_ids`. 2. Evidence found by following `related_ids` from primary context. 3. Direct textual evidence from `source_materials/processed/` chunks pointed to by `extraction_markers` in KB entries."
+  evaluation_criteria: "Evaluate relevance of KB information to the specific point in the outline. Prioritize KB entries with higher `verification_status` if choices exist. Ensure logical connection between evidence and claims being drafted."
+  linking_mechanism: |
+    The draft MUST accurately represent evidence from the KB.
+    When incorporating evidence, the draft should include placeholders or markers that allow `philosophy-citation-manager` to insert formal citations. These placeholders should ideally contain the KB ID of the argument/quotation/concept and any specific `source_ref_keys` and `extraction_markers` from that KB entry.
+    Example: "As Hegel states, '...' [CITE: arguments/hegel_dialectic_arg_001 {ref_key: hegel_sol_1812, marker: 'Hegel_ScienceOfLogic_pp59-82.md#section-1-paragraph-5'}]"
+    The `output_schema.evidence_references` field MUST list all such KB IDs and their precise sourcing information used.
+  verification_requirement: "N/A - This mode generates drafts. Verification is a subsequent step performed by `philosophy-verification-agent`."
 
-# --- Archetype B Section 5.7: Tool Usage Restrictions ---
-tool_usage_restrictions:
-  allowed_tools:
-    - read_file # Primary tool for KB access
-    - search_files # Secondary tool for KB exploration if needed
-  disallowed_patterns:
-    - "Any write operation (`write_to_file`, `apply_diff`, `insert_content`) targeting paths within `philosophy-knowledge-base/`."
-    - "Using tools other than `read_file` or `search_files` for KB access."
-
-# --- End of .clinerules ---
+# End of .clinerules
