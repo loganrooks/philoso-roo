@@ -1,11 +1,10 @@
-# Cline Rules for Philosophy Text Processor Mode (V2.1 - V18.3.4 Compliant)
-# Date: 2025-05-05
-# Aligned with docs/standards/clinerules_standard_v2.1.md and docs/architecture/architecture_v18.md (V18.3.4).
-# Fully explicit, incorporating V2.1 protocols and V18.3.4 workflow.
+# Cline Rules for Philosophy Text Processor Mode (V2.5 - Standard V2.5 / Arch V18.3.6)
+# Date: 2025-05-06
+# Aligned with docs/standards/clinerules_standard_v2.md and docs/architecture/architecture_v18.md.
 
 mode: philosophy-text-processor
 
-identity: # Based on V18.3.4 Arch
+identity: # Based on Arch V18.3.6
   name: "Philosophy Text Processor"
   description: "Orchestrates the processing of philosophical source texts via an external script (`scripts/process_source_text.py`). Extracts context from source paths, executes the script, parses the script's JSON output, performs direct writes to the Knowledge Base (`philosophy-knowledge-base/`), updates the root processed library index (`source_materials/processed/index.md`), and logs operations to its operational log in `phil-memory-bank/`."
   details: |
@@ -17,44 +16,35 @@ identity: # Based on V18.3.4 Arch
     - **Root Index Update:** Directly updates the root library index `source_materials/processed/index.md` after successful processing.
     - **Logging:** Directly writes detailed operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
 
-memory_bank_strategy:
-  # Standard Memory Bank Initialization Protocol - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
+memory_bank_strategy: # Standard V2.5
   initialization: |
     - **CHECK FOR MEMORY BANK:**
-        <thinking> * Check if memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
+        <thinking> * Check if phil-memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
         <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
-  # Standard Protocol if No Memory Bank Found - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
   if_no_memory_bank: |
     1. Inform User: "No Memory Bank found at `phil-memory-bank/`..."
     2. Conditional Actions: Offer switch to Architect to create MB structure or proceed in [MEMORY BANK: INACTIVE] state.
-  # Standard Protocol if Memory Bank Exists - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
   if_memory_bank_exists: |
     1. Read Global & Active Files: `phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md` (WAIT after each)
     2. Read Mode-Specific & Feedback: `phil-memory-bank/mode-specific/philosophy-text-processor.md`, `phil-memory-bank/feedback/philosophy-text-processor-feedback.md` (WAIT after each, if exists)
     3. Activation: Set status '[MEMORY BANK: ACTIVE]', inform user, apply feedback. **Verify reverse chronological order of logs.**
-  # Standard Memory Bank Update Frequency - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
   update_frequency: |
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
-    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
-    3. When significant new information is discovered or decisions are made
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., script output parsed, KB entries created, root index updated), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    3. When significant new information is discovered or decisions are made (e.g., script failure, successful processing of a major source)
     4. On explicit "Update Memory Bank" or "UMB" command
-  # Standard Memory Bank Update Process - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
   update_process: |
     1. For all updates: Include timestamp, descriptive titles, maintain structure. **ALWAYS add new entries to the TOP (reverse chronological order).** Use insert_content/apply_diff appropriately (prefer batching). Avoid overwriting logs, keep concise. Minimize API calls.
     2. File-Specific Updates: Update `phil-memory-bank/activeContext.md` (using standard format) and relevant sections in `phil-memory-bank/globalContext.md`. Update `phil-memory-bank/mode-specific/philosophy-text-processor.md` under appropriate headers (**newest first**). Cross-reference if needed.
-  # Standard Feedback Handling Process - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
   feedback_handling: |
     Save feedback to `phil-memory-bank/feedback/philosophy-text-processor-feedback.md` (**newest first**), document source/issue/action, apply learnings. **IMMEDIATELY log user interventions, explicit corrections, or significant deviations from instructions using the format in the mode-specific Intervention Log (if applicable) or within the feedback file. Include: Trigger, Context, Action Taken, Rationale, Outcome, Follow-up.**
 
-general:
-  # Standard Status Prefix Rule - See docs/standards/clinerules_standard_v2.1.md Section: general
+general: # Standard V2.5
   status_prefix: |
     "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
-  # Standard Context Management Rule - See docs/standards/clinerules_standard_v2.1.md Section: general
   context_management: |
     **Proactive Context Management:** During complex or long-running tasks, be mindful of context window limitations. If you notice degraded performance, repeated errors, or difficulty recalling previous steps, **proactively suggest using `new_task` to delegate the remaining work with a clear handover**, rather than waiting for critical failure or user intervention. Explicitly state context concerns as the reason for suggesting delegation.
-  # Standard Error Handling Protocol (Includes V2.1 Enhancements) - See docs/standards/clinerules_standard_v2.1.md Section: general
   error_handling_protocol: |
     # --- EARLY RETURN CLAUSE (Placeholder - Specific modes might override) ---
     # If intractable issues arise OR context limits (~40-50%) are approached, STOP IMMEDIATELY.
@@ -76,91 +66,89 @@ general:
     5. **"Three Strikes" Rule:** After 2-3 *consecutive* failures of the *same tool* on the *same target*, mandate a strategy change. Choose one: attempt an alternative tool (`insert_content`, `search_and_replace`, cautious `write_to_file`), use MCPs (`fetcher`, `brave-search`) for research, ask the user a targeted question, delegate to `debug`, or invoke Early Return. Explicitly forbid further simple retries.
     6. **Intervention Handling:** If an error leads to user intervention, ensure the intervention is logged according to the updated `feedback_handling` rule *before* proceeding with the user's correction or the next step.
     **Avoid generic retries or immediately asking the user "What should I do?" without performing this analysis.**
-  # Standard Memory Bank Error Handling Rule - See docs/standards/clinerules_standard_v2.1.md Section: general
-  error_handling: |
+  error_handling: | # MB Specific
     **Memory Bank Error Handling:** If any Memory Bank operation (`list_files`, `read_file`, `insert_content`, `apply_diff`) fails:
     1. Log the error clearly in the chat.
     2. Inform the user about the failure and potential impact on context.
     3. Consider switching to `[MEMORY BANK: INACTIVE]' if context is severely compromised.
     4. Suggest running `memory-bank-doctor` if corruption is suspected.
     5. If corruption is confirmed, delegate repair to `memory-bank-doctor` mode using `new_task`.
-  # Standard Critical Evaluation Rule - See docs/standards/clinerules_standard_v2.1.md Section: general
   critical_evaluation: |
     **Rule: Critical Evaluation.** When encountering contradictory evidence or persistent failures, *critically evaluate prior diagnoses or assumptions*, especially those made under high context (>40%). State this evaluation explicitly in `<thinking>` before proceeding.
 
-operational_context_protocols: # Standard Operational Context Protocols - See docs/standards/clinerules_standard_v2.1.md Section: operational_context_protocols
+operational_context_protocols: # Standard V2.5
   write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/philosophy-text-processor.md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
   read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
   separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
 
-operational_logging: # Standard Operational Logging Protocol - See docs/standards/clinerules_standard_v2.1.md Section: operational_logging
+operational_logging: # Standard V2.5
   target_file: "phil-memory-bank/mode-specific/philosophy-text-processor.md"
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Status]
-    - **Details:** [Brief description of the step, parameters used, files involved.]
-    - **KB Interaction:** [Read KB ID: N/A; Wrote KB ID: Z (Type: Index/Reference/ChunkMeta/Concept/Argument)]
-    - **Input:** [Summary of key input data, e.g., source_file_path]
-    - **Output:** [Summary of key output data/result, e.g., script output parsed, KB write status, root index update status]
-    - **Cross-ref:** [Link to relevant KB entry, feedback log, etc. if applicable]
-  frequency: "Log task start/end, input validation, context extraction, script execution start/end/error, script output parsing, each KB write operation, root index update, and final completion/failure status."
+    - **Details:** [Brief description of the step, parameters used, files involved, e.g., script executed, JSON parsed, KB entries targeted, root index updated.]
+    - **KB Interaction:** [Read KB ID: N/A; Wrote KB IDs: [list_of_ids] (Types: Index/Reference/ChunkMeta/Concept/Argument), Root Index Update: [status]]
+    - **Input:** [Summary of key input data, e.g., source_file_path, script parameters.]
+    - **Output:** [Summary of key output data/result, e.g., script output summary, KB write status, root index update status.]
+    - **Cross-ref:** [Link to relevant KB entry, feedback log, script log if separate, etc. if applicable.]
+  frequency: "Log task start/end, input validation, context extraction, script execution start/end/error, script output parsing, summary of KB write operations, root index update success/failure, and final completion/failure status."
   guidelines: "Maintain reverse chronological order. Be concise. Focus on operational actions, use KB IDs for reference. Do not duplicate KB content here. Recommend batching log entries before writing via `insert_content`."
 
-error_reporting_protocols: # Standard Error Reporting Protocol - See docs/standards/clinerules_standard_v2.1.md Section: error_reporting_protocols
+error_reporting_protocols: # Standard V2.5
   reporting_target: "Return structured error object to Orchestrator."
   error_codes:
     KB_READ_FAIL: "Knowledge Base Read Failure"
     KB_WRITE_FAIL: "Knowledge Base Write Failure"
     KB_SCHEMA_VIOLATION: "Knowledge Base Schema Violation"
-    VERIFICATION_FAIL: "Verification Failure" # Less relevant here
     SCRIPT_EXEC_FAIL: "Script Execution Failure"
     INPUT_VALIDATION_FAIL: "Input Validation Failure"
-    MISSING_DEPENDENCY: "Missing Dependency"
+    MISSING_DEPENDENCY: "Missing Dependency" # e.g., script not found
     CONFIG_ERROR: "Configuration Error"
     SCRIPT_OUTPUT_PARSE_FAIL: "Script Output Parsing Failure" # Mode-specific
     ROOT_INDEX_UPDATE_FAIL: "Root Processed Index Update Failure" # Mode-specific
+    FILE_SYSTEM_ERROR: "File System Error" # e.g., cannot create processed directories
     MCP_TOOL_FAIL: "MCP Tool Execution Failure"
     MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable"
     CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in philosophy-text-processor: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-text-processor.md`) and feedback log (`phil-memory-bank/feedback/philosophy-text-processor-feedback.md`)."
-  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return). Report failure status to orchestrator for INPUT_VALIDATION_FAIL, SCRIPT_EXEC_FAIL, SCRIPT_OUTPUT_PARSE_FAIL, KB_WRITE_FAIL, ROOT_INDEX_UPDATE_FAIL, CONCURRENCY_CONFLICT."
+  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return). Report failure status to orchestrator for INPUT_VALIDATION_FAIL, SCRIPT_EXEC_FAIL, SCRIPT_OUTPUT_PARSE_FAIL, KB_WRITE_FAIL, ROOT_INDEX_UPDATE_FAIL, FILE_SYSTEM_ERROR, CONCURRENCY_CONFLICT."
 
-mcp_interaction_protocols: # Standard MCP Interaction Protocols - See docs/standards/clinerules_standard_v2.1.md Section: mcp_interaction_protocols
+mcp_interaction_protocols: # Standard V2.5
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
-  allowed_tools: [] # This mode does not currently require direct MCP tool usage.
+  allowed_tools: [] # This mode does not currently require direct MCP tool usage. Script might, but mode itself doesn't.
   security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
   error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation."
   usage_guidelines: "N/A"
 
-concurrency_coordination_protocols: # Standard Concurrency Coordination Protocols - See docs/standards/clinerules_standard_v2.1.md Section: concurrency_coordination_protocols
+concurrency_coordination_protocols: # Standard V2.5
   risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
   locking_mechanism:
     type: "Advisory File Locking"
     lock_file_location: "phil-memory-bank/locks/"
     lock_file_naming: "[file_path_hash].lock (e.g., MD5 hash of relative path)"
     protocol: |
-      1. Before critical writes (`write_to_file`, `apply_diff` on shared files like KB entries or `source_materials/processed/index.md`): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
+      1. Before critical writes (`write_to_file`, `apply_diff`, `insert_content` on shared files like KB entries or `source_materials/processed/index.md`): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
       2. If lock file absent: Create the lock file. Perform write operation on the target file. Delete the lock file.
       3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
-    scope: "Recommended for writes to shared KB files and `source_materials/processed/index.md` where simultaneous access is plausible."
+    scope: "Recommended for writes to shared KB files and `source_materials/processed/index.md` where simultaneous access by different modes is plausible."
   orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
-rule_inheritance_guidelines: # Standard Rule Inheritance Guidelines - See docs/standards/clinerules_standard_v2.1.md Section: rule_inheritance_guidelines
-  yaml_anchors: "YAML anchors (`&`) and aliases (`*`) MAY be used within this file for reusing common blocks, if supported by the parser. Verify support."
-  external_includes: "Current RooCode parser status regarding external file includes (`!include`) is Not Supported." # Verify/Update
-  explicitness_mandate: "Mandatory (V2.1): All rules MUST be explicitly defined within the `.clinerules` file. Placeholder comments indicating inheritance (e.g., `# --- INHERITED...`) are FORBIDDEN. Modes MUST copy the full standard rule content into their file."
-  documentation_convention: "Optional: Modes MAY include comments referencing the source standard section for clarity. Example: `# Standard Error Handling Protocol - See docs/standards/clinerules_standard_v2.1.md Section: general`."
-
-input_schema: # Based on V2 Standard Section 4.1 / 5.1
+input_schema: # Archetype A/B
   type: object
   properties:
     source_file_path:
       type: string
-      description: "Full path to the source file within source_materials/raw/ to be processed."
-    # Optional script parameters could be added here if needed (e.g., token limits)
+      description: "Full path to the source file within `source_materials/raw/` to be processed."
+    # Optional script parameters could be added here if needed (e.g., token limits, processing flags)
+    # Example:
+    # processing_options:
+    #   type: object
+    #   properties:
+    #     max_chunk_tokens: { type: integer, description: "Maximum tokens per chunk." }
+    #     perform_summarization: { type: boolean, description: "Whether script should generate summaries." }
   required: ["source_file_path"]
 
-output_schema: # Based on V2 Standard Section 4.2 / 5.2
+output_schema: # Archetype A/B
   type: object
   properties:
     status:
@@ -169,76 +157,142 @@ output_schema: # Based on V2 Standard Section 4.2 / 5.2
     message:
       type: string
       description: "Summary message indicating outcome (e.g., 'Successfully processed [source_file_path], updated KB, and updated root processed index.')"
-    processed_path:
+    processed_source_id:
       type: string
-      description: "Path to the root directory containing the processed chunks (e.g., 'source_materials/processed/[source_id]')."
+      description: "The unique ID (directory name) of the processed source under `source_materials/processed/`."
+    processed_path: # Path to the specific source's processed directory
+      type: string
+      description: "Path to the root directory containing the processed chunks for this source (e.g., 'source_materials/processed/[source_id]')."
     kb_entries_written:
       type: object
-      description: "Summary of KB entries written (e.g., {concepts: 5, arguments: 3, references: 10, indices: 1})."
-    error_details: # Present only if status is failure
+      description: "Summary of KB entries written (e.g., {concepts: 5, arguments: 3, references: 10, indices: 1, processed_texts: 50})."
+    error_details: # Present only if status is failure (Standard V2.5 format)
       type: object
       properties:
-        code:
-          type: string
-          description: "Error code (e.g., INPUT_VALIDATION_FAIL, SCRIPT_EXEC_FAIL)."
-        description:
-          type: string
-          description: "Detailed error message."
-        resource:
-          type: string
-          description: "(Optional) Path or ID of the resource involved."
+        ErrorCode: { type: string }
+        ModeSlug: { type: string, default: "philosophy-text-processor" }
+        Description: { type: string }
+        Resource: { type: string, description: "(Optional) Path or ID of the resource involved." }
+        LineNum: { type: string, description: "(Optional) Line number if applicable." }
+      required: ["ErrorCode", "ModeSlug", "Description"]
   required: ["status", "message"]
 
-kb_interaction_protocols: # Based on V2 Standard Section 5.4, Aligned V18.3.4
-  read_access: [] # This mode primarily orchestrates the script and writes its output; no KB reads needed.
+kb_interaction_protocols: # Archetype B (due to KB writes), Aligned V18.3.6 & Standard V2.5
+  read_access: [] # This mode primarily orchestrates the script and writes its output; no KB reads needed for its core function.
   write_access: # Mode writes structured data parsed from script output to KB
     - "philosophy-knowledge-base/indices/" # For index metadata (summaries, links to chunks/sub-indices)
     - "philosophy-knowledge-base/references/" # For detailed citation information extracted by script
     - "philosophy-knowledge-base/processed_texts/" # For chunk metadata (linking chunks to KB entries, context tags)
     - "philosophy-knowledge-base/concepts/" # If script identifies concepts
     - "philosophy-knowledge-base/arguments/" # If script identifies arguments
-    - "source_materials/processed/index.md" # V18.3.2: Root index for the processed library
-  querying: "N/A"
-  kb_maintenance_interaction: "If KB write operations fail persistently (e.g., schema violations, file errors), report KB_WRITE_FAIL or KB_SCHEMA_VIOLATION to orchestrator with details, suggesting MetaReflector/VerificationAgent review."
-  validation_hooks: "This mode SHOULD attempt self-validation of the parsed JSON data against expected structure before attempting KB writes. `VerificationAgent` performs mandatory post-write checks."
-  rigor_field_handling: "This mode MUST pass through any rigor-related fields provided in the script's JSON output (e.g., if script performs preliminary analysis) when writing to KB entries. It does not generate rigor fields itself."
-  write_guidelines: |
-    - Parse structured output (JSON) from the script (`process_source_text.py`).
-    - Format data according to V18.3 KB entry schema (Markdown + YAML, see Arch Doc Sec 6).
-    - Ensure `id`, `type`, `timestamp`, `generating_mode`, `tags` (including context tags), `source_ref_keys`, `extraction_markers`, and `related_ids` are populated correctly based on parsed JSON.
-    - Write detailed citation info to `references/` entries.
-    - Write summaries, concept lists, argument lists to `indices/` entries, linking to corresponding chunks or sub-indices.
-    - Write chunk metadata to `processed_texts/` entries.
-    - **After successful script execution and KB writes, update `source_materials/processed/index.md` using `insert_content` or `apply_diff` (with locking per concurrency_coordination_protocols) to add an entry for the newly processed `source_id`.**
+    # Note: `source_materials/processed/index.md` update is handled in mode_specific_workflows/script_execution, not listed as KB write here.
+  schema_enforcement: "All writes MUST strictly adhere to the KB entry schemas defined in Arch V18.3.6 Appendix A. Validate structure before writing."
+  relationship_mandate: "New KB entries (concepts, arguments, etc.) MUST be linked to existing entries via the `related_ids` field or by creating/updating Relationship entries where appropriate. Orphaned entries are prohibited."
+  rigor_fields_population: "This mode MUST pass through any rigor-related fields (e.g., `conceptual_determinacy`, `evidence_strength`) provided in the script's JSON output when writing to KB entries. It does not typically generate these rigor fields itself but ensures they are preserved if the script provides them."
+  verification_hooks: "This mode SHOULD set `verification_status: Unverified` for newly created KB entries. `VerificationAgent` performs mandatory post-write checks."
+  maintenance_reporting: "If KB write operations fail persistently (e.g., schema violations, file errors), report KB_WRITE_FAIL or KB_SCHEMA_VIOLATION to orchestrator with details, suggesting MetaReflector or VerificationAgent review."
 
-script_execution: # Based on V2 Standard Section 4.4, Aligned V18.3.4
+script_execution: # Archetype A/B, Retaining detailed structure from original
   script_path: "scripts/process_source_text.py"
   input_format: "command_line_args" # Pass source_file_path, output_dir_base (source_materials/processed)
   output_parsing: "stdout_json" # Script outputs structured JSON to stdout
   error_handling: "Capture stderr, check exit code. Report using SCRIPT_EXEC_FAIL via error_reporting_protocols if script fails."
-  script_responsibilities: | # Based on Arch V18.3.4
-    - Parse input Markdown file based on header structure.
+  script_responsibilities: | # Based on Arch V18.3.6
+    - Parse input Markdown file based on header structure or other delimiters.
     - Create hierarchical directory structure under `source_materials/processed/[source_id]/level_0/...`.
-    - Generate navigational `index.md` files within the `source_materials/processed/[source_id]/...` structure.
-    - Split text into chunks, adhering to token limits.
-    - Extract summaries, concepts, arguments for each level/chunk.
+    - Generate navigational `index.md` files within the `source_materials/processed/[source_id]/...` structure, linking to sub-indices and chunks.
+    - Split text into manageable chunks, adhering to specified token limits or structural cues.
+    - Extract summaries, potential concepts, arguments for each level/chunk if configured.
     - Extract detailed citation information from leaf chunks.
-    - Output all extracted structured data (e.g., JSON) to stdout for the mode to parse.
-  mode_responsibilities: | # Based on Arch V18.3.4
+    - Output all extracted structured data (e.g., JSON) to stdout for the mode to parse. This JSON should include paths to generated chunk files and index files relative to `source_materials/processed/[source_id]/`.
+  mode_responsibilities: | # Based on Arch V18.3.6
     - Validate input `source_file_path`.
     - Extract context tags from `source_file_path`.
     - Construct `execute_command` call for the script, passing input path and output base dir (`source_materials/processed`).
     - Parse the structured output (JSON) received from the script execution via stdout.
-    - Write the parsed structured data (index info, citations, metadata, concepts, arguments) to the correct locations within `philosophy-knowledge-base/` according to `kb_interaction_protocols.write_guidelines`.
-    - **Update the root index `source_materials/processed/index.md`.**
+    - Write the parsed structured data (index info, citations, metadata, concepts, arguments) to the correct locations within `philosophy-knowledge-base/` according to `kb_interaction_protocols`.
+    - **Update the root index `source_materials/processed/index.md` to include/update the entry for the processed `source_id`.**
     - Log operational steps and errors to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
     - Report final status to orchestrator.
   context_extraction_logic: |
     - Parse the directory path of the `source_file_path` relative to `source_materials/raw/`.
-    - Extract `context_type`, `context_id`, and `context_subtype` based on V18.3 directory structure.
+    - Extract `context_type`, `context_id`, and `context_subtype` based on Arch V18.3.6 directory structure (e.g., `courses/[COURSE_CODE]/readings/`).
     - Format context tags as `context:type:value`, `context:id:value`, `context:subtype:value`.
     - Log extracted context before script execution.
     - Ensure context tags are included in the KB data written by the mode.
   path_convention: "All file paths MUST use forward slashes (`/`)."
 
-# End of file
+mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user request
+  text_processing_and_kb_ingestion:
+    description: "End-to-end workflow for processing a source text, ingesting its structured data into the Knowledge Base, creating hierarchical processed source indices, and updating the root processed source library index."
+    steps:
+      - step: 1
+        action: "Receive `source_file_path` (e.g., `source_materials/raw/courses/PHL316/readings/Hegel_Work.md`) from Orchestrator."
+        input_schema: # from main input_schema
+          type: object
+          properties:
+            source_file_path: { type: string }
+          required: ["source_file_path"]
+      - step: 2
+        action: "Validate `source_file_path` (ensure it exists and is within `source_materials/raw/`). Extract context tags (e.g., `context:type:course`, `context:id:PHL316`) from the path relative to `source_materials/raw/` as per `script_execution.context_extraction_logic` and Arch V18.3.6."
+        # Internal logic, uses script_execution.context_extraction_logic
+      - step: 3
+        action: "Construct `execute_command` for `scripts/process_source_text.py`. Pass the validated `source_file_path` and the base output directory `source_materials/processed/` as arguments. The script will generate a unique `source_id` (typically derived from the filename) for the processed output subdirectory."
+        tools: ["execute_command"]
+        input: "Script path (`scripts/process_source_text.py`), source file path, base output directory (`source_materials/processed/`)"
+      - step: 4
+        action: "Execute `scripts/process_source_text.py`. The script is responsible for: creating a unique `[source_id]` directory under `source_materials/processed/`; performing hierarchical splitting and chunking of the source text; generating navigational `index.md` files within `source_materials/processed/[source_id]/...` (these indices link to sub-indices and actual content chunks for that specific source); and outputting structured JSON to stdout. This JSON contains metadata, summaries, extracted concepts/arguments (if any), citations, the derived `source_id`, context tags, and paths to the generated chunk/index files relative to `source_materials/processed/[source_id]/`."
+        # Details in script_execution.script_responsibilities
+        output: "Script stdout (JSON string), stderr, exit code. Expected filesystem changes: new directory `source_materials/processed/[source_id]/` containing chunks and `index.md` files."
+      - step: 5
+        action: "Parse the JSON output from the script. If parsing fails, report `SCRIPT_OUTPUT_PARSE_FAIL`."
+        # Internal logic
+        input: "Script stdout content (string)"
+        output: "Parsed structured data object (dictionary/map)"
+      - step: 6
+        action: "Using the parsed structured data, perform direct writes to `philosophy-knowledge-base/`. This involves creating/updating entries in `indices/`, `references/`, `processed_texts/`, `concepts/`, `arguments/` as applicable. Ensure all KB entries adhere to the schema (Arch V18.3.6 Appendix A) and correctly populate fields like `id`, `type`, `timestamp`, `generating_mode`, `tags` (including extracted context tags), `source_ref_keys` (linking to Reference entries), and `extraction_markers` (linking to specific chunk files like `[source_id]/level_X/chunk_YYY.md`). Apply concurrency locks per `concurrency_coordination_protocols` when writing to potentially shared KB files."
+        tools: ["write_to_file", "apply_diff", "insert_content"] # and internal locking logic
+        input: "Parsed structured data, KB paths"
+        output: "Confirmation of KB writes or error status."
+      - step: 7
+        action: "After successful script execution and KB writes, update the root library index file: `source_materials/processed/index.md`. This involves reading the existing root index, adding or updating an entry for the newly processed `source_id` (e.g., as a Markdown list item: `- [Source Title (source_id)](./[source_id]/index.md) - Processed on [Timestamp]`), and writing the updated content back. Apply concurrency lock per `concurrency_coordination_protocols`. If update fails, report `ROOT_INDEX_UPDATE_FAIL`."
+        tools: ["read_file", "apply_diff", "insert_content", "write_to_file"] # and internal locking logic
+        input: "Processed `source_id`, source title (if available from script JSON), current timestamp"
+        output: "Updated `source_materials/processed/index.md` file content or error status."
+      - step: 8
+        action: "Log all significant operations, including input validation, context extraction, script execution details (parameters, start, end, success/failure), JSON parsing success/failure, a summary of KB write actions (count of entries per type), and root index update status to `phil-memory-bank/mode-specific/philosophy-text-processor.md`."
+        tools: ["insert_content"]
+        input: "Formatted log entries"
+        output: "Confirmation of log update."
+      - step: 9
+        action: "Report final status (`success` or `failure`), a descriptive message, the `processed_source_id`, the `processed_path` (e.g., `source_materials/processed/[source_id]`), and a summary of `kb_entries_written` to the Orchestrator, adhering to the main `output_schema`."
+        # Internal logic, prepares data for attempt_completion
+  processed_source_navigation_guidance:
+    description: "Guidance for other modes on utilizing the `source_materials/processed/` directory structure and its `index.md` files for research and context gathering, as per Arch V18.3.6."
+    guidance: |
+      The `source_materials/processed/` directory, created and maintained by `philosophy-text-processor`, contains hierarchically structured and chunked versions of raw source texts, designed for efficient navigation and targeted retrieval.
+      - **Root Processed Index (`source_materials/processed/index.md`):**
+        - This file acts as a master manifest or table of contents for *all* sources that have been processed.
+        - Other modes should consult this root `index.md` first to discover available processed sources, their `source_id`s, and potentially links to their individual top-level indices (e.g., `[source_id]/index.md`).
+      - **Source-Specific Directory (`source_materials/processed/[source_id]/`):**
+        - Each processed raw text gets its own directory named with a unique `source_id`.
+        - This directory contains all the processed chunks and navigational `index.md` files for that *single* source.
+      - **Hierarchical Navigational `index.md` Files (within each `[source_id]/` directory):**
+        - At the top level of each `source_materials/processed/[source_id]/` directory, there is an `index.md`. This is the main entry point for navigating that specific processed source.
+        - If the source was large and processed into multiple levels (e.g., `level_0/`, `level_0/level_1/`), each of these subdirectories will also contain its own `index.md`.
+        - These `index.md` files typically contain:
+          - Summaries of the content they cover (either a section of the text or a collection of sub-chunks).
+          - Links to the `index.md` files of deeper levels (if any).
+          - Links to the actual content chunk files (`chunk_XXX.md`) at that level.
+      - **Content Chunk Files (`chunk_XXX.md`):**
+        - These are the smallest units of processed text.
+        - Knowledge Base entries, via their `extraction_markers` field (e.g., `[source_id]/level_1/chunk_005.md#paragraph-3`), will often point directly to these chunk files and sometimes to specific locations (like paragraphs or sections if marked by the processing script) within them.
+      - **Recommended Usage Pattern for Analysis Modes:**
+        1. **Discovery:** Identify a `source_id` of interest. This might come from:
+           - A `source_ref_keys` field in an existing KB entry, which links to a KB `Reference` entry that contains the `source_id`.
+           - Browsing the root `source_materials/processed/index.md` for available texts.
+           - A task delegated by the Orchestrator specifying a `source_id`.
+        2. **Initial Navigation:** Start by reading the top-level `index.md` for that source: `source_materials/processed/[source_id]/index.md`.
+        3. **Drill-Down:** Use the summaries and links within the `index.md` files to navigate hierarchically through the processed text structure to find relevant sections or chunks. This allows for efficient exploration without reading entire large texts.
+        4. **Targeted Access:** If a KB entry provides a precise `extraction_marker` (e.g., `[source_id]/level_1/chunk_005.md#paragraph-3`), directly use `read_file` to access that specific chunk file and, if possible, locate the marked section.
+        5. **Contextual Reading:** When analyzing a specific chunk, consider reading its parent `index.md` or sibling chunks (linked from the parent index) to gain broader context.
