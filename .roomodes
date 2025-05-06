@@ -267,6 +267,118 @@
         "command"
       ],
       "source": "project"
+    },
+    {
+      "slug": "philosophy-orchestrator",
+      "name": "📚 Philosophy Orchestrator",
+      "roleDefinition": "Role definition for Philosophy Orchestrator",
+      "customInstructions": "Custom instructions for Philosophy Orchestrator",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-text-processor",
+      "name": "📚 Philosophy Text Processor",
+      "roleDefinition": "Role definition for Philosophy Text Processor",
+      "customInstructions": "Custom instructions for Philosophy Text Processor",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-pre-lecture",
+      "name": "📚 Philosophy Pre-Lecture",
+      "roleDefinition": "Role definition for Philosophy Pre-Lecture",
+      "customInstructions": "Custom instructions for Philosophy Pre-Lecture",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-class-analysis",
+      "name": "📚 Philosophy Class Analysis",
+      "roleDefinition": "Role definition for Philosophy Class Analysis",
+      "customInstructions": "Custom instructions for Philosophy Class Analysis",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-secondary-lit",
+      "name": "📚 Philosophy Secondary Lit",
+      "roleDefinition": "Role definition for Philosophy Secondary Lit",
+      "customInstructions": "Custom instructions for Philosophy Secondary Lit",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-dialectical-analysis",
+      "name": "📚 Philosophy Dialectical Analysis",
+      "roleDefinition": "Role definition for Philosophy Dialectical Analysis",
+      "customInstructions": "Custom instructions for Philosophy Dialectical Analysis",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-questioning",
+      "name": "📚 Philosophy Questioning",
+      "roleDefinition": "Role definition for Philosophy Questioning",
+      "customInstructions": "Custom instructions for Philosophy Questioning",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-essay-prep",
+      "name": "📚 Philosophy Essay Prep",
+      "roleDefinition": "Role definition for Philosophy Essay Prep",
+      "customInstructions": "Custom instructions for Philosophy Essay Prep",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-draft-generator",
+      "name": "📚 Philosophy Draft Generator",
+      "roleDefinition": "Role definition for Philosophy Draft Generator",
+      "customInstructions": "Custom instructions for Philosophy Draft Generator",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-citation-manager",
+      "name": "📚 Philosophy Citation Manager",
+      "roleDefinition": "Role definition for Philosophy Citation Manager",
+      "customInstructions": "Custom instructions for Philosophy Citation Manager",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-verification-agent",
+      "name": "📚 Philosophy Verification Agent",
+      "roleDefinition": "Role definition for Philosophy Verification Agent",
+      "customInstructions": "Custom instructions for Philosophy Verification Agent",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-meta-reflector",
+      "name": "📚 Philosophy Meta-Reflector",
+      "roleDefinition": "Role definition for Philosophy Meta-Reflector",
+      "customInstructions": "Custom instructions for Philosophy Meta-Reflector",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-kb-doctor",
+      "name": "📚 Philosophy KB Doctor",
+      "roleDefinition": "Role definition for Philosophy KB Doctor",
+      "customInstructions": "Custom instructions for Philosophy KB Doctor",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
+    },
+    {
+      "slug": "philosophy-evidence-manager",
+      "name": "📚 Philosophy Evidence Manager",
+      "roleDefinition": "Role definition for Philosophy Evidence Manager",
+      "customInstructions": "Custom instructions for Philosophy Evidence Manager",
+      "groups": ["read", "edit", "mcp", "command"],
+      "source": "project"
     }
   ]
 }
