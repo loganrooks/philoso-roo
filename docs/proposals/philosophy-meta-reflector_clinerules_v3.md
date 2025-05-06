@@ -1,3 +1,27 @@
+# Proposed `.clinerules` Structure for `philosophy-meta-reflector` (V3.0)
+
+**Version:** 3.0 (Draft)
+**Date:** 2025-05-06
+**Based on:**
+*   `docs/standards/clinerules_standard_v2.md` (V2.5)
+*   `docs/architecture/architecture_v18.md` (V18.3.6)
+*   Existing `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.0)
+
+**Objective:** This document outlines a custom `.clinerules` structure tailored for the `philosophy-meta-reflector` mode, aligning with its unique responsibilities as defined in Architecture V18.3.6 and incorporating best practices from `.clinerules` Standard V2.5.
+
+## Preamble
+
+The `philosophy-meta-reflector` mode serves a critical function in evaluating and proposing improvements to the rigor, consistency, and philosophical quality of the system's outputs and processes. Its `.clinerules` need to reflect its broad analytical scope and its specific interactions with the Knowledge Base, operational memory, system documentation, and other mode rules.
+
+This proposed V3.0 structure aims to:
+1.  Adhere to all mandatory common sections from Standard V2.5.
+2.  Adapt Archetype B sections from Standard V2.5 to the specific needs of meta-reflection.
+3.  Introduce a detailed `meta_reflection_protocols` section (evolving from the previous `meta_analysis_guidelines`) to define its core operational logic.
+4.  Structure its task-specific logic using the `mode_specific_workflows` pattern from Standard V2.5, replacing the previous `rules` section for better clarity and detail.
+
+## Proposed `.clinerules` Structure
+
+```yaml
 # .roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules
 # Version: 3.0
 # Based on: docs/standards/clinerules_standard_v2.md (V2.5)
@@ -589,3 +613,22 @@ mode_specific_workflows:
         tools: ["attempt_completion"]
 
 # End of .clinerules
+```
+
+## Justification for Changes and Structure:
+
+*   **Standard Sections:** All common sections (`mode`, `identity`, `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, `concurrency_coordination_protocols`) are updated to strictly follow the V2.5 standard and align with Architecture V18.3.6. This ensures consistency and leverages the latest system-wide protocols.
+*   **Archetype B Sections:**
+    *   `input_schema`: Expanded and refined based on the diverse analytical tasks of `philosophy-meta-reflector` (e.g., specific enums for `task_type`, more detailed `scope_details`).
+    *   `output_schema`: Made more structured with `detailed_findings` and a formal `proposals` structure, including a `proposal_id` for better tracking.
+    *   `kb_interaction_protocols`: Tailored to `philosophy-meta-reflector`. It has very broad read access across KB, logs, docs, and rules. Write access is strictly limited to `philosophy-knowledge-base/meta-reflections/`. Rigor field population is specific to the 'Meta-Reflection' type.
+*   **Custom Sections:**
+    *   `meta_reflection_protocols`: This new major section replaces and significantly expands upon the old `meta_analysis_guidelines`. It's broken down into `evaluation_frameworks` (for rigor, logs, KB health, philosophical quality, rule/doc adherence) and `proposal_formulation_guidelines`. This provides a much more detailed and actionable definition of *how* the mode performs its core functions, aligning with its responsibilities in Arch V18.3.6 (Sec 4.4, 7.3).
+*   **`mode_specific_workflows`:** This section, adopted from Standard V2.5, replaces the previous `rules` section. It provides a clearer, more structured, and step-by-step definition of the operational logic for each `task_type` defined in the `input_schema`. This makes the mode's behavior more explicit and easier to understand and maintain. Each workflow details actions, potential tool use, and interaction with other defined protocols (like `meta_reflection_protocols` or `kb_interaction_protocols`).
+*   **Alignment with Architecture V18.3.6:**
+    *   The defined `task_type` enums and workflow steps directly reflect the responsibilities outlined in Arch Sec 4.4 and the workflow in Sec 7.3.
+    *   Read/write access patterns in `kb_interaction_protocols` and `operational_context_protocols` match the direct access model of V18.x.
+    *   The focus on evaluating rigor, quality, and system patterns is central.
+    *   Proposal generation and routing to `Orchestrator` are explicitly part of the output and workflows.
+
+This structure aims to make the `philosophy-meta-reflector` mode more robust, its operations more transparent, and its configuration more aligned with current system standards and architectural intent.
