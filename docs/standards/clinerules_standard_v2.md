@@ -1,11 +1,11 @@
-# Standard `.clinerules` Structures for Philosophy Modes (V2.2 - Based on V18.3.4 Arch)
+# Standard `.clinerules` Structures for Philosophy Modes (V2.5 - Based on V18.3.4 Arch)
 
-**Version:** 2.2
-**Date:** 2025-05-05
+**Version:** 2.5
+**Date:** 2025-05-06
 
 **Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the `philoso-roo` system (formerly SPARC).
 
-**Background:** This V2.2 standard supersedes V2.1. It removes the `rule_inheritance_guidelines` section based on user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54] to enforce absolute explicitness. It addresses feedback regarding implicit inheritance comments and wasteful headers identified in V2.0 [See Feedback Log: 2025-05-05 14:12:11]. It incorporates enhancements proposed in `docs/proposals/clinerules_standard_enhancements_v1.md` and aligns with the V18.3.4 system architecture (`docs/architecture/architecture_v18.md`), which features direct KB/Memory Bank access, distributed KB maintenance (via `Orchestrator`, `MetaReflector`, `VerificationAgent`), MCP integration, and RooCode Checkpoints.
+**Background:** This V2.5 standard supersedes V2.4. It restores specific details and adds examples to sections like `conceptual_determinacy_guidelines` and `evidence_standards` based on user feedback [See Feedback Log: 2025-05-06 01:45:00], ensuring critical rigor guidelines are explicit while maintaining the flexible formatting for `mode_specific_workflows` examples introduced in V2.4. It retains the V2.3 introduction of the `mode_specific_workflows` section and the V2.2 removal of the `rule_inheritance_guidelines` section. It addresses feedback regarding implicit inheritance comments and wasteful headers identified in V2.0. It incorporates enhancements proposed in `docs/proposals/clinerules_standard_enhancements_v1.md` and aligns with the V18.3.4 system architecture (`docs/architecture/architecture_v18.md`), which features direct KB/Memory Bank access, distributed KB maintenance, MCP integration, and RooCode Checkpoints. **Note:** During updates, modes MUST check for the presence of the optional `mode_specific_workflows` section and preserve its content if it exists.
 
 **Inspiration:** The structure and detail level remain inspired by robust mode examples (e.g., `.clinerules-philosophy-essay-prep`), adapted for the current orchestrated system.
 
@@ -16,6 +16,7 @@
 *   **Orchestration Alignment:** Focus on interaction with `philosophy-orchestrator` and direct interaction with `philosophy-knowledge-base/` and `phil-memory-bank/`.
 *   **Adaptability:** Flexibility where appropriate, strictness for critical operations.
 *   **Explicitness:** Rules MUST be clear, unambiguous, and self-contained within the `.clinerules` file. No implicit inheritance via comments.
+*   **Preservation:** Custom, mode-specific operational logic should be preserved during standard updates via the `mode_specific_workflows` section.
 
 ## Standard Archetypes
 
@@ -50,7 +51,7 @@ These sections MUST be present and adhere to the standards defined below.
     initialization: |
       # Standard Memory Bank Initialization Protocol
       - **CHECK FOR MEMORY BANK:**
-          <thinking> * Check if memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
+          <thinking> * Check if phil-memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
           <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
     if_no_memory_bank: |
       # Standard Protocol if No Memory Bank Found
@@ -156,6 +157,13 @@ These sections MUST be present and adhere to the standards defined below.
         - **Cross-ref:** [Link to relevant KB entry, feedback log, etc. if applicable]
       frequency: "Log task start/end, major sub-steps, all KB R/W ops, MCP calls, script calls, verification, errors, interventions."
       guidelines: "Maintain reverse chronological order. Be concise. Focus on operational actions, use KB IDs. Do not duplicate KB content. Recommend batching log entries before writing via `insert_content`."
+      # Example Log Entry:
+      # ### [2025-05-06 01:50:00] - KB Concept Identified
+      # - **Details:** Identified 'Being' as a key concept in Hegel_SoL_pp59-82.md analysis.
+      # - **KB Interaction:** Preparing to write new Concept entry.
+      # - **Input:** Analysis results from reading.
+      # - **Output:** Draft Concept entry content.
+      # - **Cross-ref:** [Hegel_SoL_pp59-82.md]
     ```
 
 `error_reporting_protocols`:
@@ -197,6 +205,8 @@ These sections MUST be present and adhere to the standards defined below.
       error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
       logging: "Log all errors with details in operational log and feedback log."
       escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
+      # Example Error Message:
+      # "[KB_SCHEMA_VIOLATION] in philosophy-class-analysis: Attempted to write Concept entry without required 'definition' field. Resource: philosophy-knowledge-base/concepts/new_concept_xyz.md, Line: N/A."
     ```
 
 `mcp_interaction_protocols`:
@@ -217,11 +227,14 @@ These sections MUST be present and adhere to the standards defined below.
           tool_name: "brave_web_search"
         - server_name: "fetcher"
           tool_name: "fetch_url"
+        - server_name: "zlibrary-mcp" # Example for a different mode
+          tool_name: "search_books"
       security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
       error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation. Consider tool-specific retry logic if appropriate."
       usage_guidelines: |
-        Use 'brave_web_search' for finding secondary sources or external definitions relevant to the current philosophical context.
-        Use 'fetch_url' for retrieving content from specific URLs found via search or KB refs, ensuring relevance before processing.
+        Use 'brave_web_search' for finding secondary sources or external definitions relevant to the current philosophical context. Formulate specific queries.
+        Use 'fetch_url' for retrieving content from specific academic URLs found via search or KB refs. Prioritize fetching from reputable domains.
+        Use 'search_books' (if allowed) to find relevant monographs or edited volumes based on keywords or author searches.
         Handle timeouts/errors gracefully. Respect API limits. Avoid fetching sensitive or irrelevant content.
     ```
 
@@ -254,6 +267,131 @@ These sections MUST be present and adhere to the standards defined below.
           3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
         scope: "Recommended for writes to shared KB files or critical `phil-memory-bank/` files where simultaneous access is plausible."
       orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
+      # Example Lock File Name Calculation (Conceptual):
+      # Target Path: philosophy-knowledge-base/concepts/being.md
+      # MD5 Hash (example): d41d8cd98f00b204e9800998ecf8427e
+      # Lock File Path: phil-memory-bank/locks/d41d8cd98f00b204e9800998ecf8427e.lock
+    ```
+
+`mode_specific_workflows`: (**Optional**)
+  type: object
+  description: |
+    This OPTIONAL section allows modes to define detailed, step-by-step operational logic or procedures unique to their function that are not adequately captured by the standard protocol sections (e.g., `kb_interaction_protocols`, `conceptual_determinacy`).
+    It serves as a persistent record of complex, custom workflows, ensuring this logic is not lost during `.clinerules` updates or refactoring.
+    Use clear, descriptive keys for each workflow.
+    **Formatting Flexibility:** Define steps using a list. For each step:
+    - Use `action:` for a narrative description of the step's purpose or process.
+    - **Optionally**, include `tools:`, `input:`, `output:`, `input_schema:`, `output_schema:` **only when specifying the exact tool, data structure, or parameters is critical for clarity or correctness.** For simpler internal processing or transitions, a narrative `action:` description is sufficient. Avoid ambiguous terms like "Internal Logic"; describe the actual processing.
+    **IMPORTANT:** Modes performing `.clinerules` updates (e.g., `code`, `system-modifier`) MUST check for this section and preserve its content if present.
+  example:
+    ```yaml
+    mode_specific_workflows:
+      evidence_retrieval_and_linking:
+        description: "Workflow for finding, verifying, and linking evidence to a specific claim in an essay draft."
+        steps:
+          - step: 1
+            action: "Parse input essay section text to identify claims needing evidence."
+            # Simple internal analysis, no specific tool/schema needed here.
+          - step: 2
+            action: "For each claim, extract keywords and search KB for relevant arguments/concepts."
+            tools: ["search_files"] # Tool is critical here
+            input: "Keywords, KB paths (`philosophy-knowledge-base/arguments/`, `philosophy-knowledge-base/concepts/`)"
+            output: "List of potential KB entry file paths"
+          - step: 3
+            action: "Read content of potential KB entries."
+            tools: ["read_file"] # Tool is critical
+            input: "List of KB entry file paths"
+            output: "Content of KB entries"
+          - step: 4
+            action: "Analyze KB entry content for relevance and strength as evidence for the claim."
+            # Internal analysis, narrative description is sufficient.
+          - step: 5
+            action: "If strong evidence found, retrieve `source_ref_keys` and `extraction_markers` from the KB entry's YAML frontmatter."
+            # Internal parsing, narrative description is sufficient.
+          - step: 6
+            action: "Format citation using retrieved keys/markers for insertion into draft, adhering to the specified citation style guide."
+            # Internal formatting, narrative description is sufficient.
+          - step: 7
+            action: "If no strong KB evidence found, formulate a targeted search query for external sources based on the claim and related keywords."
+            # Internal query generation, narrative description is sufficient.
+          - step: 8
+            action: "Execute web search using MCP."
+            tools: ["use_mcp_tool"] # Tool and arguments are critical
+            input: "{ server_name: 'brave-search', tool_name: 'brave_web_search', arguments: { query: [query string] } }"
+            output: "Search results object"
+          - step: 9
+            action: "Analyze search results for promising secondary sources."
+            # Internal analysis, narrative description is sufficient.
+          - step: 10
+            action: "Fetch content from relevant URLs using MCP."
+            tools: ["use_mcp_tool"] # Tool and arguments are critical
+            input: "{ server_name: 'fetcher', tool_name: 'fetch_url', arguments: { url: [URL] } }"
+            output: "Fetched content (Markdown)"
+          - step: 11
+            action: "Analyze fetched content for evidence. If found, delegate KB update task to the appropriate mode (e.g., `philosophy-text-processor` or `philosophy-secondary-lit`)."
+            tools: ["new_task"] # Tool is critical for delegation
+            input: "Fetched content analysis, claim text, delegation instructions"
+            output: "Delegation task ID or confirmation"
+          - step: 12
+            action: "Log all actions, findings, KB interactions, and delegations in the operational log."
+            tools: ["insert_content"] # Tool is critical for logging
+            input: "Formatted log entry, target_file path"
+            output: "Confirmation of log update"
+
+      dialectical_contradiction_resolution:
+        description: "Workflow for analyzing and attempting to resolve contradictions between two KB arguments."
+        steps:
+          - step: 1
+            action: "Read the content of both input KB argument entries."
+            tools: ["read_file"] # Tool is critical
+            input: "File paths for Argument ID 1, Argument ID 2"
+            output: "Content of both arguments"
+          - step: 2
+            action: "Analyze argument structures, premises, conclusions, and linked evidence (`source_ref_keys`, `extraction_markers`) by parsing YAML frontmatter and Markdown content."
+            # Internal analysis/parsing, narrative description is sufficient.
+          - step: 3
+            action: "Identify specific points of contradiction (e.g., conflicting premises, differing interpretations of evidence, incompatible conclusions)."
+            # Internal analysis, narrative description is sufficient.
+          - step: 4
+            action: "Search KB for related concepts, methods, or meta-reflections that might offer a resolution."
+            tools: ["search_files"] # Tool and paths are critical
+            input: "Keywords related to contradiction points, KB paths (`philosophy-knowledge-base/concepts/`, `philosophy-knowledge-base/methods/`, `philosophy-knowledge-base/meta-reflections/`)"
+            output: "List of potentially relevant KB entry file paths"
+          - step: 5
+            action: "Read and analyze potentially relevant KB entries for resolution strategies."
+            tools: ["read_file"] # Tool is critical
+            input: "List of KB entry file paths"
+            output: "Analysis of potential resolutions"
+          - step: 6
+            action: "If a resolution is identified (e.g., a mediating concept, a necessary distinction): Draft a new KB 'Relationship' entry detailing the resolution."
+            # Internal drafting, narrative description is sufficient.
+          - step: 7
+            action: "Populate rigor fields (`resolution_attempts`, `synthesis_level`) in the new Relationship entry's YAML frontmatter. Link the original arguments via `related_ids`."
+            # Internal YAML editing, narrative description is sufficient.
+          - step: 8
+            action: "Write the new Relationship entry to the KB, applying advisory lock if necessary."
+            tools: ["write_to_file"] # Tool and concurrency check are critical
+            input: "File path (`philosophy-knowledge-base/relationships/`), updated Relationship entry content"
+            output: "Confirmation of write"
+          - step: 9
+            action: "If no resolution is found: Draft a new KB 'Question' entry or update an existing one detailing the unresolved contradiction."
+            # Internal drafting/searching/updating, narrative description is sufficient. May use search_files, read_file, write_to_file, apply_diff.
+          - step: 10
+            action: "Populate rigor fields (`contradiction_points`, `unresolved_tension`, `scope_of_question`) in the Question entry's YAML frontmatter."
+            # Internal YAML editing, narrative description is sufficient.
+          - step: 11
+            action: "Write/Update the Question entry in the KB, applying advisory lock if necessary."
+            tools: ["write_to_file", "apply_diff"] # Tools and concurrency check are critical
+            input: "File path (`philosophy-knowledge-base/questions/`), updated Question entry content"
+            output: "Confirmation of write/update"
+          - step: 12
+            action: "If resolution seems possible but requires broader context or different expertise, report findings and suggest delegation to Orchestrator (e.g., to MetaReflector)."
+            # Internal analysis and reporting, narrative description is sufficient.
+          - step: 13
+            action: "Log all analysis steps, findings, KB interactions (reads/writes), and any recommendations in the operational log."
+            tools: ["insert_content"] # Tool is critical for logging
+            input: "Formatted log entry, target_file path"
+            output: "Confirmation of log update"
     ```
 
 ## Archetype A: Simple Orchestrated Task Mode
@@ -354,21 +492,22 @@ Includes Common Sections plus:
           type: array
           items:
             type: string
-          description: "List of paths to relevant source materials (readings, transcripts)."
-        analysis_depth:
-          type: string
-          enum: ["summary", "detailed", "comparative"]
-        rigor_focus: # Example V18.3.4 rigor parameter
-          type: array
-          items:
-            type: string
-            enum: ["determinacy", "presuppositions", "evidence_links"]
+          description: "List of paths to relevant source materials (e.g., processed readings)."
+        analysis_parameters:
+          type: object
+          properties:
+            depth:
+              type: string
+              enum: ["surface", "deep", "exhaustive"]
+            focus:
+              type: string
+              description: "Specific aspect to focus analysis on (e.g., 'presuppositions', 'evidence_links')."
       required: ["analysis_target_ids"]
     ```
 
 `output_schema`:
   type: object
-  description: Defines the structure of the result returned to the orchestrator (often includes new KB entry IDs, verification status, etc.).
+  description: Defines the structure of the result returned to the orchestrator (often includes analysis summaries, generated content, new KB entry IDs, verification status).
   example:
     ```yaml
     output_schema:
@@ -376,151 +515,141 @@ Includes Common Sections plus:
       properties:
         status:
           type: string
-          enum: ["success", "partial_success", "failure", "verification_pending"]
+          enum: ["success", "partial_success", "failure"]
+        analysis_summary:
+          type: string
+          description: "Summary of the analysis performed."
+        generated_content_path:
+          type: string
+          description: "(Optional) Path to newly generated file (e.g., essay draft section)."
         new_kb_entry_ids:
           type: array
           items:
             type: string
-          description: "IDs of new KB entries created during analysis."
-        updated_kb_entry_ids:
-          type: array
-          items:
-            type: string
-          description: "IDs of existing KB entries updated."
-        analysis_summary:
+          description: "(Optional) List of IDs for newly created KB entries."
+        verification_status:
           type: string
-          description: "Brief summary of the analysis performed."
-        verification_report_id: # If verification was performed
-          type: string
-          description: "ID of the KB entry containing the verification report."
-        error_details: # Present only if status includes failure
+          enum: ["verified", "unverified", "verification_failed"]
+        rigor_assessment:
+          type: object
+          # ... structure defined by rigor_fields
+        error_details: # Present only if status is failure
           type: object
           # ... follows error_reporting_protocols.error_message_format
       required: ["status"]
     ```
 
-`workspace_management`: (Optional)
+`kb_interaction_protocols`: (**STRICT PROTOCOL** for Archetype B)
   type: object
-  description: Defines rules if the mode requires a dedicated temporary workspace (e.g., for complex draft generation).
+  description: Defines rules for direct interaction with the Knowledge Base (`philosophy-knowledge-base/`). Aligns with Arch V18.3.4 Section 11.
   fields:
-    root: (string) Path relative to workspace root (e.g., `essay_prep/temp_drafts/`).
-    structure: (array) List of expected subdirectories within the root.
-    cleanup: (string) Rules for cleanup (e.g., "Delete on task completion", "Keep intermediate files").
-  example:
-    ```yaml
-    workspace_management:
-      root: "essay_prep/active_draft/"
-      structure: ["sections", "notes", "verification_reports"]
-      cleanup: "Keep intermediate files until explicit cleanup command."
-    ```
-
-`kb_interaction_protocols`: (Mandatory & Detailed for Archetype B)
-  type: object
-  description: **STRICT PROTOCOL** defining all interactions with the `philosophy-knowledge-base/`.
-  fields:
-    read_access: (array) List allowed KB directory paths or entry types. **STRICT:** Use V18.3.4 direct access patterns (`read_file`, `search_files`). Must specify how context tags are used for filtering. Paths MUST start with `philosophy-knowledge-base/`.
-    write_access: (array) List allowed KB directory paths or entry types. **STRICT:** Writes MUST conform to the full V18.3.4 KB entry schema (YAML frontmatter + Markdown content, see Arch Doc Sec 6), including population of relevant rigor fields (`positive_determination`, `negative_determination`, `presuppositions`, `counter_arguments`, etc.). **MUST** generate and use unique IDs. **MUST** ensure critical linking fields (`source_ref_keys`, `extraction_markers`, `related_ids`) are accurately populated based on analysis. Use `write_to_file` or `insert_content` appropriately. Paths MUST start with `philosophy-knowledge-base/`.
-    querying: (string) Guidelines for constructing KB queries using `search_files` or logic based on `read_file`. Emphasize using context tags and relationship links (`related_ids`) for efficient and relevant data retrieval. Avoid reading entire KB directories.
-    kb_maintenance_interaction: (string) **V2 Update:** Define conditions under which the mode should flag potential KB inconsistencies (e.g., broken links, schema violations detected during read, conflicting information) to the `Orchestrator`. **Modes do NOT trigger maintenance directly.** `Orchestrator` delegates checks to `MetaReflector` or `VerificationAgent` as appropriate.
-    validation_hooks: (string) **V2 Addition:** "Modes performing KB writes SHOULD attempt self-validation against schemas/rules in `philosophy-knowledge-base/_operational/formatting_templates_rules/` before writing. `VerificationAgent` performs mandatory post-write checks during workflows."
-    rigor_field_handling: (string) **V2 Addition:** "Modes MUST explicitly populate relevant rigor fields (determinacy, presuppositions, etc.) as defined in the V18.3.4 KB Entry Format (Arch Doc Sec 6) when creating/updating KB entries."
+    read_access: (array) List allowed KB directory paths or entry types for reading. **STRICT:** Use V18.3.4 direct access patterns (`read_file`, `search_files`). Paths MUST start with `philosophy-knowledge-base/`.
+    write_access: (array) List allowed KB directory paths or entry types for writing. **STRICT:** Use V18.3.4 direct access patterns (`write_to_file`, `apply_diff`, `insert_content`). Writes MUST conform to V18.3.4 KB schema. Paths MUST start with `philosophy-knowledge-base/`. Apply concurrency protocols.
+    schema_enforcement: (string) **MUST** state: "All writes MUST strictly adhere to the KB entry schemas defined in Arch V18.3.4 Appendix A. Validate structure before writing."
+    relationship_mandate: (string) **MUST** state: "New KB entries (concepts, arguments, etc.) MUST be linked to existing entries via the `related_ids` field or by creating/updating Relationship entries. Orphaned entries are prohibited."
+    rigor_fields_population: (string) **MUST** state: "Modes MUST populate relevant rigor fields (e.g., `conceptual_determinacy`, `evidence_strength`, `presuppositions`, `contradiction_points`, `resolution_attempts`) based on analysis, as defined in Arch V18.3.4 Appendix A."
+    verification_hooks: (string) **MUST** state: "Modes MUST check for and respect verification status flags (`verification_status`, `verified_by`, `verification_date`) in KB entries. Trigger re-verification via `Orchestrator` if significant changes are made to verified entries."
+    maintenance_reporting: (string) **MUST** state: "Report suspected KB inconsistencies, schema violations, or maintenance needs (e.g., outdated links, conflicting info) to `Orchestrator` for potential delegation to `MetaReflector` or `VerificationAgent`."
   example:
     ```yaml
     kb_interaction_protocols:
-      read_access:
+      read_access: # Example for a mode analyzing arguments and concepts
         - "philosophy-knowledge-base/concepts/"
         - "philosophy-knowledge-base/arguments/"
-        - "philosophy-knowledge-base/processed_texts/" # Source chunks
+        - "philosophy-knowledge-base/questions/"
+        - "philosophy-knowledge-base/relationships/"
+        - "philosophy-knowledge-base/processed_sources/"
         - "philosophy-knowledge-base/references/"
-      write_access:
-        - "philosophy-knowledge-base/concepts/" # Creating new concepts
-        - "philosophy-knowledge-base/arguments/" # Creating new arguments
-        - "philosophy-knowledge-base/relationships/" # Linking entries
-      querying: |
-        Use `search_files` with regex targeting YAML frontmatter fields (id, type, tags) for initial discovery.
-        Use `read_file` for specific KB entry IDs identified via search or `related_ids`.
-        Filter reads/searches using `context:key:value` tags based on input parameters.
-        Follow relationship links (`related_ids`) to gather related context.
-      kb_maintenance_interaction: "If KB inconsistencies (broken links, schema violations, conflicts) detected during R/W, report details (e.g., KB_SCHEMA_VIOLATION, MISSING_DEPENDENCY) to Orchestrator, suggesting MetaReflector/VerificationAgent review."
-      validation_hooks: "Modes performing KB writes SHOULD attempt self-validation against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/`. `VerificationAgent` performs mandatory post-write checks."
-      rigor_field_handling: "Modes MUST explicitly populate relevant rigor fields (determinacy, presuppositions, etc.) per Arch Doc Sec 6 when creating/updating KB entries."
+      write_access: # Example for a mode creating arguments and questions
+        - "philosophy-knowledge-base/arguments/"
+        - "philosophy-knowledge-base/questions/"
+        - "philosophy-knowledge-base/relationships/" # To link new args/questions
+      schema_enforcement: "All writes MUST strictly adhere to the KB entry schemas defined in Arch V18.3.4 Appendix A. Validate structure before writing."
+      relationship_mandate: "New KB entries (concepts, arguments, etc.) MUST be linked to existing entries via the `related_ids` field or by creating/updating Relationship entries. Orphaned entries are prohibited."
+      rigor_fields_population: "Modes MUST populate relevant rigor fields (e.g., `conceptual_determinacy`, `evidence_strength`, `presuppositions`, `contradiction_points`, `resolution_attempts`) based on analysis, as defined in Arch V18.3.4 Appendix A."
+      verification_hooks: "Modes MUST check for and respect verification status flags (`verification_status`, `verified_by`, `verification_date`) in KB entries. Trigger re-verification via `Orchestrator` if significant changes are made to verified entries."
+      maintenance_reporting: "Report suspected KB inconsistencies, schema violations, or maintenance needs to `Orchestrator` for potential delegation to `MetaReflector` or `VerificationAgent`."
     ```
 
-`conceptual_determinacy`: (Guideline Section - Adaptable)
+`conceptual_determinacy_guidelines`:
   type: object
-  description: Guidelines for ensuring philosophical rigor regarding concept clarity. Adapt requirements based on mode's function.
+  description: Defines rules for ensuring clarity, precision, and consistency in concepts and arguments. **V2.5 Enhancement:** Restored specific methods and added sense tracking.
   fields:
-    requirements: (object) Define expectations for generated concepts.
-        *   `negative_definition`: (string) e.g., `required`, `recommended`, `optional`.
-        *   `disambiguation_protocol`: (string) e.g., `required_if_ambiguous`, `optional`.
-        *   `ordinary_language_contrast`: (string) e.g., `recommended`, `optional`.
-    implementation: (string) Guidelines for how the mode should achieve these requirements during analysis/generation. Reference specific V18.3.4 KB schema fields (`positive_determination`, `negative_determination`, `ordinary_language_contrast`, `ambiguities`, `related_terms`).
+    definition_standard: (string) Requirement for clear, unambiguous definitions.
+    scope_management: (string) Guidelines for defining and respecting the scope of concepts/arguments.
+    ambiguity_identification: (string) How to identify potential ambiguities.
+    disambiguation_methods: (string) Specific methods for resolving identified ambiguities.
+    marking_ambiguity: (string) Protocol for marking persistent ambiguities in the KB.
+    sense_tracking: (string) Protocol for tracking changes in a concept's meaning.
+    consistency_checks: (string) How to check for internal consistency and consistency with related KB entries.
   example:
     ```yaml
-    conceptual_determinacy:
-      requirements:
-        negative_definition: recommended # Encourage defining what a concept is NOT
-        disambiguation_protocol: required_if_ambiguous # Mandate clarification if term has multiple senses
-        ordinary_language_contrast: recommended # Encourage contrasting with everyday usage
-      implementation: |
-        When generating 'Concept' entries:
-        1. Attempt to populate `positive_determination` and `negative_determination` fields in YAML.
-        2. If term is potentially ambiguous (based on KB search or source analysis), populate `ambiguities` field and clearly state the intended sense in the main content.
-        3. Consider adding notes to `ordinary_language_contrast` field.
-        4. Link related concepts via `related_terms` and `related_ids`.
-        5. Log steps taken to ensure determinacy in operational log.
+    conceptual_determinacy_guidelines:
+      definition_standard: "Define concepts using necessary and sufficient conditions where possible. Avoid circularity. Use consistent terminology aligned with KB conventions."
+      scope_management: "Clearly state the intended scope and limitations of arguments and concepts (e.g., specific text, author, historical period). Avoid overgeneralization."
+      ambiguity_identification: "Identify potential ambiguities in terms or phrasing within the text or across related KB entries by comparing definitions, usage contexts, and relationships."
+      disambiguation_methods: |
+        Employ methods like:
+        - **Negative Definition:** Define what the concept *is not* to narrow its meaning.
+        - **Ordinary Language Contrast:** Compare the philosophical usage with its common usage to highlight specific technical meanings.
+        - **Contextual Analysis:** Examine how the term is used within the specific text, author's corpus, or related KB entries.
+        - **KB Search:** Look for existing definitions, distinctions, or relationship entries in the KB.
+        - **External Resources:** Use MCP tools (e.g., `brave-search`) to consult philosophical dictionaries or secondary literature if necessary.
+        Document the methods used and the resulting clarifications.
+      marking_ambiguity: "If ambiguity persists after analysis, explicitly mark the concept/term as ambiguous in the KB entry (e.g., using `ambiguity_status: 'persistent'` or `conceptual_determinacy: 'low'`) and detail the nature of the ambiguity in the entry's body or a dedicated rigor field. Suggest generating a KB Question entry if the ambiguity warrants further investigation."
+      sense_tracking: "Track subtle changes in a concept's sense across different works, authors, or within a single text. Document these shifts in relevant KB entries (e.g., in a dedicated 'sense_evolution' field, notes, or via linked Relationship entries connecting different conceptualizations)."
+      consistency_checks: "Cross-reference new/modified entries with related KB entries (`related_ids`) to ensure logical consistency. Report unresolved inconsistencies via `maintenance_reporting`."
+      # Example Application:
+      # When analyzing 'Being' in Hegel vs. Heidegger:
+      # 1. Identify ambiguity (different core meanings).
+      # 2. Use contextual analysis (within each philosopher's work), negative definition (what 'Being' is *not* for each), and ordinary language contrast.
+      # 3. Track sense changes: Create separate KB Concept entries (e.g., 'Being_Hegel', 'Being_Heidegger') or use Relationship entries to link a general 'Being' concept to specific interpretations, noting the evolution/differences.
+      # 4. Mark ambiguity: If a specific passage remains ambiguous after analysis, add `ambiguity_status: 'passage_specific'` to the relevant Argument or Extraction entry.
     ```
 
-`evidence_standards`: (Guideline Section + Strict Workflow)
+`evidence_standards`:
   type: object
-  description: Guidelines and strict workflow for handling and verifying evidence.
+  description: Defines rules for sourcing, evaluating, and linking evidence. **V2.5 Enhancement:** Added example for linking mechanism.
   fields:
-    requirements: (object) General standards for evidence.
-        *   `source_preference`: (string) e.g., "Prefer primary sources, use secondary critically".
-        *   `citation_format`: (string) e.g., "Use KB reference IDs (`source_ref_keys`) and `extraction_markers`".
-        *   `quotation_accuracy`: (string) e.g., "Must match source chunk exactly".
-    verification_workflow: **STRICT PROTOCOL**
-        *   `enabled`: (boolean) `true` if the mode performs verification.
-        *   `trigger`: (string) When verification is triggered (e.g., "On KB write", "On demand").
-        *   `method`: (string) How verification is performed (e.g., "Cross-reference KB entries", "Check source text via `read_file`", "Delegate to `VerificationAgent`").
-        *   `reporting`: (string) How results are reported (e.g., "Update KB entry status", "Return report ID to Orchestrator").
+    source_preference: (string) Preferred order of evidence sources (e.g., KB primary sources, KB secondary sources, external academic sources).
+    evaluation_criteria: (string) Criteria for evaluating evidence strength (e.g., relevance, authoritativeness, logical connection, verification status).
+    linking_mechanism: (string) **STRICT:** How evidence is linked. **MUST** state: "Use `source_ref_keys` (linking to KB Reference entries) and `extraction_markers` (linking to specific locations in processed source files) in KB entries to ensure precise traceability back to source material paragraphs/sections within the hierarchical `source_materials/processed/` structure."
+    verification_requirement: (string) When evidence requires verification by `VerificationAgent`.
   example:
     ```yaml
     evidence_standards:
-      requirements:
-        source_preference: "Prefer primary sources; use secondary critically, noting potential biases."
-        citation_format: "Use KB reference IDs (`source_ref_keys`) and `extraction_markers` linking directly to source text chunks."
-        quotation_accuracy: "Quotations MUST match source text exactly. Use `extraction_markers` to pinpoint."
-      verification_workflow:
-        enabled: true
-        trigger: "On KB write involving claims or evidence linkage."
-        method: |
-          1. Self-check: Verify `source_ref_keys` and `extraction_markers` point to valid KB entries/source chunks using `read_file`.
-          2. Cross-reference: Check `related_ids` for conflicting claims in linked arguments/concepts using `search_files` and `read_file`.
-          3. Delegate complex verification (e.g., logical consistency across multiple steps) to `VerificationAgent` via Orchestrator.
-        reporting: "Update KB entry YAML with `verification_status: [passed|failed|pending]` and `verification_notes`. Report status and any `VerificationAgent` delegation ID to Orchestrator."
+      source_preference: "1. Verified KB Primary Source extractions. 2. Verified KB Secondary Source analyses. 3. External academic sources (via MCP search/fetch). 4. Unverified KB entries (use with caution, flag for verification)."
+      evaluation_criteria: "Assess relevance to claim, authoritativeness of source (consider author, publication venue, date), logical strength of connection, verification status in KB, potential biases."
+      linking_mechanism: |
+        Use `source_ref_keys` (linking to KB Reference entries) and `extraction_markers` (linking to specific locations in processed source files) in KB entries to ensure precise traceability back to source material paragraphs/sections within the hierarchical `source_materials/processed/` structure.
+        # Example: An Argument entry supporting a claim about Hegel's concept of 'Nothing' might have:
+        # source_ref_keys: [hegel_sol_1812] # Links to the KB Reference entry for Science of Logic
+        # extraction_markers: ["Hegel_ScienceOfLogic_pp59-82.md#section-1-paragraph-5"] # Points to a specific paragraph in the processed source file
+      verification_requirement: "Claims based on unverified KB entries or newly fetched external sources MUST be flagged for verification by `VerificationAgent` via `Orchestrator`."
     ```
 
-`version_control`: (Optional, typically Archetype B)
+`version_control`: (Optional, if mode manages workspace files like drafts)
   type: object
-  description: Defines rules for interacting with Git via `execute_command`.
+  description: Defines protocols for interacting with Git via `execute_command`.
   fields:
-    branching_strategy: (string) e.g., "Operate on feature branches created by Orchestrator/DevOps".
-    commit_frequency: (string) e.g., "Commit significant milestones or on task completion".
-    commit_message_format: (string) e.g., "feat: [ModeSlug] - [Brief Description]".
-    pull_requests: (string) e.g., "Orchestrator/DevOps handles PR creation".
+    branching_strategy: (string) Recommended branching model (e.g., "feature branches", "main only").
+    commit_frequency: (string) When commits should ideally occur (e.g., "after each significant change", "end of task").
+    commit_message_format: (string) Standard format for commit messages (e.g., Conventional Commits).
+    conflict_resolution: (string) How merge conflicts should be handled (e.g., "report to Orchestrator", "attempt automatic resolve").
   example:
     ```yaml
     version_control:
-      branching_strategy: "Operate on feature branches managed by Orchestrator/DevOps."
-      commit_frequency: "Commit on successful completion of a significant sub-task or full task."
-      commit_message_format: "feat([ModeSlug]): [Brief description of changes]"
-      pull_requests: "Orchestrator/DevOps handles PR creation and merging."
+      branching_strategy: "Work on 'main' branch unless otherwise directed by Orchestrator."
+      commit_frequency: "Commit significant changes to drafts or outlines at logical breakpoints or end of task."
+      commit_message_format: "feat: [Short description]\n\n[Optional longer description]\nKB-Refs: [KB IDs]"
+      conflict_resolution: "Report merge conflicts immediately to Orchestrator. Do not force push."
     ```
 
 ## Change Log
-
-*   **V2.2 (2025-05-05):** Removed `rule_inheritance_guidelines` section entirely for absolute explicitness per user feedback. Updated background.
-*   **V2.1 (2025-05-05):** Removed inheritance comments and wasteful headers per user feedback. Mandated explicit rule inclusion. Added `apply_diff` specific error handling enhancement.
-*   **V2.0 (2025-05-05):** Initial version based on V1 standard, V18.3.4 architecture, and enhancement proposals. Added sections for Operational Context, MCP Interaction, Concurrency, Inheritance, enhanced Error Handling, Logging batching, KB Validation Hooks, Rigor Fields.
-*   **V1.0 (2025-05-03):** Initial standard based on V18.3 architecture.
+*   **V2.5 (2025-05-06):** Restored specific details to `conceptual_determinacy_guidelines` (negative definition, ordinary language contrast, sense tracking, marking ambiguity) and `evidence_standards`. Added more examples throughout for clarity, per user feedback. Maintained flexible formatting for `mode_specific_workflows`.
+*   **V2.4 (2025-05-05):** Refined `mode_specific_workflows` examples for flexible formatting (narrative vs. detailed steps). Updated section description.
+*   **V2.3 (2025-05-05):** Added optional `mode_specific_workflows` section with examples and preservation note.
+*   **V2.2 (2025-05-05):** Removed `rule_inheritance_guidelines` section entirely. Enforced absolute explicitness.
+*   **V2.1 (2025-05-05):** Removed implicit inheritance comments and wasteful headers. Mandated explicit rules. Added batching recommendation to `operational_logging`. Enhanced `apply_diff` error handling.
+*   **V2.0 (2025-05-05):** Aligned with Arch V18.3.4. Added `mcp_interaction_protocols` and `concurrency_coordination_protocols`. Refined KB/MB interaction for direct access. Added rigor fields and verification hooks. Added `script_execution` section. Defined Archetypes A & B.
+*   **V1.0 (2025-05-03):** Initial version based on analysis of existing `.clinerules` and user feedback.
