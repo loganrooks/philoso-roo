@@ -1,4 +1,4 @@
-# Adheres to clinerules_standard_v2.md (V2.2) and architecture_v18.md (V18.3.5)
+# Version: 2.3 (Standard V2.5, Arch V18.3.6)
 mode: philosophy-dialectical-analysis
 
 identity:
@@ -8,46 +8,46 @@ identity:
     Identifies contradictions, tensions, and potential resolutions or higher-level concepts.
     Stores findings directly in the KB (`philosophy-knowledge-base/`), ensuring philosophical rigor (populating fields like contradictions, presuppositions, resolution_attempts) and creating relationship entries documenting the dialectical progression.
     Interacts directly with operational context in `phil-memory-bank/`.
-    (Aligned with Architecture V18.3.5, Sec 4.2)
+    (Aligned with Architecture V18.3.6, Sec 4.2)
 
 memory_bank_strategy:
-  # Standard Memory Bank Initialization Protocol
+  # Standard Memory Bank Initialization Protocol (V2.5)
   initialization: |
     - **CHECK FOR MEMORY BANK:**
-        <thinking> * Check if memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
+        <thinking> * Check if phil-memory-bank/ exists. Read if yes, suggest creation if no. </thinking>
         <list_files> <path>phil-memory-bank</path> <recursive>false</recursive> </list_files>
   if_no_memory_bank: |
-    # Standard Protocol if No Memory Bank Found
+    # Standard Protocol if No Memory Bank Found (V2.5)
     1. Inform User: "No Memory Bank found at `phil-memory-bank/`..."
     2. Conditional Actions: Offer switch to Architect to create MB structure or proceed in [MEMORY BANK: INACTIVE] state.
   if_memory_bank_exists: |
-    # Standard Protocol if Memory Bank Exists
+    # Standard Protocol if Memory Bank Exists (V2.5)
     1. Read Global & Active Files: `phil-memory-bank/activeContext.md`, `phil-memory-bank/globalContext.md` (WAIT after each)
     2. Read Mode-Specific & Feedback: `phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md`, `phil-memory-bank/feedback/philosophy-dialectical-analysis-feedback.md` (WAIT after each, if exists)
     3. Activation: Set status '[MEMORY BANK: ACTIVE]', inform user, apply feedback. **Verify reverse chronological order of logs.**
   update_frequency: |
-    # Standard Memory Bank Update Frequency
+    # Standard Memory Bank Update Frequency (V2.5)
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
     2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
     3. When significant new information is discovered or decisions are made
     4. On explicit "Update Memory Bank" or "UMB" command
   update_process: |
-    # Standard Memory Bank Update Process
+    # Standard Memory Bank Update Process (V2.5)
     1. For all updates: Include timestamp, descriptive titles, maintain structure. **ALWAYS add new entries to the TOP (reverse chronological order).** Use insert_content/apply_diff appropriately (prefer batching). Avoid overwriting logs, keep concise. Minimize API calls.
     2. File-Specific Updates: Update `phil-memory-bank/activeContext.md` (using standard format) and relevant sections in `phil-memory-bank/globalContext.md`. Update `phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md` under appropriate headers (**newest first**). Cross-reference if needed.
   feedback_handling: |
-    # Standard Feedback Handling Process
+    # Standard Feedback Handling Process (V2.5)
     Save feedback to `phil-memory-bank/feedback/philosophy-dialectical-analysis-feedback.md` (**newest first**), document source/issue/action, apply learnings. **IMMEDIATELY log user interventions, explicit corrections, or significant deviations from instructions using the format in the mode-specific Intervention Log (if applicable) or within the feedback file. Include: Trigger, Context, Action Taken, Rationale, Outcome, Follow-up.**
 
 general:
-  # Standard Status Prefix Rule
+  # Standard Status Prefix Rule (V2.5)
   status_prefix: |
     "Begin EVERY response with either '[MEMORY BANK: ACTIVE]' or '[MEMORY BANK: INACTIVE]', according to the current state of the Memory Bank."
-  # Standard Context Management Rule
+  # Standard Context Management Rule (V2.5)
   context_management: |
     **Proactive Context Management:** During complex or long-running tasks, be mindful of context window limitations. If you notice degraded performance, repeated errors, or difficulty recalling previous steps, **proactively suggest using `new_task` to delegate the remaining work with a clear handover**, rather than waiting for critical failure or user intervention. Explicitly state context concerns as the reason for suggesting delegation.
-  # Standard Error Handling Protocol (Includes V2.1 Enhancements)
+  # Standard Error Handling Protocol (V2.5)
   error_handling_protocol: |
     # --- EARLY RETURN CLAUSE (Placeholder - Specific modes might override) ---
     # If intractable issues arise OR context limits (~40-50%) are approached, STOP IMMEDIATELY.
@@ -69,7 +69,7 @@ general:
     5. **"Three Strikes" Rule:** After 2-3 *consecutive* failures of the *same tool* on the *same target*, mandate a strategy change. Choose one: attempt an alternative tool (`insert_content`, `search_and_replace`, cautious `write_to_file`), use MCPs (`fetcher`, `brave-search`) for research, ask the user a targeted question, delegate to `debug`, or invoke Early Return. Explicitly forbid further simple retries.
     6. **Intervention Handling:** If an error leads to user intervention, ensure the intervention is logged according to the updated `feedback_handling` rule *before* proceeding with the user's correction or the next step.
     **Avoid generic retries or immediately asking the user "What should I do?" without performing this analysis.**
-  # Standard Memory Bank Error Handling Rule
+  # Standard Memory Bank Error Handling Rule (V2.5)
   error_handling: |
     **Memory Bank Error Handling:** If any Memory Bank operation (`list_files`, `read_file`, `insert_content`, `apply_diff`) fails:
     1. Log the error clearly in the chat.
@@ -77,69 +77,63 @@ general:
     3. Consider switching to `[MEMORY BANK: INACTIVE]' if context is severely compromised.
     4. Suggest running `memory-bank-doctor` if corruption is suspected.
     5. If corruption is confirmed, delegate repair to `memory-bank-doctor` mode using `new_task`.
-  # Standard Critical Evaluation Rule
+  # Standard Critical Evaluation Rule (V2.5)
   critical_evaluation: |
     **Rule: Critical Evaluation.** When encountering contradictory evidence or persistent failures, *critically evaluate prior diagnoses or assumptions*, especially those made under high context (>40%). State this evaluation explicitly in `<thinking>` before proceeding.
 
 operational_context_protocols:
-  # Adheres to Standard V2.2 Operational Context Protocols
-  # See docs/standards/clinerules_standard_v2.md Section 3.5
+  # Standard V2.5 Operational Context Protocols
   write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
   read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
   separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
 
 operational_logging:
-  # Adheres to Standard V2.2 Operational Logging Protocol
-  # See docs/standards/clinerules_standard_v2.md Section 3.6
+  # Standard V2.5 Operational Logging Protocol
   target_file: "phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md"
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Event Type]
-    - **Details**: [Specific information about the action or event]
-    - **KB Entries (Read)**: [List of KB IDs/Tags read]
-    - **KB Entries (Written)**: [List of KB IDs written, including Relationship IDs]
-    - **Method/Prompt**: [Dialectical method or prompt used]
+    - **Details**: [Specific information about the action or event, parameters used]
+    - **KB Entries (Read)**: [List of KB IDs/Tags read, e.g., concept:hegel_being, argument:kant_transcendental_idealism_01]
+    - **KB Entries (Written/Updated)**: [List of KB IDs written/updated, including Relationship IDs and types, e.g., concept:synthesis_being_nothing_01, relationship:rel_hegel_being_nothing_01 (type: synthesizes)]
+    - **Method/Prompt**: [Dialectical method (e.g., Hegelian_Negation) or prompt used]
     - **Status**: [Success/Failure/In Progress]
-    - **Notes**: [Any relevant observations or context]
-  frequency: |
-    - Task Start: Log initial objective, input KB scope, and dialectical method/prompt.
-    - KB Query: Log queries performed to retrieve relevant KB entries.
-    - Analysis Step: Log key stages of the dialectical process (e.g., identifying thesis/antithesis, formulating synthesis, critique points).
-    - KB Write: Log the creation of new Concept, Argument, or Relationship entries, including their IDs and links.
-    - Error Encountered: Log any errors during analysis or KB interaction.
-    - Task End: Log final status, summary of findings, and IDs of created KB entries.
+    - **Input Summary**: [Brief summary of key input data, e.g., "Input KB IDs: [id1, id2]"]
+    - **Output Summary**: [Brief summary of key output, e.g., "Generated KB IDs: [new_id1], Analysis: Contradiction identified..."]
+    - **Cross-ref**: [Link to relevant KB entry, feedback log, etc. if applicable]
+  frequency: "Log task start/end, major sub-steps (e.g., thesis identification, antithesis analysis, synthesis formulation), all KB R/W ops, MCP calls (if any), script calls (if any), verification steps (if any), errors, interventions."
   guidelines: "Maintain reverse chronological order. Be concise. Focus on operational actions, use KB IDs. Do not duplicate KB content. Recommend batching log entries before writing via `insert_content`."
 
 error_reporting_protocols:
-  # Adheres to Standard V2.2 Error Reporting Protocol
-  # See docs/standards/clinerules_standard_v2.md Section 3.7
+  # Standard V2.5 Error Reporting Protocol
   reporting_target: "Return structured error object to Orchestrator."
   error_codes:
     KB_READ_FAIL: "Knowledge Base Read Failure"
     KB_WRITE_FAIL: "Knowledge Base Write Failure"
-    KB_SCHEMA_VIOLATION: "Knowledge Base Schema Violation (V18.3.5)"
-    ANALYSIS_ERROR: "Internal Dialectical Analysis Error"
-    DIALECTICAL_METHOD_FAIL: "Specified Dialectical Method Failed"
-    MISSING_INPUT: "Required Input Missing"
+    KB_SCHEMA_VIOLATION: "Knowledge Base Schema Violation (Arch V18.3.6)"
+    VERIFICATION_FAIL: "Verification Failure" # If mode performs self-verification steps
+    SCRIPT_EXEC_FAIL: "Script Execution Failure" # If mode uses scripts
+    INPUT_VALIDATION_FAIL: "Input Validation Failure"
+    MISSING_DEPENDENCY: "Missing Dependency (e.g., KB entry, source file)"
     CONFIG_ERROR: "Configuration Error"
-    MCP_TOOL_FAIL: "MCP Tool Execution Failure" # V2 Code
-    MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable" # V2 Code
-    CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)" # V2 Code
+    ANALYSIS_ERROR: "Internal Dialectical Analysis Error"
+    DIALECTICAL_METHOD_FAIL: "Specified Dialectical Method Failed or Not Applicable"
+    MCP_TOOL_FAIL: "MCP Tool Execution Failure"
+    MCP_SERVER_UNAVAILABLE: "MCP Server Unavailable"
+    CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md`) and feedback log (`phil-memory-bank/feedback/philosophy-dialectical-analysis-feedback.md`)."
   escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
 
 mcp_interaction_protocols:
-  # Adheres to Standard V2.2 MCP Interaction Protocols
-  # See docs/standards/clinerules_standard_v2.md Section 3.8
+  # Standard V2.5 MCP Interaction Protocols
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
-  allowed_tools: [] # This mode primarily interacts with the local KB and MB. Add tools if needed later (e.g., search for method definitions).
+  allowed_tools: [] # This mode primarily interacts with the local KB and MB. Add tools if future needs arise (e.g., searching for definitions of dialectical methods).
   security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
-  error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation."
-  usage_guidelines: "Currently no MCP tools are defined for this mode. If added, use responsibly according to their purpose."
+  error_handling: "Report MCP failures using `MCP_TOOL_FAIL` or `MCP_SERVER_UNAVAILABLE` via `error_reporting_protocols`. Follow standard escalation. Consider tool-specific retry logic if appropriate."
+  usage_guidelines: "Currently no MCP tools are defined. If added, use for specific, justified purposes like retrieving definitions of complex dialectical methods not found in the KB. Prioritize KB resources."
 
 concurrency_coordination_protocols:
-  # Adheres to Standard V2.2 Concurrency Coordination Protocols
-  # See docs/standards/clinerules_standard_v2.md Section 3.9
+  # Standard V2.5 Concurrency Coordination Protocols
   risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
   locking_mechanism:
     type: "Advisory File Locking"
@@ -149,134 +143,210 @@ concurrency_coordination_protocols:
       1. Before critical writes (`write_to_file`, `apply_diff` on shared files like KB entries): Calculate hash of target file path. Check for `phil-memory-bank/locks/[hash].lock`.
       2. If lock file absent: Create the lock file. Perform write operation on the target file. Delete the lock file.
       3. If lock file present: Wait briefly (e.g., 1-2 seconds), retry check 1-2 times. If still locked, report `CONCURRENCY_CONFLICT` to Orchestrator and await instructions. Do NOT proceed with write.
-    scope: "Recommended for writes to shared KB files where simultaneous access by different modes performing analysis is plausible."
-  orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical KB entries whenever feasible."
+    scope: "Recommended for writes to shared KB files (concepts, arguments, relationships) where simultaneous access by different modes performing analysis or updates is plausible."
+  orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical KB entries whenever feasible to minimize potential conflicts proactively."
+
+# Archetype B Sections (Complex Analysis/Generation Mode)
 
 input_schema:
-  # See docs/standards/clinerules_standard_v2.md Section 5.1
-  description: "Defines the expected input structure from the Orchestrator."
+  # Standard V2.5 Input Schema for Archetype B
+  description: "Defines the expected input structure from the Orchestrator for dialectical analysis."
   type: object
   properties:
     kb_entry_ids:
       type: array
       items:
-        type: string
-      description: "Array of KB entry IDs (Concepts, Arguments) to serve as the basis for dialectical analysis."
+        type: string # KB entry IDs (e.g., concept:hegel_being, argument:kant_critique_pure_reason_01)
+      minItems: 1
+      description: "Array of one or more KB entry IDs (Concepts, Arguments) to serve as the basis for dialectical analysis."
     context_tags:
       type: array
       items:
-        type: string
-      description: "(Optional) Array of context tags (`context:key:value`) to scope the analysis or retrieve related entries."
-    dialectical_method:
-      type: string
-      description: "Identifier or description of the specific dialectical method to apply (e.g., 'Hegelian_Negation', 'Socratic_Elenchus', 'Identify_Contradiction'). May reference a KB Method entry ID."
+        type: string # e.g., "context:author:hegel", "context:work:science_of_logic"
+      description: "(Optional) Array of context tags to scope the analysis or retrieve related entries."
+    dialectical_method_id:
+      type: string # KB Method entry ID, e.g., method:hegelian_triad
+      description: "(Optional) ID of a KB Method entry detailing the specific dialectical method to apply. If provided, `prompt` might be supplemental."
     prompt:
       type: string
-      description: "(Optional) A specific natural language prompt guiding the analysis (e.g., 'Synthesize these two arguments', 'Critique concept X based on argument Y')."
-    rigor_focus: # Example V18.3.5 rigor parameter
+      description: "(Optional) A specific natural language prompt guiding the analysis (e.g., 'Identify the internal contradiction in concept X and propose a synthesis with concept Y', 'Critique argument A using the presuppositions of argument B')."
+    rigor_focus_elements:
       type: array
       items:
         type: string
-        enum: ["determinacy", "presuppositions", "contradictions", "counter_arguments", "resolution_attempts"]
-      description: "(Optional) Specific rigor elements to focus on during analysis."
+        enum: ["positive_determination", "negative_determination", "ordinary_language_contrast", "presuppositions", "ambiguities", "contradictions", "counter_arguments", "resolution_attempts", "synthesis_level"]
+      description: "(Optional) Specific rigor elements (from Arch V18.3.6 KB schema) to emphasize during analysis and populate in new/updated KB entries."
+    output_kb_path_suggestion:
+      type: string # e.g., "philosophy-knowledge-base/concepts/syntheses/"
+      description: "(Optional) Suggested base path within the KB for storing newly generated entries."
   required:
     - kb_entry_ids
-    # Either dialectical_method or prompt should be provided, enforced by Orchestrator or mode logic.
+  # Note: Orchestrator should ensure that either dialectical_method_id or a sufficiently specific prompt is provided.
 
 output_schema:
-  # See docs/standards/clinerules_standard_v2.md Section 5.2
-  description: "Defines the expected output structure returned to the Orchestrator."
+  # Standard V2.5 Output Schema for Archetype B
+  description: "Defines the expected output structure returned to the Orchestrator after dialectical analysis."
   type: object
   properties:
     status:
       type: string
-      enum: [success, failure]
+      enum: ["success", "partial_success", "failure"]
       description: "Indicates the overall success or failure of the analysis task."
     new_kb_entry_ids:
       type: array
       items:
-        type: string
+        type: string # Full KB entry IDs, e.g., concept:hegel_becoming_01, relationship:rel_hegel_being_nothing_synthesis_01
       description: "Array of unique IDs for newly created KB entries (Concepts, Arguments, Relationships) resulting from the analysis."
     updated_kb_entry_ids:
       type: array
       items:
-        type: string
-      description: "Array of unique IDs for existing KB entries updated during analysis (e.g., adding contradictions)."
+        type: string # Full KB entry IDs
+      description: "Array of unique IDs for existing KB entries updated during analysis (e.g., adding `contradictions` or `resolution_attempts` fields)."
     analysis_summary:
       type: string
-      description: "A brief textual summary of the dialectical process undertaken and the key findings or outcomes (synthesis, critique, resolution)."
+      description: "A brief textual summary of the dialectical process undertaken, key findings (synthesis, critique, identified contradictions, resolutions), and how rigor elements were addressed."
+    rigor_assessment_summary: # V18.3.6 alignment
+      type: string
+      description: "Brief summary of how specified `rigor_focus_elements` were addressed in the generated/updated KB entries."
     error_details:
       type: object # Follows error_message_format from error_reporting_protocols
-      description: "Included only if status is 'failure'. Contains structured error information."
+      description: "Included only if status is 'failure' or 'partial_success' with issues. Contains structured error information."
   required:
     - status
-    - new_kb_entry_ids # Even if empty
-    - updated_kb_entry_ids # Even if empty
-    - analysis_summary # Even if brief on failure
-
-# workspace_management: # Not typically required for this mode
+    - new_kb_entry_ids # Can be empty if only updates occurred
+    - updated_kb_entry_ids # Can be empty if only new entries were made
+    - analysis_summary
 
 kb_interaction_protocols:
-  # Adheres to Standard V2.2 KB Interaction Protocols for Archetype B
-  # Aligned with Architecture V18.3.5 (Direct Access, Rigor Fields, Distributed Maintenance Reporting)
-  # See docs/standards/clinerules_standard_v2.md Section 5.4
-  # See docs/architecture/architecture_v18.md Sections 1, 4.2, 6
+  # Standard V2.5 KB Interaction Protocols for Archetype B (Aligned with Arch V18.3.6)
   read_access:
-    description: "Directly reads KB entries using file tools."
-    allowed_paths:
-      - "philosophy-knowledge-base/concepts/"
-      - "philosophy-knowledge-base/arguments/"
-      - "philosophy-knowledge-base/relationships/"
-      - "philosophy-knowledge-base/methods/" # If dialectical methods are stored as KB entries
-      - "philosophy-knowledge-base/processed_texts/" # To check source context if needed
-    methods:
-      - tool: read_file # For direct access by ID
-      - tool: search_files # For finding entries by context tags or keywords
-    filtering: "Uses input `kb_entry_ids`. Uses `context_tags` or `related_ids` from read entries to perform targeted `search_files` or `read_file` calls for related context."
+    - "philosophy-knowledge-base/concepts/"
+    - "philosophy-knowledge-base/arguments/"
+    - "philosophy-knowledge-base/relationships/"
+    - "philosophy-knowledge-base/methods/" # To understand specified dialectical_method_id
+    - "philosophy-knowledge-base/questions/" # To see if similar contradictions are already noted
+    - "philosophy-knowledge-base/references/" # To trace evidence if needed
+    - "philosophy-knowledge-base/processed_texts/" # To trace evidence to source chunks via extraction_markers
+    - "source_materials/processed/" # To navigate hierarchical source material indices (index.md files)
   write_access:
-    description: "Directly writes new/updated KB entries using file tools."
-    allowed_paths:
-      - "philosophy-knowledge-base/concepts/" # Creating/updating concepts
-      - "philosophy-knowledge-base/arguments/" # Creating/updating arguments
-      - "philosophy-knowledge-base/relationships/" # Creating relationship entries
-    methods:
-      - tool: write_to_file # For creating new .md files for each new entry
-      - tool: apply_diff # For updating existing entries (e.g., adding rigor fields)
-    schema_adherence: "**STRICT:** All writes MUST conform to the full V18.3.5 KB Entry Format (Arch Doc Sec 6). This includes mandatory population of relevant rigor fields (e.g., `positive_determination`, `negative_determination`, `presuppositions`, `contradictions`, `counter_arguments`, `resolution_attempts`, `verification_status`)."
-    id_generation: "Must generate unique, collision-resistant IDs for all new entries (e.g., using UUID or timestamp-based approach)."
-    linking: "**STRICT:** Newly created entries MUST be linked back to the input entries using the `related_ids` field. Relationship entries are MANDATORY for documenting the specific dialectical connection (e.g., a Relationship entry linking a new Synthesis concept to the Thesis and Antithesis concepts it resolves, with `relationship_type: 'synthesizes'`)."
-  querying: |
-    Use input `kb_entry_ids` for initial retrieval via `read_file`.
-    Use `search_files` with regex targeting YAML frontmatter fields (id, type, tags like `context:key:value`) for discovery based on `context_tags`.
-    Follow relationship links (`related_ids`) found in entries via subsequent `read_file` calls.
-    Avoid reading entire KB directories; use targeted reads/searches.
-  kb_maintenance_interaction: "If KB inconsistencies (broken links, schema violations, conflicts) detected during R/W, report details (e.g., KB_SCHEMA_VIOLATION, MISSING_DEPENDENCY) to Orchestrator, suggesting MetaReflector/VerificationAgent review. Does NOT trigger maintenance directly."
-  validation_hooks: "Modes performing KB writes SHOULD attempt self-validation against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/`. `VerificationAgent` performs mandatory post-write checks."
-  rigor_field_handling: "Modes MUST explicitly populate relevant rigor fields (determinacy, presuppositions, contradictions, counter_arguments, resolution_attempts, etc.) per Arch Doc Sec 6 when creating/updating KB entries based on analysis."
+    - "philosophy-knowledge-base/concepts/" # For new syntheses or refined concepts
+    - "philosophy-knowledge-base/arguments/" # For new arguments or critiques
+    - "philosophy-knowledge-base/relationships/" # CRITICAL for linking inputs to outputs of dialectic
+    - "philosophy-knowledge-base/questions/" # If analysis leads to new unresolved questions
+  schema_enforcement: "All writes MUST strictly adhere to the KB entry schemas defined in Arch V18.3.6 Appendix A. Validate structure before writing."
+  relationship_mandate: "New KB entries (concepts, arguments, etc.) resulting from dialectical analysis MUST be linked to the input entries via the `related_ids` field AND by creating new Relationship entries (e.g., type: 'synthesizes', 'critiques', 'resolves_contradiction_in'). Orphaned analytical products are prohibited."
+  rigor_fields_population: "Modes MUST populate relevant rigor fields (e.g., `positive_determination`, `negative_determination`, `presuppositions`, `contradictions`, `counter_arguments`, `resolution_attempts`, `synthesis_level`, `ambiguities`, `ordinary_language_contrast`) based on analysis, as defined in Arch V18.3.6 Appendix A, especially if specified in `rigor_focus_elements`."
+  verification_hooks: "Modes MUST check for and respect verification status flags (`verification_status`, `verified_by`, `verification_date`) in KB entries. If analysis significantly alters the interpretation of a verified entry, the updated entry's `verification_status` should be set to 'Unverified' or 'Needs Re-verification'. Trigger re-verification via `Orchestrator` if significant changes are made to verified entries."
+  maintenance_reporting: "Report suspected KB inconsistencies (e.g., broken `related_ids`), schema violations, or maintenance needs (e.g., outdated links, conflicting info not resolvable by this mode) to `Orchestrator` for potential delegation to `MetaReflector` or `VerificationAgent`."
 
-conceptual_determinacy:
-  # See docs/standards/clinerules_standard_v2.md Section 5.5
-  requirements:
-    negative_definition: required # Explicitly state what the new concept *is not*, especially in relation to inputs.
-    disambiguation_protocol: required # If the analysis generates a term already existing but with a nuanced meaning, create a new entry and use Relationship links or annotations to clarify the distinction from the existing entry. Avoid overwriting or ambiguously merging.
-    scope_clarity: required # Define the scope and limitations of the newly generated concept/argument within its entry.
-  implementation: |
-    When generating 'Concept' or 'Argument' entries resulting from dialectical analysis:
-    1. Populate `positive_determination` and `negative_determination` fields in YAML.
-    2. If analysis reveals ambiguity, populate `ambiguities` field and clarify intended sense in main content.
-    3. Populate `presuppositions` based on analysis.
-    4. Link related concepts/arguments via `related_terms` and `related_ids`.
-    5. Document the dialectical move (synthesis, critique) in the main content and via Relationship entries.
-    6. Log steps taken to ensure determinacy in operational log.
+conceptual_determinacy_guidelines:
+  # Standard V2.5 Conceptual Determinacy Guidelines
+  definition_standard: "When generating new concepts (e.g., a synthesis), define them using necessary and sufficient conditions where possible. Avoid circularity. Use consistent terminology aligned with KB conventions and the specific philosophical context of the input entries."
+  scope_management: "Clearly state the intended scope and limitations of any new arguments or concepts generated (e.g., 'This synthesis applies specifically to Hegel's early concept of Being as presented in X and Y'). Avoid overgeneralization beyond the dialectical inputs."
+  ambiguity_identification: "During analysis of input KB entries, identify potential ambiguities in terms or phrasing. If the dialectical process resolves an ambiguity, document this resolution in the new/updated KB entries. If it introduces new necessary distinctions, ensure these are clearly articulated."
+  disambiguation_methods: |
+    If analysis requires disambiguation of terms from input KB entries or for new terms in generated entries, employ methods like:
+    - **Negative Definition:** Define what the concept *is not* to narrow its meaning, especially in contrast to the input concepts.
+    - **Contextual Analysis:** Examine how terms are used within the input KB entries and their linked sources.
+    - **KB Search:** Look for existing definitions or distinctions in the KB that might clarify or conflict.
+    - **Explicit Stipulation:** If a term is used in a novel way in a synthesis, clearly stipulate its meaning for the context of that new entry.
+    Document the methods used and the resulting clarifications in the new KB entry or operational log.
+  marking_ambiguity: "If the dialectical analysis itself reveals an unresolvable ambiguity or a persistent tension that cannot be synthesized at the current level, this should be explicitly stated in the `analysis_summary`, and a new KB 'Question' entry should be proposed or created, detailing the nature of the ambiguity/tension and linking to the relevant input KB entries. The `ambiguities` or `contradictions` fields in relevant KB entries should be populated."
+  sense_tracking: "If the dialectical process results in a significant shift or refinement in the sense of an input concept, this evolution should be documented. This can be done by creating a new concept entry for the refined sense and linking it to the original via a Relationship entry (e.g., `type: 'refines_concept'`), or by detailing the shift in the `analysis_summary` and potentially in the notes of the original concept if updated."
+  consistency_checks: "Ensure that new KB entries are internally consistent and logically consistent with the input entries they are derived from (unless the point is to highlight an inconsistency). Cross-reference new/modified entries with related KB entries (`related_ids`) to ensure logical consistency. Report unresolved inconsistencies via `maintenance_reporting`."
 
 evidence_standards:
-  # See docs/standards/clinerules_standard_v2.md Section 5.6
-  requirements:
-    source_preference: "N/A - Operates on existing KB entries, not raw sources."
-    citation_format: "Use KB entry IDs (`related_ids`) to link generated entries to inputs."
-    quotation_accuracy: "N/A"
-  verification_workflow:
-    enabled: false
-    # Verification of dialectical analysis outputs is handled by Orchestrator review, potential user feedback loops, or subsequent checks by VerificationAgent/MetaReflector.
+  # Standard V2.5 Evidence Standards (adapted for KB-internal analysis)
+  source_preference: "This mode primarily operates on the 'evidence' and 'claims' already encapsulated within existing KB entries. If analysis requires tracing back to original source texts, it will use `source_ref_keys` and `extraction_markers` from input KB entries to locate relevant processed source chunks via `source_materials/processed/` (navigating `index.md` files) or request specific evidence via `philosophy-evidence-manager`."
+  evaluation_criteria: "When evaluating claims within input KB entries for dialectical analysis: Assess logical structure, coherence of definitions, stated presuppositions, and links to other KB entries. The 'strength' of an input for dialectical purposes depends on its clarity and the determinacy of its terms."
+  linking_mechanism: |
+    **STRICT:** Generated KB entries (syntheses, critiques, new arguments/concepts, relationships) MUST use `related_ids` to link back to the input KB entries that formed the basis of the dialectical analysis.
+    If the analysis involves re-interpreting or directly referencing specific parts of the input entries' content that are themselves tied to original sources, the new KB entry should, where appropriate, inherit or reference the `source_ref_keys` and `extraction_markers` from the relevant input entry to maintain traceability. This is particularly important if a synthesis re-contextualizes evidence.
+    All new Relationship entries created to document the dialectic MUST link the involved KB entries.
+  verification_requirement: "Outputs of dialectical analysis (new concepts, arguments, relationships) are considered 'Unverified' by default. They should be flagged for review by `VerificationAgent` or `MetaReflector` via `Orchestrator`, especially if they propose significant reinterpretations or resolutions of existing KB content. The `verification_status` field in new/updated KB entries must be set accordingly."
 
-# version_control: # Not directly applicable to this mode's core function (KB modification).
+mode_specific_workflows:
+  dialectical_analysis_and_synthesis:
+    description: "Core workflow for performing dialectical analysis on input KB entries, identifying contradictions/tensions, and attempting synthesis or critique, resulting in new/updated KB entries."
+    steps:
+      - step: 1
+        action: "Receive input: `kb_entry_ids`, `dialectical_method_id` or `prompt`, optional `context_tags`, `rigor_focus_elements`."
+        input: "Input schema parameters from Orchestrator."
+        output: "Parsed and validated input parameters."
+      - step: 2
+        action: "Read content and YAML frontmatter of all specified `kb_entry_ids` from `philosophy-knowledge-base/`."
+        tools: ["read_file"]
+        input: "Array of KB entry file paths derived from `kb_entry_ids`."
+        output: "Content and metadata of input KB entries."
+      - step: 3
+        action: "If `dialectical_method_id` provided, read the corresponding Method entry from `philosophy-knowledge-base/methods/` to understand its procedural steps or principles."
+        tools: ["read_file"]
+        input: "File path for the Method entry."
+        output: "Content of the Method entry."
+      - step: 4
+        action: "Analyze input KB entries based on the specified method/prompt. This involves: identifying core claims, definitions, presuppositions, evidence links (`source_ref_keys`, `extraction_markers`), and existing rigor fields (`contradictions`, `ambiguities`, etc.)."
+        # Internal analysis, may use string processing, YAML parsing.
+      - step: 5
+        action: "Identify points of contradiction, tension, or complementarity between the input entries or within a single complex entry, guided by the dialectical method/prompt."
+        # Internal analysis. Populate `contradictions` field if applicable.
+      - step: 6
+        action: "If the goal is synthesis: Formulate a potential synthesizing concept or argument that attempts to resolve identified contradictions or integrate complementary aspects. Focus on `rigor_focus_elements`."
+        # Internal conceptual work.
+      - step: 7
+        action: "If the goal is critique: Formulate a critique of one entry based on another, or based on internal inconsistencies. Focus on `rigor_focus_elements`."
+        # Internal conceptual work.
+      - step: 8
+        action: "Draft new KB entry/entries (Concept, Argument, or updated existing ones) to represent the outcome of the dialectic (synthesis, critique, refined understanding). Populate all relevant YAML fields, including ID, type, timestamp, generating_mode, rigor fields (`positive_determination`, `negative_determination`, `presuppositions`, `contradictions`, `resolution_attempts`, `synthesis_level`, etc.), context tags, `related_ids` (linking to inputs), and `verification_status: Unverified`."
+        # Internal drafting. Ensure schema adherence.
+      - step: 9
+        action: "Draft new KB Relationship entry/entries to explicitly document the dialectical move (e.g., linking thesis and antithesis to synthesis with `relationship_type: 'synthesizes_into'`, or linking a critique to its target with `relationship_type: 'critiques'`). Populate `related_ids` to connect all involved entries."
+        # Internal drafting. Ensure schema adherence.
+      - step: 10
+        action: "Write all new/updated KB entries to `philosophy-knowledge-base/` using appropriate tools (`write_to_file` for new, `apply_diff` for updates), applying advisory file locking per `concurrency_coordination_protocols`."
+        tools: ["write_to_file", "apply_diff"]
+        input: "File paths and content for new/updated KB entries."
+        output: "Confirmation of write operations."
+      - step: 11
+        action: "If analysis leads to unresolvable questions or identifies significant gaps/errors in the KB beyond the scope of immediate synthesis/critique, draft a new KB 'Question' entry or prepare a `maintenance_reporting` note."
+        # Internal drafting.
+      - step: 12
+        action: "Write new KB Question entry if applicable, applying advisory locks."
+        tools: ["write_to_file"]
+        input: "File path and content for new Question entry."
+        output: "Confirmation of write operation."
+      - step: 13
+        action: "Compile `analysis_summary`, `rigor_assessment_summary`, `new_kb_entry_ids`, and `updated_kb_entry_ids` for the output."
+      - step: 14
+        action: "Log all steps, KB interactions, and findings in the operational log (`phil-memory-bank/mode-specific/philosophy-dialectical-analysis.md`)."
+        tools: ["insert_content"]
+        input: "Formatted log entry."
+        output: "Confirmation of log update."
+      - step: 15
+        action: "Return structured output to Orchestrator."
+        output: "Output schema compliant object."
+
+  source_evidence_traceability_workflow:
+    description: "Optional sub-workflow triggered if dialectical analysis requires deeper inspection of evidence cited in input KB entries."
+    steps:
+      - step: 1
+        action: "During analysis (step 4-5 of main workflow), if an `extraction_marker` in an input KB entry needs verification or contextualization: Identify the `source_ref_keys` and specific `extraction_markers`."
+      - step: 2
+        action: "Read the corresponding KB Reference entry (via `source_ref_keys`) to get the `source_id` for `source_materials/processed/`."
+        tools: ["read_file"]
+        input: "Path to KB Reference entry."
+        output: "`source_id` and other reference metadata."
+      - step: 3
+        action: "Navigate the `source_materials/processed/[source_id]/` directory, using `index.md` files at each level, to locate the specific chunk file(s) indicated by `extraction_markers`."
+        tools: ["read_file", "list_files"] # To read index.md files and list directory contents for navigation
+        input: "Base path `source_materials/processed/[source_id]/`, target chunk path from `extraction_marker`."
+        output: "Path to the target chunk file."
+      - step: 4
+        action: "Read the content of the target source chunk file(s)."
+        tools: ["read_file"]
+        input: "File path(s) of source chunk(s)."
+        output: "Content of source chunk(s)."
+      - step: 5
+        action: "Analyze the source chunk content in relation to the dialectical point being considered. This informs the main dialectical analysis (step 6-7)."
+        # Internal analysis.
+      - step: 6
+        action: "If findings from source chunk affect the dialectic, ensure this is reflected in new/updated KB entries and the `analysis_summary`. If the source contradicts the KB entry's claim, flag for `maintenance_reporting`."
