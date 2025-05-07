@@ -16,7 +16,7 @@
 
 *   **Objective:** Prepare the workspace and ensure alignment before major implementation.
 *   **Steps:**
-    1.  **Verify V12 Completion:** (SPARC/Architect) Confirm all V12 implementation steps (per Plan V2 and subsequent fixes) are complete and verified. Review `clinerules_verification_report_v1.md` and related logs.
+    1.  **Verify V12 Completion:** (System/Architect) Confirm all V12 implementation steps (per Plan V2 and subsequent fixes) are complete and verified. Review `clinerules_verification_report_v1.md` and related logs.
     2.  **Backup Current State:** (DevOps/User) Create a Git tag or branch representing the stable V12 state before starting V13 modifications. `git tag v12.0` or `git checkout -b v13-development`.
     3.  **Create KB Directory Structure:** (Architect/DevOps) Create the initial `philosophy-knowledge-base/` directory and its subdirectories as defined in `architecture_v13.md` (concepts, arguments, references, questions, theses, relationships, methods, meta-reflections, indices). Add placeholder `.gitkeep` files if needed. Add `philosophy-knowledge-base/` to `.gitignore` if KB versioning is deferred.
     4.  **Plan Review & Approval:** (User/Architect) Review and approve this V3 plan.
@@ -40,7 +40,7 @@
 
 *   **Objective:** Update existing modes to utilize the new `philosophy-kb-manager` for philosophical data and decouple them from `philosophy-evidence-manager` for this purpose.
 *   **Steps:** (Delegate each sub-step to Code mode sequentially or in parallel batches)
-    1.  **Refactor `philosophy-evidence-manager`:** (Code) Remove any logic related to managing philosophical domain knowledge (concepts, arguments, etc.). Ensure it focuses solely on SPARC Memory Bank (`memory-bank/`) access. Update its `.clinerules`.
+    1.  **Refactor `philosophy-evidence-manager`:** (Code) Remove any logic related to managing philosophical domain knowledge (concepts, arguments, etc.). Ensure it focuses solely on Operational Memory (`memory-bank/`) access. Update its `.clinerules`.
     2.  **Refactor `philosophy-text-processor`:** (Code) Modify output logic to send index/chunk info and citation data to `philosophy-kb-manager` instead of `philosophy-evidence-manager`. Update its `.clinerules`.
     3.  **Refactor Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`):** (Code)
         *   Update query logic to use `philosophy-kb-manager` for accessing processed texts, concepts, arguments, etc.
@@ -60,7 +60,7 @@
 *   **Objective:** Ensure the new KB, modes, and workflows are correctly orchestrated.
 *   **Steps:**
     1.  **Refactor `philosophy-orchestrator`:** (Code)
-        *   Update delegation logic to correctly route tasks involving philosophical data to `philosophy-kb-manager` and SPARC context data to `philosophy-evidence-manager`.
+        *   Update delegation logic to correctly route tasks involving philosophical data to `philosophy-kb-manager` and operational context data to `philosophy-evidence-manager`.
         *   Implement logic for the `Philosophical Inquiry Workflow` (coordinating `kb-manager`, `questioning`, `essay-prep`).
         *   Implement logic for the `System Self-Reflection Workflow` (triggering `meta-reflector`, routing proposals to User, relaying approvals to `kb-manager`/`architect`/`devops`).
         *   Implement logic for the `KB Modification Workflow`.

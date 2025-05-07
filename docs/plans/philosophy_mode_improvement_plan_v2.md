@@ -32,7 +32,7 @@
 
 ---
 
-# Implementation Plan V2 for SPARC Orchestrator
+# Implementation Plan V2 for the System Orchestrator
 
 This plan outlines the steps to refactor and enhance the Hegel Philosophy RooCode Suite based on `architecture_v12.md`.
 
@@ -45,7 +45,7 @@ This plan outlines the steps to refactor and enhance the Hegel Philosophy RooCod
     *   **Output:** Initialized Git repository, updated `.gitignore`.
 
 2.  **Review Potentially Problematic Artifacts (User Feedback):**
-    *   Delegate to `holistic-reviewer` or `architect`: Review files potentially affected by the previous SPARC instance's issues (approx. 17:33 - 17:49), specifically `clinerules_revision_plan_v1.md`, `clinerules_template_v1.md`, and any generated `.clinerules` content (like the draft `philosophy-orchestrator.clinerules` mentioned in logs).
+    *   Delegate to `holistic-reviewer` or `architect`: Review files potentially affected by the previous system instance's issues (approx. 17:33 - 17:49), specifically `clinerules_revision_plan_v1.md`, `clinerules_template_v1.md`, and any generated `.clinerules` content (like the draft `philosophy-orchestrator.clinerules` mentioned in logs).
     *   Cross-reference these artifacts against the *new* `architecture_v12.md` and `new_requirements_spec_v1.md`.
     *   Identify any inconsistencies or sections needing revision *before* proceeding with `.clinerules` implementation based on potentially flawed intermediate plans/templates.
     *   **Output:** Review report (`artifact_review_report_v1.md`) detailing necessary adjustments or confirming validity.
