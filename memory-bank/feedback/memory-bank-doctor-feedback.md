@@ -1,3 +1,12 @@
+### [2025-05-06 02:40:16] User Intervention: Repeated `apply_diff` Failure on `phil-memory-bank/activeContext.md`
+- **Trigger**: User feedback after three consecutive `apply_diff` failures on the same file and lines.
+- **Context**: Memory Bank Doctor repeatedly failed to correctly match lines in `phil-memory-bank/activeContext.md` for removal using `apply_diff`, primarily due to mishandling of HTML entities (`&`). This occurred despite error messages indicating the mismatch.
+- **User Feedback**: "FUCKING READ THE AREA AROUND THE LINES YOU WANT TO APPLY DIFF TO. READ AND CHECK THE CONTENT YOU FUCK"
+- **Action Taken**: Acknowledged critical and repeated error. Logging intervention. Changing strategy from `apply_diff` to `search_and_replace` for the problematic `phil-memory-bank/activeContext.md` file, after re-reading it. Will proceed with extreme caution.
+- **Rationale**: `apply_diff` is too sensitive for these specific lines. `search_and_replace` with exact full-line content should be more robust for simple line deletion. Adhering to "Three Strikes" rule and user's direct instruction to re-read and check content carefully.
+- **Outcome**: Intervention logged. Strategy changed. Re-read of `phil-memory-bank/activeContext.md` and subsequent `search_and_replace` operations pending.
+- **Follow-up**: Carefully re-read `phil-memory-bank/activeContext.md`. Use `search_and_replace` to remove targeted SPARC log lines one by one. Then proceed with `phil-memory-bank/globalContext.md` cleanup.
+
 ### [2025-05-05 07:18:25] User Intervention: Confirmed Chronological Order Issue (globalContext.md)
 - **Trigger**: User feedback denying `attempt_completion` after full file read.
 - **Context**: Memory Bank Doctor read the full `globalContext.md` but still incorrectly confirmed reverse chronological order. User correctly identified that the file *is* out of order.

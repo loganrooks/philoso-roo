@@ -1,10 +1,157 @@
 # Code Mode Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
+### [2025-05-07 03:26:00] `philosophy-orchestrator.clinerules` (`dynamic_roles` Protocol Update)
+- **Purpose**: Updated to implement the V1 `dynamic_roles` update protocol. Receives proposals from analysis modes and performs synchronized writes to `master_index.json` and material-specific `index.md` files.
+- **Files**: [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1)
+- **Status**: Implemented
+- **Dependencies**: Relies on analysis modes for proposals, file system tools for writes. Governed by [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1) and [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1).
+- **API Surface**: New `request_type: manage_dynamic_roles_update` in `input_schema`. New workflow `manage_dynamic_roles_update`.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Global Progress: 2025-05-07 03:26:00]
 
+### [2025-05-07 03:26:00] `philosophy-pre-lecture.clinerules` (`dynamic_roles` Protocol Update)
+- **Purpose**: Updated to propose `dynamic_roles` updates to `philosophy-orchestrator` instead of direct writes, aligning with V1 `dynamic_roles` update protocol.
+- **Files**: [`.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`](.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules:1)
+- **Status**: Implemented
+- **Dependencies**: Relies on `philosophy-orchestrator` for `dynamic_roles` updates.
+- **API Surface**: Workflow updated to delegate `dynamic_roles` proposals.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Global Progress: 2025-05-07 03:26:00]
+
+### [2025-05-07 03:26:00] `philosophy-class-analysis.clinerules` (`dynamic_roles` Protocol Update)
+- **Purpose**: Updated to propose `dynamic_roles` updates to `philosophy-orchestrator` instead of direct writes, aligning with V1 `dynamic_roles` update protocol.
+- **Files**: [`.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`](.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules:1)
+- **Status**: Implemented
+- **Dependencies**: Relies on `philosophy-orchestrator` for `dynamic_roles` updates.
+- **API Surface**: Workflow updated to delegate `dynamic_roles` proposals.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Global Progress: 2025-05-07 03:26:00]
+
+### [2025-05-07 03:26:00] `philosophy-secondary-lit.clinerules` (`dynamic_roles` Protocol Update)
+- **Purpose**: Updated to propose `dynamic_roles` updates to `philosophy-orchestrator` instead of direct writes, aligning with V1 `dynamic_roles` update protocol.
+- **Files**: [`.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`](.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules:1)
+- **Status**: Implemented
+- **Dependencies**: Relies on `philosophy-orchestrator` for `dynamic_roles` updates.
+- **API Surface**: Workflow updated to delegate `dynamic_roles` proposals.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Global Progress: 2025-05-07 03:26:00]
+### [2025-05-06 23:26:24] `philosophy-verification-agent` Mode Rules (V1 Source Material Alignment)
+- **Purpose**: Updated the `philosophy-verification-agent.clinerules` to align with V1 Source Material Architecture, specifically for navigating and utilizing `source_materials/processed/` via `master_index.json` and material-specific `index.md` files.
+- **Files**: `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`
+- **Status**: Implemented (Updated for V1 Source Material Arch)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, `docs/specs/clinerules_source_material_v1_updates.md`, `docs/standards/source_material_navigation_guidelines_v1.md`.
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Active Context: 2025-05-06 23:26:24], [Global Progress: 2025-05-06 23:26:24]
+### [2025-05-06 17:41:30] `process_source_text.py` (V1 Architecture Alignment)
+- **Purpose**: Modified script to align with the V1 architecture for `source_materials/processed/`. Handles new directory structures, `master_index.json`, material-specific `index.md`, and course-specific `index.md` generation.
+- **Files**: `scripts/process_source_text.py`
+- **Status**: Implemented
+- **Dependencies**: Python 3, `argparse`, `json`, `hashlib`, `pathlib`, `markdown_it`, `mdit_plain`, `tiktoken`. Relies on `docs/proposals/source_material_architecture_v1.md` for architectural specifications.
+- **API Surface**: Command-line interface with new arguments: `--course_code`, `--material_type`, `--source_type`, `--title`.
+- **Tests**: None (as part of this modification).
+- **Cross-ref:** [Active Context: 2025-05-06 17:41:30], [Global Progress: 2025-05-06 17:41:30], [Global System Pattern: 2025-05-06 17:41:30]
+### [2025-05-06 13:07:21] `philosophy-verification-agent` Mode Rules (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Purpose**: Defines the `philosophy-verification-agent` mode, responsible for verifying content against KB entries, processed source materials, and rigor standards. Aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture.
+- **Files**: `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`
+- **Status**: Implemented (Updated to V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, `docs/standards/clinerules_standard_v2.md` (V2.5), `docs/architecture/architecture_v18.md` (V18.3.6).
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-06 13:07:21]
+### [2025-05-06 12:08:12] `philosophy-secondary-lit` Mode Rules (V2.2 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Purpose**: Defines the `philosophy-secondary-lit` mode, responsible for analyzing secondary literature, comparing interpretations, identifying agreements/disagreements, and storing findings in the KB with rigor. Aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture.
+- **Files**: `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`
+- **Status**: Implemented (Updated to V2.2 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, MCP tools (`brave-search`, `fetcher`), `docs/standards/clinerules_standard_v2.md` (V2.5), `docs/architecture/architecture_v18.md` (V18.3.6).
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [ActiveContext Update: 2025-05-06 12:01:46]
+### [2025-05-06 04:53:02] `philosophy-meta-reflector` Mode Rules (V3.0 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Purpose**: Defines the `philosophy-meta-reflector` mode, responsible for meta-level system analysis, rigor evaluation, log/KB pattern analysis, quality assessment, and proposing improvements. Aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture.
+- **Files**: `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`
+- **Status**: Implemented (V3.0)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, `docs/standards/clinerules_standard_v2.md` (V2.5), `docs/architecture/architecture_v18.md` (V18.3.6).
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-06 04:53:02], [Global Decision Log: 2025-05-06 04:53:02]
+
+### [2025-05-06 03:14:23] `philosophy-kb-doctor` Mode Rules (V2.1 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Purpose**: Defines the `philosophy-kb-doctor` mode, responsible for monitoring KB health by reading operational logs/status/reports from `philosophy-knowledge-base/_operational/`. Aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture.
+- **Files**: `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`
+- **Status**: Implemented (Updated to V2.1 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, `docs/standards/clinerules_standard_v2.md` (V2.5), `docs/architecture/architecture_v18.md` (V18.3.6).
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-06 03:14:23], [Global System Pattern: 2025-05-06 03:14:23]
+### [2025-05-06 02:50:51] `philosophy-evidence-manager` Mode Rules (V2.2 - V2.5 Standard Compliant)
+- **Purpose**: Defines the `philosophy-evidence-manager` mode, responsible for retrieving evidence and associated rigor context directly from the KB. Aligned with `clinerules_standard_v2.5.md` (flexible `mode_specific_workflows`) and V18.3.5 architecture. Version comment updated to V2.2.
+- **Files**: `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules`
+- **Status**: Implemented (Updated to V2.2 - V2.5 Standard Compliant)
+- **Dependencies**: Relies on `philosophy-orchestrator`, file system tools, `docs/standards/clinerules_standard_v2.md` (V2.5), `docs/architecture/architecture_v18.md` (V18.3.5).
+- **API Surface**: N/A (Configuration file). Input schema defines interaction.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-06 02:50:51], [Global System Pattern: 2025-05-06 02:50:51]
+### [2025-05-05 17:47:04] `philosophy-essay-prep` Mode Rules (V2.2 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-essay-prep` mode, responsible for developing thesis statements and outlines, storing them directly in the KB with rigor, and managing essay draft version control via Git. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers) and V18.3.5 architecture. Uses correct `memory-bank/` path.
+- **Files**: `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`
+- **Status**: Implemented (Updated to V2.2)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `memory-bank/` access), `execute_command` (for Git), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 17:47:04], [Global System Pattern: 2025-05-05 17:47:04]
 ### [2025-05-03 14:36:19] Intervention: Incorrect `.clinerules` Merge (Attempt 5)
 - **Trigger**: User feedback on failed `attempt_completion`.
 - **Context**: Task was to merge `.clinerules` for `philosophy-text-processor`, taking standard sections from working dir and mode-specific rules from commit `04a30b3...`.
 - **Action Taken**: User denied `attempt_completion`, stating the result was "infinitely worse" and questioning adherence to instructions/context. User correctly pointed out I cannot run `git diff`.
+### [2025-05-05 22:13:50] `philosophy-evidence-manager` Mode Rules (V2.0 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-evidence-manager` mode, responsible for retrieving evidence and associated rigor context (source links, extraction markers) directly from the Knowledge Base (`philosophy-knowledge-base/`). Aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture.
+- **Files**: `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules`
+- **Status**: Implemented (Updated to V2.0 - V2.2 Standard Compliant)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 22:13:24], [Global System Pattern: 2025-05-05 22:13:24]
+### [2025-05-05 19:09:26] `philosophy-kb-doctor` Mode Rules (V2.0 - V2.2 Standard Compliant - Pending Verification)
+- **Purpose**: Defines the `philosophy-kb-doctor` mode, responsible for monitoring KB health by reading operational logs/status/reports. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers, correct `phil-memory-bank/` paths) and V18.3.5 architecture (monitoring role, direct KB operational read access, no script execution).
+- **Files**: `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`
+- **Status**: Implemented (Updated to V2.0 - Pending Verification)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB operational dir and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 19:09:10]
+### [2025-05-05 19:02:34] `philosophy-meta-reflector` Mode Rules (V2.0 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-meta-reflector` mode, responsible for evaluating rigor, analyzing logs/KB for patterns, assessing quality, and proposing improvements. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers, correct `phil-memory-bank/` paths) and V18.3.5 architecture (direct KB/MB access, meta-reflection logic).
+- **Files**: `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`
+- **Status**: Implemented (Updated to V2.0 - Pending Verification)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation/routing), file system tools (for KB, docs, rules, and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 19:02:14], [Global System Pattern: 2025-05-05 19:02:14]
+### [2025-05-05 18:50:35] `philosophy-verification-agent` Mode Rules (V2.2 - Pending Verification)
+- **Purpose**: Defines the `philosophy-verification-agent` mode, responsible for verifying content against KB entries, source chunks, and rigor standards (V18.3.5). Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers).
+- **Files**: `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`
+- **Status**: Implemented (Updated to V2.2 - Pending Verification)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB, processed sources, and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 18:50:19]
+### [2025-05-05 18:28:30] `philosophy-citation-manager` Mode Rules (V2.2 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-citation-manager` mode, responsible for formatting citations and bibliographies based on KB reference entries. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers) and V18.3.5 architecture (direct KB read, `phil-memory-bank/` access, evidence standards).
+- **Files**: `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`
+- **Status**: Implemented (Updated to V2.2)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 18:28:30], [Global System Pattern: 2025-05-05 18:28:30]
+### [2025-05-05 18:03:48] `philosophy-draft-generator` Mode Rules (V2.2 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-draft-generator` mode, responsible for generating draft prose based on KB outlines and context, incorporating evidence links. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers) and V18.3.5 architecture (direct KB read, `phil-memory-bank/` access).
+- **Files**: `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules`
+- **Status**: Implemented (Updated to V2.2)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 18:03:48], [Global System Pattern: 2025-05-05 18:03:48]
 - **Rationale**: My previous attempt incorrectly included mode-specific schema/protocol sections from the working directory version (Source A) instead of the detailed `rules` section from the commit version (Source B). I also inaccurately described my verification method.
 - **Outcome**: Previous attempt failed. Re-attempting the merge with the correct sections.
 - **Follow-up**: Ensure correct sections are used in the next attempt. Be precise about verification steps. [See Feedback Entry 2025-05-03 14:36:19]
@@ -28,6 +175,86 @@
 <!-- Append intervention details using the format below -->
 
 ## Components Implemented
+### [2025-05-07 03:49:41] `manage_dynamic_roles_update` Workflow in `philosophy-orchestrator.clinerules`
+- **Purpose**: Implemented detailed file system operations (reading/writing `master_index.json` and material-specific `index.md`) for updating `dynamic_roles` as per TDD tests and protocol.
+- **Files**: [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1)
+- **Status**: Implemented
+- **Dependencies**: Relies on `read_file`, `write_to_file` tools. Assumes underlying system can handle JSON/YAML parsing as part of rule execution or through filters. Path to material `index.md` derived from `master_index.json`.
+- **API Surface**: Modifies existing `manage_dynamic_roles_update` workflow steps.
+- **Tests**: Specified by [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1).
+- **Cross-ref:** [Global Progress: 2025-05-07 03:49:41]
+### [2025-05-05 17:39:57] `philosophy-questioning` Mode Rules (V2.2 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-questioning` mode, responsible for refining proto-questions and related concepts from the KB to generate focused philosophical inquiry questions. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers) and V18.3.5 architecture.
+- **Files**: `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`
+- **Status**: Implemented (Updated to V2.2)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 17:39:57], [Global System Pattern: 2025-05-05 17:39:57]
+### [2025-05-05 17:32:17] `philosophy-dialectical-analysis` Mode Rules (V2.2 - V2.2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-dialectical-analysis` mode, responsible for synthesizing/critiquing KB entries via dialectical methods, identifying contradictions/resolutions, and storing findings directly in the KB with rigor. Aligned with `clinerules_standard_v2.2.md` (explicit rules, no inheritance section/headers) and V18.3.5 architecture.
+- **Files**: `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`
+- **Status**: Implemented (Updated to V2.2)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.5 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 17:32:17], [Global System Pattern: 2025-05-05 17:32:17]
+### [2025-05-05 15:52:52] `philosophy-dialectical-analysis` Mode Rules (V2.1 - V2.1 Standard Compliant)
+- **Purpose**: Defines the `philosophy-dialectical-analysis` mode, responsible for synthesizing/critiquing KB entries via dialectical methods, identifying contradictions/resolutions, and storing findings directly in the KB with rigor. Aligned with `clinerules_standard_v2.1.md` (explicit rules, no inheritance section, no decorative headers) and V18.3.4 architecture.
+- **Files**: `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`
+- **Status**: Implemented (Updated to V2.1 - Corrected)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.1.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 17:07:19], [Global System Pattern: 2025-05-05 17:07:19], [Feedback Log: 2025-05-05 17:06:45]
+### [2025-05-05 14:30:15] `philosophy-text-processor` Mode Rules (V2.1 - V2.1 Standard Compliant)
+- **Purpose**: Defines the `philosophy-text-processor` mode, responsible for orchestrating source text processing via script, parsing JSON output, performing direct KB writes, updating the root processed index, and logging operations. Aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Explicit rules, no inheritance comments or decorative headers.
+- **Files**: `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`
+- **Status**: Implemented (Updated to V2.1)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), `scripts/process_source_text.py`, `execute_command`, file system tools (for KB, `processed/`, and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.1.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 14:30:15], [Global System Pattern: 2025-05-05 14:30:15]
+### [2025-05-05 14:24:01] `philosophy-orchestrator` Mode Rules (V3.1 - V2.1 Standard Compliant)
+- **Purpose**: Defines the `philosophy-orchestrator` mode, responsible for coordinating workflows, delegating tasks, managing context, and triggering distributed KB maintenance/validation. Aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Explicit rules, no inheritance comments or decorative headers.
+- **Files**: `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`
+- **Status**: Implemented (Updated to V3.1)
+- **Dependencies**: Relies on all other philosophy modes for delegation, `docs/standards/clinerules_standard_v2.1.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 14:24:01], [Global System Pattern: 2025-05-05 14:24:01]
+### [2025-05-05 13:25:22] `philosophy-essay-prep` Mode Rules (V2.0 - V2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-essay-prep` mode, responsible for developing thesis statements and outlines, storing them directly in the KB with rigor, and managing essay draft version control via Git. Aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Files**: `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`
+- **Status**: Implemented (Updated to V2.0)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), `execute_command` (for Git), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 13:25:22], [Global System Pattern: 2025-05-05 13:25:22]
+### [2025-05-05 13:02:25] `philosophy-secondary-lit` Mode Rules (V2.0 - V2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-secondary-lit` mode, responsible for analyzing secondary literature, comparing interpretations with primary sources in the KB, identifying agreements/disagreements, and storing findings directly in the KB with rigor. Aligned with `clinerules_standard_v2.md` and V18.3.4 architecture. Includes MCP integration for external source retrieval.
+- **Files**: `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`
+- **Status**: Implemented (Updated to V2.0)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), file system tools (for KB and `phil-memory-bank/` access), MCP tools (`brave-search`, `fetcher`), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 13:02:25], [Global System Pattern: 2025-05-05 13:02:25]
+### [2025-05-05 12:46:17] `philosophy-text-processor` Mode Rules (V2.0 - V2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-text-processor` mode, responsible for orchestrating source text processing via script, parsing JSON output, performing direct KB writes, updating the root processed index, and logging operations. Aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Files**: `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`
+- **Status**: Implemented (Updated to V2.0)
+- **Dependencies**: Relies on `philosophy-orchestrator` (for task delegation), `scripts/process_source_text.py`, `execute_command`, file system tools (for KB, `processed/`, and `phil-memory-bank/` access), `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 12:46:17], [Global System Pattern: 2025-05-05 12:46:17]
+### [2025-05-05 12:39:21] `philosophy-orchestrator` Mode Rules (V3.0 - V2 Standard Compliant)
+- **Purpose**: Defines the `philosophy-orchestrator` mode, responsible for coordinating workflows, delegating tasks, managing context, and triggering distributed KB maintenance/validation. Aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Files**: `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`
+- **Status**: Implemented (Updated to V3.0)
+- **Dependencies**: Relies on all other philosophy modes for delegation, `docs/standards/clinerules_standard_v2.md`, `docs/architecture/architecture_v18.md`, and the RooCode mode execution framework. Assumes V18.3.4 KB and `phil-memory-bank` structures.
+- **API Surface**: N/A (Configuration file defining mode behavior). Input schema defines interaction contract.
+- **Tests**: N/A (Configuration file).
+- **Cross-ref:** [Global Progress: 2025-05-05 12:39:21], [Global System Pattern: 2025-05-05 12:39:21]
 ### [2025-05-03 18:23:25] Text Processing Script (`process_source_text.py` V2)
 - **Purpose**: Parses Markdown hierarchically, splits by headers, chunks text by token limit (20k), extracts citations, generates per-level `index.md` files for navigation, and outputs structured JSON. Replaces previous flat structure implementation.
 - **Files**: `scripts/process_source_text.py`

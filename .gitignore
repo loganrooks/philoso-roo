@@ -11,6 +11,8 @@
 # Essay*.md
 # cline_task_*.md
 
+.venv/
+
 # Standard Ignores
 *.log
 *.tmp

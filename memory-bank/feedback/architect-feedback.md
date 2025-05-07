@@ -1,5 +1,19 @@
 ### [2025-05-05 04:45:32] - User Intervention: v6 Evaluation Still Lacks Detail/Specificity for External Reader
 - **Trigger:** User denied `attempt_completion` for v6 reports.
+### [2025-05-06 01:45:00] - Feedback: `.clinerules` Standard V2.4 Revision Issues
+- **Trigger**: User Feedback on `attempt_completion` for V2.4 standard.
+- **Context**: User indicated that the flexible formatting applied to `mode_specific_workflows` was too broadly applied to other sections like `conceptual_determinacy_guidelines` and `evidence_standards`, resulting in loss of valuable specific details (e.g., negative definition, ordinary language contrast, steps for marking ambiguity). User also requested more examples throughout the standard for better clarity.
+- **Action Taken**: Acknowledged feedback. Planning to re-revise `docs/standards/clinerules_standard_v2.md`.
+- **Rationale**: Address user feedback to ensure the standard is both flexible where appropriate and sufficiently detailed and exemplified in critical areas.
+- **Outcome**: Task to revise standard to V2.5 initiated.
+- **Follow-up**: Re-read V2.4, incorporate specific details back into `conceptual_determinacy_guidelines` and `evidence_standards`, add more examples, update version, write file, update MB.
+### [2025-05-05 23:55:00] - Feedback: Flexible Workflow Examples Needed
+- **Trigger**: User Task Assignment [Timestamp: 2025-05-05 23:53:38 approx]
+- **Context**: User requested revision of `mode_specific_workflows` examples in `.clinerules` standard V2.3 (`docs/standards/clinerules_standard_v2.md`). Feedback indicated the existing `action/tools/input/output` structure was too rigid and ambiguous ("Internal Logic"). User desired a flexible format where detailed fields are used only when critical, and narrative descriptions suffice for simpler steps.
+- **Action Taken**: Read MB context, read standard V2.3, revised examples and description in the standard document, updated version to V2.4, wrote the file.
+- **Rationale**: Address user feedback and improve the clarity and usability of the `.clinerules` standard documentation.
+- **Outcome**: Standard document updated to V2.4 with revised examples.
+- **Follow-up**: SPARC verification requested in the original task.
 - **Context:** After revising evaluation report to v6 based on previous feedback.
 - **User Feedback Summary:** Performance plan removal acknowledged, but other areas still lack sufficient detail and specificity for someone without prior context. Requested self-analysis focused on improving specifications and details for an external reader.
 - **Action:** Acknowledged feedback. Will perform self-analysis focusing on assumed knowledge, abstraction level, example concreteness, justification depth, and narrative flow. Will propose specific v7 enhancements based on this analysis.

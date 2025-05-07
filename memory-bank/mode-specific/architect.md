@@ -1,4 +1,61 @@
+### [2025-05-07 00:43:05] Task: Review `philosophy-kb-manager.clinerules`
+- **Action**: Reviewed `philosophy-kb-manager.clinerules`, `docs/architecture/architecture_v18.md`, `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`, `docs/specs/clinerules_source_material_v1_updates.md`, and `docs/testing/verification_report_source_material_v1.md`.
+- **Findings**: The `philosophy-kb-manager` mode, designed as a sole KB gatekeeper under V14 architecture, is obsolete. Current V18.3.6 architecture and V1 Source Material Architecture mandate direct KB access by specialized modes. This is supported by `.clinerules` updates and QA verification.
+- **Output**: Created proposal `docs/proposals/philosophy_kb_manager_review_v1.md` recommending Option A: Deprecate &amp; Remove.
+- **Status**: Review and proposal complete.
+- **Cross-ref:** `docs/proposals/philosophy_kb_manager_review_v1.md`, [Active Context: 2025-05-07 00:43:05], [Global Decision Log: 2025-05-07 00:43:05], [Global Progress: 2025-05-07 00:43:05]
+### [2025-05-06 16:59:27] Task: Design Architecture for `source_materials/processed/`
+- **Action**: Reviewed existing architecture (`docs/architecture/architecture_v18.md`), Memory Bank feedback (`sparc-feedback.md`, `sparc.md`), and current state of `source_materials/processed/` (empty). Designed a new architecture proposal.
+- **Output**: Created `docs/proposals/source_material_architecture_v1.md`.
+    - **Key Features**:
+        - Hybrid hierarchical (`courses/`, `library/`) and tag-based system.
+        - Master JSON index (`master_index.json`) for global discovery.
+        - Individual Markdown indexes (`[ID]/index.md`) for specific materials.
+        - `dynamic_roles` field for context-dependent primary/secondary status.
+        - Comprehensive tagging strategy.
+        - Staged access for context window management.
+- **Status**: Design proposal document created.
+- **Cross-ref:** `docs/proposals/source_material_architecture_v1.md`, [Active Context: 2025-05-06 16:59:27], [Global System Patterns: 2025-05-06 16:59:27], [Global Decision Log: 2025-05-06 16:59:27]
+### [2025-05-06 03:04:50] Task: Update Architecture V18.3.5 to V18.3.6 (Include `philosophy-evidence-manager`)
+- **Action**: Updated `docs/architecture/architecture_v18.md` to version 18.3.6.
+    - Added `philosophy-evidence-manager` to Section 4.5 "Utility & Data Access Modes" with description based on its `.clinerules` (retrieves evidence and rigor context from KB).
+    - Updated Mermaid diagram in Section 5:
+        - Added `EvidMan(philosophy-evidence-manager)` node.
+        - Added interactions: `Orchestrator -- Delegate Evidence Retrieval --> EvidMan`, `EvidMan -- Direct Read KB --> PhilKB_Data`, `EvidMan -- Reads OpCtx --> OpMemBank_Global`, `EvidMan -- Writes Log --> OpMemBank_ModeLogs`.
+    - Updated example `.roomodes` JSON in Section 9 to include `philosophy-evidence-manager`.
+- **Status**: Architecture document updated.
+- **Cross-ref:** `docs/architecture/architecture_v18.md` (V18.3.6), [Active Context: 2025-05-06 03:04:50], [Global System Patterns: 2025-05-06 03:04:50], [Global Decision Log: 2025-05-06 03:04:50]
 # Architect Specific Memory
+## Data Models
+### Data Model: `material_id` (Conceptual Term) - [2025-05-07 03:14:05]
+- **Purpose**: To provide a clear and consistent conceptual term for the unique identifier of processed source materials in the V1 Source Material Architecture.
+- **Definition**: `material_id` is the canonical conceptual term. The actual data field name in `master_index.json` and individual `[material_id]/index.md` YAML frontmatter is `id`.
+- **Usage**:
+    - Conceptual discussions, documentation, `.clinerules` descriptions: Use `material_id`.
+    - Referring to the data field in code or queries: Use `id`.
+- **Governing Document**: [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Cross-ref:** [Global Decision Log: 2025-05-07 03:14:05], [Global System Patterns: 2025-05-07 03:14:05]
+
+## Component Specifications
+### Component Specification: `dynamic_roles` Update Mechanism - [2025-05-07 03:14:05]
+- **Responsibility**: Defines the protocol for updating the `dynamic_roles` field in `master_index.json` and individual `[material_id]/index.md` files.
+- **Workflow**:
+    1.  Analysis modes identify a need to update/add a `dynamic_role` for a given `material_id` and `context_id`.
+    2.  Analysis mode proposes this update to `philosophy-orchestrator`. Direct writes by analysis modes are prohibited.
+    3.  `philosophy-orchestrator` receives the proposal.
+    4.  `philosophy-orchestrator` performs synchronized, near-atomic read-modify-write operations on:
+        *   The `dynamic_roles` array in the target `material_id`'s entry in `master_index.json`.
+        *   The `dynamic_roles` array in the YAML frontmatter of the corresponding `[material_id]/index.md` file.
+    5.  `philosophy-orchestrator` logs the action.
+- **Dependencies**: `philosophy-orchestrator`, Analysis Modes (as proposers), `master_index.json`, individual `[material_id]/index.md` files.
+- **Interfaces Exposed**: Analysis modes expose capability to propose `dynamic_roles` updates. `philosophy-orchestrator` exposes capability to receive proposals and execute updates.
+- **Governing Document**: [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Cross-ref:** [Global Decision Log: 2025-05-07 03:14:05], [Global System Patterns: 2025-05-07 03:14:05]
+### [2025-05-06 22:57:50] Task: Design `.clinerules` Modifications for V1 Source Material Architecture
+- **Action**: Reviewed V1 Source Material Architecture proposal (`docs/proposals/source_material_architecture_v1.md`), V1 Navigation Guidelines (`docs/standards/source_material_navigation_guidelines_v1.md`), all existing philosophy mode `.clinerules` files, and relevant Memory Bank context. Identified all `.clinerules` files requiring updates to align with the new `source_materials/processed/` V1 architecture. Designed specific modifications for each affected file, focusing on updating `kb_interaction_protocols` and `mode_specific_workflows` to use the new navigation patterns (master index, course/material indexes, dynamic roles).
+- **Output**: Created specification document `docs/specs/clinerules_source_material_v1_updates.md` detailing all required changes for `code` mode implementation.
+- **Status**: Design and specification complete.
+- **Cross-ref:** `docs/specs/clinerules_source_material_v1_updates.md`, `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`, [Active Context: 2025-05-06 22:57:50]
 ### [2025-05-05 08:21:39] Task: Update Architecture Diagram (V18.3.4)
 - **Action**: Updated the Mermaid diagram in `docs/architecture/architecture_v18.md` (Section 5) using `apply_diff`. Removed `philosophy-kb-doctor` subgraph and links. Added links showing `Orchestrator` triggering `MetaReflector` and `VerificationAgent` for KB maintenance/validation.
 - **Status**: Diagram updated successfully. Task complete.

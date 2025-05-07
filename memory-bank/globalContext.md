@@ -1,10 +1,1537 @@
+# Progress
+### [2025-05-07 03:57:01] - Git Debt Resolution Task Initiated
+- **Status:** Pending (Delegated to `devops`)
+- **Details:** User requested resolution of accumulated git debt. Task involves using `git status` and `git diff`, correlating changes with Memory Bank logs, and grouping changes into logical, chronological commits. This includes all uncommitted files, including Memory Bank updates.
+- **Cross-ref:** [Active Context: 2025-05-07 03:57:01], [SPARC MB Delegation Log: 2025-05-07 03:57:22]
+### [2025-05-07 03:54:52] - Holistic Workspace Review Initiated
+- **Status:** Pending (Delegated to `holistic-reviewer`)
+- **Details:** User requested a holistic review of the workspace to identify potential areas for improvement or further work. Task delegated to `holistic-reviewer` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 03:54:52], [SPARC MB Delegation Log: 2025-05-07 03:55:08]
+### [2025-05-07 03:49:41] - `manage_dynamic_roles_update` Workflow Implemented in Orchestrator
+- **Status:** Completed by `code` Mode
+- **Details:** Implemented the detailed file system operations (read/write `master_index.json`, material-specific `index.md`) for the `manage_dynamic_roles_update` workflow within [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1). This aligns with TDD specifications in [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1) and protocol definitions in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1). A structural error in the `.clinerules` file was also corrected during this process.
+- **Files Affected:** [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:49:41], [Code MB Component: `manage_dynamic_roles_update` workflow 2025-05-07 03:49:41]
+### [2025-05-07 03:42:15] - TDD Tests for `dynamic_roles` Update Protocol Created
+- **Status:** Completed by `tdd` Mode
+- **Details:** Python-based TDD-style tests created in [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1) to specify and verify the `dynamic_roles` update protocol. Tests simulate analysis mode proposals and mock orchestrator file operations, currently passing against the mock.
+- **Files Affected:** [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1) (created/updated), dummy test data files.
+- **Cross-ref:** [Active Context: 2025-05-07 03:42:15], [SPARC MB Delegation Log: 2025-05-07 03:29:01], [`memory-bank/mode-specific/tdd.md`](memory-bank/mode-specific/tdd.md:1)
+### [2025-05-07 03:27:55] - `.clinerules` Updated for New `dynamic_roles` Protocol
+- **Status:** Completed by `code` Mode
+- **Details:** Updated `philosophy-orchestrator.clinerules` to manage `dynamic_roles` update proposals and perform synchronized writes. Updated relevant analysis mode `.clinerules` ([`philosophy-pre-lecture.clinerules`](.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules:1), [`philosophy-class-analysis.clinerules`](.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules:1), [`philosophy-secondary-lit.clinerules`](.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules:1)) to propose `dynamic_roles` updates to the orchestrator.
+- **Files Affected:** [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1), [`.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`](.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules:1), [`.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`](.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules:1), [`.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`](.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules:1)
+- **Governing Proposal:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Governing Specification:** [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:27:55], [SPARC MB Delegation Log: 2025-05-07 03:21:55]
+### [2025-05-07 03:26:00] - `.clinerules` Updated for `dynamic_roles` Protocol
+- **Status:** Completed by Code Mode
+- **Details:** Implemented the new `dynamic_roles` update protocol in relevant `.clinerules` files. `philosophy-orchestrator.clinerules` updated to receive proposals and perform synchronized writes. Analysis modes (`philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`) updated to propose `dynamic_roles` changes to the orchestrator.
+- **Files Affected:** [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1), [`.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`](.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules:1), [`.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`](.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules:1), [`.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`](.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+# Progress
+### [2025-05-07 03:20:51] - V1 Source Material Architecture Documentation Updated with Terminology Clarifications
+- **Status:** Completed by `docs-writer` Mode
+- **Details:** Updated [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), and [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1) to reflect consistent terminology for `material_id`/`id` and the new `dynamic_roles` update protocol, as per [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
+- **Files Affected:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:20:51], [SPARC MB Delegation Log: 2025-05-07 03:17:10], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+### [2025-05-07 03:19:52] - V1 Source Material Documentation Updated with Terminology Clarifications
+- **Status:** Completed by DocsWriter Mode
+- **Details:** Updated three key V1 Source Material Architecture documents ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)) to reflect the clarified terminology for `material_id` (conceptual) vs. `id` (data field) and the new update protocol for `dynamic_roles` (proposals to `philosophy-orchestrator`). All changes were based on the recommendations in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
+- **Files Affected:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:19:52], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+# Progress
+### [2025-05-07 03:15:58] - Terminology Review (`dynamic_roles`, `source_id`) &amp; Clarification Proposal Completed
+- **Status:** Completed by `architect` Mode
+- **Details:** Reviewed QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) and V1 Source Material Architecture documents. Identified inconsistencies in `source_id`/`MATERIAL_ID`/`id` usage and underspecified update mechanism for `dynamic_roles`.
+- **Outcome:** New proposal [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1) created with precise definitions (canonical `material_id` vs. data field `id`) and a mandatory update protocol for `dynamic_roles` via `philosophy-orchestrator`. Includes recommendations for updating related documents.
+- **Files Affected:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1) (created)
+- **Cross-ref:** [Active Context: 2025-05-07 03:15:58], [SPARC MB Delegation Log: 2025-05-07 03:10:37]
+### [2025-05-07 03:14:05] - Terminology Clarification Proposal Created
+### [2025-05-07 03:57:01] - Decision: Prioritize Git Debt Resolution
+- **Decision**: User requested to prioritize resolving accumulated git debt before proceeding with a holistic workspace review. Task delegated to `devops` mode.
+- **Rationale**: To ensure a clean version control history before undertaking a broader review, making it easier to track future changes and understand the evolution of the codebase and documentation.
+- **Outcome**: Git debt resolution task initiated. Holistic review task deferred.
+- **Cross-ref:** [Active Context: 2025-05-07 03:57:01], [SPARC MB Delegation Log: 2025-05-07 03:57:22]
+- **Status:** Completed by Architect Mode
+- **Details:** Reviewed QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) and related V1 Source Material Architecture documents. Identified inconsistencies for `material_id` terminology and lack of a detailed update mechanism for `dynamic_roles`. Created a new proposal document [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1) with precise definitions, usage guidelines, and recommendations for updating existing documentation.
+- **Files Affected:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1) (created)
+### [2025-05-07 03:27:55] - Decision: Implement `.clinerules` Updates for `dynamic_roles` Protocol
+- **Decision**: Proceed with updating relevant `.clinerules` files to implement the new `dynamic_roles` update protocol (analysis modes propose to `philosophy-orchestrator`, which executes synchronized writes) as defined in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
+- **Rationale**: To ensure `.clinerules` align with the clarified protocol for managing `dynamic_roles`, enhancing consistency and reliability.
+### [2025-05-07 03:42:15] - Decision: Implement `philosophy-orchestrator` Logic for `dynamic_roles`
+- **Decision**: Based on TDD tests created for the `dynamic_roles` protocol ([`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1)), delegate task to `code` mode to implement the actual file system operations logic within `philosophy-orchestrator.clinerules` for handling `manage_dynamic_roles_update` requests.
+- **Rationale**: The TDD tests specify the contract; `philosophy-orchestrator.clinerules` now needs to fulfill this contract by implementing the file read/write operations for `master_index.json` and material-specific `index.md` files.
+- **Outcome**: Task to implement orchestrator logic will be delegated to `code` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 03:42:15], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1)
+- **Outcome**: Task delegated to `code` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 03:27:55], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:14:05], [Decision Log: 2025-05-07 03:14:05], [System Patterns: 2025-05-07 03:14:05]
+# Progress
+### [2025-05-07 03:09:40] - TDD for `scripts/process_source_text.py` Fully Completed
+### [2025-05-07 03:20:51] - Decision: Implement Documentation Updates for Terminology Clarification
+- **Decision**: Proceed with updating V1 Source Material Architecture documents ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)) based on the recommendations in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
+- **Rationale**: To ensure documentation accurately reflects the clarified terminology for `material_id`/`id` and the new `dynamic_roles` update protocol.
+- **Outcome**: Task delegated to `docs-writer` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 03:20:51], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Status:** Completed by `tdd` Mode (two sessions)
+- **Details:** Comprehensive Test-Driven Development tests were implemented for all functions within `scripts/process_source_text.py`. This involved creating `tests/test_process_source_text.py` and making necessary modifications to the script for testability. All tests are passing.
+### [2025-05-07 03:15:58] - Decision: Implement Terminology Clarification Proposal
+- **Decision**: Proceed with implementing the recommendations from the proposal [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1). This will start with updating relevant documentation.
+- **Rationale**: The proposal provides clear definitions and protocols for `material_id` and `dynamic_roles`, addressing QA findings and improving system consistency.
+- **Outcome**: Task to update documentation based on the proposal will be delegated to `docs-writer` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 03:15:58], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Files Affected:** `scripts/process_source_text.py`, `tests/test_process_source_text.py`
+- **Cross-ref:** [Active Context: 2025-05-07 03:09:40], [SPARC MB Delegation Log: 2025-05-07 01:33:00 and 2025-05-07 02:46:04], [`memory-bank/mode-specific/tdd.md`](memory-bank/mode-specific/tdd.md:1)
+# Progress
+### [2025-05-07 03:07:00] - TDD for `scripts/process_source_text.py` - Part 2 (All Functions)
+### [2025-05-07 03:09:40] - Decision: Proceed with QA Report Review (`dynamic_roles`, `source_id`)
+- **Decision**: After completion of TDD for `scripts/process_source_text.py`, the next system improvement task will be to review and address findings from the QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) concerning `dynamic_roles` and `source_id` terminology.
+- **Rationale**: Addressing QA findings is crucial for system clarity, consistency, and maintainability. This was identified as a potential next step in the handover.
+- **Outcome**: Task to review QA report findings will be delegated next.
+- **Cross-ref:** [Active Context: 2025-05-07 03:09:40], [`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)
+- **Status:** Completed
+- **Details:** Completed TDD for all remaining functions in `scripts/process_source_text.py`: `create_output_directories`, `generate_and_write_chunks`, `write_material_index_md`, `update_master_index`, `update_course_index_md`, and the main `process_source_file` orchestrator. This involved writing new tests, making necessary script modifications for testability and to pass tests (e.g., adding `force_update` parameters, correcting argument passing in `process_source_file`), and ensuring all tests pass. A Python virtual environment (`.venv`) was created and dependencies installed.
+- **Files Affected:** `tests/test_process_source_text.py` (new tests added), `scripts/process_source_text.py` (minor modifications for testability and correctness).
+- **Next Steps:** TDD for this script is now comprehensive.
+- **Cross-ref:** [Active Context: 2025-05-07 03:07:00], [TDD MB: Test Execution Results 2025-05-07 03:06:00], [TDD MB: TDD Cycles Log for all remaining functions]
+### [2025-05-07 01:55:00] - TDD for `scripts/process_source_text.py` - Part 1
+- **Status:** In Progress (Handover Point)
+- **Details:** Initial set of 70 unit tests for utility functions (`parse_arguments`, `count_tokens`, `get_plain_text`, `generate_summary`, `generate_safe_filename`, `split_into_paragraphs`, `generate_material_id`, `parse_markdown_structure_and_frontmatter`, `extract_citations_with_context`, `build_section_tree_for_v1`) in `scripts/process_source_text.py` created and passing. Script modified for testability and to pass tests.
+- **Files Affected:** `tests/test_process_source_text.py`, `scripts/process_source_text.py`
+- **Next Steps:** Continue TDD for remaining functions (file I/O, main orchestration) in a new task due to context limits.
+- **Cross-ref:** [Active Context: 2025-05-07 01:55:00]
+# Decision Log
+### [2025-05-07 03:49:41] - Decision: Implement `manage_dynamic_roles_update` Workflow via Full File Rewrite
+- **Decision**: Used `write_to_file` to implement the detailed `manage_dynamic_roles_update` workflow in [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1), replacing placeholder steps and correcting a structural file error.
+- **Rationale**: The `apply_diff` tool failed repeatedly due to parsing issues with the multi-line replacement. `write_to_file` was chosen as a more robust alternative for this section replacement, ensuring structural integrity.
+- **Outcome**: Workflow implemented, file structure corrected.
+- **Cross-ref:** [Active Context: 2025-05-07 03:49:41]
+### [2025-05-07 03:26:00] - Decision: Implement `dynamic_roles` Update Protocol in `.clinerules`
+- **Decision**: Modify `philosophy-orchestrator.clinerules` to manage `dynamic_roles` updates. Modify analysis modes' `.clinerules` (`philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`) to propose `dynamic_roles` updates to the orchestrator.
+- **Rationale**: To align with the V1 Source Material Architecture clarification ([`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)) and the `.clinerules` specification ([`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)), ensuring a centralized and consistent mechanism for updating `dynamic_roles`.
+- **Outcome**: `.clinerules` files updated to reflect the new protocol.
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Progress: 2025-05-07 03:26:00], [System Pattern: `dynamic_roles` Update Protocol V1]
+### [2025-05-07 01:09:50] - `scripts/process_source_text.py` Refactored for Modularity
+- **Status:** Completed by Optimizer Mode
+- **Details:** The script `scripts/process_source_text.py` was refactored to improve modularity and readability. Core processing logic was broken down into smaller, single-responsibility functions. V1 Source Material Architecture compliance and command-line interface were preserved.
+- **Files Affected:** `scripts/process_source_text.py`
+- **Cross-ref:** [Active Context: 2025-05-07 01:09:50]
+
+# Decision Log
+### [2025-05-07 03:14:05] - Decision: Adopt Clarified Terminology for `material_id` and `dynamic_roles` Update Mechanism
+- **Decision**: Adopt the definitions and usage guidelines for `material_id` and the `dynamic_roles` update mechanism as specified in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
+- **Rationale**: To address inconsistencies and ambiguities identified in the QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) and improve clarity and consistency across system documentation and mode interactions. `material_id` is established as the conceptual term, while `id` is the data field name. The `dynamic_roles` update mechanism is centralized via the `philosophy-orchestrator`.
+- **Outcome**: Existing documentation ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)) will be updated to reflect these clarifications. Relevant `.clinerules` will require updates, particularly for analysis modes (proposing `dynamic_roles` updates) and `philosophy-orchestrator` (managing `dynamic_roles` updates).
+- **Cross-ref:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [Active Context: 2025-05-07 03:14:05], [System Patterns: 2025-05-07 03:14:05]
+# Decision Log
+### [2025-05-07 01:09:50] - Decision: Refactor `scripts/process_source_text.py` for Modularity
+- **Decision**: Refactor `scripts/process_source_text.py` by breaking down its main processing logic into smaller, reusable functions.
+- **Rationale**: The script had become lengthy, and the `main()` function, in particular, handled many distinct steps. Refactoring improves modularity, readability, and maintainability, as noted in the task description.
+# System Patterns
+### [2025-05-07 03:49:41] - System Pattern: Orchestrated `dynamic_roles` File Operations (Implementation Detail)
+- **Description:** Details the implemented file operation sequence within `philosophy-orchestrator.clinerules` for the `manage_dynamic_roles_update` workflow. This includes:
+    1. Reading `source_materials/processed/master_index.json`.
+    2. Parsing, finding/creating material entry, updating `dynamic_roles` array.
+    3. Writing updated `master_index.json`.
+    4. Determining material-specific `index.md` path (from `path_to_index` in `master_index.json` or constructing).
+    5. Reading material-specific `index.md` (handling FileNotFoundError).
+    6. Parsing YAML frontmatter, updating `dynamic_roles` array.
+    7. Writing updated material-specific `index.md`.
+- **Governing Documents:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`tests/test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1)
+- **Key Component:** [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1) (`manage_dynamic_roles_update` workflow)
+- **Cross-ref:** [Global Progress: 2025-05-07 03:49:41], [System Pattern: `dynamic_roles` Update Protocol V1 at Global Context 2025-05-07 03:26:00]
+### [2025-05-07 03:26:00] - System Pattern: `dynamic_roles` Update Protocol V1
+- **Description:** Defines the protocol for updating `dynamic_roles` for source materials. Analysis modes (e.g., `philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`) identify and propose `dynamic_roles` updates to `philosophy-orchestrator`. The `philosophy-orchestrator` is solely responsible for performing synchronized writes of these roles to `master_index.json` and the relevant material-specific `[id]/index.md` file.
+- **Key Features:**
+    - Centralized write management by `philosophy-orchestrator`.
+    - Proposal-based updates from analysis modes.
+    - Synchronized writes to `master_index.json` and individual material `index.md` files.
+- **Governing Documents:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+- **Affected Components:**
+    - [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1)
+    - [`.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`](.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules:1)
+    - [`.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`](.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules:1)
+    - [`.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`](.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules:1)
+- **Cross-ref:** [Active Context: 2025-05-07 03:26:00], [Progress: 2025-05-07 03:26:00], [Decision Log: 2025-05-07 03:26:00]
+- **Outcome**: `scripts/process_source_text.py` updated with a more modular structure.
+- **Cross-ref:** [Active Context: 2025-05-07 01:09:50], [Progress: 2025-05-07 01:09:50]
+
+# System Patterns
+### [2025-05-07 01:09:50] - System Pattern: Refactored `scripts/process_source_text.py` (V1.1 - Modular)
+- **Description:** The Python script `scripts/process_source_text.py` after refactoring for improved modularity. The core V1 architecture processing logic, previously concentrated in `main()`, is now distributed across several new functions (e.g., `process_source_file`, `parse_arguments`, `generate_and_write_chunks`, `create_output_directories`). Helper functions for V1 output (e.g., `determine_material_metadata_and_paths`, `write_material_index_md`, `update_master_index`, `update_course_index_md`) are retained and called by the new orchestrating functions. Unused legacy functions like `process_node_recursive` were removed.
+- **Key Features:**
+    - Argument parsing handled by `parse_arguments()`.
+    - Main file processing orchestrated by `process_source_file()`.
+# System Patterns
+### [2025-05-07 03:14:05] - System Pattern: Clarified Terminology for `material_id` and `dynamic_roles`
+- **Description:** Standardized terminology for V1 Source Material Architecture identifiers and defined a centralized update mechanism for `dynamic_roles`.
+    - **`material_id`**: Conceptual term for the unique identifier of a processed source material. The actual data field name in `master_index.json` and individual `index.md` YAML is `id`.
+    - **`dynamic_roles` Update Mechanism**: Analysis modes propose `dynamic_roles` updates to `philosophy-orchestrator`, which is solely responsible for performing synchronized writes to `master_index.json` and the corresponding individual `[material_id]/index.md`.
+- **Governing Document:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+- **Affected Components:**
+    - Documentation: [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
+    - `.clinerules`: All philosophy modes interacting with source materials, especially analysis modes and `philosophy-orchestrator`.
+- **Cross-ref:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [Active Context: 2025-05-07 03:14:05], [Decision Log: 2025-05-07 03:14:05]
+    - Clearer separation of concerns for metadata determination, directory creation, chunk generation, and index file writing.
+- **Link to Script:** `scripts/process_source_text.py` (refactored version)
+- **Governing Architecture:** `docs/proposals/source_material_architecture_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-07 01:09:50], [Progress: 2025-05-07 01:09:50], [Decision Log: 2025-05-07 01:09:50]
+# Decision Log
+### [2025-05-07 00:58:20] - Decision: Deprecate and Remove `philosophy-kb-manager` Mode
+- **Decision**: Deprecated and removed the `philosophy-kb-manager` mode.
+- **Rationale**: The mode is obsolete as per architect's proposal ([`docs/proposals/philosophy_kb_manager_review_v1.md`](docs/proposals/philosophy_kb_manager_review_v1.md:1)) due to architectural shifts favoring direct KB access.
+- **Outcome**: Directory [`.roo/rules-philosophy-kb-manager/`](.roo/rules-philosophy-kb-manager) deleted. [`.roomodes`](.roomodes:1) file confirmed to not contain the mode entry.
+- **Cross-ref:** [`docs/proposals/philosophy_kb_manager_review_v1.md`](docs/proposals/philosophy_kb_manager_review_v1.md:1), [Active Context: 2025-05-07 00:58:20]
+# Decision Log
+### [2025-05-07 00:58:20] - `philosophy-kb-manager` Mode Deprecated and Removed
+- **Status:** Completed by Code Mode
+- **Details:** Reviewed architect's proposal ([`docs/proposals/philosophy_kb_manager_review_v1.md`](docs/proposals/philosophy_kb_manager_review_v1.md:1)). Deleted mode directory [`.roo/rules-philosophy-kb-manager/`](.roo/rules-philosophy-kb-manager). Confirmed [`.roomodes`](.roomodes:1) file did not contain an entry for the mode, so no changes were needed there.
+- **Cross-ref:** [`docs/proposals/philosophy_kb_manager_review_v1.md`](docs/proposals/philosophy_kb_manager_review_v1.md:1), [Active Context: 2025-05-07 00:58:20], [Decision Log: 2025-05-07 00:58:20]
+### [2025-05-07 00:43:05] - Decision: Recommend Deprecation of `philosophy-kb-manager` Mode
+- **Decision**: Recommend Option A: Deprecate &amp; Remove the `philosophy-kb-manager` mode.
+- **Rationale**: The mode's core responsibility as a sole KB gatekeeper is obsolete due to architectural shifts in V18.3.6 and V1 Source Material Architecture, which favor direct KB access by specialized modes. Its CRUD and querying functions are now distributed. This aligns with QA recommendations.
+- **Outcome**: Proposal document `docs/proposals/philosophy_kb_manager_review_v1.md` created with this recommendation.
+- **Cross-ref:** `docs/proposals/philosophy_kb_manager_review_v1.md`, [`philosophy-kb-manager.clinerules`](.roo/rules-philosophy-kb-manager/philosophy-kb-manager.clinerules:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)
+## Progress
+### [2025-05-07 00:43:05] - `philosophy-kb-manager` Mode Review Completed
+- **Status:** Completed by Architect Mode
+- **Details:** Reviewed `philosophy-kb-manager.clinerules` against current V18.3.6 architecture, V1 Source Material Architecture, and related documentation. Concluded the mode is obsolete.
+- **Outcome:** Proposal `docs/proposals/philosophy_kb_manager_review_v1.md` created, recommending deprecation and removal.
+- **Cross-ref:** `docs/proposals/philosophy_kb_manager_review_v1.md`, [Active Context: 2025-05-07 00:43:05]
+
+[2025-05-06 23:40:00] - QA Tester completed verification of V1 Source Material Architecture implementation. Key findings and `philosophy-kb-manager` recommendation documented in [`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1).
+### [2025-05-06 22:57:50] - Specification for `.clinerules` V1 Source Material Alignment Created
+- **Status:** Completed by Architect Mode
+- **Details:** A comprehensive specification document, `docs/specs/clinerules_source_material_v1_updates.md`, has been created. This document outlines the necessary modifications for all relevant philosophy mode `.clinerules` files to align with the new V1 architecture for `source_materials/processed/` and its associated navigation guidelines. The specification details changes to `kb_interaction_protocols` and `mode_specific_workflows` to ensure modes correctly use `master_index.json`, course/material-specific `index.md` files, and `dynamic_roles`.
+- **Files Affected:** `docs/specs/clinerules_source_material_v1_updates.md` (created)
+- **Relevant Proposal:** `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 22:57:50]
+### [2025-05-06 23:26:24] - `philosophy-verification-agent.clinerules` Aligned with V1 Source Material Architecture
+- **Status:** Implemented by Code Mode
+- **Details:** Updated `input_schema`, `kb_interaction_protocols`, `evidence_standards`, and `mode_specific_workflows` (including `source_navigation_procedure`) in `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` to align with `docs/specs/clinerules_source_material_v1_updates.md` (Section 3.13) and `docs/standards/source_material_navigation_guidelines_v1.md`.
+- **Files Affected:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`
+- **Relevant Specification:** `docs/specs/clinerules_source_material_v1_updates.md` (Section 3.13)
+- **Relevant Guidelines:** `docs/standards/source_material_navigation_guidelines_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 23:26:24]
+# Progress
+### [2025-05-06 17:41:30] - `scripts/process_source_text.py` Updated for V1 Source Material Architecture
+- **Status:** Implemented by Code Mode
+- **Details:** The script `scripts/process_source_text.py` has been significantly modified to align with the new V1 architecture for `source_materials/processed/` as detailed in `docs/proposals/source_material_architecture_v1.md`. Changes include new CLI arguments for metadata, logic to determine output paths based on course/library and material type, generation of a unique human-readable `MATERIAL_ID`, creation of the specified directory structure (e.g., `source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/`), generation of `master_index.json`, material-specific `index.md`, and course-specific `index.md` files. Metadata population for these index files adheres to the proposal.
+- **Files Affected:** `scripts/process_source_text.py`
+- **Relevant Proposal:** `docs/proposals/source_material_architecture_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 17:41:30], [Code MB Component: 2025-05-06 17:41:30]
+
+# System Patterns
+### [2025-05-06 22:57:50] - System Pattern: `.clinerules` Adaptation for V1 Source Material Navigation
+- **Description:** This pattern reflects the necessary changes to various philosophy mode `.clinerules` files to ensure they can correctly navigate and utilize the V1 architecture of the `source_materials/processed/` directory. Key adaptations include:
+    - Querying `master_index.json` for initial discovery.
+    - Reading material-specific `[ID]/index.md` files for metadata and chunk lists.
+    - Reading course-specific `courses/[COURSE_CODE]/index.md` for course-wide material overviews.
+    - Understanding and potentially interacting with the `dynamic_roles` field for contextual primary/secondary source identification.
+    - Updating internal workflows and path references to align with the new structure.
+- **Governing Documents:** `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`
+- **Affected Components:** Multiple philosophy mode `.clinerules` files (see `docs/specs/clinerules_source_material_v1_updates.md`).
+- **Cross-ref:** [Active Context: 2025-05-06 22:57:50], `docs/specs/clinerules_source_material_v1_updates.md`
+### [2025-05-06 17:41:30] - System Pattern: `scripts/process_source_text.py` (V1 Architecture Compliant)
+- **Description:** The Python script responsible for processing raw source Markdown files and outputting them into the V1 `source_materials/processed/` architecture. It handles directory creation, chunking, and the generation of all required index files (`master_index.json`, material `index.md`, course `index.md`).
+- **Key Features:**
+    - Determines if material is course-specific or library.
+    - Generates human-readable `MATERIAL_ID`.
+### [2025-05-06 22:57:50] - Decision: Create Specification for `.clinerules` V1 Source Material Alignment
+- **Decision**: Develop a detailed specification document (`docs/specs/clinerules_source_material_v1_updates.md`) outlining the necessary modifications to all relevant philosophy mode `.clinerules` files.
+- **Rationale**: To ensure all modes that interact with `source_materials/processed/` are updated to correctly use the new V1 architecture, including its indexing (`master_index.json`, course/material `index.md` files) and navigation patterns. This specification will guide `code` mode in implementing the changes.
+- **Outcome**: Specification document created.
+- **Cross-ref:** [Active Context: 2025-05-06 22:57:50], `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`, `docs/specs/clinerules_source_material_v1_updates.md`
+    - Creates `courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/` or `library/[MATERIAL_ID]/chunks/` structure.
+    - Populates `master_index.json` with comprehensive metadata.
+### [2025-05-06 23:26:24] - Decision: Apply V1 Source Material Architecture Updates to `philosophy-verification-agent.clinerules`
+- **Decision**: Implement the modifications specified in Section 3.13 of `docs/specs/clinerules_source_material_v1_updates.md` to `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`.
+- **Rationale**: To ensure the `philosophy-verification-agent` mode correctly interacts with the V1 `source_materials/processed/` architecture, including its indexing and navigation patterns.
+- **Outcome**: `.clinerules` file updated.
+- **Cross-ref:** [Active Context: 2025-05-06 23:26:24], [Global Progress: 2025-05-06 23:26:24]
+    - Generates material-specific `[MATERIAL_ID]/index.md` with YAML frontmatter and chunk list.
+    - Generates course-specific `courses/[COURSE_CODE]/index.md` listing materials for that course.
+    - Uses CLI arguments for `course_code`, `material_type`, `source_type`, `title` to guide processing.
+- **Link to Script:** `scripts/process_source_text.py`
+- **Governing Architecture:** `docs/proposals/source_material_architecture_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 17:41:30]
+
+# Decision Log
+### [2025-05-06 17:41:30] - Decision: Implement `process_source_text.py` Changes for V1 Architecture
+- **Decision**: Proceed with the implementation of changes to `scripts/process_source_text.py` as outlined by the `architect` mode to align with `docs/proposals/source_material_architecture_v1.md`.
+- **Rationale**: The existing script is incompatible with the new V1 architecture for `source_materials/processed/`. The modifications are necessary for the system to correctly process and organize source materials according to the new standard.
+- **Outcome**: `scripts/process_source_text.py` updated by `code` mode.
+- **Cross-ref:** [Active Context: 2025-05-06 17:22:53], [Architect Analysis in Active Context: 2025-05-06 17:18:01]
+# Product Context
+
+### [2025-05-06 17:10:56] - Source Material Navigation Guidelines V1
+- **Description:** Comprehensive guidelines for all modes on how to navigate and effectively utilize the V1 architecture of the `source_materials/processed/` directory.
+- **Key Features:** Covers interpretation of index files (`master_index.json`, course-specific `index.md`, material-specific `index.md`), best practices for research and retrieval, usage of the tagging system (static tags, `dynamic_roles`), folder structure navigation, and considerations for different material types.
+- **Link to Document:** `docs/standards/source_material_navigation_guidelines_v1.md`
+- **Relevant Architecture:** `docs/proposals/source_material_architecture_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 17:10:56]
+### [2025-05-06 16:59:27] - System Pattern: Proposed Architecture for `source_materials/processed/` (V1)
+- **Description:** A new architecture for the `source_materials/processed/` directory has been designed to improve organization, accessibility, and usability. It features a hybrid hierarchical (courses/library) and tag-based system, with a master JSON index (`master_index.json`) for global discovery and individual Markdown indexes (`[ID]/index.md`) for specific materials. The design supports flexible categorization, nuanced primary/secondary source identification via `dynamic_roles`, robust indexing/tagging, and staged access for context window management.
+### [2025-05-06 17:10:56] - System Pattern: Navigation Strategy for `source_materials/processed/` V1
+- **Description:** Defines the standardized approach for modes to navigate and utilize the V1 architecture of the `source_materials/processed/` directory. Emphasizes a staged access pattern:
+    1. Query `master_index.json` for initial discovery and filtering.
+    2. Read individual `[ID]/index.md` for specific material metadata and chunk overview.
+    3. Read specific `chunks/chunk_XXX.md` for detailed content.
+- **Key Elements:** Use of `master_index.json`, course-specific `index.md`, material-specific `[ID]/index.md`, static tags, and `dynamic_roles` for contextual relevance.
+- **Guiding Document:** [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1)
+- **Relevant Architecture:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-06 17:10:56]
+- **Key Features:**
+    - `courses/` and `library/` top-level directories.
+    - `master_index.json` for global, machine-readable indexing.
+    - Per-material `index.md` for metadata and chunk navigation.
+    - `dynamic_roles` field for context-dependent primary/secondary status.
+- **Link to Proposal:** `docs/proposals/source_material_architecture_v1.md`
+- **Cross-ref:** [Active Context: 2025-05-06 16:59:27], [Decision Log: 2025-05-06 16:59:27]
+
+### [2025-05-06 16:59:27] - Decision: Adopt Proposed Architecture for `source_materials/processed/` (V1)
+- **Decision**: Adopt the V1 architecture for the `source_materials/processed/` directory as detailed in `docs/proposals/source_material_architecture_v1.md`.
+- **Rationale**: The proposed architecture addresses key user requirements for flexible categorization, nuanced primary/secondary source identification, improved discoverability through robust indexing and tagging, and efficient navigation while managing context window impact. It provides a clear and scalable structure for organizing processed source materials.
+- **Outcome**: The design proposal `docs/proposals/source_material_architecture_v1.md` is now the guiding document for the structure of `source_materials/processed/`. Subsequent tasks will involve implementing this structure, updating relevant scripts (e.g., `scripts/process_source_text.py`), and revising `.clinerules` for modes interacting with this directory.
+- **Cross-ref:** [Active Context: 2025-05-06 16:59:27], [System Pattern: 2025-05-06 16:59:27]
+### [2025-05-06 14:10:00] Progress Update: Root `.roomodes` File Corrected
+- Status: Completed &amp; Verified
+- Details: Delegated to `code` mode to update placeholder `roleDefinition` and `customInstructions` for all 14 philosophy modes. `code` mode successfully applied changes. SPARC verified the updates. Emojis in `name` field were also updated by `code` mode.
+- Link to Active Context: [2025-05-06 14:10:00]
+- Link to File: .roomodes
+### [2025-05-06 13:10:52] Progress Update: `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` Updated to V2.x (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-verification-agent.clinerules` file. SPARC verified compliance with Standard V2.5 (including source material navigation guidance in `mode_specific_workflows`) and Architecture V18.3.6. Changes committed (60cbef0).
+- **Next Step**: Determine and proceed with updating the next `.clinerules` file in the sequence.
+- **Link to Active Context:** [See Active Context 2025-05-06 13:10:52]
+- **Link to File:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.x)
+- **Link to Commit:** 60cbef0
+### [2025-05-06 13:01:24] Progress Update: `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` Updated to V2.5 (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-text-processor.clinerules` file. SPARC verified compliance with Standard V2.5 (including source material navigation guidance and script orchestration details) and Architecture V18.3.6. Changes committed (87e3d0d).
+- **Next Step**: Handover to new SPARC instance. New instance to determine and proceed with updating the next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-06 13:01:24]
+- **Link to File:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.5)
+- **Link to Commit:** 87e3d0d
+### [2025-05-06 12:43:23] Progress Update: `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` Updated to V2.x (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-draft-generator.clinerules` file. SPARC verified compliance with Standard V2.5 (including source material navigation in workflows) and Architecture V18.3.6. Changes committed (233b106).
+- **Next Step**: Determine and proceed with updating the next `.clinerules` file in the sequence.
+- **Link to Active Context:** [See Active Context 2025-05-06 12:43:23]
+- **Link to File:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.x)
+- **Link to Commit:** 233b106
+### [2025-05-06 12:34:07] Progress Update: `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` Updated to V2.x (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-citation-manager.clinerules` file. SPARC verified compliance with Standard V2.5 (including source material navigation in workflows) and Architecture V18.3.6. Changes committed (f7adcc7).
+- **Next Step**: Determine and proceed with updating the next `.clinerules` file in the sequence.
+- **Link to Active Context:** [See Active Context 2025-05-06 12:34:07]
+- **Link to File:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.x)
+- **Link to Commit:** f7adcc7
+### [2025-05-06 12:29:22] Progress Update: `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` Updated to V2.x (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-questioning.clinerules` file. SPARC verified compliance with Standard V2.5 (including source material navigation in workflows) and Architecture V18.3.6. Changes committed (0b2d735).
+- **Next Step**: Determine and proceed with updating the next `.clinerules` file in the sequence.
+- **Link to Active Context:** [See Active Context 2025-05-06 12:29:22]
+- **Link to File:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.x)
+- **Link to Commit:** 0b2d735
+### [2025-05-06 12:23:56] Progress Update: `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` Updated to V2.3 (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-dialectical-analysis.clinerules` file. SPARC verified compliance with Standard V2.5 and Architecture V18.3.6. Changes committed (1ebddd9).
+- **Next Step**: Proceed with updating `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`.
+- **Link to Active Context:** [See Active Context 2025-05-06 12:23:56]
+- **Link to File:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.3)
+- **Link to Commit:** 1ebddd9
+### [2025-05-06 11:52:20] Progress Update: `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` Updated to V2.2 (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+- **Details:** `code` mode updated the `philosophy-class-analysis.clinerules` file. SPARC verified compliance with Standard V2.5 and Architecture V18.3.6. Changes committed (70dd43e).
+- **Next Step**: Proceed with updating `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`.
+- **Link to Active Context:** [See Active Context 2025-05-06 11:52:20]
+- **Link to File:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.2)
+- **Link to Commit:** 70dd43e
+### [2025-05-06 11:48:35] Progress Update: `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` Updated to V2.2 (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+### [2025-05-06 13:10:52] - Decision: Accept Updated `philosophy-verification-agent.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` file.
+### [2025-05-06 14:10:00] - Decision: Accept `.roomodes` Update by Code Mode
+- Decision: Accept the changes made by `code` mode to the root `.roomodes` file.
+- Rationale: `code` mode successfully populated `roleDefinition` with `identity.description` from `.clinerules` and set `customInstructions` to `""` for all 14 philosophy modes, as per delegation. Unprompted emoji updates to `name` field are acceptable.
+- Outcome: `.roomodes` file verified as corrected.
+- Cross-ref: [Progress: 2025-05-06 14:10:00]
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including source material navigation guidance in `mode_specific_workflows`) and System Architecture V18.3.6.
+- **Outcome**: File committed (60cbef0).
+- **Cross-ref:** [Progress: 2025-05-06 13:10:52], [System Pattern: 2025-05-06 13:10:52]
+### [2025-05-06 13:01:24] - Decision: Accept Updated `philosophy-text-processor.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` file.
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including detailed workflows for text processing and source navigation) and System Architecture V18.3.6.
+- **Outcome**: File committed (87e3d0d).
+- **Cross-ref:** [Progress: 2025-05-06 13:01:24], [System Pattern: 2025-05-06 13:01:24]
+- **Details:** `code` mode updated the `philosophy-pre-lecture.clinerules` file. SPARC verified compliance with Standard V2.5 and Architecture V18.3.6. Changes committed (2a656ad).
+- **Next Step**: Proceed with updating `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`.
+- **Link to Active Context:** [See Active Context 2025-05-06 11:48:35]
+- **Link to File:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.2)
+- **Link to Commit:** 2a656ad
+### [2025-05-06 11:42:29] Progress Update: `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` Updated to V3.2 (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed &amp; Committed
+### [2025-05-06 12:29:22] - Decision: Accept Updated `philosophy-questioning.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` file.
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including source material navigation guidance) and System Architecture V18.3.6.
+- **Outcome**: File committed (0b2d735).
+- **Cross-ref:** [Progress: 2025-05-06 12:29:22], [System Pattern: 2025-05-06 12:29:22]
+### [2025-05-06 12:34:07] - Decision: Accept Updated `philosophy-citation-manager.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` file.
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including source material navigation guidance) and System Architecture V18.3.6.
+- **Outcome**: File committed (f7adcc7).
+- **Cross-ref:** [Progress: 2025-05-06 12:34:07], [System Pattern: 2025-05-06 12:34:07]
+- **Details:** `code` mode updated the `philosophy-orchestrator.clinerules` file. SPARC verified compliance with Standard V2.5 and Architecture V18.3.6. Changes committed (3821e22).
+- **Next Step**: Proceed with updating `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`.
+- **Link to Active Context:** [See Active Context 2025-05-06 11:42:29]
+- **Link to File:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.2)
+- **Link to Commit:** 3821e22
+### [2025-05-06 03:14:23] Progress Update: `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` Updated to Standard V2.5 / Arch V18.3.6
+### [2025-05-06 04:53:02] - Decision: Adopt V3.0 .clinerules for philosophy-meta-reflector
+- **Decision**: Adopt the new V3.0 `.clinerules` structure for the `philosophy-meta-reflector` mode.
+- **Rationale**: The V3.0 structure, as defined in `docs/proposals/philosophy-meta-reflector_clinerules_v3.md`, aligns with `.clinerules` Standard V2.5 and Architecture V18.3.6. It provides comprehensive, mode-specific protocols and workflows necessary for the meta-reflector's functions.
+- **Outcome**: New `.clinerules` file created at `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`.
+- **Cross-ref:** [Progress: 2025-05-06 04:53:02], [System Pattern: `philosophy-meta-reflector.clinerules` V3.0]
+- **Status:** Completed
+- **Details:** Code mode updated the `philosophy-kb-doctor.clinerules` file to ensure full compliance with `.clinerules` Standard V2.5 and System Architecture V18.3.6. This involved verifying all standard sections, updating paths to `phil-memory-bank/`, ensuring the mode's identity and KB interaction protocols align with its monitoring role (no script execution, direct read of KB operational data), and updating the version comment.
+### [2025-05-06 12:43:23] - Decision: Accept Updated `philosophy-draft-generator.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` file.
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including source material navigation guidance) and System Architecture V18.3.6.
+### [2025-05-06 13:10:52] - System Pattern: `philosophy-verification-agent.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-verification-agent` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture. Version comment updated to V2.x.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section includes detailed verification procedures and guidance on navigating `source_materials/processed/` using `index.md` files.
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB read access from `philosophy-knowledge-base/` and `source_materials/processed/`, direct `phil-memory-bank/` access for logs, interaction with `philosophy-evidence-manager` for evidence retrieval if needed). Read-only for KB.
+    - **Archetype B:** Includes input/output schemas, KB interaction rules (read-only), conceptual determinacy guidelines, evidence standards, and detailed verification workflows.
+- **Link:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 13:10:52], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+- **Outcome**: File committed (233b106).
+- **Cross-ref:** [Progress: 2025-05-06 12:43:23], [System Pattern: 2025-05-06 12:43:23]
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-06 03:14:23]
+- **Link to File:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.1 - Standard V2.5, Arch V18.3.6 Compliant)
+
+### [2025-05-06 13:01:24] - System Pattern: `philosophy-text-processor.clinerules` (V2.5 - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-text-processor` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture. Version comment updated to V2.5.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section includes detailed text processing workflow and guidance for other modes on navigating `source_materials/processed/`.
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB/`phil-memory-bank` access, script orchestration, root processed index update).
+- **Link:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.5 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 13:01:24], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+### [2025-05-06 12:43:23] - System Pattern: `philosophy-draft-generator.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-draft-generator` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture. Version comment updated to V2.x.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section includes guidance on navigating `source_materials/processed/` using `index.md` files.
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB/`phil-memory-bank` access).
+- **Link:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 12:43:23], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+### [2025-05-06 12:34:07] - System Pattern: `philosophy-citation-manager.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-citation-manager` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture. Version comment updated to V2.x.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section includes guidance on navigating `source_materials/processed/` using `index.md` files.
+### [2025-05-06 13:01:24] - Decision: Accept Updated `philosophy-text-processor.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` file.
+- **Rationale**: The file has been successfully updated by `code` mode and verified by SPARC to comply with the latest `.clinerules` Standard V2.5 (including detailed workflows for text processing and source navigation) and System Architecture V18.3.6.
+- **Outcome**: File committed (87e3d0d).
+- **Cross-ref:** [Progress: 2025-05-06 13:01:24], [System Pattern: 2025-05-06 13:01:24]
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB/`phil-memory-bank` access).
+- **Link:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 12:34:07], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+### [2025-05-06 12:29:22] - System Pattern: `philosophy-questioning.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-questioning` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture. Version comment updated to V2.x.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section includes guidance on navigating `source_materials/processed/` using `index.md` files.
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB/`phil-memory-bank` access, rigor fields).
+- **Link:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.x - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 12:29:22], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+### [2025-05-06 03:14:23] - Decision: Accept Updated `philosophy-kb-doctor.clinerules`
+- **Decision**: Accept the updated `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` file.
+- **Rationale**: The file has been successfully updated to comply with the latest `.clinerules` Standard V2.5 and System Architecture V18.3.6, ensuring its rules and interactions are current.
+- **Outcome**: File updated.
+- **Cross-ref:** [Progress: 2025-05-06 03:14:23], [System Pattern: 2025-05-06 03:14:23]
+
+### [2025-05-06 03:14:23] - System Pattern: `philosophy-kb-doctor.clinerules` (V2.1 - Standard V2.5, Arch V18.3.6 Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-kb-doctor` mode (as a monitor), aligned with `clinerules_standard_v2.5.md` and V18.3.6 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. Uses correct `phil-memory-bank/` paths. Includes updated error codes and concurrency protocols.
+    - **Architecture Alignment (V18.3.6):** Aligned with V18.3.6 patterns (direct KB operational read access from `philosophy-knowledge-base/_operational/`, direct `phil-memory-bank/` access for logs, monitoring role). Script execution remains deprecated.
+    - **Archetype A (Adapted):** Includes input/output schemas for monitoring tasks.
+- **Link:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.1 - Standard V2.5, Arch V18.3.6 Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 03:14:23], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.6)]
+### [2025-05-06 03:06:28] Progress Update: Architecture V18.3.6 (Added `philosophy-evidence-manager`)
+- **Status:** Completed & Verified
+- **Details:** Architect mode successfully updated `docs/architecture/architecture_v18.md` to V18.3.6, incorporating the `philosophy-evidence-manager` mode into Section 4.5 and the Mermaid diagram. SPARC verification confirmed changes.
+### [2025-05-06 17:22:53] Progress Update: Analysis of `scripts/process_source_text.py` for Architectural Alignment Complete
+- **Status:** Completed
+- **Details:** `architect` mode analyzed `scripts/process_source_text.py` against the new `source_materials/processed/` architecture proposal (`docs/proposals/source_material_architecture_v1.md`). It was determined that significant modifications **are required** for the script to align with the new architecture. Detailed specifications for these changes have been provided by the architect.
+- **Next Step**: Proceed to Step 3 of the plan: Implementation of script changes by `code` mode.
+- **Link to Active Context:** [2025-05-06 17:22:53]
+- **Link to Architectural Proposal:** `docs/proposals/source_material_architecture_v1.md`
+- **Link to SPARC MB Delegation Log:** [2025-05-06 17:16:00]
+- **Next Step**: Commit changes. Resume `.clinerules` update sequence.
+- **Link to Active Context:** [See Active Context 2025-05-06 03:06:28]
+- **Link to Architecture Doc:** `docs/architecture/architecture_v18.md` (V18.3.6)
+
+### [2025-05-06 03:06:28] - Decision: Accept Updated Architecture V18.3.6
+- **Decision**: Accept the updated `docs/architecture/architecture_v18.md` (V18.3.6).
+- **Rationale**: Corrects the omission of `philosophy-evidence-manager` mode, ensuring the architecture document accurately reflects all active system components. Addresses intervention [SPARC MB Intervention Log: 2025-05-06 02:55:50].
+- **Outcome**: Document verified. Proceeding to commit changes.
+- **Cross-ref:** [Progress: 2025-05-06 03:06:28], [System Pattern: 2025-05-06 03:06:28], [SPARC MB Intervention Log: 2025-05-06 02:55:50]
+
+### [2025-05-06 03:06:28] - System Pattern: Architecture V18.3.6 (Evidence Manager Integration)
+- **Description:** Architecture V18.3.5 updated to V18.3.6 to include the `philosophy-evidence-manager` mode. This mode is responsible for retrieving evidence and rigor context from the KB.
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.6)
+- **Cross-ref:** [Progress: 2025-05-06 03:06:28], [Decision Log: 2025-05-06 03:06:28]
+### [2025-05-06 03:04:50] Progress Update: Architecture V18.3.6 (philosophy-evidence-manager)
+- **Status:** Completed
+- **Details:** Architect mode updated `docs/architecture/architecture_v18.md` to V18.3.6. This version incorporates the `philosophy-evidence-manager` mode, including its description in Section 4.5, updates to the Mermaid diagram in Section 5, and an update to the example `.roomodes` JSON in Section 9.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-06 03:04:50]
+- **Link to File:** `docs/architecture/architecture_v18.md` (V18.3.6)
+
+### [2025-05-06 03:04:50] - System Pattern: Architecture V18.3.6 (philosophy-evidence-manager Integration)
+### [2025-05-06 04:57:47] Progress Update: `philosophy-meta-reflector.clinerules` Implemented (Custom V3.0)
+- **Status:** Completed & Committed
+- **Details:** Custom V3.0 `.clinerules` for `philosophy-meta-reflector` designed by `architect` and implemented by `code` mode. Proposal at `docs/proposals/philosophy-meta-reflector_clinerules_v3.md`. File `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` committed (088201e).
+- **Next Step**: Update `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to Standard V2.5 / Arch V18.3.6. Handover triggered due to context.
+- **Link to Active Context:** [See Active Context 2025-05-06 04:57:47]
+- **Link to Commit:** 088201e
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.6).*
+### [2025-05-06 17:22:53] Progress Update: Analysis of `scripts/process_source_text.py` for Architectural Alignment Complete
+- **Status:** Completed
+- **Details:** `architect` mode analyzed `scripts/process_source_text.py` against the new `source_materials/processed/` architecture proposal (`docs/proposals/source_material_architecture_v1.md`). It was determined that significant modifications **are required** for the script to align with the new architecture. Detailed specifications for these changes have been provided by the architect.
+- **Next Step**: Proceed to Step 3 of the plan: Implementation of script changes by `code` mode.
+- **Link to Active Context:** [2025-05-06 17:22:53]
+- **Link to Architectural Proposal:** `docs/proposals/source_material_architecture_v1.md`
+- **Link to SPARC MB Delegation Log:** [2025-05-06 17:16:00]
+### [2025-05-06 17:15:18] Progress Update: Source Material Navigation Guidelines Created
+- **Status:** Completed
+- **Details:** `docs-writer` mode completed the creation of comprehensive navigation and usage guidelines for the new `source_materials/processed/` V1 architecture. The new standalone guidelines document is [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1). This document details how to interpret and use the main index file (`master_index.json`), course-specific indexes, and individual material indexes. It outlines best practices for research, use of the tagging system (static and `dynamic_roles`), and navigating the new folder structure (`courses/` and `library/`).
+- **Next Step**: Proceed to Step 3 of the plan: Implementation of Script Changes (if necessary) and Step 4: `.clinerules` Review and Update.
+- **Link to Active Context:** [2025-05-06 17:15:04]
+- **Link to Guidelines Document:** [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1)
+- **Link to SPARC MB Delegation Log:** [2025-05-06 17:06:03]
+- **Description:** Architecture V18.3.5 updated to V18.3.6 to include the `philosophy-evidence-manager` mode. This mode is responsible for retrieving evidence and associated rigor context from the Knowledge Base.
+- **Key Changes:**
+    - Added `philosophy-evidence-manager` to mode list (Section 4.5).
+    - Updated Mermaid diagram (Section 5) to include `philosophy-evidence-manager` and its interactions (reads PhilKB_Data, OpMemBank; writes to OpMemBank_ModeLogs; delegated by Orchestrator).
+    - Updated example `.roomodes` JSON (Section 9).
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.6)
+- **Cross-ref:** [Progress: 2025-05-06 03:04:50]
+
+### [2025-05-06 03:04:50] - Decision: Integrate `philosophy-evidence-manager` into Architecture V18.3.6
+- **Decision**: Update `docs/architecture/architecture_v18.md` to V18.3.6 to formally include the `philosophy-evidence-manager` mode.
+- **Rationale**: Addresses inconsistency identified by SPARC [SPARC MB Intervention Log: 2025-05-06 02:55:50] where the mode exists but is not documented. Ensures architecture accurately reflects all system components.
+- **Outcome**: Architecture document updated to V18.3.6.
+- **Cross-ref:** [Progress: 2025-05-06 03:04:50], [System Pattern: 2025-05-06 03:04:50]
+### [2025-05-06 02:58:34] Progress Update: `.roomodes` Updated with Philosophy Modes
+- **Status:** Completed & Verified
+- **Details:** Code mode successfully updated `.roomodes` to include entries for all 14 philosophy modes, resolving the configuration inconsistency identified in [SPARC MB Intervention Log: 2025-05-06 02:55:50]. SPARC verified the updated file content.
+- **Next Step**: Commit changes. Delegate architecture document update.
+### [2025-05-06 17:04:40] Progress Update: `source_materials/processed/` Architectural Design Completed
+- **Status:** Completed
+- **Details:** `architect` mode completed the architectural design for the `source_materials/processed/` directory. The detailed proposal, outlining the new structure, indexing strategy, and tagging mechanisms, is available at `docs/proposals/source_material_architecture_v1.md`. This design addresses user requirements for flexible categorization, nuanced primary/secondary source identification, optimal structure, robust indexing, and efficient context window management.
+- **Next Step**: Proceed to Step 2 of the plan: Guideline & Standard Creation by `docs-writer` mode.
+- **Link to Active Context:** [2025-05-06 17:04:40]
+- **Link to Design Proposal:** `docs/proposals/source_material_architecture_v1.md`
+- **Link to SPARC MB Delegation Log:** [2025-05-06 16:36:14]
+- **Link to Active Context:** [See Active Context 2025-05-06 02:58:34]
+- **Link to File:** `.roomodes` (Updated)
+
+### [2025-05-06 02:58:34] - Decision: Accept Updated `.roomodes` File
+- **Decision**: Accept the updated `.roomodes` file containing entries for all philosophy modes.
+- **Rationale**: Corrects the critical configuration inconsistency where philosophy modes were not listed, ensuring the system can recognize and potentially utilize them. Addresses intervention [SPARC MB Intervention Log: 2025-05-06 02:55:50].
+- **Outcome**: File verified. Proceeding to commit changes.
+- **Cross-ref:** [Progress: 2025-05-06 02:58:34], [SPARC MB Intervention Log: 2025-05-06 02:55:50]
+### [2025-05-06 13:07:21] Progress Update: `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` Updated to V2.x (Standard V2.5 / Arch V18.3.6)
+- **Status:** Completed
+- **Details:** `code` mode updated the `philosophy-verification-agent.clinerules` file. Verified compliance with Standard V2.5 (including source material navigation guidance in `mode_specific_workflows`) and Architecture V18.3.6.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-06 13:07:21]
+- **Link to File:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.x - Standard V2.5 / Arch V18.3.6 Compliant)
+## Progress
+[2025-05-06 02:57:52] - Code - System Configuration - Updated .roomodes to include 14 philosophy-specific modes. This aligns the system configuration with the available mode rule sets. [See SPARC MB Intervention Log: 2025-05-06 02:55:50]
+### [2025-05-06 04:53:02] Progress Update: `philosophy-meta-reflector.clinerules` V3.0 Implemented
+- **Status:** Completed
+### [2025-05-06 17:10:56] Progress Update: Source Material Navigation Guidelines V1 Created
+- **Status:** Completed
+- **Details:** `docs-writer` mode created comprehensive navigation and usage guidelines for the V1 architecture of the `source_materials/processed/` directory.
+- **Link to Document:** [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1)
+- **Relevant Architecture:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-06 17:10:56]
+- **Details:** Code mode created the new V3.0 `.clinerules` file for the `philosophy-meta-reflector` mode at `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`. This version aligns with `.clinerules` Standard V2.5 and Architecture V18.3.6, incorporating detailed protocols and workflows from the proposal document `docs/proposals/philosophy-meta-reflector_clinerules_v3.md`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-06 04:52:44]
+- **Link to File:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V3.0)
+### [2025-05-06 02:54:44] Progress Update: `philosophy-evidence-manager.clinerules` V2.5 Workflow Correction Successful (Attempt 2)
+- **Status:** Completed & Verified
+- **Details:** Code mode successfully updated `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to V2.2 (Standard V2.5) on the second attempt. SPARC verification confirmed the `mode_specific_workflows` section now correctly uses the flexible format (narrative actions).
+- **Next Step**: Commit changes. Proceed to next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-06 02:54:44]
+- **Link to File:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (Correct V2.2 / Standard V2.5)
+
+### [2025-05-06 02:54:44] - Decision: Accept Corrected `philosophy-evidence-manager.clinerules` V2.2 (Standard V2.5)
+- **Decision**: Accept the corrected version of `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` as compliant with Standard V2.5.
+- **Rationale**: SPARC verification confirmed that Attempt 2 by `code` mode successfully implemented the flexible workflow format in the `mode_specific_workflows` section, resolving the issues from Attempt 1.
+- **Outcome**: File verified. Proceeding to commit changes.
+- **Cross-ref:** [Progress: 2025-05-06 02:54:44], [SPARC MB Delegation Log: 2025-05-06 02:52:53]
+### [2025-05-06 02:51:53] Progress Update: `philosophy-evidence-manager.clinerules` V2.5 Workflow Correction Attempt 1 Failed
+- **Status:** Failed Verification
+- **Details:** Code mode updated `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to V2.2 (Standard V2.5). SPARC verification failed: `mode_specific_workflows` section still uses internal logic comments instead of narrative `action:` descriptions required by V2.5 flexible format.
+- **Next Step**: Re-delegate correction task to `code` mode with specific instructions.
+- **Link to Active Context:** [See Active Context 2025-05-06 02:51:53]
+- **Link to File:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (Incorrect V2.2)
+
+### [2025-05-06 02:51:53] - Decision: Re-delegate `philosophy-evidence-manager.clinerules` V2.5 Workflow Correction
+- **Decision**: Re-delegate the correction of the `mode_specific_workflows` section in `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to `code` mode.
+- **Rationale**: Initial attempt failed SPARC verification due to incorrect implementation of the V2.5 flexible workflow format (retained internal logic comments). Re-delegation with more specific instructions is required.
+- **Outcome**: Task re-delegation pending.
+- **Cross-ref:** [Progress: 2025-05-06 02:51:53], [SPARC MB Intervention Log: 2025-05-06 02:51:53]
+### [2025-05-06 02:50:51] Progress Update: `philosophy-evidence-manager.clinerules` Aligned with V2.5 Standard
+- **Status:** Completed (Awaiting SPARC Verification)
+- **Details:** Code mode updated `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.5 - flexible `mode_specific_workflows`) and `docs/architecture/architecture_v18.md` (V18.3.5). Version comment updated to V2.2.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-06 02:50:51]
+- **Link to File:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.2 - V2.5 Standard Compliant)
+
+### [2025-05-06 02:50:51] - System Pattern: `philosophy-evidence-manager.clinerules` (V2.2 - V2.5 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-evidence-manager` mode, aligned with `clinerules_standard_v2.5.md` and V18.3.5 architecture. Version comment updated to V2.2.
+- **Key Aspects:**
+    - **Standard Compliance (V2.5):** Implements all required V2.5 common sections explicitly. `mode_specific_workflows` section uses flexible format (narrative `action:`, optional `tools:`/`input:`/`output:`).
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB read access, `phil-memory-bank/` access).
+- **Link:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.2 - V2.5 Standard Compliant)
+- **Cross-ref:** [Progress: 2025-05-06 02:50:51], [Standard: docs/standards/clinerules_standard_v2.md (V2.5)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-06 02:50:51] - Decision: Align `philosophy-evidence-manager.clinerules` with V2.5 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.5 - flexible `mode_specific_workflows`) and `docs/architecture/architecture_v18.md` (V18.3.5). Update version comment to V2.2.
+- **Rationale**: Ensures the evidence manager mode adheres to the latest system standards for workflow definitions.
+- **Outcome**: File updated to V2.5 compliance.
+- **Cross-ref:** [Progress: 2025-05-06 02:50:51], [System Pattern: 2025-05-06 02:50:51]
+### [2025-05-05 22:33:27] - Decision: Update `.clinerules` Standard to V2.3 (Add `mode_specific_workflows`)
+- **Decision**: Update `docs/standards/clinerules_standard_v2.md` to V2.3 by adding a new optional `mode_specific_workflows` section with examples and a preservation note in the background section.
+- **Rationale**: Addresses user feedback regarding the loss of custom mode-specific operational logic during standard updates. Provides a dedicated, preservable location for such logic and includes clear examples as requested.
+- **Outcome**: Standard document updated to V2.3.
+- **Cross-ref:** [System Pattern: 2025-05-05 22:33:27], [Active Context: 2025-05-05 22:33:07]
+
+### [2025-05-05 22:33:27] - System Pattern: `.clinerules` Standard V2.3 (Workflow Preservation)
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md` (V2.3).*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture. Supersedes V2.2. **Key Change:** Introduced optional `mode_specific_workflows` section to allow modes to define and preserve detailed, custom operational logic. Includes detailed examples and a note mandating preservation during updates. Retains V2.2 changes (explicitness, no inheritance).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.3)
+- **Cross-ref:** [Decision Log: 2025-05-05 22:33:27], [Active Context: 2025-05-05 22:33:07]
+### [2025-05-05 19:11:00] Progress Update: `philosophy-kb-doctor.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5), reflecting its monitoring role. SPARC verified changes and committed (1a57903).
+- **Next Step**: Handover due to context threshold (~43.1%). New instance to proceed with next `.clinerules` file (likely `philosophy-evidence-manager` - check `.roomodes`).
+- **Link to Active Context:** [See Active Context 2025-05-05 19:10:35]
+- **Link to File:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.2 Compliant)
+- **Link to Commit:** 1a57903
+
+### [2025-05-05 19:11:00] - System Pattern: `philosophy-kb-doctor.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-kb-doctor` mode (as a monitor), aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly. Uses correct `phil-memory-bank/` paths.
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB operational read access, direct `phil-memory-bank/` access for logs, monitoring role). Removed deprecated script execution.
+    - **Archetype A (Adapted):** Includes input/output schemas for monitoring tasks.
+- **Link:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:11:00], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 19:11:00] - Decision: Align `philosophy-kb-doctor.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5), reflecting its monitoring role.
+- **Rationale**: Ensures the KB doctor mode adheres to the latest system standards (V2.2 - explicitness) and architectural patterns (V18.3.5 - monitoring role, deprecated scripts).
+- **Outcome**: File updated to V2.2 compliance and committed (1a57903). Handover initiated due to context threshold.
+- **Cross-ref:** [Progress: 2025-05-05 19:11:00], [System Pattern: 2025-05-05 19:11:00]
+### [2025-05-05 19:04:12] Progress Update: `philosophy-meta-reflector.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5). SPARC verified changes and committed (c573a69).
+- **Next Step**: Proceed with next `.clinerules` file (likely `philosophy-kb-doctor`).
+- **Link to Active Context:** [See Active Context 2025-05-05 19:03:45]
+- **Link to File:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.2 Compliant)
+- **Link to Commit:** c573a69
+
+### [2025-05-05 19:04:12] - System Pattern: `philosophy-meta-reflector.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-meta-reflector` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly. Uses correct `phil-memory-bank/` paths.
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB/log/doc/rule read access, direct `phil-memory-bank/` access for logs, meta-reflection logic, proposal generation).
+    - **Archetype B:** Includes input/output schemas, KB interaction rules (read/write meta-reflections), analysis guidelines.
+- **Link:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:04:12], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 19:04:12] - Decision: Align `philosophy-meta-reflector.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the meta-reflector mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5).
+- **Outcome**: File updated to V2.2 compliance and committed (c573a69).
+- **Cross-ref:** [Progress: 2025-05-05 19:04:12], [System Pattern: 2025-05-05 19:04:12]
+### [2025-05-05 18:55:55] Progress Update: `philosophy-verification-agent.clinerules` Corrected & Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode applied corrections (explicit standard sections, correct `phil-memory-bank/` paths) to `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`. SPARC verified corrected file against Standard V2.2 and Architecture V18.3.5, then committed changes (3b2018a).
+- **Next Step**: Proceed with next `.clinerules` file (likely `philosophy-meta-reflector`).
+- **Link to Active Context:** [See Active Context 2025-05-05 18:55:28]
+- **Link to File:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.2 Compliant - Corrected)
+- **Link to Commit:** 3b2018a
+
+### [2025-05-05 18:55:55] - System Pattern: `philosophy-verification-agent.clinerules` (V2.2 Standard Compliant - Corrected)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-verification-agent` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Corrected version ensures explicit standard sections and correct paths.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly. Uses correct `phil-memory-bank/` paths.
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB read access, direct `phil-memory-bank/` access for logs, verification workflow, rigor checks).
+    - **Archetype B:** Includes input/output schemas, KB interaction rules (read-only), verification logic.
+- **Link:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.2 Compliant - Corrected)
+- **Cross-ref:** [Progress: 2025-05-05 18:55:55], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 18:55:55] - Decision: Correct & Align `philosophy-verification-agent.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Correct the previously non-compliant `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` by applying a diff to insert explicit standard sections and fix paths. Verify and commit.
+- **Rationale**: The initial update by `code` mode failed verification. Correction is needed to ensure compliance with Standard V2.2 and Architecture V18.3.5.
+- **Outcome**: File corrected via `code` mode `apply_diff` delegation, verified by SPARC, and committed (3b2018a).
+- **Cross-ref:** [Progress: 2025-05-05 18:55:55], [System Pattern: 2025-05-05 18:55:55]
+### [2025-05-05 18:36:11] Progress Update: `philosophy-citation-manager.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5). SPARC verified changes and committed (9e60f63).
+- **Next Step**: Proceed with next `.clinerules` file (likely `philosophy-verification-agent`).
+- **Link to Active Context:** [See Active Context 2025-05-05 18:35:33]
+- **Link to File:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.2 Compliant)
+- **Link to Commit:** 9e60f63
+
+### [2025-05-05 18:36:11] - System Pattern: `philosophy-citation-manager.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-citation-manager` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers). Uses correct `phil-memory-bank/` paths.
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB read access for references, direct `phil-memory-bank/` access for logs, citation formatting rules).
+    - **Archetype A:** Includes input/output schemas, KB interaction rules (read-only), citation formatting logic.
+- **Link:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 18:36:11], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 18:36:11] - Decision: Align `philosophy-citation-manager.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the citation manager mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5).
+- **Outcome**: File updated to V2.2 compliance and committed (9e60f63).
+- **Cross-ref:** [Progress: 2025-05-05 18:36:11], [System Pattern: 2025-05-05 18:36:11]
+### [2025-05-05 18:06:05] Progress Update: `philosophy-draft-generator.clinerules` Aligned with V2.2 Standard & `phil-memory-bank` Created
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5). Code mode also created the `phil-memory-bank/` directory structure as it was missing. SPARC verified changes and committed (3b9190e).
+- **Next Step**: Handover due to context threshold (~42.2%). New instance to proceed with next `.clinerules` file (`philosophy-citation-manager`).
+- **Link to Active Context:** [See Active Context 2025-05-05 18:06:05]
+- **Link to File:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.2 Compliant)
+- **Link to Commit:** 3b9190e
+
+### [2025-05-05 18:06:05] - System Pattern: `philosophy-draft-generator.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-draft-generator` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V1.1.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers). Uses correct `phil-memory-bank/` paths.
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB read access, direct `phil-memory-bank/` access, rigor field consumption).
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-only), conceptual determinacy guidelines, evidence standards (traceability).
+- **Link:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 18:06:05], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 18:06:05] - Decision: Align `philosophy-draft-generator.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5). Create `phil-memory-bank/` structure if missing.
+- **Rationale**: Ensures the draft generator mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5). Addresses missing `phil-memory-bank/` directory.
+- **Outcome**: File updated to V2.2 compliance, `phil-memory-bank/` created, changes committed (3b9190e). Handover initiated due to context threshold.
+- **Cross-ref:** [Progress: 2025-05-05 18:06:05], [System Pattern: 2025-05-05 18:06:05]
+### [2025-05-05 17:57:18] Progress Update: `philosophy-essay-prep.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5), including correction of operational context path. SPARC verified changes and committed (e7d2485).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-draft-generator`).
+- **Link to Active Context:** [See Active Context 2025-05-05 17:57:18]
+- **Link to File:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.2 Compliant)
+- **Link to Commit:** e7d2485
+
+### [2025-05-05 17:57:18] - System Pattern: `philosophy-essay-prep.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-essay-prep` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers).
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB/MB access, rigor fields like thesis justification/outline rationale, Git integration via `execute_command`, validation hooks, distributed maintenance reporting).
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, evidence standards (KB linkage), version control protocols.
+- **Link:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:57:18], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:57:18] - Decision: Align `philosophy-essay-prep.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the essay prep mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5). Includes correction of operational context path.
+- **Outcome**: File updated to V2.2 compliance and committed (e7d2485).
+- **Cross-ref:** [Progress: 2025-05-05 17:57:18], [System Pattern: 2025-05-05 17:57:18]
+### [2025-05-05 17:47:04] Progress Update: `philosophy-essay-prep.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB/MB access, rigor fields, Git version control). File rewritten via `write_to_file`. Corrected Memory Bank path to `memory-bank/`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:47:04]
+- **Link to File:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.2 Compliant)
+
+### [2025-05-05 17:47:04] - System Pattern: `philosophy-essay-prep.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-essay-prep` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Uses correct `memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (thesis justification, outline rationale), use of validation hooks, and reporting inconsistencies to Orchestrator. Includes `version_control` section for Git integration via `execute_command`.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, evidence standards (KB linkage), and version control protocols.
+- **Link:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:47:04], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:47:04] - Decision: Align `philosophy-essay-prep.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the essay preparation mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers) and architectural patterns (V18.3.5 - direct access, rigor fields, Git). Addresses inconsistencies identified between the previous version (V2.0) and the V2.2 standard. Corrects Memory Bank path to `memory-bank/`.
+- **Outcome**: File rewritten to V2.2 compliance, incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 17:47:04], [System Pattern: 2025-05-05 17:47:04]
+### [2025-05-05 17:41:39] Progress Update: `philosophy-questioning.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5). SPARC verified changes and committed (c0af192).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-essay-prep`).
+- **Link to Active Context:** [See Active Context 2025-05-05 17:41:39]
+- **Link to File:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.2 Compliant)
+- **Link to Commit:** c0af192
+
+### [2025-05-05 17:41:39] - System Pattern: `philosophy-questioning.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-questioning` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers).
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB/MB access, rigor fields like presuppositions/ambiguities, validation hooks, distributed maintenance reporting).
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines (clarity, scope), and evidence standards (contextual grounding).
+- **Link:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:41:39], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:41:39] - Decision: Align `philosophy-questioning.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the questioning mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5).
+- **Outcome**: File updated to V2.2 compliance and committed (c0af192).
+- **Cross-ref:** [Progress: 2025-05-05 17:41:39], [System Pattern: 2025-05-05 17:41:39]
+### [2025-05-05 17:39:57] Progress Update: `philosophy-questioning.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB/MB access, rigor fields). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:39:39]
+- **Link to File:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.2 Compliant)
+
+### [2025-05-05 17:39:57] - System Pattern: `philosophy-questioning.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-questioning` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (presuppositions, ambiguities), use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines (clarity, scope), and evidence standards (contextual grounding).
+- **Link:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:39:57], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:39:57] - Decision: Align `philosophy-questioning.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the question refinement mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers) and architectural patterns (V18.3.5 - direct access, rigor fields, validation). Addresses inconsistencies identified between the previous version (V2.0) and the V2.2 standard.
+- **Outcome**: File rewritten to V2.2 compliance, incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 17:39:57], [System Pattern: 2025-05-05 17:39:57]
+### [2025-05-05 17:34:54] Progress Update: `philosophy-dialectical-analysis.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.5). SPARC verified changes and committed (ce1015d).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-questioning`).
+- **Link to Active Context:** [See Active Context 2025-05-05 17:34:54]
+- **Link to File:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.2 Compliant)
+- **Link to Commit:** ce1015d
+
+### [2025-05-05 17:34:54] - System Pattern: `philosophy-dialectical-analysis.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-dialectical-analysis` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.1.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers).
+    - **Architecture Alignment (V18.3.5):** Aligned with V18.3.5 patterns (direct KB/MB access, rigor fields, validation hooks, distributed maintenance reporting).
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on dialectical progression and rigor.
+- **Link:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:34:54], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:34:54] - Decision: Align `philosophy-dialectical-analysis.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the dialectical analysis mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section, no headers) and architectural patterns (V18.3.5).
+- **Outcome**: File updated to V2.2 compliance and committed (ce1015d).
+- **Cross-ref:** [Progress: 2025-05-05 17:34:54], [System Pattern: 2025-05-05 17:34:54]
+### [2025-05-05 17:32:17] Progress Update: `philosophy-dialectical-analysis.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB/MB access, rigor fields, validation hooks). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:32:17]
+- **Link to File:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.2 Compliant)
+
+### [2025-05-05 17:32:17] - System Pattern: `philosophy-dialectical-analysis.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-dialectical-analysis` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V2.1.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (contradictions, presuppositions, resolution_attempts), use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on dialectical progression and rigor.
+- **Link:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 17:32:17], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+
+### [2025-05-05 17:32:17] - Decision: Align `philosophy-dialectical-analysis.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the dialectical analysis mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers) and architectural patterns (V18.3.5 - direct access, rigor fields, validation). Addresses minor version updates in standard/architecture docs.
+- **Outcome**: File rewritten to V2.2 compliance, incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 17:32:17], [System Pattern: 2025-05-05 17:32:17]
+### [2025-05-05 17:26:18] Progress Update: Architecture V18.3.5 (Inheritance Review) Completed
+- **Status:** Completed &amp; Committed
+- **Details:** Architect mode reviewed `docs/architecture/architecture_v18.md` (V18.3.4) for consistency with the removal of rule inheritance in `.clinerules` Standard V2.2. No inheritance-related changes were needed. Updated version/date headers to V18.3.5. SPARC verified and committed changes (ee28ba6).
+- **Next Step**: Resume `.clinerules` update sequence with V2.2 standard.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:26:18]
+- **Link to Architecture Doc:** `docs/architecture/architecture_v18.md` (V18.3.5)
+- **Link to Commit:** ee28ba6
+
+### [2025-05-05 17:26:18] - System Pattern: Architecture V18.3.5 (Inheritance Review)
+*Maintained primarily by Architect, reflects design in `docs/architecture/architecture_v18.md` (V18.3.5).*
+- **Description:** Architecture V18.3.4 reviewed for consistency with `.clinerules` Standard V2.2 (which removed rule inheritance). No functional changes required. Version updated to V18.3.5.
+- **Link:** `docs/architecture/architecture_v18.md` (V18.3.5)
+- **Cross-ref:** [Progress: 2025-05-05 17:26:18], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)]
+
+### [2025-05-05 17:18:33] Progress Update: `.clinerules` Standard V2.2 (No Inheritance) Completed
+- **Status:** Completed &amp; Committed
+- **Details:** DocsWriter mode updated `docs/standards/clinerules_standard_v2.md` to V2.2, removing the `rule_inheritance_guidelines` section entirely per user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54]. SPARC verified and committed changes (44dee8e).
+- **Next Step**: Review architecture document for consistency.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:18:33]
+- **Link to Standard:** `docs/standards/clinerules_standard_v2.md` (V2.2)
+- **Link to Commit:** 44dee8e
+
+### [2025-05-05 17:18:33] - System Pattern: `.clinerules` Standard V2.2 (No Inheritance)
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md` (V2.2).*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture. Supersedes V2.1. **Key Change:** Removed `rule_inheritance_guidelines` section entirely to enforce absolute explicitness. Retains V2.1 changes (explicit rules, no headers).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.2)
+- **Cross-ref:** [Progress: 2025-05-05 17:18:33], [Decision Log: 2025-05-05 17:11:59], [SPARC Feedback Log: 2025-05-05 17:10:54]
+
+### [2025-05-05 17:18:33] - Product Context: `.clinerules` Standard V2.2
+- **Summary:** The standard defining `.clinerules` structure and guidelines has been updated to V2.2.
+- **Key Changes:** Removed `rule_inheritance_guidelines` section entirely. Retains V2.1 changes (explicit rules, no headers). Aligned with V18.3.4 architecture.
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.2)
+- **Status:** Active standard for all `.clinerules` implementation.
+
+### [2025-05-05 17:11:59] - Decision: Update `.clinerules` Standard to V2.2 (Remove Inheritance)
+- **Decision**: Update `docs/standards/clinerules_standard_v2.md` to V2.2 by completely removing the `rule_inheritance_guidelines` section.
+- **Rationale**: Based on user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54] requiring absolute explicitness and removal of all inheritance concepts from `.clinerules`.
+- **Outcome**: Task delegated to `docs-writer`. Standard updated to V2.2 and committed (44dee8e). Architecture reviewed for consistency (V18.3.5, commit ee28ba6).
+- **Cross-ref:** [Progress: 2025-05-05 17:18:33], [System Pattern: 2025-05-05 17:18:33], [Product Context: 2025-05-05 17:18:33]
+### [2025-05-05 17:23:00] Progress Update: Architecture Document V18.3.5 Updated
+- **Status:** Completed
+- **Details:** Reviewed `docs/architecture/architecture_v18.md` (V18.3.4) for `.clinerules` inheritance references per V2.2 standard update (commit `44dee8e`). No inheritance references were found. Updated the document version to 18.3.5 and the date to 2025-05-05.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:22:45]
+- **Link to Architecture Doc:** `docs/architecture/architecture_v18.md` (V18.3.5)
+
+### [2025-05-05 17:23:00] - Decision: Update Architecture Document to V18.3.5
+- **Decision**: Update `docs/architecture/architecture_v18.md` from V18.3.4 to V18.3.5.
+- **Rationale**: Align documentation with the latest `.clinerules` standard (V2.2, commit `44dee8e`) which removed inheritance concepts. Review confirmed no inheritance references were present in V18.3.4. Update version and date to reflect review completion.
+- **Outcome**: Document version updated to 18.3.5, date updated to 2025-05-05.
+- **Cross-ref:** [Progress: 2025-05-05 17:23:00], [Active Context: 2025-05-05 17:22:45]
+### [2025-05-05 17:15:33] Progress Update: `.clinerules` Standard V2.2 Update Started
+- **Status:** In Progress
+- **Details:** DocsWriter mode started updating `docs/standards/clinerules_standard_v2.md` to V2.2. This version removes the `rule_inheritance_guidelines` section entirely, enforcing absolute explicitness based on user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54].
+- **Next Step**: Complete file modifications and write changes.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:14:11]
+- **Link to Standard:** `docs/standards/clinerules_standard_v2.md` (Target V2.2)
+
+### [2025-05-05 17:15:33] - System Pattern: `.clinerules` Standard V2.2 (Inheritance Removed)
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md` (V2.2).*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture. Supersedes V2.1. **Key Change:** Removes the `rule_inheritance_guidelines` section entirely to enforce absolute explicitness. Retains V2.1 changes (explicit rules, no headers).
+- **Key Aspects:** Explicit rules for MB Strategy, General Ops, Operational Context, Logging, Error Reporting, MCP, Concurrency. Archetypes A & B defined. Aligned with V18.3.4 architecture.
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.2)
+- **Cross-ref:** [Progress: 2025-05-05 17:15:33], [Architecture V18.3.4], [SPARC Feedback Log: 2025-05-05 17:10:54]
+
+### [2025-05-05 17:15:33] - Product Context: `.clinerules` Standard V2.2
+- **Summary:** The standard defining `.clinerules` structure and guidelines for philosophy modes is being updated to V2.2.
+- **Key Changes:** Removes the `rule_inheritance_guidelines` section entirely for absolute explicitness. Retains V2.1 changes (explicit rules, no headers).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.2)
+- **Status:** In Progress
+
+### [2025-05-05 17:15:33] - Decision: Update `.clinerules` Standard to V2.2 (Remove Inheritance Section)
+- **Decision**: Update `docs/standards/clinerules_standard_v2.md` from V2.1 to V2.2 by removing the `rule_inheritance_guidelines` section.
+- **Rationale**: Addresses user feedback [See SPARC Feedback Log: 2025-05-05 17:10:54] requiring absolute explicitness in `.clinerules` files, making implicit inheritance concepts invalid.
+- **Outcome**: Standard document will be updated to V2.2, reflecting the removal.
+- **Cross-ref:** [Progress: 2025-05-05 17:15:33], [System Pattern: 2025-05-05 17:15:33], [Product Context: 2025-05-05 17:15:33]
+### [2025-05-05 15:52:52] Progress Update: `philosophy-dialectical-analysis.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to V2.1, aligning with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers, no inheritance section) and `docs/architecture/architecture_v18.md` (V18.3.4). Ensured V18.3.4 architecture patterns (direct KB/MB access, rigor fields, validation hooks). File rewritten via `write_to_file`, then corrected via `apply_diff` to remove inheritance section per feedback [See Feedback Log: 2025-05-05 17:06:45].
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 17:07:19]
+- **Link to File:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.1)
+
+### [2025-05-05 15:52:52] - System Pattern: `philosophy-dialectical-analysis.clinerules` V2.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-dialectical-analysis` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required V2.1 common sections explicitly (no inheritance comments, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. The `rule_inheritance_guidelines` section was removed per feedback.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (contradictions, presuppositions, resolution_attempts), use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on dialectical progression and rigor.
+- **Link:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.1 - Corrected)
+- **Cross-ref:** [Progress: 2025-05-05 17:07:19], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md], [Feedback Log: 2025-05-05 17:06:45]
+
+### [2025-05-05 15:52:52] - Decision: Align `philosophy-dialectical-analysis.clinerules` with V2.1 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the dialectical analysis mode adheres to the latest system standards (V2.1 - explicitness, no headers, no inheritance section) and architectural patterns (V18.3.4 - direct access, rigor fields, validation). Addresses inconsistencies identified between the previous version (V2.0) and the V2.1 standard, and incorporates user feedback.
+- **Outcome**: File rewritten to V2.1, incorporating all required V2.1 sections explicitly (except `rule_inheritance_guidelines` which was removed) and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 17:07:19], [System Pattern: 2025-05-05 17:07:19], [Feedback Log: 2025-05-05 17:06:45]
+### [2025-05-05 15:11:36] Progress Update: `philosophy-secondary-lit.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` to align with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (0f2ca4d).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-dialectical-analysis`).
+- **Link to Active Context:** [See Active Context 2025-05-05 15:11:36]
+- **Link to File:** `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` (V2.1 Compliant)
+- **Link to Commit:** 0f2ca4d
+
+### [2025-05-05 15:11:36] - System Pattern: `philosophy-secondary-lit.clinerules` (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-secondary-lit` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required common sections explicitly (no inheritance comments, no decorative headers). Includes explicit rules for MB Strategy, General Ops, Operational Context, Logging, Error Reporting, MCP (`brave-search`, `fetcher`), Concurrency, Inheritance Guidelines.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB interaction (`philosophy-knowledge-base/`) using file tools (`read_file`, `search_files`) for reading processed texts/concepts/args/refs and writing new concepts/args/relationships. Includes population of rigor fields, validation hooks, and mandatory relationship creation. Defines MCP tool usage.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on secondary source analysis and comparison.
+- **Link:** `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` (V2.1 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 15:11:36], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+### [2025-05-05 14:46:40] Progress Update: `philosophy-class-analysis.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` to align with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (685305a).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-secondary-lit`).
+- **Link to Active Context:** [See Active Context 2025-05-05 14:46:40]
+- **Link to File:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.1 Compliant)
+- **Link to Commit:** 685305a
+
+### [2025-05-05 14:46:40] - System Pattern: `philosophy-class-analysis.clinerules` (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-class-analysis` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required common sections explicitly (no inheritance comments, no decorative headers). Includes explicit rules for MB Strategy, General Ops, Operational Context, Logging, Error Reporting, MCP (none currently), Concurrency, Inheritance Guidelines.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB interaction (`philosophy-knowledge-base/`) using file tools (`read_file`, `search_files`) for reading processed texts/indices/concepts/args/questions and writing new concepts/args/questions/relationships. Includes population of rigor fields and validation hooks.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on class analysis and integration with pre-lecture work.
+- **Link:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.1 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 14:46:40], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+### [2025-05-05 14:44:52] Progress Update: `philosophy-class-analysis.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` to V2.1, aligning with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). Ensured V18.3.4 architecture patterns (direct KB/MB access, rigor fields, validation hooks). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:44:52]
+- **Link to File:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.1)
+
+### [2025-05-05 14:44:52] - System Pattern: `philosophy-class-analysis.clinerules` V2.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-class-analysis` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required V2.1 common sections explicitly (no inheritance comments, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields, use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards.
+- **Link:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:44:52], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 14:44:52] - Decision: Align `philosophy-class-analysis.clinerules` with V2.1 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the class analysis mode adheres to the latest system standards (V2.1 - explicitness, no headers) and architectural patterns (V18.3.4 - direct access, rigor fields, validation). Addresses inconsistencies identified between the previous version (V2.0) and the V2.1 standard.
+- **Outcome**: File rewritten to V2.1, incorporating all required V2.1 sections explicitly and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 14:44:52], [System Pattern: 2025-05-05 14:44:52]
+### [2025-05-05 14:41:06] Progress Update: `philosophy-pre-lecture.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed &amp; Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to align with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (d1f590b).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-class-analysis`).
+- **Link to Active Context:** [See Active Context 2025-05-05 14:41:06]
+- **Link to File:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.1 Compliant)
+- **Link to Commit:** d1f590b
+
+### [2025-05-05 14:41:06] - System Pattern: `philosophy-pre-lecture.clinerules` (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-pre-lecture` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required common sections explicitly (no inheritance comments, no decorative headers). Includes explicit rules for MB Strategy, General Ops, Operational Context, Logging, Error Reporting, MCP (none currently), Concurrency, Inheritance Guidelines.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB interaction (`philosophy-knowledge-base/`) using file tools (`read_file`, `search_files`) for reading processed texts/indices/concepts/args and writing new concepts/args/questions. Includes population of rigor fields and validation hooks.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on pre-lecture analysis.
+- **Link:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.1 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 14:41:06], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+### [2025-05-05 14:38:46] Progress Update: `philosophy-pre-lecture.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to V2.1, aligning with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). Ensured V18.3.4 architecture patterns (direct KB/MB access, rigor fields, validation hooks). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:38:46]
+- **Link to File:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.1)
+
+### [2025-05-05 14:38:46] - System Pattern: `philosophy-pre-lecture.clinerules` V2.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-pre-lecture` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required V2.1 common sections explicitly (no inheritance comments, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields, use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards.
+- **Link:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:38:46], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 14:38:46] - Decision: Align `philosophy-pre-lecture.clinerules` with V2.1 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the pre-lecture analysis mode adheres to the latest system standards (V2.1 - explicitness, no headers) and architectural patterns (V18.3.4 - direct access, rigor fields, validation). Addresses inconsistencies identified between the previous version (V2.0) and the V2.1 standard.
+- **Outcome**: File rewritten to V2.1, incorporating all required V2.1 sections explicitly and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 14:38:46], [System Pattern: 2025-05-05 14:38:46]
+### [2025-05-05 14:32:08] Progress Update: `philosophy-text-processor.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed & Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to align with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (ba3f2ad).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-pre-lecture`).
+- **Link to Active Context:** [See Active Context 2025-05-05 14:32:08]
+- **Link to File:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.1 Compliant)
+- **Link to Commit:** ba3f2ad
+
+### [2025-05-05 14:32:08] - System Pattern: `philosophy-text-processor.clinerules` (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-text-processor` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required common sections explicitly (no inheritance comments, no numbered headers). Includes explicit rules for script execution, KB interaction (JSON parsing, direct write, root index update), operational context, logging, error handling, etc.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Defines script execution via `execute_command` for `scripts/process_source_text.py`, parsing JSON output. Defines direct KB writes and update of `source_materials/processed/index.md`.
+- **Link:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.1 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 14:32:08], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+### [2025-05-05 14:30:15] Progress Update: `philosophy-text-processor.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to V2.1, aligning with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). Ensured V18.3.4 architecture patterns (direct KB/MB access, script execution, JSON parsing, root index update). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:30:15]
+- **Link to File:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.1)
+
+### [2025-05-05 14:30:15] - System Pattern: `philosophy-text-processor.clinerules` V2.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-text-processor` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Supersedes V2.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required V2.1 common sections explicitly (no inheritance comments, no decorative headers), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction to reflect JSON parsing from script output, direct KB writes, and updating `source_materials/processed/index.md`. Updates `script_execution` details (stdout JSON).
+    - **Archetype A/B Mix:** Includes detailed input/output schemas, KB interaction rules (write-focused), script execution details.
+- **Link:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:30:15], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 14:30:15] - Decision: Align `philosophy-text-processor.clinerules` with V2.1 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the text processor mode adheres to the latest system standards (V2.1 - explicitness, no headers) and architectural patterns (V18.3.4 - direct access, script execution, JSON parsing, root index update). Addresses inconsistencies identified between the previous version (V2.0) and the V2.1 standard.
+- **Outcome**: File rewritten to V2.1, incorporating all required V2.1 sections explicitly and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 14:30:15], [System Pattern: 2025-05-05 14:30:15]
+### [2025-05-05 14:26:12] Progress Update: `philosophy-orchestrator.clinerules` Aligned with V2.1 Standard
+- **Status:** Completed & Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to V3.1, aligning with `docs/standards/clinerules_standard_v2.1.md` (explicit rules, no headers) and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (a286541).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-text-processor`).
+- **Link to Active Context:** [See Active Context 2025-05-05 14:26:12]
+- **Link to File:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.1)
+- **Link to Commit:** a286541
+
+### [2025-05-05 14:26:12] - System Pattern: `philosophy-orchestrator.clinerules` V3.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-orchestrator` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required common sections explicitly (no inheritance comments, no numbered headers). Includes explicit `memory_bank_strategy`, `general` rules, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, `concurrency_coordination_protocols`, `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction to trigger distributed maintenance (`MetaReflector`/`VerificationAgent`). Updates delegation targets and workflows.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-focused), version control coordination, mode interaction patterns, state management, and workflow definitions.
+- **Link:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:26:12], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+### [2025-05-05 14:24:01] Progress Update: `philosophy-orchestrator.clinerules` Aligned with V2.1 Standard
+### [2025-05-05 23:35:59] Progress Update: `philosophy-evidence-manager.clinerules` Aligned with V2.3 Standard
+- **Status:** Completed (Pending Verification)
+- **Details:** Code mode updated `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.3 - explicit rules, no inheritance section/headers, added `mode_specific_workflows`) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB read access, direct `phil-memory-bank/` access, rigor field retrieval). Moved retrieval logic to `mode_specific_workflows`. File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 23:35:43]
+- **Link to File:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.1 - V2.3 Compliant)
+### [2025-05-05 22:13:24] Progress Update: `philosophy-evidence-manager.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB read access, direct `phil-memory-bank/` access, rigor field retrieval). File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 22:12:57]
+- **Link to File:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.0 - V2.2 Compliant)
+### [2025-05-05 19:15:03] Progress Update: `philosophy-kb-doctor.clinerules` Verified & Committed
+- **Status:** Completed &amp; Committed
+- **Details:** SPARC verified the update to `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` performed by Code mode, confirming compliance with Standard V2.2 and Architecture V18.3.5 (reflecting monitoring role). Changes committed (1a57903).
+- **Next Step**: Proceed with next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-05 19:11:44]
+- **Link to Commit:** 1a57903
+### [2025-05-05 19:12:09] Progress Update: `philosophy-kb-doctor.clinerules` Verified & Committed
+- **Status:** Completed &amp; Committed
+- **Details:** SPARC verified the update to `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` performed by Code mode, confirming compliance with Standard V2.2 and Architecture V18.3.5 (reflecting monitoring role). Changes committed (1a57903).
+- **Next Step**: Proceed with next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-05 19:11:44]
+- **Link to Commit:** 1a57903
+### [2025-05-05 19:09:10] Progress Update: `philosophy-kb-doctor.clinerules` Updated (Awaiting Verification)
+- **Status:** Pending Verification
+- **Details:** Code mode updated `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` to align with Standard V2.2 and Architecture V18.3.5 (monitoring role). File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 19:08:50]
+- **Link to File:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.0 - V2.2 Compliant - Pending Verification)
+### [2025-05-05 19:05:14] Progress Update: `philosophy-meta-reflector.clinerules` Verified & Committed
+- **Status:** Completed &amp; Committed
+- **Details:** SPARC verified the update to `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` performed by Code mode, confirming compliance with Standard V2.2 and Architecture V18.3.5. Changes committed (c573a69).
+- **Next Step**: Proceed with next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-05 19:04:57]
+- **Link to Commit:** c573a69
+### [2025-05-05 19:02:14] Progress Update: `philosophy-meta-reflector.clinerules` Updated (Awaiting Verification)
+- **Status:** Pending Verification
+- **Details:** Code mode updated `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` to align with Standard V2.2 and Architecture V18.3.5. File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 19:01:53]
+- **Link to File:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.0 - V2.2 Compliant - Pending Verification)
+### [2025-05-05 18:56:54] Progress Update: `philosophy-verification-agent.clinerules` Corrected, Verified & Committed
+- **Status:** Completed &amp; Committed
+- **Details:** SPARC verified the corrected update to `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` performed by Code mode, confirming compliance with Standard V2.2 and Architecture V18.3.5. Changes committed (3b2018a).
+- **Next Step**: Proceed with next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-05 18:56:33]
+- **Link to Commit:** 3b2018a
+### [2025-05-05 18:50:19] Progress Update: `philosophy-verification-agent.clinerules` Updated (Awaiting Verification)
+- **Status:** Pending Verification
+- **Details:** Code mode updated `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` to align with Standard V2.2 and Architecture V18.3.5. File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 18:50:01]
+- **Link to File:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.2 Compliant - Pending Verification)
+### [2025-05-05 18:38:16] Progress Update: `philosophy-citation-manager.clinerules` Verified & Committed
+- **Status:** Completed & Committed
+- **Details:** SPARC verified the update to `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` performed by Code mode, confirming compliance with Standard V2.2 and Architecture V18.3.5. Changes committed (9e60f63).
+- **Next Step**: Proceed with next `.clinerules` file.
+- **Link to Active Context:** [See Active Context 2025-05-05 18:37:12]
+- **Link to Commit:** 9e60f63
+### [2025-05-05 18:28:30] Progress Update: `philosophy-citation-manager.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB/MB access via `phil-memory-bank/`, rigor fields, evidence standards). File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 18:28:30]
+- **Link to File:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.2 Compliant)
+### [2025-05-05 18:03:48] Progress Update: `philosophy-draft-generator.clinerules` Aligned with V2.2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` to align with `docs/standards/clinerules_standard_v2.md` (V2.2 - explicit rules, no inheritance section/headers) and `docs/architecture/architecture_v18.md` (V18.3.5). Ensured V18.3.5 architecture patterns (direct KB/MB access via `phil-memory-bank/`, rigor fields). Created `phil-memory-bank/` structure. File rewritten via `write_to_file`.
+- **Next Step**: SPARC verification and commit.
+- **Link to Active Context:** [See Active Context 2025-05-05 18:03:48]
+- **Link to File:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.2 Compliant)
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to V3.1, aligning with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Ensured explicitness (no inheritance comments, no decorative headers) and V18.3.4 architecture patterns (direct KB/MB access, distributed maintenance triggers). File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:24:01]
+- **Link to File:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.1)
+
+### [2025-05-05 14:24:01] - System Pattern: `philosophy-orchestrator.clinerules` V3.1 (V2.1 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-orchestrator` mode, aligned with `clinerules_standard_v2.1.md` and V18.3.4 architecture. Supersedes V3.0.
+- **Key Aspects:**
+    - **Standard Compliance (V2.1):** Implements all required V2.1 common sections explicitly (no inheritance comments, no decorative headers), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction to trigger distributed maintenance (`MetaReflector`/`VerificationAgent`). Updates delegation targets and workflows.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-focused), version control coordination, mode interaction patterns, state management, and workflow definitions.
+- **Link:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:24:01], [Standard: docs/standards/clinerules_standard_v2.1.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 14:24:01] - Decision: Align `philosophy-orchestrator.clinerules` with V2.1 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.1.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the core orchestrator mode adheres to the latest system standards (V2.1 - explicitness, no headers) and architectural patterns (V18.3.4 - direct access, distributed maintenance). Addresses inconsistencies identified between the previous version (V3.0) and the V2.1 standard.
+- **Outcome**: File rewritten to V3.1, incorporating all required V2.1 sections explicitly and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 14:24:01], [System Pattern: 2025-05-05 14:24:01]
+### [2025-05-05 14:19:18] Progress Update: `.clinerules` Standard Revised to V2.1
+- **Status:** Completed & Committed
+- **Details:** `docs-writer` mode revised `docs/standards/clinerules_standard_v2.md` to V2.1, addressing critical feedback [See Feedback Log: 2025-05-05 14:12:11]. Changes include removing inheritance comments (making rules explicit) and removing wasteful headers. SPARC verified changes and committed (947a9a3).
+- **Next Step**: Restart the sequential update of `.clinerules` files based on the V2.1 standard, beginning with `philosophy-orchestrator.clinerules`.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:19:18]
+- **Link to Standard:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+- **Link to Commit:** 947a9a3
+
+### [2025-05-05 14:19:18] - System Pattern: `.clinerules` Standard V2.1 (Explicit Rules)
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md` (V2.1).*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture. Supersedes V2.0. **Key Change:** Mandates all rules be explicitly defined within the file, forbidding inheritance comments. Removes numbered/decorative headers for token efficiency.
+- **Key Aspects:** Explicit rules for MB Strategy, General Ops, Operational Context, Logging, Error Reporting, MCP, Concurrency, Inheritance Guidelines. Archetypes A & B defined. Aligned with V18.3.4 architecture (Direct KB/MB Access, Distributed Maintenance, MCP Integration).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:19:18], [Feedback Log: 2025-05-05 14:12:11]
+
+### [2025-05-05 14:19:18] - Product Context: `.clinerules` Standard V2.1
+- **Summary:** The standard defining `.clinerules` structure and guidelines has been updated to V2.1.
+- **Key Changes:** Mandates explicit definition of all rules (no inheritance comments) and removes unnecessary headers for improved machine readability and token efficiency. Aligned with V18.3.4 architecture.
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+- **Status:** Active standard for all `.clinerules` implementation.
+### [2025-05-05 14:17:08] Progress Update: `.clinerules` Standard Revised to V2.1
+- **Status:** Completed
+- **Details:** DocsWriter mode revised `docs/standards/clinerules_standard_v2.md` to V2.1, addressing critical feedback [See Feedback Log: 2025-05-05 14:12:11] by removing inheritance comments and wasteful headers, ensuring explicitness.
+- **Next Step**: SPARC to verify V2.1 standard and plan re-implementation of `.clinerules` files.
+- **Link to Active Context:** [See Active Context 2025-05-05 14:16:49]
+- **Link to Standard:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+### [2025-05-05 13:27:29] Progress Update: `philosophy-essay-prep.clinerules` Aligned with V2 Standard
+- **Status:** Completed & Committed
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). SPARC verified changes and committed (cc14014).
+- **Next Step**: Proceed with next `.clinerules` file (`philosophy-draft-generator`).
+- **Link to Active Context:** [See Active Context 2025-05-05 13:27:29]
+- **Link to File:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.0)
+- **Link to Commit:** cc14014
+### [2025-05-05 13:25:22] Progress Update: `philosophy-essay-prep.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), added version control, and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 13:25:22]
+- **Link to File:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.0)
+
+### [2025-05-05 13:25:22] - System Pattern: `philosophy-essay-prep.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-essay-prep` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (thesis justification, outline rationale), use of validation hooks, and reporting inconsistencies to Orchestrator. Includes `version_control` section for Git integration via `execute_command`.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, evidence standards (KB linkage), and version control protocols.
+- **Link:** `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 13:25:22], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 13:25:22] - Decision: Align `philosophy-essay-prep.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the essay preparation mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, version control, and MCP integration points. Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 13:25:22], [System Pattern: 2025-05-05 13:25:22]
+### [2025-05-05 13:13:18] Progress Update: `philosophy-questioning.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 13:13:18]
+- **Link to File:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.0)
+
+### [2025-05-05 13:13:18] - System Pattern: `philosophy-questioning.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-questioning` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (currently none defined), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (presuppositions, ambiguities), use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines (clarity, scope), and evidence standards (contextual grounding).
+- **Link:** `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 13:13:18], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 13:13:18] - Decision: Align `philosophy-questioning.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-questioning/philosophy-questioning.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the question refinement mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, and MCP integration points. Addresses inconsistencies identified between the previous V14 version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 13:13:18], [System Pattern: 2025-05-05 13:13:18]
+### [2025-05-05 13:08:38] Progress Update: `philosophy-dialectical-analysis.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 13:08:38]
+- **Link to File:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.0)
+
+### [2025-05-05 13:08:38] - System Pattern: `philosophy-dialectical-analysis.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-dialectical-analysis` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (currently none defined), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields (contradictions, presuppositions, resolution_attempts), use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on dialectical progression and rigor.
+- **Link:** `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 13:08:38], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 13:08:38] - Decision: Align `philosophy-dialectical-analysis.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the dialectical analysis mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, and MCP integration points. Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 13:08:38], [System Pattern: 2025-05-05 13:08:38]
+### [2025-05-05 13:02:25] Progress Update: `philosophy-secondary-lit.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), added MCP tools, and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 13:02:25]
+- **Link to File:** `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` (V2.0)
+
+### [2025-05-05 13:02:25] - System Pattern: `philosophy-secondary-lit.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-secondary-lit` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (Brave Search, Fetcher), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields, use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards focused on secondary source analysis.
+- **Link:** `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 13:02:25], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 13:02:25] - Decision: Align `philosophy-secondary-lit.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the secondary literature analysis mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, and MCP integration points (Brave Search, Fetcher). Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 13:02:25], [System Pattern: 2025-05-05 13:02:25]
+### [2025-05-05 12:57:17] Progress Update: `philosophy-class-analysis.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 12:57:17]
+- **Link to File:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.0)
+
+### [2025-05-05 12:57:17] - System Pattern: `philosophy-class-analysis.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-class-analysis` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields, use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards.
+- **Link:** `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 12:57:17], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 12:57:17] - Decision: Align `philosophy-class-analysis.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+### [2025-05-05 23:36:13] - System Pattern: `philosophy-evidence-manager.clinerules` (V2.3 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-evidence-manager` mode, aligned with `clinerules_standard_v2.3.md` and V18.3.5 architecture. Focuses on retrieving evidence and rigor context from the KB.
+- **Key Aspects:**
+    - **Standard Compliance (V2.3):** Implements all required V2.3 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Includes optional `mode_specific_workflows` section for detailed retrieval logic. Uses correct `phil-memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB read access (`read_file`, `search_files` on `philosophy-knowledge-base/`). Specifies retrieval of rigor fields (`source_ref_keys`, `extraction_markers`). Aligned logging/error handling.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-focused), evidence standards (retrieval focus), and detailed retrieval logic in `mode_specific_workflows`.
+- **Link:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.1 - V2.3 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 23:35:59], [Standard: docs/standards/clinerules_standard_v2.md (V2.3)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 22:13:24] - System Pattern: `philosophy-evidence-manager.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-evidence-manager` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Focuses on retrieving evidence and rigor context from the KB.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Uses correct `phil-memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB read access (`read_file`, `search_files` on `philosophy-knowledge-base/`). Specifies retrieval of rigor fields (`source_ref_keys`, `extraction_markers`). Aligned logging/error handling.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-focused), evidence standards (retrieval focus).
+- **Link:** `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` (V2.0 - V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 22:13:24], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 19:15:03] - System Pattern: `philosophy-kb-doctor.clinerules` (V2.2 Standard Compliant - Verified)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-kb-doctor` mode (as a monitor), aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Verified by SPARC.
+- **Link:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:15:03], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 19:12:09] - System Pattern: `philosophy-kb-doctor.clinerules` (V2.2 Standard Compliant - Verified)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-kb-doctor` mode (as a monitor), aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Verified by SPARC.
+- **Link:** `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:12:09], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 19:05:14] - System Pattern: `philosophy-meta-reflector.clinerules` (V2.2 Standard Compliant - Verified)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-meta-reflector` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Verified by SPARC.
+- **Link:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:05:14], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 19:02:14] - System Pattern: `philosophy-meta-reflector.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-meta-reflector` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Uses correct `phil-memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Defines direct KB read access (`read_file`, `search_files` across KB, docs, rules, logs) and direct write access to `philosophy-knowledge-base/meta-reflections/`. Includes detailed `meta_analysis_guidelines` covering rigor evaluation, log analysis, KB pattern analysis, quality assessment, and proposal formulation.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (broad read, limited write), meta-analysis guidelines.
+- **Link:** `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` (V2.0 - V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 19:02:14], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 18:56:54] - System Pattern: `philosophy-verification-agent.clinerules` (V2.2 Standard Compliant - Corrected & Verified)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-verification-agent` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Corrected and verified by SPARC.
+- **Link:** `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` (V2.2 Compliant - Corrected)
+- **Cross-ref:** [Progress: 2025-05-05 18:56:54], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 18:38:16] - System Pattern: `philosophy-citation-manager.clinerules` (V2.2 Standard Compliant - Verified)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-citation-manager` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Verified by SPARC.
+- **Link:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 18:38:16], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 18:28:30] - System Pattern: `philosophy-citation-manager.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-citation-manager` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V1.1.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Uses correct `phil-memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct read access (`read_file` on `philosophy-knowledge-base/references/`). Aligned logging/error handling. Incorporates V18.3.5 evidence standards (`source_ref_keys`, `extraction_markers`).
+    - **Archetype A:** Includes input/output schemas, KB interaction rules (read-only), and citation formatting rules.
+- **Link:** `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 18:28:30], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+### [2025-05-05 18:03:48] - System Pattern: `philosophy-draft-generator.clinerules` (V2.2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-draft-generator` mode, aligned with `clinerules_standard_v2.2.md` and V18.3.5 architecture. Supersedes V1.1.
+- **Key Aspects:**
+    - **Standard Compliance (V2.2):** Implements all required V2.2 common sections explicitly (no inheritance section, no decorative headers), including `memory_bank_strategy`, `general`, `operational_context_protocols`, `operational_logging`, `error_reporting_protocols`, `mcp_interaction_protocols`, and `concurrency_coordination_protocols`. Uses correct `phil-memory-bank/` path.
+    - **Architecture Alignment (V18.3.5):** Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct read access (`read_file`, `search_files`). Aligned logging/error handling.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-only), conceptual determinacy guidelines, and evidence standards.
+- **Link:** `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` (V2.2 Compliant)
+- **Cross-ref:** [Progress: 2025-05-05 18:03:48], [Standard: docs/standards/clinerules_standard_v2.md (V2.2)], [Architecture: docs/architecture/architecture_v18.md (V18.3.5)]
+- **Rationale**: Ensures the class analysis mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, and MCP integration points. Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 12:57:17], [System Pattern: 2025-05-05 12:57:17]
+### [2025-05-05 12:52:24] Progress Update: `philosophy-pre-lecture.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (direct access, rigor fields, validation hooks), and aligned logging/error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 12:52:24]
+- **Link to File:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.0)
+
+### [2025-05-05 12:52:24] - System Pattern: `philosophy-pre-lecture.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-pre-lecture` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction for direct access (`read_file`, `search_files`), population of rigor fields, use of validation hooks, and reporting inconsistencies to Orchestrator.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read/write), conceptual determinacy guidelines, and evidence standards.
+- **Link:** `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 12:52:24], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 12:52:24] - Decision: Align `philosophy-pre-lecture.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the pre-lecture analysis mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), direct KB interaction (read/write, rigor fields, validation), concurrency, and MCP integration points. Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 12:52:24], [System Pattern: 2025-05-05 12:52:24]
+### [2025-05-05 12:46:17] Progress Update: `philosophy-text-processor.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (JSON parsing, direct KB write, root index update), script execution details, and error handling. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 12:46:17]
+- **Link to File:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.0)
+
+### [2025-05-05 12:46:17] - System Pattern: `philosophy-text-processor.clinerules` V2.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-text-processor` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`. Adherence to central standards documented via comments.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction to reflect JSON parsing from script output, direct KB writes, and updating `source_materials/processed/index.md`. Updates `script_execution` details (stdout JSON).
+    - **Archetype A/B Mix:** Includes detailed input/output schemas, KB interaction rules (write-focused), script execution details.
+- **Link:** `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (V2.0)
+- **Cross-ref:** [Progress: 2025-05-05 12:46:17], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 12:46:17] - Decision: Align `philosophy-text-processor.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the text processor mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management (`phil-memory-bank/`), KB interaction (JSON parsing, direct write, root index update), script execution, concurrency, and MCP integration points. Addresses inconsistencies identified between the previous version and the V2 standard, and incorporates learnings from past feedback on this file.
+- **Outcome**: File rewritten to V2.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 12:46:17], [System Pattern: 2025-05-05 12:46:17]
+### [2025-05-05 12:39:21] Progress Update: `philosophy-orchestrator.clinerules` Aligned with V2 Standard
+- **Status:** Completed
+- **Details:** Code mode updated `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to align with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4). Incorporated V2 sections (operational context, MCP, concurrency, inheritance), updated KB interaction (distributed maintenance), and aligned workflows. File rewritten via `write_to_file`.
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 12:39:21]
+- **Link to File:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.0)
+
+### [2025-05-05 12:39:21] - System Pattern: `philosophy-orchestrator.clinerules` V3.0 (V2 Standard Compliant)
+*Maintained primarily by Code/Architect, reflects implementation in `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`.*
+- **Description:** Defines the operational rules for the `philosophy-orchestrator` mode, aligned with `clinerules_standard_v2.md` and V18.3.4 architecture.
+- **Key Aspects:**
+    - **Standard Compliance:** Implements all required V2 common sections (3.1-3.10), including `operational_context_protocols`, `mcp_interaction_protocols` (minimal usage), `concurrency_coordination_protocols`, and `rule_inheritance_guidelines`.
+    - **Architecture Alignment (V18.3.4):** References central config for standard rules. Defines direct operational context access (`phil-memory-bank/`). Updates KB interaction to trigger distributed maintenance (`MetaReflector`/`VerificationAgent`) instead of removed `KB Doctor`. Updates delegation targets and workflows.
+    - **Archetype B:** Includes detailed input/output schemas, KB interaction rules (read-focused), version control coordination, mode interaction patterns, state management, and workflow definitions.
+- **Link:** `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (V3.0)
+- **Cross-ref:** [Progress: 2025-05-05 12:39:21], [Standard: docs/standards/clinerules_standard_v2.md], [Architecture: docs/architecture/architecture_v18.md]
+
+### [2025-05-05 12:39:21] - Decision: Align `philosophy-orchestrator.clinerules` with V2 Standard & V18.3.4 Arch
+- **Decision**: Update `.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` and `docs/architecture/architecture_v18.md` (V18.3.4).
+- **Rationale**: Ensures the core orchestrator mode adheres to the latest system standards and architectural patterns, particularly regarding operational context management, distributed KB maintenance triggers, concurrency, and MCP integration points (even if minimal for orchestrator itself). Addresses inconsistencies identified between the previous version and the V2 standard.
+- **Outcome**: File rewritten to V3.0, incorporating all required V2 sections and aligning logic with V18.3.4 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 12:39:21], [System Pattern: 2025-05-05 12:39:21]
+### [2025-05-05 12:31:50] Progress Update: `.clinerules` Standard V2 Created
+- **Status:** Completed
+- **Details:** DocsWriter mode created the V2 `.clinerules` standard document (`docs/standards/clinerules_standard_v2.md`), incorporating enhancements from `docs/proposals/clinerules_standard_enhancements_v1.md` and aligning with V18.3.4 architecture.
+### [2025-05-05 14:17:08] - System Pattern: `.clinerules` Standard V2.1
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md`.*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture. Supersedes V2.0.
+- **Key Changes from V2.0:** Mandates explicit inclusion of all rules (no inheritance comments), removes numbered/decorative headers. Retains V2.0 enhancements (error handling, operational context, MCP, concurrency, KB interaction, logging).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+- **Cross-ref:** [Progress: 2025-05-05 14:17:08], [Architecture V18.3.4], [Feedback Log: 2025-05-05 14:12:11]
+- **Next Step**: Task completion.
+- **Link to Active Context:** [See Active Context 2025-05-05 12:31:50]
+- **Link to Standard:** `docs/standards/clinerules_standard_v2.md`
 ### [2025-05-05 06:56:30] - Decision: Propose Enhancements to `.clinerules` Standard V1
+### [2025-05-05 14:17:08] - Product Context: `.clinerules` Standard V2.1
+- **Summary:** The standard defining `.clinerules` structure and guidelines for philosophy modes has been updated to V2.1.
+- **Key Changes:** Mandates explicit inclusion of all rules (no inheritance comments), removes numbered/decorative headers. Retains V2.0 enhancements (MCP, concurrency, error handling, operational context, KB interaction).
+- **Link:** `docs/standards/clinerules_standard_v2.md` (V2.1)
+- **Status:** Completed
 - **Decision**: Based on evaluation against V18.3.4 architecture and V7 evaluation report (Rec 3.10, 3.15), propose specific enhancements to `docs/standards/clinerules_standard_v1.md`.
 - **Rationale**: Align standard with current architecture (V18.3.4 - distributed maintenance, MCP integration), address identified gaps (KB interaction patterns, multi-mode coordination, inheritance, MCP guidance, operational context access, error handling, batching, concurrency), and improve clarity/robustness.
+### [2025-05-05 12:31:50] - System Pattern: `.clinerules` Standard V2
+*Maintained primarily by Architect/DocsWriter, reflects standard defined in `docs/standards/clinerules_standard_v2.md`.*
+- **Description:** Defines standard structures and guidelines for philosophy mode `.clinerules` files, aligned with V18.3.4 architecture (Direct KB/MB Access, Distributed Maintenance, MCP Integration, Concurrency Protocols, Inheritance Guidelines). Supersedes V1.
+- **Key Aspects:** Enhanced error handling (`apply_diff`), operational context protocols, MCP interaction rules, concurrency mitigation (advisory locking), inheritance guidelines, updated KB interaction (distributed maintenance, validation hooks, rigor fields), logging batch recommendation.
+- **Link:** `docs/standards/clinerules_standard_v2.md`
+- **Cross-ref:** [Progress: 2025-05-05 12:31:50], [Architecture V18.3.4]
 - **Outcome**: Proposal document `docs/proposals/clinerules_standard_enhancements_v1.md` created, detailing necessary updates for V2.
 - **Cross-ref:** `docs/proposals/clinerules_standard_enhancements_v1.md`, `docs/architecture/architecture_v18.md` (V18.3.4), `docs/reports/architecture_v18_evaluation_v1.md` (V7)
 
 ### [2025-05-05 08:43:31] Progress Update: Architecture Doc V18.3.4 Gaps Addressed
+### [2025-05-05 12:31:50] - Product Context: `.clinerules` Standard V2
+- **Summary:** The standard defining `.clinerules` structure and guidelines for philosophy modes has been updated to V2.
+- **Key Changes:** Aligned with V18.3.4 architecture, incorporates MCP interaction, concurrency protocols, enhanced error handling, operational context management, and inheritance guidelines.
+- **Link:** `docs/standards/clinerules_standard_v2.md`
 - **Status:** Completed
 - **Details:** DocsWriter mode updated `docs/architecture/architecture_v18.md` to address documentation gaps identified in evaluation report v7 (Rec 3.5, 3.8, 3.14). Added/updated sections for Memory Bank pattern (Sec 10), RooCode Checkpoints (Sec 8.1), and Versioning Strategy (Sec 8).
 - **Next Step**: Task completion.
@@ -299,6 +1826,61 @@
     5.  **Evaluation Framework:** Enhanced meta-reflector responsibilities (4.4) and workflow (7.3) to include evaluation of philosophical quality and progress.
 - **Rationale**: Incorporates user critique [See Feedback: 2025-05-02 21:09] to address identified gaps in V18.2 regarding practical implementation challenges and operational clarity.
 - **Outcome**: V18.3 architecture defined and documented.
+### [2025-05-05 23:36:51] - Decision: Align `philosophy-evidence-manager.clinerules` with V2.3 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.3) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the evidence manager mode adheres to the latest system standards (V2.3 - explicitness, no inheritance section/headers, optional `mode_specific_workflows`) and architectural patterns (V18.3.5 - direct access via `phil-memory-bank/`, evidence standards). Moves detailed retrieval logic into `mode_specific_workflows` for better preservation and clarity. Addresses inconsistencies identified between the previous V2.2 compliant version and the V2.3 standard.
+- **Outcome**: File rewritten to V2.1 (reflecting update to V2.3 standard), incorporating all required V2.3 sections explicitly, moving retrieval logic to `mode_specific_workflows`, and aligning logic with V18.3.5 architecture. Awaiting verification.
+- **Cross-ref:** [Progress: 2025-05-05 23:35:59], [System Pattern: 2025-05-05 23:36:13]
+### [2025-05-05 23:36:34] - Decision: Align `philosophy-evidence-manager.clinerules` with V2.3 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.3) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the evidence manager mode adheres to the latest system standards (V2.3 - explicitness, no inheritance section/headers, optional `mode_specific_workflows`) and architectural patterns (V18.3.5 - direct access via `phil-memory-bank/`, evidence standards). Moves detailed retrieval logic into `mode_specific_workflows` for better preservation and clarity. Addresses inconsistencies identified between the previous V2.2 compliant version and the V2.3 standard.
+- **Outcome**: File rewritten to V2.1 (reflecting update to V2.3 standard), incorporating all required V2.3 sections explicitly, moving retrieval logic to `mode_specific_workflows`, and aligning logic with V18.3.5 architecture. Awaiting verification.
+- **Cross-ref:** [Progress: 2025-05-05 23:35:59], [System Pattern: 2025-05-05 23:36:13]
+### [2025-05-05 22:13:24] - Decision: Align `philosophy-evidence-manager.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the evidence manager mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers, correct `phil-memory-bank/` paths) and architectural patterns (V18.3.5 - direct KB read access, rigor field retrieval). Addresses inconsistencies identified between the previous version and the V2.2 standard/V18.3.5 architecture.
+- **Outcome**: File rewritten to V2.0 (reflecting update to V2.2 standard), incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture. Awaiting verification.
+- **Cross-ref:** [Progress: 2025-05-05 22:13:24], [System Pattern: 2025-05-05 22:13:24]
+### [2025-05-05 19:15:03] - Decision: Verify & Commit `philosophy-kb-doctor.clinerules` Update
+- **Decision**: Verify the update performed by Code mode on `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` against V2.2/V18.3.5 standards. Commit if compliant.
+- **Rationale**: Ensure the updated rules file meets all requirements before proceeding.
+- **Outcome**: Verification successful. Changes committed (1a57903).
+- **Cross-ref:** [Progress: 2025-05-05 19:15:03], [System Pattern: 2025-05-05 19:15:03]
+### [2025-05-05 19:12:09] - Decision: Verify & Commit `philosophy-kb-doctor.clinerules` Update
+- **Decision**: Verify the update performed by Code mode on `.roo/rules-philosophy-kb-doctor/philosophy-kb-doctor.clinerules` against V2.2/V18.3.5 standards. Commit if compliant.
+- **Rationale**: Ensure the updated rules file meets all requirements before proceeding.
+- **Outcome**: Verification successful. Changes committed (1a57903).
+- **Cross-ref:** [Progress: 2025-05-05 19:12:09], [System Pattern: 2025-05-05 19:12:09]
+### [2025-05-05 19:05:14] - Decision: Verify & Commit `philosophy-meta-reflector.clinerules` Update
+- **Decision**: Verify the update performed by Code mode on `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` against V2.2/V18.3.5 standards. Commit if compliant.
+- **Rationale**: Ensure the updated rules file meets all requirements before proceeding.
+- **Outcome**: Verification successful. Changes committed (c573a69).
+- **Cross-ref:** [Progress: 2025-05-05 19:05:14], [System Pattern: 2025-05-05 19:05:14]
+### [2025-05-05 19:02:14] - Decision: Align `philosophy-meta-reflector.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-meta-reflector/philosophy-meta-reflector.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the meta-reflector mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers, correct `phil-memory-bank/` paths) and architectural patterns (V18.3.5 - direct access, meta-analysis logic). Addresses inconsistencies identified between the previous version (V1.0) and the V2.2 standard/V18.3.5 architecture.
+- **Outcome**: File rewritten to V2.0 (reflecting update to V2.2 standard), incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture. Awaiting verification.
+- **Cross-ref:** [Progress: 2025-05-05 19:02:14], [System Pattern: 2025-05-05 19:02:14]
+### [2025-05-05 18:56:54] - Decision: Verify & Commit Corrected `philosophy-verification-agent.clinerules` Update
+- **Decision**: Verify the corrected update performed by Code mode on `.roo/rules-philosophy-verification-agent/philosophy-verification-agent.clinerules` against V2.2/V18.3.5 standards. Commit if compliant.
+- **Rationale**: Ensure the corrected rules file meets all requirements before proceeding.
+- **Outcome**: Verification successful. Changes committed (3b2018a).
+- **Cross-ref:** [Progress: 2025-05-05 18:56:54], [System Pattern: 2025-05-05 18:56:54]
+### [2025-05-05 18:38:16] - Decision: Verify & Commit `philosophy-citation-manager.clinerules` Update
+- **Decision**: Verify the update performed by Code mode on `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` against V2.2/V18.3.5 standards. Commit if compliant.
+- **Rationale**: Ensure the updated rules file meets all requirements before proceeding.
+- **Outcome**: Verification successful. Changes committed (9e60f63).
+- **Cross-ref:** [Progress: 2025-05-05 18:38:16], [System Pattern: 2025-05-05 18:38:16]
+### [2025-05-05 18:28:30] - Decision: Align `philosophy-citation-manager.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5).
+- **Rationale**: Ensures the citation manager mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers) and architectural patterns (V18.3.5 - direct access via `phil-memory-bank/`, evidence standards). Addresses inconsistencies identified between the previous version and the V2.2 standard.
+- **Outcome**: File rewritten to V2.2 compliance, incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture (direct KB read, `phil-memory-bank/` paths, evidence standards).
+- **Cross-ref:** [Progress: 2025-05-05 18:28:30], [System Pattern: 2025-05-05 18:28:30]
+### [2025-05-05 18:03:48] - Decision: Align `philosophy-draft-generator.clinerules` with V2.2 Standard & V18.3.5 Arch
+- **Decision**: Update `.roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules` to fully comply with `docs/standards/clinerules_standard_v2.md` (V2.2) and `docs/architecture/architecture_v18.md` (V18.3.5). Create `phil-memory-bank/` structure.
+- **Rationale**: Ensures the draft generator mode adheres to the latest system standards (V2.2 - explicitness, no inheritance section/headers) and architectural patterns (V18.3.5 - direct access via `phil-memory-bank/`). Addresses inconsistencies identified between the previous version and the V2.2 standard, including the missing operational context directory.
+- **Outcome**: `phil-memory-bank/` created. File rewritten to V2.2 compliance, incorporating all required V2.2 sections explicitly and aligning logic with V18.3.5 architecture.
+- **Cross-ref:** [Progress: 2025-05-05 18:03:48], [System Pattern: 2025-05-05 18:03:48]
 - **Cross-ref:** [Active Context: 2025-05-02 21:16:32]
 
 ### [2025-05-02 15:54:35] - Decision: Adopt V18.1 Architecture (Rigor Enhanced)
