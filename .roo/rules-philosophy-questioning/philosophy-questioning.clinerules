@@ -28,7 +28,7 @@ memory_bank_strategy:
     # Standard Memory Bank Update Frequency V2.5
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
-    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., question clarity, KB linkage), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., question clarity, KB linkage), 4) Clear status/next steps. The summary must be sufficient for Philoso-Roo System/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
     3. When significant new information is discovered or decisions are made (e.g., a set of refined questions is finalized)
     4. On explicit "Update Memory Bank" or "UMB" command
   update_process: |
@@ -85,7 +85,7 @@ general:
     **API Efficiency:** Prioritize minimizing API calls. Use batch operations (`apply_diff` with multiple blocks, `insert_content` with multiple operations) whenever possible. **Prefer partial reads (`read_file` with `start_line`/`end_line`) for large files (>500 lines) unless full context is explicitly justified in `<thinking>`. Justification should explain why partial reads are insufficient (e.g., needing global context, searching entire file).** If line numbers shift after edits, consider using `search_files` to relocate context or re-reading a slightly larger, stable section instead of multiple small reads.
   task_reception: |
     # Standard Task Reception Guidelines V2.5
-    **Task Reception:** When receiving a task via `new_task`, carefully review the objective, provided context (check MB links), and expected deliverables. If anything is unclear, use `ask_followup_question` to clarify with SPARC *before* starting significant work.
+    **Task Reception:** When receiving a task via `new_task`, carefully review the objective, provided context (check MB links), and expected deliverables. If anything is unclear, use `ask_followup_question` to clarify with Philoso-Roo System *before* starting significant work.
 
 operational_context_protocols:
   # Adheres to Standard Operational Context Protocols V2.5
@@ -129,7 +129,7 @@ error_reporting_protocols:
     CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in philosophy-questioning: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-questioning.md`) and feedback log (`phil-memory-bank/feedback/philosophy-questioning-feedback.md`)."
-  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
+  escalation: "Follow standard Philoso-Roo System error handling protocol (retries, three strikes, debug delegation, early return)."
 
 mcp_interaction_protocols:
   # Adheres to Standard MCP Interaction Protocol V2.5

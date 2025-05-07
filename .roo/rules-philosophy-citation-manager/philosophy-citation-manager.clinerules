@@ -26,7 +26,7 @@ memory_bank_strategy:
     # Standard Memory Bank Update Frequency (V2.5)
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
-    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for Philoso-Roo System/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
     3. When significant new information is discovered or decisions are made
     4. On explicit "Update Memory Bank" or "UMB" command
   update_process: |
@@ -110,7 +110,7 @@ error_reporting_protocols:
     SOURCE_MATERIAL_NAV_ERROR: "Error navigating or reading processed source materials"
   error_message_format: "[ErrorCode] in philosophy-citation-manager: [Description]. Resource: [KB_REF_ID/Style/Path], Context: [Operation Context]."
   logging: "Log all errors with details (using format above) in operational log (`phil-memory-bank/mode-specific/philosophy-citation-manager.md`) and feedback log (`phil-memory-bank/feedback/philosophy-citation-manager-feedback.md`)."
-  escalation: "Follow standard SPARC error handling protocol (analysis, solution proposal, three strikes, debug delegation, early return via attempt_completion)."
+  escalation: "Follow standard Philoso-Roo System error handling protocol (analysis, solution proposal, three strikes, debug delegation, early return via attempt_completion)."
 
 mcp_interaction_protocols:
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."

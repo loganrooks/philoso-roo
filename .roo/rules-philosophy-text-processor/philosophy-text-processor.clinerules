@@ -31,7 +31,7 @@ memory_bank_strategy: # Standard V2.5
   update_frequency: |
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
-    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., script output parsed, KB entries created, root index updated), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (e.g., script output parsed, KB entries created, root index updated), 4) Clear status/next steps. The summary must be sufficient for Philoso-Roo System/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
     3. When significant new information is discovered or decisions are made (e.g., script failure, successful processing of a major source)
     4. On explicit "Update Memory Bank" or "UMB" command
   update_process: |
@@ -111,7 +111,7 @@ error_reporting_protocols: # Standard V2.5
     CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in philosophy-text-processor: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-text-processor.md`) and feedback log (`phil-memory-bank/feedback/philosophy-text-processor-feedback.md`)."
-  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return). Report failure status to orchestrator for INPUT_VALIDATION_FAIL, SCRIPT_EXEC_FAIL, SCRIPT_OUTPUT_PARSE_FAIL, KB_WRITE_FAIL, ROOT_INDEX_UPDATE_FAIL, FILE_SYSTEM_ERROR, CONCURRENCY_CONFLICT."
+  escalation: "Follow standard Philoso-Roo System error handling protocol (retries, three strikes, debug delegation, early return). Report failure status to orchestrator for INPUT_VALIDATION_FAIL, SCRIPT_EXEC_FAIL, SCRIPT_OUTPUT_PARSE_FAIL, KB_WRITE_FAIL, ROOT_INDEX_UPDATE_FAIL, FILE_SYSTEM_ERROR, CONCURRENCY_CONFLICT."
 
 mcp_interaction_protocols: # Standard V2.5
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."

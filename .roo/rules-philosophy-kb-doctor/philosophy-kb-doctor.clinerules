@@ -32,7 +32,7 @@ memory_bank_strategy:
     # Standard Memory Bank Update Frequency (V2.5)
     UPDATE MEMORY BANK AT THESE POINTS:
     1. At the beginning of each task (read)
-    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+    2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for Philoso-Roo System/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
     3. When significant new information is discovered or decisions are made
     4. On explicit "Update Memory Bank" or "UMB" command
   update_process: |
@@ -123,7 +123,7 @@ error_reporting_protocols:
     CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in philosophy-kb-doctor: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-kb-doctor.md`) and feedback log (`phil-memory-bank/feedback/philosophy-kb-doctor-feedback.md`)."
-  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
+  escalation: "Follow standard Philoso-Roo System error handling protocol (retries, three strikes, debug delegation, early return)."
 
 mcp_interaction_protocols:
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
