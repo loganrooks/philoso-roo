@@ -3,7 +3,7 @@
 **Version:** 2.5
 **Date:** 2025-05-06
 
-**Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the `philoso-roo` system (formerly SPARC).
+**Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the `philoso-roo` system.
 
 **Background:** This V2.5 standard supersedes V2.4. It restores specific details and adds examples to sections like `conceptual_determinacy_guidelines` and `evidence_standards` based on user feedback [See Feedback Log: 2025-05-06 01:45:00], ensuring critical rigor guidelines are explicit while maintaining the flexible formatting for `mode_specific_workflows` examples introduced in V2.4. It retains the V2.3 introduction of the `mode_specific_workflows` section and the V2.2 removal of the `rule_inheritance_guidelines` section. It addresses feedback regarding implicit inheritance comments and wasteful headers identified in V2.0. It incorporates enhancements proposed in `docs/proposals/clinerules_standard_enhancements_v1.md` and aligns with the V18.3.4 system architecture (`docs/architecture/architecture_v18.md`), which features direct KB/Memory Bank access, distributed KB maintenance, MCP integration, and RooCode Checkpoints. **Note:** During updates, modes MUST check for the presence of the optional `mode_specific_workflows` section and preserve its content if it exists.
 
@@ -66,7 +66,7 @@ These sections MUST be present and adhere to the standards defined below.
       # Standard Memory Bank Update Frequency
       UPDATE MEMORY BANK AT THESE POINTS:
       1. At the beginning of each task (read)
-      2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for SPARC/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
+      2. **Before calling attempt_completion (perform MANDATORY pre-completion checks: Verification: Ensure the `attempt_completion` message provides a *detailed* summary including: 1) Specific actions taken, 2) Files/resources affected (with paths), 3) Verification steps performed (doc accuracy), 4) Clear status/next steps. The summary must be sufficient for system/user validation without needing to re-read extensive logs. Then write MB updates using batch operations)**
       3. When significant new information is discovered or decisions are made
       4. On explicit "Update Memory Bank" or "UMB" command
     update_process: |
@@ -185,7 +185,7 @@ These sections MUST be present and adhere to the standards defined below.
         *   `CONCURRENCY_CONFLICT`: "Concurrency Conflict Detected (e.g., lock file)"
     error_message_format: (string) Format for error messages returned to orchestrator. **MUST** include Error Code, Mode Slug, File/Resource Path (if applicable), KB ID (if applicable), Line Number (if applicable), and a concise description.
     logging: (string) **MUST** log all errors in the mode's operational log (`operational_logging.target_file`) and feedback log (`phil-memory-bank/feedback/[mode_slug]-feedback.md`) following standard formats.
-    escalation: (string) Adhere to the standard SPARC `error_handling_protocol` regarding retries, strategy changes (Three Strikes Rule), delegation to `debug`, and invoking Early Return.
+    escalation: (string) Adhere to the standard system `error_handling_protocol` regarding retries, strategy changes (Three Strikes Rule), delegation to `debug`, and invoking Early Return.
   example:
     ```yaml
     error_reporting_protocols:
@@ -204,7 +204,7 @@ These sections MUST be present and adhere to the standards defined below.
         CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
       error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
       logging: "Log all errors with details in operational log and feedback log."
-      escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
+      escalation: "Follow standard system error handling protocol (retries, three strikes, debug delegation, early return)."
       # Example Error Message:
       # "[KB_SCHEMA_VIOLATION] in philosophy-class-analysis: Attempted to write Concept entry without required 'definition' field. Resource: philosophy-knowledge-base/concepts/new_concept_xyz.md, Line: N/A."
     ```
