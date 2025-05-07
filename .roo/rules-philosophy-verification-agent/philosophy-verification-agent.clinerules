@@ -155,7 +155,7 @@ input_schema:
       type: array
       items:
         type: string # e.g., "Hegel_ScienceOfLogic_pp59-82.md#section-1-paragraph-5"
-      description: "An array of extraction markers pointing to specific locations in processed source files within `source_materials/processed/` that the `content_to_verify` is purportedly based on."
+      description: "An array of extraction markers pointing to specific locations in processed source files within the V1 `source_materials/processed/` structure (e.g., `hegel_sol_v1/courses/PHL316/readings/hegel_sol_intro_processed/chunks/chunk_001.md#para_5`) that the `content_to_verify` is purportedly based on."
     verification_criteria:
       type: array
       items:
@@ -225,7 +225,8 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/quotations/"
     - "philosophy-knowledge-base/methods/"
     - "philosophy-knowledge-base/meta-reflections/"
-    - "source_materials/processed/" # For reading processed source chunks via extraction_markers and navigating via index.md files
+    - "source_materials/processed/" # For reading processed source chunks via extraction_markers and navigating via V1 index.md files and master_index.json
+    - "source_materials/processed/master_index.json" # For initial discovery of processed materials
   write_access: [] # STRICTLY READ-ONLY. This mode does not modify the KB.
   schema_enforcement: "N/A for read-only operations. However, this mode relies on other modes adhering to KB entry schemas defined in Arch V18.3.6 Appendix A for its verification tasks."
   relationship_mandate: "N/A for read-only operations. Verifies existing relationships."
@@ -246,7 +247,7 @@ evidence_standards:
   source_preference: "Verification prioritizes evidence from: 1. Verified KB Primary Source extractions (via `source_materials/processed/` and linked `extraction_markers`). 2. Verified KB Secondary Source analyses. 3. Unverified KB entries (flags if content relies heavily on these without acknowledging status). 4. External academic sources (if content claims derivation from such, though this mode primarily focuses on KB/processed source verification)."
   evaluation_criteria: "Evaluates if `content_to_verify` accurately represents evidence from KB/processed sources based on relevance, logical connection, and existing verification status/rigor fields in the KB."
   linking_mechanism: |
-    Critically verifies the use of `source_ref_keys` (linking to KB Reference entries) and `extraction_markers` (linking to specific locations in processed source files, e.g., `[source_id]/level_N/chunk_XXX.md#paragraph_Y` or similar) in the `content_to_verify` or its source KB entries to ensure precise traceability back to source material paragraphs/sections within the hierarchical `source_materials/processed/` structure.
+    Critically verifies the use of `source_ref_keys` (linking to KB Reference entries) and `extraction_markers` (linking to specific locations in processed source files, e.g., `hegel_sol_v1/courses/PHL316/readings/hegel_sol_intro_processed/chunks/chunk_001.md#para_5` or similar for V1 paths) in the `content_to_verify` or its source KB entries to ensure precise traceability back to source material paragraphs/sections within the V1 `source_materials/processed/` structure.
     Checks if the referenced chunk content actually supports the claim in `content_to_verify`.
   verification_requirement: "This mode *performs* verification. If claims in `content_to_verify` are based on unverified KB entries, this will be noted in the verification report. It may also flag if content makes significant alterations to already verified KB information without re-verification."
 
@@ -271,9 +272,9 @@ mode_specific_workflows:
         input: "`source_kb_ids`, `content_to_verify`"
         output: "Internal list of consistency_kb issues."
       - step: 4 # Consistency Check against Processed Source
-        action: "If 'check_consistency_source' in `verification_criteria` AND `source_extraction_markers` provided: For each marker, locate and read the specific processed source chunk from `source_materials/processed/` (navigating via `index.md` files if markers are hierarchical or refer to directories). Compare claims in `content_to_verify` against the source chunk. Identify contradictions or misrepresentations. Record issues."
-        tools: ["read_file", "search_files"] # search_files for index.md if needed
-        input: "`source_extraction_markers`, `content_to_verify`, root path `source_materials/processed/`"
+        action: "If 'check_consistency_source' in `verification_criteria` AND `source_extraction_markers` provided: For each marker, use V1 navigation procedure (see `source_navigation_procedure`) to locate and read the specific processed source chunk from `source_materials/processed/`. Compare claims in `content_to_verify` against the source chunk. Identify contradictions or misrepresentations. Record issues."
+        tools: ["read_file"] # Tools used within source_navigation_procedure
+        input: "`source_extraction_markers`, `content_to_verify`"
         output: "Internal list of consistency_source issues."
 
       - step: 5 # Evidence Link Check for KB
@@ -282,8 +283,8 @@ mode_specific_workflows:
         input: "`content_to_verify`, `source_kb_ids`"
         output: "Internal list of evidence_link_kb issues."
       - step: 6 # Evidence Link Check for Processed Source
-        action: "If 'verify_evidence_links_source' in `verification_criteria`: Scan `content_to_verify` for references that should correspond to `source_extraction_markers`. Verify these markers point to relevant sections in processed sources and that the source content supports the claim. Record issues."
-        tools: ["read_file"] # To check target of markers
+        action: "If 'verify_evidence_links_source' in `verification_criteria`: Scan `content_to_verify` for references that should correspond to `source_extraction_markers`. Verify these markers point to relevant sections in processed sources (using V1 `source_navigation_procedure`) and that the source content supports the claim. Record issues."
+        tools: ["read_file"] # Tools used within source_navigation_procedure
         input: "`content_to_verify`, `source_extraction_markers`"
         output: "Internal list of evidence_link_source issues."
 
@@ -320,38 +321,44 @@ mode_specific_workflows:
         output: "Task completion signal to Orchestrator."
 
   source_navigation_procedure:
-    description: "Procedure for navigating the `source_materials/processed/` directory to find specific chunks using extraction markers and `index.md` files."
+    description: "Procedure for navigating the `source_materials/processed/` directory to find specific chunks using extraction markers, `master_index.json`, and material-specific `index.md` files, aligned with V1 guidelines."
     steps:
       - step: 1
-        action: "Receive an `extraction_marker` (e.g., `hegel_sol_v1/chapter_2/section_b/chunk_003.md#para_5` or `hegel_sol_v1/index.md#summary_of_being`)."
+        action: "Receive an `extraction_marker` (e.g., `hegel_sol_v1/courses/PHL316/readings/hegel_sol_intro_processed/chunks/chunk_001.md#para_5` or `kant_cpr_b_edition_processed/library/kant_cpr_b_edition_processed/chunks/chunk_010.md#overview`). The marker might contain the full path or just a `source_id` and a relative path/fragment."
         input: "Extraction marker string."
       - step: 2
-        action: "Parse the marker to separate the file path part from any fragment identifier (e.g., `#para_5`). The file path is relative to `source_materials/processed/`."
+        action: "Parse the `extraction_marker` to identify the `source_id` (e.g., `hegel_sol_intro_processed` or `kant_cpr_b_edition_processed`) and any further path components or fragment identifiers."
         input: "Extraction marker string."
-        output: "Relative file path, fragment identifier (optional)."
+        output: "`source_id`, relative path components (optional), fragment identifier (optional)."
       - step: 3
-        action: "Construct the full path to the target file or directory index: `source_materials/processed/[relative_file_path]`."
-        input: "Relative file path."
-        output: "Full path string."
+        action: "Read `source_materials/processed/master_index.json` to find the entry for the extracted `source_id`."
+        tools: ["read_file"]
+        input: "Path to `master_index.json`, `source_id`."
+        output: "Master index entry for the `source_id`, including `path_to_index`."
       - step: 4
-        action: "If the path points directly to a `.md` chunk file: Attempt to `read_file` for that chunk."
+        action: "If `master_index.json` entry is not found or `path_to_index` is missing, report a `source_discrepancy` issue."
+        output: "Issue logged for `issues_found`."
+      - step: 5
+        action: "Construct the full path to the material's individual `index.md` using the `path_to_index` from the master index entry (e.g., `source_materials/processed/[path_to_index]`). Read this material-specific `index.md`."
+        tools: ["read_file"]
+        input: "Full path to material's `index.md`."
+        output: "Content of material's `index.md` or error."
+      - step: 6
+        action: "If the material's `index.md` cannot be read, report a `source_discrepancy` issue."
+        output: "Issue logged for `issues_found`."
+      - step: 7
+        action: "Parse the material's `index.md` (YAML frontmatter `list_of_chunks` or Markdown body) to find the specific chunk file path that matches any further path components from the original `extraction_marker`. Construct the full path to the target chunk file (e.g., `source_materials/processed/[path_to_index_dir]/[chunk_file_path]`)."
+        input: "Material `index.md` content, relative path components from `extraction_marker`."
+        output: "Full path to target chunk file."
+      - step: 8
+        action: "Read the target chunk file."
         tools: ["read_file"]
         input: "Full path to chunk file."
         output: "Chunk content or error."
-      - step: 5
-        action: "If the path points to a directory (or an `index.md` within a directory, implied by the marker): Attempt to `read_file` for `[directory_path]/index.md`."
-        tools: ["read_file"]
-        input: "Full path to directory index.md."
-        output: "Index.md content or error."
-      - step: 6
-        action: "If `index.md` is read: Parse its content (likely Markdown list of links) to find a more specific link matching the remainder of the `extraction_marker` or to understand the directory structure for further navigation. This might involve string matching or regex on link texts/paths within the index."
-        tools: ["read_file"] # If needing to follow links from index to other indexes
-        input: "Index.md content, original extraction marker."
-        output: "Path to a more specific chunk/index, or confirmation of target chunk."
-      - step: 7
-        action: "If a fragment identifier was present: After successfully reading the target chunk file, attempt to locate the specific section within the content based on the fragment (e.g., search for an HTML anchor `id='para_5'` or a Markdown heading matching the fragment). This step is for focusing, the whole chunk is usually the primary target for reading."
+      - step: 9
+        action: "If the chunk file cannot be read or the specific chunk is not listed in the material's `index.md`, report a `source_discrepancy` issue."
+        output: "Issue logged for `issues_found`."
+      - step: 10
+        action: "If a fragment identifier was present in the `extraction_marker`: After successfully reading the target chunk file, attempt to locate the specific section within the content based on the fragment (e.g., search for an HTML anchor `id='para_5'` or a Markdown heading matching the fragment). This step is for focusing; the whole chunk content is the primary data."
         input: "Chunk content, fragment identifier."
         output: "Focused section (optional) or whole chunk content."
-      - step: 8
-        action: "If at any point a read fails or a path doesn't resolve: Report a `source_discrepancy` issue, noting the problematic marker and path."
-        output: "Issue logged for `issues_found`."

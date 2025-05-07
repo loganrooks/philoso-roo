@@ -227,7 +227,12 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/questions/" # To see if similar contradictions are already noted
     - "philosophy-knowledge-base/references/" # To trace evidence if needed
     - "philosophy-knowledge-base/processed_texts/" # To trace evidence to source chunks via extraction_markers
-    - "source_materials/processed/" # To navigate hierarchical source material indices (index.md files)
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
   write_access:
     - "philosophy-knowledge-base/concepts/" # For new syntheses or refined concepts
     - "philosophy-knowledge-base/arguments/" # For new arguments or critiques
@@ -331,16 +336,21 @@ mode_specific_workflows:
       - step: 1
         action: "During analysis (step 4-5 of main workflow), if an `extraction_marker` in an input KB entry needs verification or contextualization: Identify the `source_ref_keys` and specific `extraction_markers`."
       - step: 2
-        action: "Read the corresponding KB Reference entry (via `source_ref_keys`) to get the `source_id` for `source_materials/processed/`."
+        action: "Read the corresponding KB Reference entry (via `source_ref_keys`) to get the `source_id`."
         tools: ["read_file"]
         input: "Path to KB Reference entry."
         output: "`source_id` and other reference metadata."
-      - step: 3
-        action: "Navigate the `source_materials/processed/[source_id]/` directory, using `index.md` files at each level, to locate the specific chunk file(s) indicated by `extraction_markers`."
+      - step: 2.1 # New Step
+        action: "Consult `source_materials/processed/master_index.json` using the `source_id` to get the `path_to_index` for that material."
+        tools: ["read_file"]
+        input: "`source_materials/processed/master_index.json` and `source_id`."
+        output: "`path_to_index` for the material."
+      - step: 3 # Updated Step 3
+        action: "Navigate `source_materials/processed/[path_to_material_dir_from_master_index]/` using its material-specific `index.md` (read via `path_to_index`) to locate the specific chunk file(s) indicated by `extraction_markers`."
         tools: ["read_file", "list_files"] # To read index.md files and list directory contents for navigation
-        input: "Base path `source_materials/processed/[source_id]/`, target chunk path from `extraction_marker`."
+        input: "Base path `source_materials/processed/[path_to_material_dir_from_master_index]/`, material's `index.md` content, target chunk path from `extraction_marker`."
         output: "Path to the target chunk file."
-      - step: 4
+      - step: 4 # Unchanged Step 4
         action: "Read the content of the target source chunk file(s)."
         tools: ["read_file"]
         input: "File path(s) of source chunk(s)."
