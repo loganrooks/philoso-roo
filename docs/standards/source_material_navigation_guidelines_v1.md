@@ -47,7 +47,7 @@ The `source_materials/processed/` directory employs a hybrid structure:
 *   **Usage:**
     *   **Targeted Retrieval:** Query this file (e.g., using JSON parsing tools or MCPs if available) to find materials matching specific criteria (author, title, tags, course code).
     *   **Exploratory Research:** Scan entries to discover materials related to a broad topic or author.
-    *   **Context Management:** When querying, request only necessary fields to minimize context window impact if the file is very large. If the entire file is too large to load, modes should indicate this and request a strategy (e.g., querying via an MCP, or targeted `read_file` with line numbers if the structure is known to be relatively static and SPARC can assist).
+    *   **Context Management:** When querying, request only necessary fields to minimize context window impact if the file is very large. If the entire file is too large to load, modes should indicate this and request a strategy (e.g., querying via an MCP, or targeted `read_file` with line numbers if the structure is known to be relatively static and the system can assist).
 
 ### 3.2. Individual Material Index (`[ID]/index.md`)
 
