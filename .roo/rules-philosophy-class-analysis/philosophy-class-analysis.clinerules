@@ -152,7 +152,7 @@ input_schema:
       type: array
       items:
         type: string
-      description: "Array of KB IDs pointing to processed lecture transcript chunks/indices in `philosophy-knowledge-base/processed_texts/` or `philosophy-knowledge-base/indices/`. These are the primary materials for analysis."
+      description: "Array of `source_id`s (from V1 Source Material Architecture) pointing to processed lecture materials in `source_materials/processed/`. Orchestrator must provide these `source_id`s. These are the primary materials for analysis."
     pre_lecture_analysis_kb_ids:
       type: array
       items:
@@ -215,8 +215,12 @@ kb_interaction_protocols:
       - "philosophy-knowledge-base/references/"
       - "philosophy-knowledge-base/relationships/"
       - "philosophy-knowledge-base/_operational/formatting_templates_rules/"
-      - "source_materials/processed/index.md"
-      - "source_materials/processed/"
+      - "source_materials/processed/master_index.json"
+      - "source_materials/processed/courses/[COURSE_CODE]/index.md"
+      - "source_materials/processed/courses/[COURSE_CODE]/lectures/[LECTURE_ID]/index.md"
+      - "source_materials/processed/courses/[COURSE_CODE]/lectures/[LECTURE_ID]/chunks/*.md"
+      # Add other types like readings/notes if class analysis might ever need them directly, though typically lectures are primary.
+      # Add library paths if lectures could be stored there, though less common.
     methods:
       - tool: read_file
       - tool: search_files
@@ -312,7 +316,12 @@ mode_specific_workflows:
         input: "Input schema parameters."
         output: "Internal state initialized with task parameters and MB context."
       - step: 2
-        action: "Retrieve and Read Lecture Materials: For each ID in `lecture_material_kb_ids`, read the content of the processed lecture chunk/index from `philosophy-knowledge-base/processed_texts/` or `philosophy-knowledge-base/indices/` or `source_materials/processed/`."
+        action: "Retrieve and Read Lecture Materials: For each `source_material_id` (which is a `source_id` from V1 Source Material Architecture) in `lecture_material_kb_ids`:"
+        # V1 Navigation:
+        # 1. Consult `master_index.json` using `source_material_id` to get `path_to_index`.
+        # 2. Read the material-specific `index.md` (e.g., `source_materials/processed/courses/[COURSE_CODE]/lectures/[LECTURE_ID]/index.md`) using the `path_to_index`.
+        # 3. Use the chunk list in this `index.md` to read relevant lecture chunks.
+        # Ensure rigor field population (`source_ref_keys`, `extraction_markers`) in new KB entries correctly points to the V1 chunk paths.
         tools: ["read_file"]
         input: "Array of lecture material KB IDs/paths."
         output: "Content of lecture materials."
@@ -338,6 +347,14 @@ mode_specific_workflows:
         tools: ["write_to_file", "apply_diff"]
         input: "Finalized KB entry content and paths."
         output: "List of successfully written/updated KB entry IDs."
+- step: 8.1 # New step for proposing dynamic_roles
+        action: "If analysis identifies a new contextual role for a lecture material (e.g., 'primary_source_for_topic_X'), formulate a `dynamic_roles` update proposal."
+        # Example proposal: { material_id: 'actual_lecture_material_id', role_object: { context_id: 'class_analysis:[lecture_topic_or_date]', role: 'identified_role' } }
+      - step: 8.2
+        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
+        output: "Task ID for the dynamic_roles update delegation."
       - step: 9
         action: "Generate Analysis Summary: Create a comprehensive summary of the class analysis. This includes key themes, major arguments, significant concepts discussed, clarifications, connections to/divergences from pre-lecture materials, and any unresolved questions or areas needing further investigation. This summary itself will be a KB entry (e.g., Meta-Reflection type)."
         output: "Draft of the analysis summary KB entry."

@@ -1,5 +1,5 @@
-# Conforms to: docs/standards/clinerules_standard_v2.md (V2.1 - Archetype B)
-# Based on: docs/architecture/architecture_v18.md (V18.3.4)
+# Version: 2.2 (Standard V2.5, Arch V18.3.6)
+# Date: 2025-05-06
 
 mode: philosophy-secondary-lit
 
@@ -11,8 +11,8 @@ identity:
     Identifies agreements, disagreements, novel perspectives, and scholarly context.
     Stores findings directly in the KB, ensuring philosophical rigor (populating rigor fields) and creating relationship entries.
     Utilizes MCP tools (Brave Search, Fetcher) to find and retrieve external secondary sources when necessary.
+    Interacts directly with `philosophy-knowledge-base/` and `phil-memory-bank/`.
 
-# Standard Memory Bank Initialization Protocol - See docs/standards/clinerules_standard_v2.1.md Section: memory_bank_strategy
 memory_bank_strategy:
   initialization: |
     # Standard Memory Bank Initialization Protocol
@@ -43,7 +43,6 @@ memory_bank_strategy:
     # Standard Feedback Handling Process
     Save feedback to `phil-memory-bank/feedback/philosophy-secondary-lit-feedback.md` (**newest first**), document source/issue/action, apply learnings. **IMMEDIATELY log user interventions, explicit corrections, or significant deviations from instructions using the format in the mode-specific Intervention Log (if applicable) or within the feedback file. Include: Trigger, Context, Action Taken, Rationale, Outcome, Follow-up.**
 
-# Standard General Rules - See docs/standards/clinerules_standard_v2.1.md Section: general
 general:
   status_prefix: |
     # Standard Status Prefix Rule
@@ -85,15 +84,13 @@ general:
     # Standard Critical Evaluation Rule
     **Rule: Critical Evaluation.** When encountering contradictory evidence or persistent failures, *critically evaluate prior diagnoses or assumptions*, especially those made under high context (>40%). State this evaluation explicitly in `<thinking>` before proceeding.
 
-# Standard Operational Context Protocols - See docs/standards/clinerules_standard_v2.1.md Section: operational_context_protocols
 operational_context_protocols:
   write_access: "Modes MUST write operational logs ONLY to their designated `phil-memory-bank/mode-specific/philosophy-secondary-lit.md` file using `insert_content` (reverse chrono) or `apply_diff` (targeted updates). Batching recommended."
   read_access: "Modes CAN read any file within `phil-memory-bank/` (global context, other mode logs, feedback) using `read_file` or `search_files` as needed for operational context, guided by `Orchestrator` delegation."
   separation_mandate: "Strict separation MUST be maintained. NO philosophical domain knowledge (KB data) is permitted within `phil-memory-bank/`."
 
-# Standard Operational Logging Protocol - See docs/standards/clinerules_standard_v2.1.md Section: operational_logging
 operational_logging:
-  target_file: "phil-memory-bank/mode-specific/philosophy-secondary-lit.md" # MANDATORY PATH
+  target_file: "phil-memory-bank/mode-specific/philosophy-secondary-lit.md"
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Event Type]
     - **Details**: [Specific information about the action, e.g., KB IDs accessed/written, parameters used, summary of analysis step, MCP tool used]
@@ -101,6 +98,7 @@ operational_logging:
     - **Input Context**: [Relevant input IDs/tags, e.g., Secondary Lit KB ID, Primary Source Concept ID]
     - **Output Context**: [Relevant output IDs/tags, e.g., New Relationship KB ID]
     - **Error**: [Error message if status is Failure]
+    - **Cross-ref:** [Link to relevant KB entry, feedback log, etc. if applicable]
   frequency: |
     - Task start and end (initial scope, final outcome)
     - Input reception (secondary lit materials/scope received from orchestrator)
@@ -118,7 +116,6 @@ operational_logging:
     - Clearly document the creation and linking of Relationship entries.
     - Recommend batching log entries before writing via `insert_content`.
 
-# Standard Error Reporting Protocols - See docs/standards/clinerules_standard_v2.1.md Section: error_reporting_protocols
 error_reporting_protocols:
   reporting_target: "Return structured error object to Orchestrator."
   error_codes:
@@ -134,9 +131,8 @@ error_reporting_protocols:
     CONCURRENCY_CONFLICT: "Concurrency Conflict Detected (e.g., lock file)"
   error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
   logging: "Log all errors with details in operational log (`phil-memory-bank/mode-specific/philosophy-secondary-lit.md`) and feedback log (`phil-memory-bank/feedback/philosophy-secondary-lit-feedback.md`)."
-  escalation: "Follow standard error handling protocol (retries, three strikes, debug delegation, early return) defined centrally."
+  escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
 
-# Standard MCP Interaction Protocols - See docs/standards/clinerules_standard_v2.1.md Section: mcp_interaction_protocols
 mcp_interaction_protocols:
   strategy_reference: "Adheres to 'Distributed MCP Calls' strategy defined in `docs/blueprints/mcp_integration_v1.md`."
   allowed_tools:
@@ -144,7 +140,7 @@ mcp_interaction_protocols:
       tool_name: "brave_web_search"
     - server_name: "fetcher"
       tool_name: "fetch_url"
-    # Add other MCP tools if needed (e.g., Z-Library search)
+    # Example:
     # - server_name: "zlibrary-mcp"
     #   tool_name: "search_books"
   security_mandate: "API keys/secrets MUST NOT be included in `.clinerules` or code. Access MUST be managed via environment variables on the MCP server."
@@ -154,7 +150,6 @@ mcp_interaction_protocols:
     Use 'fetch_url' to retrieve the content of specific articles or online resources identified via search or KB references. Ensure relevance before processing.
     Handle timeouts/errors gracefully. Respect API limits. Avoid fetching irrelevant or overly large content without justification.
 
-# Standard Concurrency Coordination Protocols - See docs/standards/clinerules_standard_v2.1.md Section: concurrency_coordination_protocols
 concurrency_coordination_protocols:
   risk_acknowledgment: "Direct file access by multiple modes introduces risks (race conditions, data corruption). These protocols aim to mitigate, but not eliminate, these risks. Adherence by all modes is critical."
   locking_mechanism:
@@ -168,19 +163,13 @@ concurrency_coordination_protocols:
     scope: "Recommended for writes to shared KB files or critical `phil-memory-bank/` files where simultaneous access is plausible."
   orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
-# Standard Rule Inheritance Guidelines - See docs/standards/clinerules_standard_v2.1.md Section: rule_inheritance_guidelines
-rule_inheritance_guidelines:
-  yaml_anchors: "YAML anchors (`&`) and aliases (`*`) MAY be used within this file for reusing common blocks, if supported by the parser. Verify support."
-  external_includes: "Current RooCode parser status regarding external file includes (`!include`) is Not Supported." # Verify/Update
-  explicitness_mandate: "Mandatory (V2.1): All rules MUST be explicitly defined within the `.clinerules` file. Placeholder comments indicating inheritance (e.g., `# --- INHERITED...`) are FORBIDDEN. Modes MUST copy the full standard rule content into their file."
-  documentation_convention: "Optional: Modes MAY include comments referencing the source standard section for clarity. Example: `# Standard Error Handling Protocol - See docs/standards/clinerules_standard_v2.1.md Section: general`."
-
-# Archetype B Section 5.1: Input Schema
+# Archetype B Section: Input Schema
 input_schema:
   description: "Defines the inputs required from the orchestrator to perform secondary literature analysis."
+  type: object
   required:
-    - secondary_lit_context # IDs, context tags, or potentially URLs for secondary lit
-    - primary_source_context # IDs or context tags for relevant primary source concepts/arguments
+    - secondary_lit_context
+    - primary_source_context
   properties:
     secondary_lit_context:
       type: object
@@ -220,9 +209,10 @@ input_schema:
       enum: ["agreement", "disagreement", "novelty", "contextualization", "all"] # Example enum
       default: "all"
 
-# Archetype B Section 5.2: Output Schema
+# Archetype B Section: Output Schema
 output_schema:
   description: "Defines the outputs returned to the orchestrator after analysis."
+  type: object
   required:
     - status
   properties:
@@ -249,35 +239,42 @@ output_schema:
     analysis_summary:
       type: string
       description: "A concise summary of the key findings, including major points of agreement/disagreement, novel perspectives identified, and overall scholarly context established."
-    error_details:
+    error_details: # Present only if status includes failure
       type: object # Follows error_reporting_protocols.error_message_format
       description: "Detailed error information if status includes failure."
 
-# Archetype B Section 5.4: KB Interaction Protocols (STRICT PROTOCOL - V18.3.4 Update)
+# Archetype B Section: KB Interaction Protocols (STRICT PROTOCOL - V18.3.6 Arch)
 kb_interaction_protocols:
-  description: "Defines how this mode interacts with the Philosophy Knowledge Base (PKB) via direct file access."
+  description: "Defines how this mode interacts with the Philosophy Knowledge Base (PKB) via direct file access, adhering to Arch V18.3.6."
   read_access:
     description: "Specifies directories and methods for reading from the PKB using direct file access."
     allowed_paths:
-      - "philosophy-knowledge-base/processed_texts/" # Secondary lit chunks
-      - "philosophy-knowledge-base/concepts/"       # Primary source concepts/arguments & existing secondary interpretations
-      - "philosophy-knowledge-base/arguments/"      # Primary source concepts/arguments & existing secondary interpretations
+      - "philosophy-knowledge-base/concepts/"       # Primary source concepts & existing secondary interpretations
+      - "philosophy-knowledge-base/arguments/"      # Primary source arguments & existing secondary interpretations
       - "philosophy-knowledge-base/references/"     # Reference metadata for sources
       - "philosophy-knowledge-base/relationships/"  # Existing relationships for context
+      # V1 Source Material Paths for processed secondary literature:
+      - "source_materials/processed/master_index.json"
+      - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md" # If secondary lit is course-specific
+      - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+      - "source_materials/processed/library/[MATERIAL_ID]/index.md" # For general secondary lit
+      - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+      - "source_materials/processed/courses/[COURSE_CODE]/index.md" # If navigating course-specific secondary lit
     methods:
-      - tool: read_file # For specific entries by ID
+      - tool: read_file # For specific entries by ID or path (e.g. index.md)
       - tool: search_files # For finding entries based on content or context tags within allowed paths
-    filtering: "Utilizes context tags provided in the input schema and relationship links (`related_ids`) to retrieve relevant entries."
+    filtering: "Utilizes context tags provided in the input schema and relationship links (`related_ids`) to retrieve relevant entries. May read `source_materials/processed/index.md` and specific `[source_id]/index.md` files to locate relevant source chunks."
   write_access:
-    description: "Specifies directories and methods for writing to the PKB using direct file access. Writes MUST adhere to V18.3.4 schema and rigor."
+    description: "Specifies directories and methods for writing to the PKB using direct file access. Writes MUST adhere to Arch V18.3.6 schema and rigor."
     allowed_paths:
       - "philosophy-knowledge-base/concepts/"       # Creating new concepts representing secondary interpretations
       - "philosophy-knowledge-base/arguments/"      # Creating new arguments representing secondary interpretations
       - "philosophy-knowledge-base/relationships/"  # CRITICAL for linking secondary to primary
+      - "philosophy-knowledge-base/references/"     # For new secondary sources discovered and processed
     methods:
       - tool: write_to_file # For creating new entries (ensuring unique IDs)
       # - tool: apply_diff / insert_content (Use cautiously for targeted updates, e.g., adding to related_ids)
-    schema_adherence: "STRICT: All writes MUST conform to the full V18.3.4 PKB schema (Arch Doc Sec 6). This includes mandatory population of rigor fields (e.g., `positive_determination`, `negative_determination`, `presuppositions`, `counter_arguments`), `source_ref_keys` (linking to specific secondary lit chunks), `extraction_markers`, and `related_ids` (linking secondary interpretations to primary source concepts/arguments via Relationship entries)."
+    schema_adherence: "STRICT: All writes MUST conform to the full PKB schema (Arch Doc Sec 6). This includes mandatory population of rigor fields (e.g., `positive_determination`, `negative_determination`, `presuppositions`, `counter_arguments`), `source_ref_keys` (linking to specific secondary lit chunks or Reference entries), `extraction_markers`, and `related_ids` (linking secondary interpretations to primary source concepts/arguments via Relationship entries)."
     id_generation: "Responsible for generating unique, collision-resistant IDs (e.g., UUID) for all new KB entries created."
     relationship_creation: "MANDATORY: Must create Relationship entries in `philosophy-knowledge-base/relationships/` to explicitly link newly created secondary source concepts/arguments to the relevant primary source concepts/arguments identified during comparison. Relationship entries must capture the nature of the link (e.g., 'agrees_with', 'disagrees_with', 'refines', 'critiques')."
   querying:
@@ -286,36 +283,140 @@ kb_interaction_protocols:
       - Uses context tags from input to filter initial sets of primary and secondary source entries via `search_files` or logic based on `read_file`.
       - Leverages `related_ids` within existing KB entries (Concepts, Arguments, Relationships) to traverse connections and find related interpretations or primary source context via `read_file`.
       - May use `search_files` with specific keywords or patterns within allowed read paths if direct IDs/tags are insufficient.
+      - May consult `source_materials/processed/master_index.json` to find `path_to_index` for a `source_id` (if secondary lit is processed into V1 structure), then read the material-specific `index.md` and its chunks.
   kb_maintenance_interaction: "If KB inconsistencies (broken links, schema violations, conflicts) detected during R/W, report details (e.g., KB_SCHEMA_VIOLATION, MISSING_DEPENDENCY) to Orchestrator, suggesting MetaReflector/VerificationAgent review."
   validation_hooks: "Modes performing KB writes SHOULD attempt self-validation against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/`. `VerificationAgent` performs mandatory post-write checks."
   rigor_field_handling: "Modes MUST explicitly populate relevant rigor fields (determinacy, presuppositions, etc.) per Arch Doc Sec 6 when creating/updating KB entries."
 
-# Archetype B Section 5.5: Conceptual Determinacy (Guideline Section - Adaptable)
-conceptual_determinacy:
-  description: "Guidelines for capturing the specific meaning and nuances of concepts as presented in secondary literature."
+# Archetype B Section: Conceptual Determinacy Guidelines
+conceptual_determinacy_guidelines:
+  description: "Guidelines for capturing the specific meaning and nuances of concepts as presented in secondary literature, ensuring alignment with Arch V18.3.6 rigor principles."
   requirements:
-    negative_definition: required # Capture contrasts explicitly
-    disambiguation_protocol: required_if_ambiguous # Address differing interpretations clearly
-    scope_notation: recommended # Note the scope defined by the secondary author
-    contrastive_analysis: required # Link to primary source via Relationships
-  implementation: |
+    positive_determination: required # What the concept IS, as per secondary author.
+    negative_determination: required # What the concept is NOT, as per secondary author.
+    ordinary_language_contrast: recommended # If secondary author provides it.
+    related_terms_linking: required # Link to other KB concepts/arguments (primary or secondary) via `related_ids`.
+    presuppositions_identification: required # Identify assumptions made by the secondary author.
+    ambiguities_resolution: required_if_present # Clarify any ambiguities in the secondary author's use or link to KB Questions.
+    counter_arguments_acknowledgment: recommended # If secondary author discusses them, link to KB Arguments.
+    scope_notation: required # Note the scope defined by the secondary author.
+    contrastive_analysis_with_primary: required # Explicitly link to primary source analysis via Relationship entries.
+  implementation_guidelines: |
     When generating 'Concept' or 'Argument' entries based on secondary lit:
     1. Focus on accurately representing the concept/argument *as determined by the specific secondary author*.
-    2. Explicitly contrast this determination with the primary source analysis via Relationship entries (linking via `related_ids`).
-    3. Capture nuances, specific interpretations, scope limitations, or novel aspects highlighted by the secondary author in the main content and relevant rigor fields (e.g., `positive_determination`, `negative_determination`).
-    4. Use `ambiguities` field if the secondary author uses a term differently than the primary source or other secondary sources.
-    5. Populate `presuppositions` if the secondary author's interpretation relies on specific assumptions not present in the primary source analysis.
-    6. Log steps taken to ensure determinacy in operational log.
+    2. Populate `positive_determination`, `negative_determination`, and `presuppositions` based on the secondary author's claims.
+    3. If the secondary author contrasts with ordinary language, populate `ordinary_language_contrast`.
+    4. Explicitly link this interpretation to the primary source analysis (and other relevant KB entries) via `related_ids` and detailed Relationship entries.
+    5. Capture nuances, specific interpretations, scope limitations, or novel aspects highlighted by the secondary author in the main content and relevant rigor fields.
+    6. Use `ambiguities` field if the secondary author uses a term differently than the primary source or other secondary sources, or if their usage is internally unclear.
+    7. Populate `source_ref_keys` and `extraction_markers` meticulously to link back to the specific secondary literature chunk in `philosophy-knowledge-base/processed_texts/` or the `Reference` entry if it's an external, unchunked source.
+    8. Log steps taken to ensure determinacy in operational log.
 
-# Archetype B Section 5.6: Evidence Standards (Guideline + Strict Workflow)
+# Archetype B Section: Evidence Standards
 evidence_standards:
-  description: "Standards for linking analytical findings back to the source material (secondary literature)."
+  description: "Standards for linking analytical findings from secondary literature back to the source material and ensuring rigor in representation, aligned with Arch V18.3.6."
   requirements:
-    source_preference: "N/A - Focus is on analyzing provided secondary literature."
-    citation_format: "Link claims/interpretations to KB source chunks using `source_ref_keys` and `extraction_markers`."
-    quotation_accuracy: "Direct quotations from secondary lit must exactly match the text in the referenced KB source chunk."
-  verification_workflow:
-    enabled: false # Verification is handled externally by VerificationAgent or review modes.
+    source_preference: "Primary focus is on analyzing provided/retrieved secondary literature. If secondary lit refers to primary sources not yet in KB, flag for `philosophy-text-processor`."
+    citation_format: "Link claims/interpretations to KB source chunks (secondary lit) using `source_ref_keys` (pointing to `Reference` entries or `processed_texts` entries) and `extraction_markers`. `Reference` entries for secondary sources should be created if not existing."
+    quotation_accuracy: "Direct quotations from secondary lit must exactly match the text in the referenced KB source chunk or fetched content. Store quotations in KB `Quotation` entries if significant."
+    interpretation_attribution: "Clearly attribute interpretations to the specific secondary author/source within the KB entry content and via `source_ref_keys`."
+    rigor_element_sourcing: "Ensure that claims about a secondary author's interpretation (e.g., their positive/negative determinations, identified presuppositions) are directly supported by and traceable to the secondary source text via `extraction_markers`."
+  verification_workflow: # This mode primarily generates analysis; verification is typically by `philosophy-verification-agent`.
+    enabled: false
     trigger: "N/A"
     steps: "N/A"
     failure_handling: "N/A"
+
+# Optional Section: Mode Specific Workflows
+mode_specific_workflows:
+  secondary_literature_analysis_workflow:
+    description: "Core workflow for analyzing secondary literature, comparing it with primary source analyses in the KB, and generating new KB entries."
+    steps:
+      - step: 1
+        action: "Receive task from Orchestrator: `secondary_lit_context` (KB IDs/tags/URLs of secondary lit) and `primary_source_context` (KB IDs/tags of primary concepts/arguments)."
+        input: "Task delegation object from Orchestrator."
+        output: "Parsed input parameters."
+      - step: 2
+        action: "Retrieve Secondary Literature: If URLs provided, use MCP (`fetcher.fetch_url`) to get content. If KB IDs/tags for processed secondary lit, use V1 navigation (query `master_index.json` for `source_id`s, then read material-specific `index.md` and chunks from `source_materials/processed/`). If KB IDs for Reference entries, read those."
+        tools: ["use_mcp_tool", "read_file", "search_files"]
+        input: "URLs, KB IDs (for Reference entries or V1 `source_id`s), context tags for secondary literature."
+        output: "Content of secondary literature (Markdown/text), or list of relevant KB entry paths/V1 source material paths."
+      - step: 3
+        action: "Process Fetched Secondary Literature (if applicable): If new external content was fetched, analyze its structure. Consider delegating to `philosophy-text-processor` via `new_task` to chunk and create initial V1-compliant entries in `source_materials/processed/` and corresponding KB Reference entries. Await completion or proceed with in-memory analysis if minor. Understand that `philosophy-text-processor` will output in V1 format."
+        tools: ["new_task"] # Potentially
+        input: "Fetched content, source URL, instruction for V1 output."
+        output: "Path to V1 processed chunks/KB ID for the new secondary source, or in-memory analysis."
+      - step: 4
+        action: "Retrieve Primary Source Context: Use `read_file` or `search_files` on `philosophy-knowledge-base/concepts/` and `philosophy-knowledge-base/arguments/` based on `primary_source_context`."
+        tools: ["read_file", "search_files"]
+        input: "KB IDs, context tags for primary source concepts/arguments."
+        output: "Content of relevant primary source KB entries."
+      - step: 5
+        action: "Analyze Secondary Literature Content: Identify key claims, arguments, interpretations, and definitions presented by the secondary author(s). Note supporting evidence or reasoning within the secondary text."
+        # Internal analysis, narrative description is sufficient.
+      - step: 6
+        action: "Compare Secondary Analysis with Primary Source KB Entries: Identify points of agreement, disagreement, refinement, critique, or novel perspectives offered by the secondary literature in relation to the existing primary source analysis in the KB."
+        # Internal comparison, narrative description is sufficient.
+      - step: 7
+        action: "Draft New KB Entries for Secondary Interpretations: For significant interpretations, create new 'Concept' or 'Argument' entries in the KB. Populate all relevant fields, including rigor fields (`positive_determination`, `negative_determination`, `presuppositions`, etc.) based *on the secondary author's perspective*. Meticulously set `source_ref_keys` to the secondary lit KB entry and `extraction_markers` to pinpoint evidence within the secondary text."
+        # Internal drafting, narrative description is sufficient.
+      - step: 8
+        action: "Draft Relationship KB Entries: Create 'Relationship' entries to link the new secondary interpretation (Concept/Argument) entries to the relevant primary source Concept/Argument entries. Specify the nature of the relationship (e.g., 'critiques', 'supports_with_new_evidence', 'offers_alternative_interpretation')."
+        # Internal drafting, narrative description is sufficient.
+      - step: 9
+        action: "Write New KB Entries: Use `write_to_file` to save the drafted Concept, Argument, and Relationship entries to the appropriate directories in `philosophy-knowledge-base/`. Ensure unique IDs are generated. Apply advisory locking if necessary."
+        tools: ["write_to_file"]
+        input: "Formatted content for new KB entries, target paths."
+        output: "Confirmation of KB writes."
+- step: 9.1 # New step for proposing dynamic_roles
+        action: "If analysis identifies a new contextual role for a source material (e.g., secondary lit as 'key_critique_of_X', or a primary source as 'central_to_secondary_discussion_Y'), formulate a `dynamic_roles` update proposal."
+        # Example proposal: { material_id: 'actual_material_id', role_object: { context_id: 'secondary_lit_analysis:[current_analysis_task_id]', role: 'identified_role' } }
+      - step: 9.2
+        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
+        output: "Task ID for the dynamic_roles update delegation."
+      - step: 10
+        action: "Generate Analysis Summary: Compile a summary of findings for the Orchestrator, highlighting key comparisons, new KB entries created, and any unresolved questions or areas needing further investigation."
+        # Internal summarization, narrative description is sufficient.
+      - step: 11
+        action: "Log all actions, KB interactions, MCP calls, and findings in the operational log (`phil-memory-bank/mode-specific/philosophy-secondary-lit.md`)."
+        tools: ["insert_content"]
+        input: "Formatted log entries."
+        output: "Confirmation of log update."
+      - step: 12
+        action: "Return results (status, new KB entry IDs, summary) to Orchestrator."
+        output: "Output object conforming to `output_schema`."
+
+  external_secondary_source_acquisition_workflow:
+    description: "Workflow for finding and retrieving external secondary literature when not already in KB."
+    steps:
+      - step: 1
+        action: "Receive request from Orchestrator or internal trigger: Keywords, author, or topic for secondary literature search."
+        input: "Search parameters."
+      - step: 2
+        action: "Formulate search query for MCP Brave Search."
+        # Internal query generation.
+      - step: 3
+        action: "Execute web search using MCP Brave Search."
+        tools: ["use_mcp_tool"]
+        input: "{ server_name: 'brave-search', tool_name: 'brave_web_search', arguments: { query: [query string] } }"
+        output: "Search results object."
+      - step: 4
+        action: "Analyze search results for promising academic articles, book chapters, or reputable online resources. Prioritize sources with available full text or abstracts."
+        # Internal analysis.
+      - step: 5
+        action: "For promising URLs, fetch content using MCP Fetcher."
+        tools: ["use_mcp_tool"]
+        input: "{ server_name: 'fetcher', tool_name: 'fetch_url', arguments: { url: [URL] } }"
+        output: "Fetched content (Markdown/text)."
+      - step: 6
+        action: "Perform initial assessment of fetched content for relevance and quality. If suitable, create a basic 'Reference' KB entry for the source, including URL, title, author (if known), and fetched content (or a summary if very large)."
+        tools: ["write_to_file"] # For new Reference entry
+        input: "Fetched content, metadata."
+        output: "KB ID of new Reference entry."
+      - step: 7
+        action: "Log acquisition process and new Reference KB ID. Report findings (new Reference ID, summary of content) to Orchestrator or resume main analysis workflow."
+        tools: ["insert_content"]
+        input: "Formatted log entry."
+        output: "Confirmation and/or data for next step."

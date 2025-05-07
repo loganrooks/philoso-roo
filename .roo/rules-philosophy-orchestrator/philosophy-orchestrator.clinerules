@@ -195,6 +195,7 @@ input_schema:
         - initiate_essay_thesis_phase
         - structured_inquiry # Retained for now, but consider if covered by questioning
         - custom_workflow # For ad-hoc sequences
+        - manage_dynamic_roles_update
     user_prompt:
       type: string
       description: "The original user request or instruction."
@@ -206,7 +207,7 @@ input_schema:
           type: array
           items:
             type: string
-          description: "Paths to primary or secondary source texts (relative to workspace root)."
+          description: "Paths to source materials, which should now be V1 `source_id`s or direct paths to V1 `index.md` files (e.g., `source_materials/processed/courses/PHL101/readings/kant_cpr_intro/index.md`) or `source_materials/processed/master_index.json` if a broad search is implied."
         knowledge_base_references:
           type: array
           items:
@@ -284,6 +285,8 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/references/"
     - "philosophy-knowledge-base/_operational/reports/" # Read reports from maintenance/validation
     - "philosophy-knowledge-base/_operational/status/" # Check status of maintenance tasks
+    - "source_materials/processed/master_index.json" # For dynamic_roles updates
+    - "source_materials/processed/**/index.md" # For dynamic_roles updates in material-specific index
   write_access: [] # STRICT: Orchestrator does NOT write philosophical content to the KB.
   schema_enforcement: "N/A for direct writes. Orchestrator ensures delegated modes adhere to schema by providing clear instructions and context during delegation."
   relationship_mandate: "N/A for direct writes. Orchestrator ensures delegated modes handle relationships by tasking them appropriately."
@@ -379,9 +382,9 @@ mode_specific_workflows: # Formerly workflow_definitions
       - step: 1
         action: "Receive Request: Validate input. Log workflow initiation in Orchestrator MB."
       - step: 2
-        action: "Delegate to Text Processor: Use `new_task` to delegate to `philosophy-text-processor` with the objective to process the source text, execute its script, parse JSON output, write to KB, and update the root processed index."
+        action: "Delegate to Text Processor: Use `new_task` to delegate to `philosophy-text-processor` with the objective to process the source text according to V1 Source Material Architecture. This includes script execution, parsing output, writing to KB, and generating/updating `master_index.json`, course-specific `index.md`, and material-specific `index.md` files."
         tools: ["new_task"]
-        input: "mode: 'philosophy-text-processor', message: 'Process source text: [source_path]. Objective: Execute script, parse JSON output, write to KB, update root index.', context: { source_material_paths: '[source_material_paths]' }"
+        input: "mode: 'philosophy-text-processor', message: 'Process source text: [source_path]. Objective: Generate V1 architecture outputs (master_index.json, course/material index.md files, chunks) and ingest into KB.', context: { source_material_paths: '[source_material_paths]', v1_architecture_compliance: true }"
         output: "Task ID for the delegated text processing task."
       - step: 3
         action: "Await Completion: Monitor callback for the delegated task. Update Orchestrator MB with interim status."
@@ -396,7 +399,7 @@ mode_specific_workflows: # Formerly workflow_definitions
       - step: 2
         action: "Delegate Step 1 (e.g., Pre-Lecture): Use `new_task` for `philosophy-pre-lecture`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-pre-lecture', message: 'Perform pre-lecture analysis on [Reading Path]. Focus: [Focus]. See KB refs: [KB Refs].', context: { source_material_paths: '[source_material_paths]', knowledge_base_references: '[knowledge_base_references]', parameters: '[parameters]' }"
+        input: "mode: 'philosophy-pre-lecture', message: 'Perform pre-lecture analysis on V1 source material [Source ID/Path to Index]. Focus: [Focus]. See KB refs: [KB Refs]. Use V1 navigation (master_index.json, material index.md, chunks).', context: { source_material_paths: '[V1 source_id or path_to_index]', knowledge_base_references: '[knowledge_base_references]', parameters: '[parameters]' }"
         output: "Task ID for pre-lecture analysis."
       - step: 3
         action: "Await Step 1 Completion: Monitor callback. Log status in Orchestrator MB."
@@ -405,7 +408,7 @@ mode_specific_workflows: # Formerly workflow_definitions
       - step: 5
         action: "Delegate Step 2 (e.g., Class Analysis): Use `new_task` for `philosophy-class-analysis`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-class-analysis', message: 'Analyze class notes [Notes Path] considering pre-lecture analysis [KB IDs from Step 1] and reading [Reading Path].', context: { source_material_paths: '[Notes Path, Reading Path]', knowledge_base_references: '[KB IDs from Step 1, other relevant KB refs]' }"
+        input: "mode: 'philosophy-class-analysis', message: 'Analyze class notes (V1 source [Notes Source ID/Path to Index]) considering pre-lecture analysis [KB IDs from Step 1] and reading (V1 source [Reading Source ID/Path to Index]). Use V1 navigation.', context: { source_material_paths: '[V1 Notes Source ID/Path, V1 Reading Source ID/Path]', knowledge_base_references: '[KB IDs from Step 1, other relevant KB refs]' }"
         output: "Task ID for class analysis."
       - step: 6
         action: "Await Step 2 Completion: Monitor callback. Log status in Orchestrator MB."
@@ -420,14 +423,14 @@ mode_specific_workflows: # Formerly workflow_definitions
       - step: 2
         action: "Delegate Outline/Thesis (Essay Prep): Use `new_task` for `philosophy-essay-prep`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-essay-prep', message: 'Develop outline and thesis for essay on [Topic] based on prompt: [Prompt]. Sources: [Sources], KB Refs: [KB Refs].', context: { topic: '[Topic]', prompt: '[Prompt]', source_material_paths: '[Sources]', knowledge_base_references: '[KB Refs]' }"
+        input: "mode: 'philosophy-essay-prep', message: 'Develop outline and thesis for essay on [Topic] based on prompt: [Prompt]. V1 Sources: [V1 Source IDs/Paths], KB Refs: [KB Refs]. Use V1 navigation for sources.', context: { topic: '[Topic]', prompt: '[Prompt]', source_material_paths: '[V1 Source IDs/Paths]', knowledge_base_references: '[KB Refs]' }"
         output: "Task ID for essay preparation."
       - step: 3
         action: "Await Outline/Thesis: Monitor callback. Log status. Handle response (potentially route to user for approval via `ask_followup_question` or direct message)."
       - step: 4
         action: "Delegate Drafting (Draft Generator): Use `new_task` for `philosophy-draft-generator`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-draft-generator', message: 'Draft essay section based on approved outline [Outline Ref] and evidence package. Sources: [Sources], KB Refs: [KB Refs].', context: { outline_reference: '[Outline Ref]', source_material_paths: '[Sources]', knowledge_base_references: '[KB Refs]' }"
+        input: "mode: 'philosophy-draft-generator', message: 'Draft essay section based on approved outline [Outline Ref] and evidence package. V1 Sources: [V1 Source IDs/Paths], KB Refs: [KB Refs]. Use V1 navigation for sources.', context: { outline_reference: '[Outline Ref]', source_material_paths: '[V1 Source IDs/Paths]', knowledge_base_references: '[KB Refs]' }"
         output: "Task ID for draft generation."
       - step: 5
         action: "Await Draft: Monitor callback. Log status."
@@ -502,7 +505,6 @@ mode_specific_workflows: # Formerly workflow_definitions
         output: "Task ID or user response."
       - step: 4
         action: "Track Proposal: Log routing and track status in Orchestrator MB."
-
   self_correction_loop:
     description: "Manages revisions based on feedback (e.g., from verification). Trigger: Receiving feedback indicating necessary revisions (e.g., from `philosophy-verification-agent`). Context Passing: Pass artifact path, feedback, original context. Handling: Manages revision loop based on feedback."
     steps:
@@ -519,3 +521,66 @@ mode_specific_workflows: # Formerly workflow_definitions
         action: "Await Revision: Monitor callback. Log status."
       - step: 5
         action: "Re-verify (Optional): May trigger `philosophy-verification-agent` again after revision by initiating a new verification step in this workflow or delegating to the `write_essay_cycle`'s verification step."
+  manage_dynamic_roles_update:
+    description: "Manages updates to the `dynamic_roles` field for a source material. Trigger: Proposal from an analysis mode (`request_type: manage_dynamic_roles_update`). Context Passing: `material_id` (conceptual ID, maps to `id` field in index), `role_object` (`{'context_id': '...', 'role': '...'}`). Handling: Performs synchronized writes to `master_index.json` and the material-specific `index.md`."
+    steps:
+      - step: 1
+        action: "Receive Request: Validate input (`material_id`, `role_object` with `context_id` and `role`). Log workflow initiation in Orchestrator MB."
+        # Tools: Internal logging assumed.
+        # Input: request.material_id, request.role_object
+        # Output: Validation status.
+        # Error Handling: If validation fails, log error (INPUT_VALIDATION_FAIL), report failure, terminate.
+      - step: 2
+        action: "Read master_index.json: Read `source_materials/processed/master_index.json`."
+        tools: ["read_file"]
+        input:
+          path: "source_materials/processed/master_index.json"
+        output: "master_index_content_string"
+        error_handling: "If read fails, log error (KB_READ_FAIL), report failure, terminate."
+      - step: 3
+        action: "Update master_index.json Data: Parse `master_index_content_string`. Find material entry where `id` matches `request.material_id`. If found, ensure `dynamic_roles` array exists and append `request.role_object` (avoiding duplicates for the same `context_id`). If material not found, create a new entry with `id: request.material_id`, a placeholder `title`, `path_to_index` (e.g., `library/{{request.material_id}}/index.md` or derived if more context), and `dynamic_roles: [request.role_object]`. Extract/confirm `path_to_index` for the material."
+        # Implies JSON parsing and manipulation.
+        input: "master_index_content_string, request.material_id, request.role_object"
+        output: "updated_master_index_data_dict, path_to_material_index_md"
+        error_handling: "If parsing fails or structure is unexpected, log error, report failure, terminate."
+      - step: 4
+        action: "Write master_index.json: Serialize `updated_master_index_data_dict` to JSON (indent 2) and write to `source_materials/processed/master_index.json`."
+        tools: ["write_to_file"]
+        input:
+          path: "source_materials/processed/master_index.json"
+          content: "{{updated_master_index_data_dict | to_json(indent=2)}}"
+          line_count: "{{updated_master_index_data_dict | to_json(indent=2) | line_count}}"
+        output: "master_index_write_status"
+        error_handling: "If write fails, log error (KB_WRITE_FAIL), report failure, terminate."
+      - step: 5
+        action: "Construct Full Material-Specific index.md Path: Combine base path `source_materials/processed/` with `path_to_material_index_md` from Step 3."
+        input: "path_to_material_index_md"
+        output: "full_material_index_path"
+        error_handling: "If path is invalid, log error, report failure, terminate."
+      - step: 6
+        action: "Read Material-Specific index.md: Read content of `full_material_index_path`. Note if file does not exist (FileNotFoundError)."
+        tools: ["read_file"]
+        input:
+          path: "{{full_material_index_path}}"
+        output: "material_index_content_string, material_file_exists (boolean)"
+        error_handling: "If read fails (other than FileNotFoundError), log error (KB_READ_FAIL), report failure, terminate."
+      - step: 7
+        action: "Update Material-Specific index.md Data: If `material_file_exists`, parse YAML frontmatter from `material_index_content_string`. Add/update `dynamic_roles` list with `request.role_object` (avoid duplicates for same `context_id`). Reconstruct content with updated frontmatter. If not `material_file_exists`, create new content with minimal YAML (id: {{request.material_id}}, title: 'Placeholder Title for {{request.material_id}}', dynamic_roles: [{{request.role_object}}]) and basic body."
+        # Implies YAML parsing/manipulation.
+        input: "material_index_content_string, material_file_exists, request.material_id, request.role_object"
+        output: "updated_material_index_content_string"
+        error_handling: "If YAML processing fails, log error, report failure, terminate."
+      - step: 8
+        action: "Write Material-Specific index.md: Write `updated_material_index_content_string` to `full_material_index_path`."
+        tools: ["write_to_file"]
+        input:
+          path: "{{full_material_index_path}}"
+          content: "{{updated_material_index_content_string}}"
+          line_count: "{{updated_material_index_content_string | line_count}}"
+        output: "material_index_write_status"
+        error_handling: "If write fails, log error (KB_WRITE_FAIL), report failure, terminate."
+      - step: 9
+        action: "Log Completion & Report Success: Log successful update in Orchestrator MB. Return success status to the calling mode."
+        # Tools: Internal logging, internal mechanism for returning status.
+        input: "request.material_id, request.role_object.context_id"
+        output: "{ status: 'success', message: 'Dynamic roles updated for material {{request.material_id}}.' }"

@@ -226,7 +226,12 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/questions/"
     - "philosophy-knowledge-base/relationships/"
     - "philosophy-knowledge-base/references/" # To understand source context of existing KB entries
-    - "source_materials/processed/" # For reading processed chunks and their navigational index.md files
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
   write_access:
     - "philosophy-knowledge-base/concepts/"
     - "philosophy-knowledge-base/arguments/"
@@ -261,7 +266,7 @@ evidence_standards:
     Use `source_ref_keys` (linking to KB Reference entries, which in turn point to original source metadata) and `extraction_markers` (linking to specific locations in processed source files, e.g., `source_materials/processed/[source_id]/level_x/chunk_yyy.md#paragraph_z`) in KB entries to ensure precise traceability back to source material.
     # Example: A new Argument entry derived from a reading:
     # source_ref_keys: [original_source_ref_id_from_kb_reference_entry]
-    # extraction_markers: ["source_materials/processed/hegel_phen_spirit_abs/level_1/chunk_005.md#para-3"]
+    # extraction_markers: ["source_materials/processed/courses/PHL316/readings/hegel_phen_spirit_abs/chunks/chunk_005.md#para-3"] # Example updated for V1
   verification_requirement: "Analysis based on unverified KB entries or newly fetched external sources MUST be flagged. New KB entries created by this mode are initially 'Unverified' and should be reviewed by `VerificationAgent`."
 
 version_control:
@@ -278,10 +283,14 @@ mode_specific_workflows:
       - step: 1
         action: "Receive input: `source_material_ids`, `lecture_topic` (optional), `analysis_focus` (optional), `existing_kb_ids` (optional)."
       - step: 2
-        action: "For each `source_material_id`, locate and read the main `index.md` in `source_materials/processed/[source_id]/` and relevant chunk files (`*.md`) based on `analysis_focus` or by scanning chunk summaries if available in indices."
+        action: "For each `source_material_id` (which is a `source_id` from V1 Source Material Architecture):"
+        # V1 Navigation:
+        # 1. Consult `source_materials/processed/master_index.json` using `source_material_id` to get `path_to_index`.
+        # 2. Read the material-specific `index.md` (e.g., `source_materials/processed/courses/[COURSE_CODE]/readings/[source_id]/index.md`) using the `path_to_index`.
+        # 3. Use the chunk list/summaries in this `index.md` to read relevant chunk files (`*.md`) based on `analysis_focus`.
         tools: ["read_file", "list_files"] # list_files to explore chunk structure if needed
-        input: "`source_material_id`, `analysis_focus`"
-        output: "Content of relevant source chunks and indices."
+        input: "`source_material_id`, `analysis_focus`, `master_index.json` content (if pre-loaded or read here)"
+        output: "Content of relevant source chunks and material-specific index.md."
       - step: 3
         action: "If `existing_kb_ids` provided, read these KB entries (`concepts`, `arguments`, `questions`) for context and to avoid duplication."
         tools: ["read_file"]
@@ -308,6 +317,14 @@ mode_specific_workflows:
         tools: ["write_to_file", "apply_diff"]
         input: "Relationship entry content, target KB path."
         output: "Confirmation of write/update."
+- step: 8.1 # New step for proposing dynamic_roles
+        action: "If analysis identifies a new contextual role for a source material (e.g., 'primary_source' for current `lecture_topic`), formulate a `dynamic_roles` update proposal."
+        # Example proposal: { material_id: 'actual_material_id', role_object: { context_id: 'pre_lecture:[lecture_topic_or_date]', role: 'identified_role' } }
+      - step: 8.2
+        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
+        output: "Task ID for the dynamic_roles update delegation."
       - step: 9
         action: "Compile an `analysis_summary` and list of `new_kb_entry_ids` and `identified_difficult_passages`."
       - step: 10
