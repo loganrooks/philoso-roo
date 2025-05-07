@@ -279,7 +279,12 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/theses/"
     - "philosophy-knowledge-base/outlines/"
     - "philosophy-knowledge-base/_operational/formatting_templates_rules/" # For validation schemas
-    - "source_materials/processed/" # For reading processed source chunks and index files
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
   write_access:
     - "philosophy-knowledge-base/theses/"
     - "philosophy-knowledge-base/outlines/"
@@ -337,14 +342,16 @@ mode_specific_workflows:
       - step: 4
         action: "If `kb_context.source_ref_keys` are provided, or if deeper evidence is needed, explore `source_materials/processed/` for relevant source chunks."
         sub_steps:
-          - action: "For each relevant `source_ref_key`, identify the corresponding `source_id` (from KB Reference entries if necessary)."
-          - action: "Read `source_materials/processed/[source_id]/index.md` to understand the structure of the processed source."
+          - action: "Identify relevant `source_id`(s) (e.g., from `kb_context.source_ref_keys` which link to Reference entries containing `source_id`s, or by searching `master_index.json` with keywords from `essay_prompt` or related KB entries)."
+          - action: "For each identified `source_id`, consult `source_materials/processed/master_index.json` to get the `path_to_index`."
+            tools: ["read_file"] # To read master_index.json
+          - action: "Read the material-specific `index.md` (e.g., `source_materials/processed/courses/[COURSE_CODE]/readings/[READING_ID]/index.md` or `source_materials/processed/library/[MATERIAL_ID]/index.md`) using the `path_to_index`."
             tools: ["read_file"]
-          - action: "Navigate hierarchical `index.md` files within `source_materials/processed/[source_id]/` (e.g., `level_0/index.md`, `level_1/index.md`) using `read_file` or `search_files` with keywords from `essay_prompt` or related KB entries to locate relevant sections/chunks."
-            tools: ["read_file", "search_files"]
-          - action: "Read content of identified relevant chunk files (e.g., `.../chunk_NNN.md`) using `read_file`."
+          - action: "Navigate the material's `index.md` (and any sub-indices if present) to locate relevant sections/chunks based on `essay_prompt` keywords or related KB content. Use the chunk list in the `index.md`."
+            tools: ["read_file"] # To read the material's index.md and potentially sub-indices
+          - action: "Read content of identified relevant chunk files (e.g., `.../chunks/chunk_NNN.md`) using `read_file`."
             tools: ["read_file"]
-        input: "`kb_context.source_ref_keys`, `essay_prompt` keywords, KB content."
+        input: "`kb_context` (including `source_ref_keys`, `concept_ids`, etc.), `essay_prompt` keywords."
         output: "Relevant text snippets and structural understanding from processed sources."
       - step: 5
         action: "Synthesize information from KB entries and processed source materials in relation to the `essay_prompt`."

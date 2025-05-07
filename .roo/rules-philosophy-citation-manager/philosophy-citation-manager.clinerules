@@ -182,10 +182,26 @@ kb_interaction_protocols:
       description: "Read access restricted to Markdown files in philosophy-knowledge-base/references/."
       tool_access: ["read_file"]
       filtering: "Only read files matching IDs provided in `reference_kb_ids` input."
-    - path_pattern: "source_materials/processed/**/*.md" # For reading processed source chunks and index files
-      description: "Read access to processed source materials and their index files for contextual verification or deeper research if needed."
-      tool_access: ["read_file", "search_files"]
-      filtering: "Access guided by `source_ref_keys` and `extraction_markers` in KB reference entries, or by navigating `index.md` files starting from `source_materials/processed/index.md`."
+    - path_pattern: "source_materials/processed/master_index.json"
+      description: "Read access to the master index for all processed source materials."
+      tool_access: ["read_file"]
+      filtering: "Full read typically required for initial discovery."
+    - path_pattern: "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+      description: "Read access to material-specific index files within a course structure."
+      tool_access: ["read_file"]
+    - path_pattern: "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+      description: "Read access to specific chunks of processed course materials."
+      tool_access: ["read_file"]
+    - path_pattern: "source_materials/processed/library/[MATERIAL_ID]/index.md"
+      description: "Read access to material-specific index files within the library structure."
+      tool_access: ["read_file"]
+    - path_pattern: "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+      description: "Read access to specific chunks of processed library materials."
+      tool_access: ["read_file"]
+    - path_pattern: "source_materials/processed/courses/[COURSE_CODE]/index.md"
+      description: "Read access to course-specific index files."
+      tool_access: ["read_file"]
+      filtering: "Access guided by `source_ref_keys` and `extraction_markers` in KB reference entries, or by navigating from `master_index.json` and then material-specific `index.md` files."
   write_access: [] # V18.3.6: This mode MUST NOT write to the KB.
   querying: |
     # V18.3.6 Direct Read Pattern
@@ -195,10 +211,11 @@ kb_interaction_protocols:
     4. Parse the YAML frontmatter and Markdown content of the retrieved file.
     5. Handle `read_file` errors (file not found -> REFERENCE_NOT_FOUND, other read error -> KB_READ_FAIL).
     6. Handle parsing errors (malformed content -> FORMATTING_ERROR).
-    7. If deeper context is needed (e.g., to verify an extraction marker or understand the source of a quotation within the reference), use `source_ref_keys` and `extraction_markers` from the reference's YAML to locate relevant chunk(s) in `source_materials/processed/`. This may involve:
-        a. Reading `source_materials/processed/index.md` to understand available `source_id`s.
-        b. Navigating `source_materials/processed/[source_id]/index.md` and subsequent hierarchical `index.md` files to locate the specific chunk referenced by `extraction_markers`.
-        c. Reading the target chunk file(s) using `read_file`.
+    7. If deeper context is needed (e.g., to verify an extraction marker or understand the source of a quotation within the reference):
+        a. Use `source_ref_keys` from the KB Reference entry to find the `source_id`. (This might involve looking up the Reference entry itself if it contains the `source_id`, or the `source_id` might be part of the `source_ref_key` format).
+        b. Consult `source_materials/processed/master_index.json` using the `source_id` to get the `path_to_index` for that material.
+        c. Read the material-specific `index.md` (e.g., `source_materials/processed/[path_from_master_index_to_material_dir]/index.md`) using the `path_to_index`.
+        d. Use `extraction_markers` from the reference's YAML and the chunk structure information from the material's `index.md` to locate and read the specific chunk file within `source_materials/processed/[path_from_master_index_to_material_dir]/chunks/` using `read_file`.
   kb_maintenance_interaction: |
     # V18.3.6: Report issues to Orchestrator, do not trigger directly.
     - If `read_file` fails for a requested `reference_kb_id`, report `REFERENCE_NOT_FOUND` or `KB_READ_FAIL` to Orchestrator via standard error reporting.
@@ -246,22 +263,22 @@ mode_specific_workflows:
       - step: 9
         action: "(Optional Contextual Verification/Deep Dive) If a citation's context or the precise origin of a quotation within a reference needs verification (e.g., if `extraction_markers` are ambiguous or detailed page numbers are required beyond the reference entry):"
       - step: 9a
-        action: "Consult the `source_ref_keys` and `extraction_markers` from the relevant KB reference entry's YAML frontmatter."
+        action: "Consult the `source_ref_keys` and `extraction_markers` from the relevant KB reference entry's YAML frontmatter to identify the `source_id`."
       - step: 9b
-        action: "Navigate the `source_materials/processed/` directory. Start by reading `source_materials/processed/index.md` to identify the correct `[source_id]` directory if not directly known."
+        action: "Consult `source_materials/processed/master_index.json` using the `source_id` to get the `path_to_index` for the material."
         tools: ["read_file"]
-        input: "`source_materials/processed/index.md`"
-        output: "Content of the root processed index."
+        input: "`source_materials/processed/master_index.json`"
+        output: "Content of the master index."
       - step: 9c
-        action: "Navigate through hierarchical `index.md` files within `source_materials/processed/[source_id]/` (e.g., `level_0/index.md`, `level_0/level_1/index.md`) to locate the specific chunk(s) indicated by `extraction_markers`."
-        tools: ["read_file", "search_files"] # search_files might be used if index structure is complex or markers are partial.
-        input: "Paths to hierarchical index.md files, search patterns based on markers."
-        output: "Content of relevant index files or search results pointing to chunk paths."
-      - step: 9d
-        action: "Read the content of the identified processed source chunk(s) using `read_file`."
+        action: "Read the material-specific `index.md` (e.g., `source_materials/processed/[path_from_master_index_to_material_dir]/index.md`) using the `path_to_index` obtained from `master_index.json` to understand its chunk structure."
         tools: ["read_file"]
-        input: "Path(s) to specific chunk .md files."
-        output: "Content of the source chunk(s)."
+        input: "Path to the material-specific index.md."
+        output: "Content of the material-specific index.md."
+      - step: 9d
+        action: "Use `extraction_markers` (from KB Reference) and the chunk list from the material's `index.md` to locate and read the specific chunk file within `source_materials/processed/[path_from_master_index_to_material_dir]/chunks/`."
+        tools: ["read_file"]
+        input: "Path to specific chunk .md file."
+        output: "Content of the source chunk."
       - step: 9e
         action: "Use the content from the source chunk to refine the citation (e.g., add precise page numbers if available in chunk metadata or content) or verify the quotation. This information primarily aids accuracy and does not alter the fundamental citation data from the KB reference entry unless explicitly correcting an error found in the KB entry itself (which would be flagged)."
         # Internal analysis. If errors in KB are suspected, they are reported, not fixed by this mode.

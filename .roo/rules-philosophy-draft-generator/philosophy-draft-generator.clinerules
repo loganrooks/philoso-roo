@@ -176,13 +176,14 @@ mode_specific_workflows:
         action: |
           Synthesize information from the outline and KB entries.
           For each piece of evidence or supporting KB entry, note its `source_ref_keys` and `extraction_markers`.
-          If an `extraction_marker` is imprecise or refers to a large source chunk, and more specific context is needed for drafting, this mode MAY:
-          1. Attempt to locate the specific source chunk file within `source_materials/processed/[source_id]/...`.
-          2. Read the relevant hierarchical `index.md` file(s) within `source_materials/processed/[source_id]/` (starting from `source_materials/processed/[source_id]/index.md` and navigating deeper if necessary) to better understand the structure of the processed source and locate more granular chunks related to the `extraction_marker`.
-          3. Read the more specific chunk(s) if found.
+          If an `extraction_marker` is imprecise or refers to a large source chunk, and more specific context is needed for drafting, this mode MAY follow V1 navigation:
+          1. Use `source_ref_keys` from the KB entry to identify the `source_id`.
+          2. Consult `source_materials/processed/master_index.json` to get the `path_to_index` for the `source_id`.
+          3. Read the material-specific `index.md` (e.g., `source_materials/processed/[path_from_master_index_to_material_dir]/index.md`) using the `path_to_index`.
+          4. Use the `extraction_markers` and the material's `index.md` to navigate to and read the specific chunk file(s) within `source_materials/processed/[path_from_master_index_to_material_dir]/chunks/`.
           This step is to ensure the draft accurately reflects the nuanced context of the evidence.
-        tools: ["read_file", "search_files"] # search_files might be used to locate index.md if path isn't fully known.
-        input: "Content of outline and KB entries, `extraction_markers`."
+        tools: ["read_file"] # search_files might be used if master_index.json needs to be searched by keywords instead of direct ID.
+        input: "Content of outline and KB entries, `extraction_markers`, `source_ref_keys`."
         output: "Internal structured understanding of content and evidence links."
       - step: 5
         action: "Generate prose for the essay section, incorporating arguments, concepts, and evidence. Adhere to `drafting_guidelines` and `target_audience`."
@@ -289,7 +290,12 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/relationships/"
     - "philosophy-knowledge-base/references/"   # For understanding source_ref_keys
     - "philosophy-knowledge-base/quotations/"
-    - "source_materials/processed/"             # For reading processed source chunks and their index.md files
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
   write_access: [] # STRICTLY READ-ONLY
   schema_enforcement: "N/A - Read-only mode. Assumes KB entries conform to schema."
   relationship_mandate: "N/A - Read-only mode. Consumes existing relationships."
@@ -300,9 +306,10 @@ kb_interaction_protocols:
     Primarily uses `read_file` with specific KB IDs (paths) provided in the input (`outline_section_kb_id`, `relevant_context_kb_ids`).
     May inspect `related_ids` fields within read entries to discover further relevant KB entries if necessary for comprehensive drafting, then use `read_file` on those discovered IDs.
     To understand the context of evidence cited in KB entries (via `source_ref_keys` and `extraction_markers`):
-    1. Use `source_ref_keys` to identify the KB Reference entry, which in turn points to a `source_id`.
-    2. Use the `source_id` and `extraction_markers` to locate specific chunk files within `source_materials/processed/[source_id]/...`.
-    3. If an `extraction_marker` is broad or further context is needed, this mode can navigate the hierarchical `index.md` files within `source_materials/processed/[source_id]/` (starting with `source_materials/processed/[source_id]/index.md`) to find more specific chunks or understand the surrounding textual structure.
+    1. Use `source_ref_keys` from KB entries to identify the `source_id`.
+    2. Consult `source_materials/processed/master_index.json` to get the `path_to_index` for the `source_id`.
+    3. Read the material-specific `index.md` (e.g., `source_materials/processed/[path_from_master_index_to_material_dir]/index.md`) using the `path_to_index`.
+    4. Navigate hierarchical `index.md` files within `source_materials/processed/[path_from_master_index_to_material_dir]/` (if applicable, based on the material's `index.md` structure) to locate specific chunks via `extraction_markers`. Read the target chunk(s).
     Avoid broad `search_files` on the KB unless essential context is missing and cannot be found via direct links or `extraction_markers`.
 
 conceptual_determinacy_guidelines:

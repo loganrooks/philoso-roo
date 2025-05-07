@@ -185,7 +185,7 @@ input_schema:
       type: array
       items:
         type: string
-      description: "(Optional) List of paths to relevant source materials (e.g., specific chunk files in `source_materials/processed/` or `index.md` files for navigation)."
+      description: "(Optional) List of V1 `source_id`s or direct paths to V1 `index.md` files (e.g., `source_materials/processed/courses/PHL101/readings/kant_cpr_intro/index.md`) or specific chunks if already known. Used for consulting source text if needed for question refinement."
     context_tags:
       type: array
       items:
@@ -242,7 +242,13 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/arguments/" # Read related arguments for context
     - "philosophy-knowledge-base/relationships/" # Read relationships for broader context
     - "philosophy-knowledge-base/references/" # To understand source context of related items
-    - "source_materials/processed/" # To read source chunks or navigate via index.md files for deeper context
+    # V1 Source Material Paths:
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
   write_access:
     - "philosophy-knowledge-base/questions/" # Write new/updated refined questions
     - "philosophy-knowledge-base/relationships/" # Potentially to link refined questions to new insights
@@ -298,9 +304,13 @@ mode_specific_workflows:
         input: "KB IDs, context tags."
         output: "Content of related KB entries."
       - step: 4
-        action: "If `refinement_focus` suggests 'explore_source_context' or if KB context is insufficient for disambiguation/scoping: Consult `source_material_paths`. If paths are to `index.md` files (e.g., `source_materials/processed/index.md` or `source_materials/processed/[source_id]/index.md`), read them to identify relevant sub-indices or chunk files. Then read specific chunk files for deeper textual context related to the proto-question or its associated concepts/arguments."
-        tools: ["read_file", "list_files"] # list_files might be used if navigating a directory based on index.md content
-        input: "Paths to `index.md` files or specific chunk files in `source_materials/processed/`."
+        action: "If `refinement_focus` suggests 'explore_source_context' or if KB context is insufficient for disambiguation/scoping, and `source_material_paths` (containing V1 `source_id`s or direct paths) are provided: For each `source_id` or path:"
+        # V1 Navigation:
+        # 1. If `source_id` given, consult `master_index.json` to get `path_to_index`.
+        # 2. Read the material-specific `index.md` (using `path_to_index` or direct path from input).
+        # 3. Navigate its structure (sub-indices, chunk list) to find and read relevant textual context for the proto-question.
+        tools: ["read_file", "list_files"]
+        input: "`source_material_paths` (V1 `source_id`s or paths to `index.md`), `master_index.json` content (if needed)."
         output: "Content of relevant source material chunks or navigation information."
       - step: 5
         action: "Analyze proto-question against gathered KB context and source material insights. Identify ambiguities, overly broad scope, implicit presuppositions, or lack of clarity based on `conceptual_determinacy_guidelines`."

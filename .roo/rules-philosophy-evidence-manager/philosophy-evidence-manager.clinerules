@@ -223,7 +223,13 @@ kb_interaction_protocols:
     - "philosophy-knowledge-base/concepts/"
     - "philosophy-knowledge-base/arguments/"
     - "philosophy-knowledge-base/quotations/"
-    - "philosophy-knowledge-base/processed_texts/" # Source chunks
+    # V1 Source Material Paths:
+    - "source_materials/processed/master_index.json"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/index.md"
+    - "source_materials/processed/library/[MATERIAL_ID]/chunks/*.md"
+    - "source_materials/processed/courses/[COURSE_CODE]/index.md"
     - "philosophy-knowledge-base/references/" # To resolve source_ref_keys
     - "philosophy-knowledge-base/relationships/" # To follow links
     - "philosophy-knowledge-base/_operational/formatting_templates_rules/" # For potential self-validation (though less likely for read-heavy mode)
@@ -266,57 +272,64 @@ mode_specific_workflows:
         action: "Validate input parameters based on `task_type`. This involves checking if required fields for the given task_type are present and correctly formatted."
         input: "Parsed task parameters"
         output: "Validated parameters or INPUT_VALIDATION_FAIL error"
-      - step: 3a # Branch for find_evidence_by_query
+      - step: 3a # Branch for find_evidence_by_query (This branch might need significant rework if queries target processed sources directly instead of KB entries that link to them)
         condition: "task_type == 'find_evidence_by_query'"
-        action: "Construct a regular expression search pattern. This pattern will be built using the provided `query_terms`. If `context_tags` or `source_ref_key` are also provided, they will be incorporated into the regex to narrow the search within YAML frontmatter or content."
+        action: "Construct search pattern for KB entries based on `query_terms`, `context_tags`, `source_ref_key`. This primarily targets KB metadata."
         input: "query_terms, context_tags, source_ref_key"
-        output: "Regex pattern string"
-      - step: 3b # Branch for find_evidence_by_query
+        output: "Regex pattern string for KB search"
+      - step: 3b
         condition: "task_type == 'find_evidence_by_query'"
-        action: "Execute search on relevant KB directories using the regex pattern."
-        tools: ["search_files"]
-        input: "{ path: 'philosophy-knowledge-base/', regex: [pattern], file_pattern: '*.md' }" # Example input
-        output: "List of matching file paths/contexts"
-      - step: 3c # Branch for find_evidence_by_query
-        condition: "task_type == 'find_evidence_by_query'"
-        action: "Process the list of file paths obtained from the search. For each path, read the file content. Parse the content to extract relevant evidence snippets and associated rigor fields (like source_ref_keys, extraction_markers)."
-        tools: ["read_file"] 
-        input: "Search results (list of file paths)"
-        output: "Formatted evidence_results array"
-      - step: 4a # Branch for get_evidence_by_marker
-        condition: "task_type == 'get_evidence_by_marker'"
-        action: "Construct a regular expression to find the specific `extraction_marker`. This regex will also incorporate `source_ref_key` and `context_tags` if provided, to target the search within YAML frontmatter of KB entries."
-        input: "extraction_marker, source_ref_key, context_tags"
-        output: "Regex pattern string"
-      - step: 4b # Branch for get_evidence_by_marker
-        condition: "task_type == 'get_evidence_by_marker'"
-        action: "Execute search on relevant KB directories using the marker regex."
+        action: "Execute search on `philosophy-knowledge-base/` using the pattern."
         tools: ["search_files"]
         input: "{ path: 'philosophy-knowledge-base/', regex: [pattern], file_pattern: '*.md' }"
-        output: "List of matching file paths/contexts (ideally one)"
-      - step: 4c # Branch for get_evidence_by_marker
+        output: "List of matching KB file paths/contexts"
+      - step: 3c
+        condition: "task_type == 'find_evidence_by_query'"
+        action: "For each matching KB entry, read its content. If it contains `source_ref_keys` and `extraction_markers` pointing to `source_materials/processed/`, follow V1 navigation (Steps 4b-4e) to get the source chunk content. Extract relevant snippets."
+        tools: ["read_file"]
+        input: "Search results, KB entry content"
+        output: "Formatted evidence_results array"
+      - step: 4a # Branch for get_evidence_by_marker (Assumes marker implies a KB entry that then links to a source)
         condition: "task_type == 'get_evidence_by_marker'"
-        action: "Process the search results. For each matching file path, read the full content of the KB entry. Extract the evidence associated with the marker and its rigor fields."
-        tools: ["read_file"] 
-        input: "Search results (list of file paths)"
-        output: "Formatted evidence_results array"
-      - step: 5a # Branch for get_evidence_by_id
-        condition: "task_type == 'get_evidence_by_id'"
-        action: "Construct a regular expression to locate the specific `kb_entry_id` within the YAML frontmatter of KB entries."
-        input: "kb_entry_id"
-        output: "Regex pattern string"
-      - step: 5b # Branch for get_evidence_by_id
-        condition: "task_type == 'get_evidence_by_id'"
-        action: "Execute search on relevant KB directories using the ID regex."
+        action: "Search KB for entries matching `extraction_marker` and optionally `source_ref_key` / `context_tags`."
         tools: ["search_files"]
-        input: "{ path: 'philosophy-knowledge-base/', regex: [pattern], file_pattern: '*.md' }"
-        output: "List of matching file paths/contexts (ideally one)"
-      - step: 5c # Branch for get_evidence_by_id
+        input: "{ path: 'philosophy-knowledge-base/', regex: [pattern_for_marker_etc], file_pattern: '*.md' }"
+        output: "List of matching KB file paths."
+      - step: 4b
+        condition: "task_type == 'get_evidence_by_marker' AND matching KB entry found"
+        action: "Read the matching KB entry. Parse its `source_ref_keys` to get the `source_id` and the specific `extraction_markers` for the source text."
+        tools: ["read_file"]
+        input: "Path to matching KB entry."
+        output: "`source_id`, specific `extraction_markers` for source text."
+      - step: 4c
+        condition: "task_type == 'get_evidence_by_marker' AND `source_id` obtained"
+        action: "Consult `source_materials/processed/master_index.json` using `source_id` to get `path_to_index`."
+        tools: ["read_file"]
+        input: "`source_materials/processed/master_index.json`, `source_id`"
+        output: "`path_to_index` for the material."
+      - step: 4d
+        condition: "task_type == 'get_evidence_by_marker' AND `path_to_index` obtained"
+        action: "Read the material-specific `index.md` (using `path_to_index`) to understand its chunk structure."
+        tools: ["read_file"]
+        input: "Path to material-specific `index.md`."
+        output: "Chunk structure information."
+      - step: 4e
+        condition: "task_type == 'get_evidence_by_marker' AND chunk structure known"
+        action: "Use `extraction_markers` (from KB entry) and chunk structure to locate and read the specific chunk file from `source_materials/processed/[path_from_master_index_to_material_dir]/chunks/`. Extract the evidence snippet."
+        tools: ["read_file"]
+        input: "Path to specific chunk file."
+        output: "Formatted evidence_results array (containing snippet, KB ID, source info)."
+      - step: 5a # Branch for get_evidence_by_id (Assumes kb_entry_id is a KB entry, not a direct source_id)
         condition: "task_type == 'get_evidence_by_id'"
-        action: "Process the search results. For each matching file path, read the full content of the KB entry. Extract the evidence and associated rigor fields."
-        tools: ["read_file"] 
-        input: "Search results (list of file paths)"
-        output: "Formatted evidence_results array"
+        action: "Read the KB entry specified by `kb_entry_id`."
+        tools: ["read_file"]
+        input: "Path to KB entry (derived from `kb_entry_id`)."
+        output: "Content of the KB entry."
+      - step: 5b
+        condition: "task_type == 'get_evidence_by_id' AND KB entry read"
+        action: "Extract evidence snippet, `source_ref_keys`, `extraction_markers`, and rigor fields from the KB entry. If `source_ref_keys` exist, optionally perform steps 4b-4e to fetch direct source text for richer context."
+        input: "KB entry content."
+        output: "Formatted evidence_results array."
       - step: 6
         action: "Examine the `evidence_results` array to determine if any evidence was successfully retrieved and formatted."
         input: "evidence_results array"

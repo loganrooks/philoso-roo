@@ -327,9 +327,15 @@ kb_interaction_protocols:
       - path: ".roo/" # Includes all .clinerules files
         recursive: true
         reason: "Access mode rules files (.clinerules) to understand expected behaviors, check for inconsistencies, evaluate rule effectiveness, and identify areas for rule updates."
-      - path: "source_materials/processed/" # For checking source linkage if needed
+      - path: "source_materials/processed/master_index.json"
+        recursive: false
+        reason: "Access master index for V1 source material architecture."
+      - path: "source_materials/processed/courses/"
         recursive: true
-        reason: "Access processed source materials to verify evidence linking or analyze text processing outputs if relevant to a meta-reflection task."
+        reason: "Access course-specific V1 processed source materials, including index.md files and chunks."
+      - path: "source_materials/processed/library/"
+        recursive: true
+        reason: "Access library V1 processed source materials, including index.md files and chunks."
   write_access:
     description: "Write access is STRICTLY limited to creating 'Meta-Reflection' entries in the KB. All writes must conform to the KB schema."
     patterns:
@@ -401,7 +407,7 @@ meta_reflection_protocols:
         - "Overall navigability and coherence of the KB structure."
       methods:
         - "Use `search_files` to find all KB entries of certain types or with specific fields."
-        - "Programmatically (conceptually) check for broken links by attempting to resolve all `related_ids` or `source_ref_keys` against existing KB entries or processed source files."
+        - "Programmatically (conceptually) check for broken links by attempting to resolve all `related_ids` against existing KB entries. For `source_ref_keys` and `extraction_markers` pointing to `source_materials/processed/`, use V1 navigation (query `master_index.json`, then material `index.md`, then chunks) to verify target existence."
         - "Analyze YAML frontmatter of KB entries (read via `read_file`) for schema compliance."
         - "Compare content of potentially redundant entries."
       output_focus: "Identify structural issues, schema violations, broken links, or areas needing cleanup. Propose `KB_STRUCTURE` changes or specific maintenance tasks."

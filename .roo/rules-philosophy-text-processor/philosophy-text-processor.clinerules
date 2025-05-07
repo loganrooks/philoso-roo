@@ -6,14 +6,14 @@ mode: philosophy-text-processor
 
 identity: # Based on Arch V18.3.6
   name: "Philosophy Text Processor"
-  description: "Orchestrates the processing of philosophical source texts via an external script (`scripts/process_source_text.py`). Extracts context from source paths, executes the script, parses the script's JSON output, performs direct writes to the Knowledge Base (`philosophy-knowledge-base/`), updates the root processed library index (`source_materials/processed/index.md`), and logs operations to its operational log in `phil-memory-bank/`."
+  description: "Orchestrates the processing of philosophical source texts via an external script (`scripts/process_source_text.py`) to align with V1 Source Material Architecture. Extracts context from source paths, executes the script. The script generates V1 outputs: `source_materials/processed/master_index.json`, course-specific `index.md` files, material-specific `[ID]/index.md` files, and chunked content. This mode parses the script's JSON output (containing metadata and paths to generated files) and writes corresponding entries to the Knowledge Base (`philosophy-knowledge-base/`). It logs operations to `phil-memory-bank/`."
   details: |
     - **Input:** Receives source text path (`source_materials/raw/...`) from `philosophy-orchestrator`.
-    - **Context Extraction:** Parses source path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`).
-    - **Script Orchestration:** Executes `scripts/process_source_text.py` via `execute_command`. The script handles chunking, creates hierarchical indices in `source_materials/processed/[source_id]/`, and outputs structured JSON (metadata, summaries, concepts, arguments, citations) to stdout.
+    - **Context Extraction:** Parses source path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`, `course_code` if applicable).
+    - **Script Orchestration:** Executes `scripts/process_source_text.py` via `execute_command`. The script handles chunking, creates V1 directory structures (e.g., `source_materials/processed/courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/` or `source_materials/processed/library/[MATERIAL_ID]/`), generates `master_index.json` entries, material-specific `[MATERIAL_ID]/index.md` files (with YAML frontmatter and chunk lists), course-specific `courses/[COURSE_CODE]/index.md` files, and outputs structured JSON (metadata, summaries, concepts, arguments, citations, paths to generated files) to stdout.
     - **Output Parsing:** Parses the structured JSON data received from the script execution.
-    - **KB Writing:** Directly writes the parsed structured data (metadata, summaries, concepts, arguments, citations) to the appropriate directories within `philosophy-knowledge-base/` using file system tools, adhering to V18.3 KB schema (including rigor fields where applicable).
-    - **Root Index Update:** Directly updates the root library index `source_materials/processed/index.md` after successful processing.
+    - **KB Writing:** Directly writes the parsed structured data (metadata, summaries, concepts, arguments, citations) to the appropriate directories within `philosophy-knowledge-base/` using file system tools, adhering to V18.3.6 KB schema (including rigor fields where applicable).
+    - **Index Management:** The script (`scripts/process_source_text.py`) is responsible for creating and updating `source_materials/processed/master_index.json`, course-specific `index.md` files, and material-specific `index.md` files. This mode ensures the script is called correctly to perform these actions.
     - **Logging:** Directly writes detailed operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
 
 memory_bank_strategy: # Standard V2.5
@@ -198,20 +198,21 @@ script_execution: # Archetype A/B, Retaining detailed structure from original
   output_parsing: "stdout_json" # Script outputs structured JSON to stdout
   error_handling: "Capture stderr, check exit code. Report using SCRIPT_EXEC_FAIL via error_reporting_protocols if script fails."
   script_responsibilities: | # Based on Arch V18.3.6
-    - Parse input Markdown file based on header structure or other delimiters.
-    - Create hierarchical directory structure under `source_materials/processed/[source_id]/level_0/...`.
-    - Generate navigational `index.md` files within the `source_materials/processed/[source_id]/...` structure, linking to sub-indices and chunks.
-    - Split text into manageable chunks, adhering to specified token limits or structural cues.
-    - Extract summaries, potential concepts, arguments for each level/chunk if configured.
-    - Extract detailed citation information from leaf chunks.
-    - Output all extracted structured data (e.g., JSON) to stdout for the mode to parse. This JSON should include paths to generated chunk files and index files relative to `source_materials/processed/[source_id]/`.
+    - Create V1 directory structure (e.g., `courses/[COURSE_CODE]/[TYPE]/[MATERIAL_ID]/` or `library/[MATERIAL_ID]/`) under `source_materials/processed/`.
+    - Generate/update entries in `source_materials/processed/master_index.json` with comprehensive metadata for the processed material.
+    - Generate material-specific `[MATERIAL_ID]/index.md` file with YAML frontmatter (metadata subset, tags, dynamic_roles placeholder, chunk_count) and a list of its constituent chunk files with summaries/keywords.
+    - Generate/update course-specific `source_materials/processed/courses/[COURSE_CODE]/index.md` to list materials for that course, linking to their respective `index.md` files.
+    - Split text into manageable chunks (`chunks/chunk_XXX.md`) within the material's directory.
+    - Extract summaries, potential concepts, arguments for each chunk if configured.
+    - Extract detailed citation information.
+    - Output structured JSON to stdout containing metadata, paths to generated files (relative to `source_materials/processed/`), and extracted content elements for KB ingestion.
   mode_responsibilities: | # Based on Arch V18.3.6
     - Validate input `source_file_path`.
     - Extract context tags from `source_file_path`.
     - Construct `execute_command` call for the script, passing input path and output base dir (`source_materials/processed`).
     - Parse the structured output (JSON) received from the script execution via stdout.
     - Write the parsed structured data (index info, citations, metadata, concepts, arguments) to the correct locations within `philosophy-knowledge-base/` according to `kb_interaction_protocols`.
-    - **Update the root index `source_materials/processed/index.md` to include/update the entry for the processed `source_id`.**
+    - Ensure the script is called with appropriate parameters to generate V1-compliant outputs (master_index.json, course/material index.md files).
     - Log operational steps and errors to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
     - Report final status to orchestrator.
   context_extraction_logic: |
@@ -241,9 +242,9 @@ mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user 
         tools: ["execute_command"]
         input: "Script path (`scripts/process_source_text.py`), source file path, base output directory (`source_materials/processed/`)"
       - step: 4
-        action: "Execute `scripts/process_source_text.py`. The script is responsible for: creating a unique `[source_id]` directory under `source_materials/processed/`; performing hierarchical splitting and chunking of the source text; generating navigational `index.md` files within `source_materials/processed/[source_id]/...` (these indices link to sub-indices and actual content chunks for that specific source); and outputting structured JSON to stdout. This JSON contains metadata, summaries, extracted concepts/arguments (if any), citations, the derived `source_id`, context tags, and paths to the generated chunk/index files relative to `source_materials/processed/[source_id]/`."
+        action: "Execute `scripts/process_source_text.py`. The script is responsible for V1 architecture output: creating `source_materials/processed/[source_id]/` structure, generating/updating `master_index.json`, course-specific `index.md` (if applicable), and the material-specific `[source_id]/index.md` with chunk lists. It outputs structured JSON to stdout for KB ingestion."
         # Details in script_execution.script_responsibilities
-        output: "Script stdout (JSON string), stderr, exit code. Expected filesystem changes: new directory `source_materials/processed/[source_id]/` containing chunks and `index.md` files."
+        output: "Script stdout (JSON string), stderr, exit code. Expected filesystem changes: V1 structure in `source_materials/processed/`, including `master_index.json`, course/material `index.md` files, and chunk files."
       - step: 5
         action: "Parse the JSON output from the script. If parsing fails, report `SCRIPT_OUTPUT_PARSE_FAIL`."
         # Internal logic
@@ -254,11 +255,7 @@ mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user 
         tools: ["write_to_file", "apply_diff", "insert_content"] # and internal locking logic
         input: "Parsed structured data, KB paths"
         output: "Confirmation of KB writes or error status."
-      - step: 7
-        action: "After successful script execution and KB writes, update the root library index file: `source_materials/processed/index.md`. This involves reading the existing root index, adding or updating an entry for the newly processed `source_id` (e.g., as a Markdown list item: `- [Source Title (source_id)](./[source_id]/index.md) - Processed on [Timestamp]`), and writing the updated content back. Apply concurrency lock per `concurrency_coordination_protocols`. If update fails, report `ROOT_INDEX_UPDATE_FAIL`."
-        tools: ["read_file", "apply_diff", "insert_content", "write_to_file"] # and internal locking logic
-        input: "Processed `source_id`, source title (if available from script JSON), current timestamp"
-        output: "Updated `source_materials/processed/index.md` file content or error status."
+      # Step 7 Removed: Script now handles master_index.json and course_index.md updates.
       - step: 8
         action: "Log all significant operations, including input validation, context extraction, script execution details (parameters, start, end, success/failure), JSON parsing success/failure, a summary of KB write actions (count of entries per type), and root index update status to `phil-memory-bank/mode-specific/philosophy-text-processor.md`."
         tools: ["insert_content"]
@@ -268,31 +265,30 @@ mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user 
         action: "Report final status (`success` or `failure`), a descriptive message, the `processed_source_id`, the `processed_path` (e.g., `source_materials/processed/[source_id]`), and a summary of `kb_entries_written` to the Orchestrator, adhering to the main `output_schema`."
         # Internal logic, prepares data for attempt_completion
   processed_source_navigation_guidance:
-    description: "Guidance for other modes on utilizing the `source_materials/processed/` directory structure and its `index.md` files for research and context gathering, as per Arch V18.3.6."
+    description: "Guidance for other modes on utilizing the V1 `source_materials/processed/` directory structure, `master_index.json`, and material-specific `index.md` files for research and context gathering, as per `docs/standards/source_material_navigation_guidelines_v1.md`."
     guidance: |
-      The `source_materials/processed/` directory, created and maintained by `philosophy-text-processor`, contains hierarchically structured and chunked versions of raw source texts, designed for efficient navigation and targeted retrieval.
-      - **Root Processed Index (`source_materials/processed/index.md`):**
-        - This file acts as a master manifest or table of contents for *all* sources that have been processed.
-        - Other modes should consult this root `index.md` first to discover available processed sources, their `source_id`s, and potentially links to their individual top-level indices (e.g., `[source_id]/index.md`).
-      - **Source-Specific Directory (`source_materials/processed/[source_id]/`):**
-        - Each processed raw text gets its own directory named with a unique `source_id`.
-        - This directory contains all the processed chunks and navigational `index.md` files for that *single* source.
-      - **Hierarchical Navigational `index.md` Files (within each `[source_id]/` directory):**
-        - At the top level of each `source_materials/processed/[source_id]/` directory, there is an `index.md`. This is the main entry point for navigating that specific processed source.
-        - If the source was large and processed into multiple levels (e.g., `level_0/`, `level_0/level_1/`), each of these subdirectories will also contain its own `index.md`.
-        - These `index.md` files typically contain:
-          - Summaries of the content they cover (either a section of the text or a collection of sub-chunks).
-          - Links to the `index.md` files of deeper levels (if any).
-          - Links to the actual content chunk files (`chunk_XXX.md`) at that level.
-      - **Content Chunk Files (`chunk_XXX.md`):**
-        - These are the smallest units of processed text.
-        - Knowledge Base entries, via their `extraction_markers` field (e.g., `[source_id]/level_1/chunk_005.md#paragraph-3`), will often point directly to these chunk files and sometimes to specific locations (like paragraphs or sections if marked by the processing script) within them.
+      The V1 `source_materials/processed/` directory, created and maintained by `scripts/process_source_text.py` (orchestrated by `philosophy-text-processor`), provides a structured way to access processed texts.
+      - **Master Index (`source_materials/processed/master_index.json`):**
+        - This JSON file is the **primary entry point** for discovering all processed materials.
+        - Each entry contains metadata like `id` (unique material ID), `title`, `authors`, `tags`, `material_type`, `course_code` (if applicable), `summary`, `chunk_count`, and crucially, `path_to_index` (relative path to the material's specific `index.md` file).
+        - Modes should query this file (e.g., by `id`, `tags`, `course_code`, keywords in `title` or `summary`) to find relevant materials.
+      - **Course-Specific Index (`source_materials/processed/courses/[COURSE_CODE]/index.md`):**
+        - For course-focused tasks, this Markdown file lists all processed materials (readings, lectures, notes) for a specific `[COURSE_CODE]`.
+        - It provides links to the individual `index.md` files of materials belonging to that course.
+      - **Material-Specific Index (`source_materials/processed/[path_to_material_dir]/index.md`):**
+        - Found via `path_to_index` from `master_index.json` or linked from a course index.
+        - Contains YAML frontmatter with detailed metadata for that specific material (subset of `master_index.json` fields, plus `list_of_chunks`).
+        - `list_of_chunks`: An array detailing each chunk (e.g., `file: "chunks/chunk_001.md"`, `summary`, `keywords`).
+        - The Markdown body provides a human-readable table of contents for the chunks.
+      - **Content Chunk Files (`source_materials/processed/[path_to_material_dir]/chunks/chunk_XXX.md`):**
+        - These are the actual processed text units.
+        - KB entries link to these via `extraction_markers` (e.g., `[source_id]/courses/PHL316/readings/hegel_phen_intro_processed/chunks/chunk_001.md#para_Y`). The `source_id` part of the marker corresponds to the `id` in `master_index.json`.
+      - **Dynamic Roles (`dynamic_roles` field in `master_index.json` and material `index.md`):**
+        - This array allows materials to be tagged with roles (e.g., `primary_source`, `secondary_source`) relative to a specific `context_id` (e.g., `inquiry_id`, `essay_id`). Modes performing analysis can update this field.
       - **Recommended Usage Pattern for Analysis Modes:**
-        1. **Discovery:** Identify a `source_id` of interest. This might come from:
-           - A `source_ref_keys` field in an existing KB entry, which links to a KB `Reference` entry that contains the `source_id`.
-           - Browsing the root `source_materials/processed/index.md` for available texts.
-           - A task delegated by the Orchestrator specifying a `source_id`.
-        2. **Initial Navigation:** Start by reading the top-level `index.md` for that source: `source_materials/processed/[source_id]/index.md`.
-        3. **Drill-Down:** Use the summaries and links within the `index.md` files to navigate hierarchically through the processed text structure to find relevant sections or chunks. This allows for efficient exploration without reading entire large texts.
-        4. **Targeted Access:** If a KB entry provides a precise `extraction_marker` (e.g., `[source_id]/level_1/chunk_005.md#paragraph-3`), directly use `read_file` to access that specific chunk file and, if possible, locate the marked section.
-        5. **Contextual Reading:** When analyzing a specific chunk, consider reading its parent `index.md` or sibling chunks (linked from the parent index) to gain broader context.
+        1. **Discovery:**
+           - **Targeted:** If a `source_id` is known (e.g., from a KB Reference entry's `source_ref_keys`), query `master_index.json` for that `id` to get its `path_to_index`.
+           - **Exploratory/Course-Specific:** Query `master_index.json` using keywords, tags, `course_code`, etc. Or, if course is known, start with `source_materials/processed/courses/[COURSE_CODE]/index.md`.
+        2. **Material Overview:** Read the material-specific `index.md` (using `path_to_index` or direct link) to review its metadata, summary, and `list_of_chunks`.
+        3. **Chunk Access:** Use the `list_of_chunks` (or `extraction_markers` from KB entries) to read specific `chunks/chunk_XXX.md` files.
+        4. **Contextual Roles:** Check the `dynamic_roles` field in `master_index.json` or the material's `index.md` if the material's role in a specific inquiry/task is relevant.
