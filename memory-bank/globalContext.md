@@ -1,9 +1,30 @@
 # Progress
+### [2025-05-07 14:52:06] - QA Test Plan for Essay Workflow Stability Created
+- **Status:** Test Plan Created by `qa-tester` Mode
+- **Details:** A test plan ([`docs/testing/essay_workflow_stability_report_v1.md`](docs/testing/essay_workflow_stability_report_v1.md:1)) has been created to assess the stability of core essay writing workflows. This is in response to user prioritization of essay stability over the "Dated Course Material Integration Plan." The plan focuses on end-to-end scenarios using existing, non-dated materials to determine if recent `.clinerules` changes (from [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)) have introduced regressions.
+- **Next Steps:** Execute test plan scenarios.
+- **Cross-ref:** [Active Context: 2025-05-07 14:51:53], [`docs/testing/essay_workflow_stability_report_v1.md`](docs/testing/essay_workflow_stability_report_v1.md:1)
+# Progress
+### [2025-05-07 14:43:35] - Dated Course Material Integration Plan Paused for Essay Stability
+- **Status:** Paused
+- **Details:** User intervention prioritized immediate stability for essay writing functionality. All work on the "Dated Course Material Integration Plan" ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)) is paused. The immediate focus is to assess and ensure the stability of core essay writing workflows.
+- **Next Steps:**
+    1.  Log this intervention thoroughly across Memory Bank files. (Completed for `activeContext.md`, in progress for `globalContext.md`, `sparc.md`, `sparc-feedback.md`).
+    2.  Delegate a task to `qa-tester` to perform focused testing on core essay writing workflows, using existing/stable source materials. The QA tester should identify if any recent `.clinerules` changes (from [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)) have negatively impacted these workflows.
+    3.  If instability is found, plan and execute rollback of problematic `.clinerules` changes for affected modes.
+- **Cross-ref:** [Active Context: 2025-05-07 14:43:35], [Decision Log: 2025-05-07 14:43:35]
+# Progress
 ### [2025-05-07 13:40:00] - `.clinerules` Implementation for Dated Material &amp; AI Syllabus Integration Completed
 - **Status:** Completed by `code` Mode
 - **Details:** Implemented the `.clinerules` changes specified in [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1). This involved creating a new file for `philosophy-syllabus-processor` and updating existing files for `philosophy-text-processor`, `philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`, and `philosophy-orchestrator`. Changes included updates to `identity`, `input_schema`, and `mode_specific_workflows` to support AI-driven syllabus parsing and dated course material integration.
 - **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
 - **Governing Specification:** [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)
+# Decision Log
+### [2025-05-07 14:43:35] - Decision: Prioritize Essay Writing Stability - Pause Dated Material Integration
+- **Decision**: User intervention: Pause all current development on the "Dated Course Material Integration Plan" ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)). The immediate priority is to ensure the stability of existing essay writing functionality.
+- **Rationale**: User needs to use the system for essay writing immediately. Recent changes for dated materials and syllabuses are incomplete and may have destabilized core functionality.
+- **Outcome**: The "Dated Course Material Integration Plan" is paused. Focus shifts to assessing and ensuring the stability of essay writing workflows. This may involve reviewing and potentially reverting recent `.clinerules` changes.
+- **Cross-ref:** [Active Context: 2025-05-07 14:43:35], [SPARC MB Intervention Log: 2025-05-07 14:43:35]
 - **Cross-ref:** [Active Context: 2025-05-07 13:40:00], [System Pattern: AI-Driven Syllabus Processing &amp; Dated Material .clinerules Integration V1 at Global Context 2025-05-07 13:11:00]
 # Progress
 ### [2025-05-07 13:11:00] - Specification for `.clinerules` Dated Syllabus Updates Created
