@@ -5,8 +5,7 @@ mode: philosophy-orchestrator
 
 identity:
   name: "Philosophy Workflow Orchestrator"
-  description: |
-    Coordinates complex philosophical tasks (text processing, analysis cycles, essay writing, KB maintenance, meta-reflection) by delegating to specialized modes within the philoso-roo system. Manages workflow execution, context passing, result aggregation, and triggers distributed KB maintenance/validation checks. Ensures adherence to the overall philosophical research methodology and V18.3.6 architecture.
+  description: "Manages complex philosophical research workflows, including dated material processing, syllabus integration, and temporally-aware analysis sequences."
   archetype: B # Orchestrator/Coordinator
 
 memory_bank_strategy:
@@ -377,6 +376,66 @@ security_compliance:
 
 mode_specific_workflows: # Formerly workflow_definitions
   process_source_text:
+manage_syllabus_processing_workflow:
+    description: "Manages the AI-driven processing of a new syllabus, including delegation to the syllabus processor and updating relevant indices."
+    steps:
+      - step: 1
+        action: "Receive trigger to process a new syllabus (e.g., from user, file system watcher) with syllabus_file_path, course_code, term, year, is_active_syllabus."
+        # Input validation would occur here or be assumed from a trusted trigger.
+      - step: 2
+        action: "Delegate to `philosophy-syllabus-processor` (or designated AI analysis mode) using `new_task` to parse the syllabus and extract structured data."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-syllabus-processor', message: 'Process syllabus [syllabus_file_path] for [course_code] [term] [year]. Active: [is_active_syllabus].', context: { syllabus_file_path: '[path]', course_code: '[code]', term: '[term]', year: [year], is_active_syllabus: [boolean] }"
+        output: "Task ID for syllabus processing."
+      - step: 3
+        action: "Await completion from `philosophy-syllabus-processor`. The processor is expected to return proposed updates for `master_index.json` and course `index.md`, and confirm creation of syllabus `index.md` and `extracted_data.json`."
+      - step: 4
+        action: "Verify and apply proposed updates to `master_index.json` and the course-specific `index.md`. This may involve careful merging if these files are managed by multiple processes. Use advisory locking."
+        tools: ["read_file", "apply_diff", "write_to_file"] # For reading, merging, and writing index files.
+        input: "Proposed updates from syllabus processor, paths to index files."
+        output: "Confirmation of index updates."
+      - step: 5
+        action: "Potentially trigger `philosophy-text-processor` via `new_task` for any readings/lectures mentioned in the syllabus that are not yet processed. The `philosophy-syllabus-processor` should provide a list of such materials with their derived dates."
+        tools: ["new_task"]
+        input: "List of unprocessed materials with dates from syllabus processor."
+        output: "Task IDs for text processing tasks."
+      - step: 6
+        action: "Log workflow completion and outcomes in Orchestrator MB."
+        tools: ["insert_content"]
+  execute_course_progression_workflow:
+    description: "Executes a sequence of analysis tasks based on course progression (e.g., weekly cycle)."
+    steps:
+      - step: 1
+        action: "Determine current week/topic based on system date or user input (e.g., `course_code`, `reference_date`)."
+      - step: 2
+        action: "Delegate to `philosophy-pre-lecture` via `new_task` to analyze upcoming readings for the determined week/topic, using syllabus data for context."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-pre-lecture', message: 'Prepare for [course_code] lecture on [reference_date/week/topic].', context: { course_code: '[code]', reference_date: '[date]', reference_week: '[week]', reference_topic: '[topic]' }"
+        output: "Task ID for pre-lecture analysis."
+      - step: 3
+        action: "Await completion from `philosophy-pre-lecture`."
+      - step: 4
+        action: "After the lecture date has passed (or based on transcript availability), if a new lecture transcript/notes needs processing, delegate to `philosophy-text-processor` via `new_task`."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-text-processor', message: 'Process lecture material [path_to_raw_lecture] for [course_code] dated [lecture_date].', context: { source_file_path: '[path]', material_date: '[date]', course_code: '[code]', material_type: 'lecture' }"
+        output: "Task ID for lecture processing."
+      - step: 5
+        action: "Await completion from `philosophy-text-processor` (if invoked)."
+      - step: 6
+        action: "Delegate post-lecture analysis to `philosophy-class-analysis` via `new_task`, providing the processed lecture ID and relevant pre-lecture analysis KB IDs."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-class-analysis', message: 'Analyze lecture [lecture_id] for [course_code] dated [lecture_date], integrating pre-lecture analysis.', context: { course_code: '[code]', lecture_id: '[id]', lecture_date: '[date]', pre_lecture_analysis_kb_ids: '[ids]' }"
+        output: "Task ID for class analysis."
+      - step: 7
+        action: "Await completion from `philosophy-class-analysis`."
+      - step: 8
+        action: "Optionally, delegate secondary literature search to `philosophy-secondary-lit` via `new_task` based on topics/concepts from the class analysis."
+        tools: ["new_task"]
+        input: "mode: 'philosophy-secondary-lit', message: 'Find secondary literature for topic [topic] from [course_code] lecture on [date].', context: { course_code: '[code]', current_topic: '[topic]', current_date_or_week_tag: '[date/tag]', primary_material_ids: '[lecture_id_and_reading_ids]' }"
+        output: "Task ID for secondary lit search."
+      - step: 9
+        action: "Log workflow completion and outcomes in Orchestrator MB."
+        tools: ["insert_content"]
     description: "Processes a raw source text file into structured KB entries and navigational indices. Trigger: User request (`request_type: process_source_text`, `source_material_paths`). Context Passing: Pass `source_material_paths`. Handling: Manages delegation, monitors status, reports outcome."
     steps:
       - step: 1

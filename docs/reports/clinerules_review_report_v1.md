@@ -2,7 +2,7 @@
 
 **Date:** 2025-05-01
 **Author:** Architect Mode
-**Context:** Review of specified `.clinerules` files for consistency with `architecture_v12.md` and `new_requirements_spec_v1.md`, following identification of a flawed SPARC handover.
+**Context:** Review of specified `.clinerules` files for consistency with `architecture_v12.md` and `new_requirements_spec_v1.md`, following identification of a flawed a previous system handover.
 **Reference Documents:**
 *   `architecture_v12.md`
 *   `new_requirements_spec_v1.md`

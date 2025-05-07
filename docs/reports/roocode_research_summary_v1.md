@@ -64,4 +64,4 @@ This report summarizes findings from researching RooCode documentation, primaril
 *   Confirm the official structure and intended usage patterns for the Memory Bank.
 *   Investigate the `Prompt Structure` documentation for details on context passing.
 *   Clarify the status and best practices for browser automation (older `browser_action` vs. `puppeteer` MCP).
-*   Explore community projects like SPARC and Memory Bank for advanced patterns.
+*   Explore community projects like similar systems and Memory Bank for advanced patterns.

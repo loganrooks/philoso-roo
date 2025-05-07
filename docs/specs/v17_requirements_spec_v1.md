@@ -27,7 +27,7 @@ This document details the functional and non-functional requirements for the V17
 
 ## 4. Mode Interaction Requirements
 
-*   **REQ-V17-MI-01:** All modes MUST interact with `memory-bank/` via the designated SPARC evidence/context manager mode (e.g., `philosophy-evidence-manager`) for retrieving or updating SPARC operational context.
+*   **REQ-V17-MI-01:** All modes MUST interact with `memory-bank/` via the designated system evidence/context manager mode (e.g., `philosophy-evidence-manager`) for retrieving or updating operational context.
 *   **REQ-V17-MI-02:** Modes requiring access to or modification of `philosophy-knowledge-base/` data (domain or operational) MUST formulate requests and send them to `philosophy-kb-manager` via its defined API (see Section 5.2).
 *   **REQ-V17-MI-03:** `philosophy-kb-manager` MUST handle all file system operations (read, write, list, delete) within the `philosophy-knowledge-base/` directory hierarchy.
 *   **REQ-V17-MI-04:** `philosophy-kb-manager` MUST return requested data, confirmation of action (with relevant IDs), or a structured error status to the requesting mode.
@@ -43,8 +43,8 @@ This document details the functional and non-functional requirements for the V17
 
 *   **REQ-V17-KBM-01:** `philosophy-kb-manager` MUST act as the sole gateway to `philosophy-knowledge-base/`.
 *   **REQ-V17-KBM-02:** `philosophy-kb-manager` MUST maintain the structure, integrity, and consistency of the `philosophy-knowledge-base/` according to configured rules.
-*   **REQ-V17-KBM-03:** `philosophy-kb-manager` MUST log its own SPARC mode execution details (requests received, actions taken, responses sent) to `memory-bank/mode-specific/philosophy-kb-manager.md`.
-*   **REQ-V17-KBM-04:** `philosophy-kb-manager` MUST NOT directly access `memory-bank/` for KB operational data (e.g., reading KB status from MB). It MAY query the SPARC context manager (`philosophy-evidence-manager`) for its own operational needs (e.g., SPARC-level context) if necessary.
+*   **REQ-V17-KBM-03:** `philosophy-kb-manager` MUST log its own mode execution details (requests received, actions taken, responses sent) to `memory-bank/mode-specific/philosophy-kb-manager.md`.
+*   **REQ-V17-KBM-04:** `philosophy-kb-manager` MUST NOT directly access `memory-bank/` for KB operational data (e.g., reading KB status from MB). It MAY query the system context manager (`philosophy-evidence-manager`) for its own operational needs (e.g., system-level context) if necessary.
 *   **REQ-V17-KBM-05:** `philosophy-kb-manager` MUST load its configuration (schemas, validation rules, templates) from `philosophy-knowledge-base/_operational/formatting_templates_rules/` upon initialization.
 
 ### 5.2 API / Interface (Detailed)
@@ -168,7 +168,7 @@ This document details the functional and non-functional requirements for the V17
 *   **REQ-V17-PERF-02:** Indexing strategies implemented by `kb-manager` MUST be efficient enough to support timely querying.
 *   **REQ-V17-PERF-03:** Long-running `kb-manager` operations (e.g., full re-indexing, extensive validation) SHOULD be executable asynchronously or report progress, allowing requesting modes to proceed or query status later.
 *   **REQ-V17-PERF-04:** Caching mechanisms MAY be considered within `kb-manager` for frequently accessed data or query results, if performance analysis indicates a need.
-*   **REQ-V17-PERF-05:** Performance metrics (e.g., request latency, operation duration) for `kb-manager` operations SHOULD be logged (potentially within `_operational/logs/` or SPARC MB) to facilitate monitoring and optimization.
+*   **REQ-V17-PERF-05:** Performance metrics (e.g., request latency, operation duration) for `kb-manager` operations SHOULD be logged (potentially within `_operational/logs/` or Operational Memory) to facilitate monitoring and optimization.
 
 ## 7. Non-Functional Requirements
 
@@ -214,7 +214,7 @@ This document details the functional and non-functional requirements for the V17
 *   **REQ-V17-PERF-02:** Indexing strategies implemented by `kb-manager` MUST be efficient enough to support timely querying.
 *   **REQ-V17-PERF-03:** Long-running `kb-manager` operations (e.g., full re-indexing, extensive validation) SHOULD be executable asynchronously or report progress, allowing requesting modes to proceed or query status later.
 *   **REQ-V17-PERF-04:** Caching mechanisms MAY be considered within `kb-manager` for frequently accessed data or query results, if performance analysis indicates a need.
-*   **REQ-V17-PERF-05:** Performance metrics (e.g., request latency, operation duration) for `kb-manager` operations SHOULD be logged (potentially within `_operational/logs/` or SPARC MB) to facilitate monitoring and optimization.
+*   **REQ-V17-PERF-05:** Performance metrics (e.g., request latency, operation duration) for `kb-manager` operations SHOULD be logged (potentially within `_operational/logs/` or Operational Memory) to facilitate monitoring and optimization.
 
 ## 7. Non-Functional Requirements
 

@@ -63,9 +63,9 @@ graph TD
     end
 
     subgraph Data Layer
-        subgraph SPARC Memory
+        subgraph Operational Memory
             EvidMan(philosophy-evidence-manager)
-            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+            OPERATIONALMB[(Operational Memory<br>memory-bank/)]
         end
         subgraph Philosophical Knowledge Base
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
@@ -126,8 +126,8 @@ graph TD
     MetaReflector -- Query MB --> EvidMan
     MetaReflector -- Read Docs/Rules --> Workspace/.roo/docs
 
-    %% SPARC Memory Interactions (Unchanged)
-    EvidMan -- Access/Update --> SPARCMB
+    %% Operational Memory Interactions (Unchanged)
+    EvidMan -- Access/Update --> OPERATIONALMB
     Orchestrator -- Use Context --> EvidMan
     TextProc -- Use Context --> EvidMan
     PreLec -- Use Context --> EvidMan
@@ -148,8 +148,8 @@ graph TD
     class Scripts script;
     classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
     class VCS vcs;
-    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
-    class SPARCMB sparcmb;
+    classDef operationalmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class OPERATIONALMB operationalmb;
     classDef kbdir fill:#fffacd,stroke:#8a6d3b,stroke-width:1px,stroke-dasharray: 5 5;
     class Concepts,Arguments,Quotations,References,Questions,Theses,Relationships,Methods,MetaReflections,Indices,ProcessedTexts,Analyses,Citations kbdir;
 
@@ -214,7 +214,7 @@ Write access is restricted to specific modes and subdirectories to maintain orga
     *   **Cleanup (Optional/Future):** Implement rules for archiving or flagging outdated/redundant information.
 *   **Triggers:**
     *   Manually invoked by the user.
-    *   Scheduled execution triggered by the SPARC orchestrator (e.g., daily, weekly).
+    *   Scheduled execution triggered by the system orchestrator (e.g., daily, weekly).
     *   Potentially triggered by `philosophy-orchestrator` after major KB updates.
 *   **Interaction:** Reads extensively from all KB subdirectories. Writes primarily to the `indices/` subdirectory. Reports findings and potential issues to the user/orchestrator.
 

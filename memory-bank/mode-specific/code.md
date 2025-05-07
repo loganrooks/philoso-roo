@@ -1,5 +1,35 @@
 # Code Mode Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
+### [2025-05-07 13:40:00] `.clinerules` for Dated Material &amp; AI Syllabus Integration
+- **Purpose**: Implemented `.clinerules` changes for multiple philosophy modes to support dated course material and AI-driven syllabus processing.
+- **Files**:
+  - `/.roo/rules-philosophy-syllabus-processor/philosophy-syllabus-processor.clinerules` (created)
+  - `/.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules` (updated)
+  - `/.roo/rules-philosophy-pre-lecture/philosophy-pre-lecture.clinerules` (updated)
+  - `/.roo/rules-philosophy-class-analysis/philosophy-class-analysis.clinerules` (updated)
+  - `/.roo/rules-philosophy-secondary-lit/philosophy-secondary-lit.clinerules` (updated)
+  - `/.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules` (updated)
+- **Status**: Implemented
+- **Dependencies**: Relies on specification document [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1) and related architectural documents.
+- **API Surface**: Updates to `input_schema` and `mode_specific_workflows` for affected modes.
+- **Tests**: N/A (Configuration files). System-level testing of modes with new rules would be required.
+- **Cross-ref:** [Active Context: 2025-05-07 13:40:00], [Global Progress: 2025-05-07 13:40:00]
+### [2025-05-07 12:18:00] `scripts/process_source_text.py` (V1.3.0 - Syllabus Processing Framework)
+- **Purpose**: Enhanced to integrate the framework for processing course syllabuses. Includes new CLI arguments for syllabus metadata, updated material type detection, specific ID/path generation for syllabuses, a placeholder `extract_syllabus_data` function, generation of `extracted_data.json`, and modifications to material, master, and course index functions for syllabus-specific data.
+- **Files**: [`scripts/process_source_text.py`](scripts/process_source_text.py:1)
+- **Status**: Implemented (Syllabus data extraction logic is placeholder)
+- **Dependencies**: Python 3, `argparse`, `json`, `hashlib`, `pathlib`, `markdown_it`, `mdit_plain`, `tiktoken`, `sys`, `shutil`, `warnings`. Relies on architectural specifications in [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7), and [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) (Addendum V1.1).
+- **API Surface**: Command-line interface updated with `--term`, `--year`, `--is_active_syllabus` arguments. `material_type` now accepts "syllabus".
+- **Tests**: Existing tests in [`tests/test_process_source_text.py`](tests/test_process_source_text.py:1) will need significant updates to cover syllabus processing. New tests required for `extract_syllabus_data`.
+- **Cross-ref:** [Active Context: 2025-05-07 12:18:00], [Global Progress: 2025-05-07 12:18:00], [Global System Pattern: Syllabus Processing Framework V1 at Global Context 2025-05-07 12:18:00]
+### [2025-05-07 09:11:19] `scripts/process_source_text.py` (V1.2.0 - Dated Material Handling)
+- **Purpose**: Updated to handle dated raw material paths for lectures and readings. Extracts date metadata from paths, incorporates dates into processed material IDs, and includes `lecture_date`/`assigned_date` in `index.md` YAML frontmatter, `master_index.json` entries, and the script's stdout JSON output.
+- **Files**: [`scripts/process_source_text.py`](scripts/process_source_text.py:1)
+- **Status**: Implemented
+- **Dependencies**: Python 3, `argparse`, `json`, `hashlib`, `pathlib`, `markdown_it`, `mdit_plain`, `tiktoken`, `sys`. Relies on architectural specifications in [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7) and [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) (Addendum V1.1).
+- **API Surface**: Command-line interface updated with `--material_date` argument. JSON output to stdout now includes date fields.
+- **Tests**: Existing tests in [`tests/test_process_source_text.py`](tests/test_process_source_text.py:1) may need updates to reflect new date handling and argument.
+- **Cross-ref:** [Active Context: 2025-05-07 09:11:19], [Global Progress: 2025-05-07 09:11:19]
 ### [2025-05-07 03:26:00] `philosophy-orchestrator.clinerules` (`dynamic_roles` Protocol Update)
 - **Purpose**: Updated to implement the V1 `dynamic_roles` update protocol. Receives proposals from analysis modes and performs synchronized writes to `master_index.json` and material-specific `index.md` files.
 - **Files**: [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1)

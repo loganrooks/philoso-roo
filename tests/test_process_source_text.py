@@ -1,3 +1,4 @@
+import datetime
 import unittest
 from unittest import mock # Added import
 import json
@@ -9,16 +10,16 @@ import hashlib # Added for dynamic hash calculation
 # Add the script's directory to sys.path to allow direct import
 # This is a common pattern for testing scripts not installed as packages
 sys.path.append(str(Path(__file__).resolve().parent.parent / 'scripts'))
-from process_source_text import parse_arguments, count_tokens, get_plain_text, generate_summary, generate_safe_filename, split_into_paragraphs, generate_material_id, parse_markdown_structure_and_frontmatter, extract_citations_with_context, build_section_tree_for_v1, chunk_section_content, determine_material_metadata_and_paths, DEFAULT_OUTPUT_DIR, create_output_directories, generate_and_write_chunks, write_material_index_md, update_master_index, update_course_index_md, process_source_file
+from process_source_text import parse_arguments, count_tokens, get_plain_text, generate_summary, generate_safe_filename, split_into_paragraphs, generate_material_id, parse_markdown_structure_and_frontmatter, extract_citations_with_context, build_section_tree_for_v1, chunk_section_content, determine_material_metadata_and_paths, DEFAULT_OUTPUT_DIR, INDEX_FILENAME, create_output_directories, generate_and_write_chunks, write_material_index_md, update_master_index, update_course_index_md, process_source_file
 
 class TestParseArguments(unittest.TestCase):
 
     def test_parse_arguments_minimal_required(self):
         """Test parsing with only the required input_path argument."""
         args = parse_arguments(['some/input/file.md'])
-        self.assertEqual(args.input_path, Path('some/input/file.md'))
+        self.assertEqual(args.input_path, 'some/input/file.md')
         # Check default values for optional arguments
-        self.assertEqual(args.output_dir, Path('source_materials/processed'))
+        self.assertEqual(args.output_dir, 'source_materials/processed')
         self.assertEqual(args.max_tokens, 20000)
         self.assertIsNone(args.course_code)
         self.assertIsNone(args.material_type)
@@ -60,6 +61,35 @@ class TestParseArguments(unittest.TestCase):
         # but for now, SystemExit is a good first check.
         with self.assertRaises(SystemExit):
             parse_arguments(['some/file.md', '--max-tokens', 'not_an_integer'])
+
+    def test_parse_arguments_new_date_and_syllabus_args_provided(self):
+        """Test parsing new date and syllabus specific arguments when provided."""
+        test_args = [
+            'input/syllabus.md',
+            '--material-date', '2023-09-01',
+            '--term', 'Fall',
+            '--year', '2023',
+            '--is-active-syllabus'
+        ]
+        args = parse_arguments(test_args)
+        self.assertEqual(args.input_path, Path('input/syllabus.md'))
+        self.assertEqual(args.material_date, '2023-09-01')
+        self.assertEqual(args.term, 'Fall')
+        self.assertEqual(args.year, 2023)
+        self.assertTrue(args.is_active_syllabus)
+
+    def test_parse_arguments_new_date_and_syllabus_args_defaults(self):
+        """Test default values for new date and syllabus specific arguments."""
+        args = parse_arguments(['some/input/file.md'])
+        self.assertIsNone(args.material_date)
+        self.assertIsNone(args.term)
+        self.assertIsNone(args.year)
+        self.assertFalse(args.is_active_syllabus)
+
+    def test_parse_arguments_invalid_year_type(self):
+        """Test that SystemExit is raised for non-integer year."""
+        with self.assertRaises(SystemExit):
+            parse_arguments(['some/file.md', '--year', 'not_a_year'])
 
 class TestCountTokens(unittest.TestCase):
 
@@ -311,6 +341,57 @@ class TestGenerateMaterialId(unittest.TestCase):
         self.assertEqual(generate_material_id(title, material_type="lecture_material"), f"lecture_test_{title_hash}")
         self.assertEqual(generate_material_id(title, material_type="personal_note"), f"note_test_{title_hash}")
         self.assertEqual(generate_material_id(title, material_type="reading"), f"reading_test_{title_hash}")
+
+    def test_dated_lecture_id(self):
+        title = "Intro to Ethics"
+        course_code = "PHL101"
+        material_type = "lecture"
+        material_date = "2023-09-05"
+        title_hash = hashlib.sha1((title + material_date).encode('utf-8')).hexdigest()[:6]
+        expected_id = f"phl101_lecture_2023_09_05_intro_to_ethics_{title_hash}"
+        self.assertEqual(generate_material_id(title, material_type=material_type, course_code=course_code, material_date=material_date), expected_id)
+
+    def test_dated_reading_id(self):
+        title = "Chapter 1 The Republic"
+        course_code = "PHL202"
+        material_type = "reading"
+        material_date = "2024-01-15"
+        title_hash = hashlib.sha1((title + material_date).encode('utf-8')).hexdigest()[:6]
+        expected_id = f"phl202_reading_2024_01_15_chapter_1_the_republic_{title_hash}"
+        self.assertEqual(generate_material_id(title, material_type=material_type, course_code=course_code, material_date=material_date), expected_id)
+
+    def test_syllabus_id_with_term_year(self):
+        title = "Advanced Logic Syllabus"
+        course_code = "PHL316"
+        material_type = "syllabus"
+        term = "Fall"
+        year = "2025" # Script expects string for year in generate_material_id date param
+        # The script uses term+year as the date component for syllabus ID generation if term and year are provided
+        date_identifier_for_hash = f"{term.lower()}{year}"
+        title_hash = hashlib.sha1((title + date_identifier_for_hash).encode('utf-8')).hexdigest()[:6]
+        # generate_material_id uses the date_identifier_for_hash directly in the ID string if material_type is syllabus
+        expected_id = f"phl316_syllabus_{date_identifier_for_hash}_advanced_logic_syllabus_{title_hash}"
+        # We pass term and year to determine_material_metadata_and_paths, which then passes the combined string to generate_material_id
+        # For direct testing of generate_material_id, we simulate this by passing the combined termyear as material_date
+        self.assertEqual(generate_material_id(title, material_type=material_type, course_code=course_code, material_date=date_identifier_for_hash), expected_id)
+
+
+    def test_syllabus_id_with_material_date(self):
+        title = "Intro Philosophy Syllabus"
+        course_code = "PHL100"
+        material_type = "syllabus"
+        material_date = "Spring2024" # Example of using material_date directly for syllabus
+        title_hash = hashlib.sha1((title + material_date).encode('utf-8')).hexdigest()[:6]
+        expected_id = f"phl100_syllabus_{material_date.lower()}_intro_philosophy_syllabus_{title_hash}"
+        self.assertEqual(generate_material_id(title, material_type=material_type, course_code=course_code, material_date=material_date), expected_id)
+
+    def test_syllabus_id_no_date_info(self):
+        title = "General Philosophy Syllabus"
+        course_code = "PHL000"
+        material_type = "syllabus"
+        title_hash = hashlib.sha1(title.encode('utf-8')).hexdigest()[:6] # No date in hash if no date info
+        expected_id = f"phl000_syllabus_general_philosophy_syllabus_{title_hash}"
+        self.assertEqual(generate_material_id(title, material_type=material_type, course_code=course_code, material_date=None), expected_id)
 
 class TestParseMarkdownStructure(unittest.TestCase):
 
@@ -999,126 +1080,232 @@ class TestGenerateAndWriteChunks(unittest.TestCase):
         self.assertIn("Content Alpha.", all_written_content)
         self.assertIn("# Section Beta (Part 1)\n", all_written_content) # Check title for second chunk
         self.assertIn("Content Beta.", all_written_content)
+
 class TestWriteMaterialIndexMd(unittest.TestCase):
 
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
-    @mock.patch('process_source_text.generate_summary') # To control summary generation
-    def test_write_material_index_minimal_data(self, mock_generate_summary, mock_open_file):
-        """Test with minimal required data."""
-        mock_generate_summary.return_value = "Minimal summary."
-        material_info = {
-            "material_index_md_path": Path("test_output/library/min_id/index.md"),
-            "material_id": "min_id",
-            "title": "Minimal Title",
-            "material_type": "reading",
-            "source_type": "library_primary",
-            "full_text_for_summary": "Some text for summary" # Needed by generate_summary call in script
-        }
-        all_chunks_data = [] # No chunks
-
-        write_material_index_md(material_info, all_chunks_data)
-
-        mock_open_file.assert_called_once_with(material_info["material_index_md_path"], 'w', encoding='utf-8')
-        handle = mock_open_file()
-        written_content = "".join(call_args[0][0] for call_args in handle.write.call_args_list)
-
-        self.assertIn("id: min_id\n", written_content)
-        self.assertIn("title: \"Minimal Title\"\n", written_content)
-        self.assertIn("material_type: reading\n", written_content)
-        self.assertIn("source_type: library_primary\n", written_content)
-        self.assertIn("summary: \"Minimal summary.\"\n", written_content)
-        self.assertIn("chunk_count: 0\n", written_content)
-        self.assertIn("list_of_chunks:\n", written_content) # Should be present even if empty
-        self.assertIn("\n---\n\n# Processed Chunks for: Minimal Title\n\n", written_content)
-        mock_generate_summary.assert_called_once_with("Some text for summary", 250)
-
-
-    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    @mock.patch('process_source_text.datetime')
     @mock.patch('process_source_text.generate_summary')
-    @mock.patch('process_source_text.generate_safe_filename') # For author tags
-    def test_write_material_index_all_data_and_chunks(self, mock_safe_filename, mock_generate_summary, mock_open_file):
-        """Test with all metadata fields and multiple chunks."""
-        mock_generate_summary.return_value = "Full summary of content."
-        mock_safe_filename.side_effect = lambda x, max_len=None: x.lower().replace(" ", "_") # Mock for author tag
-
-        material_info = {
-            "material_index_md_path": Path("test_output/courses/CS101/lectures/cs101_lec1_id/index.md"),
-            "material_id": "cs101_lec1_id",
-            "title": "Lecture 1: Introduction",
-            "authors": ["Dr. Foo", "Bar Baz"],
-            "work_title": "Computer Science Basics",
-            "section_title": "Chapter 1",
-            "publication_date": "2023-01-15",
-            "material_type": "lecture",
-            "source_type": "course_material",
-            "course_code": "CS101",
-            "tags": ["intro", "cs"],
-            "full_text_for_summary": "Full text content here."
-        }
-        all_chunks_data = [
-            {"filename": "chunk_0001.md", "title": "Intro Part 1", "token_count": 150, "summary": "Summary of part 1."},
-            {"filename": "chunk_0002.md", "title": "Intro Part 2", "token_count": 120, "summary": "Summary of part 2."}
-        ]
-
-        write_material_index_md(material_info, all_chunks_data)
-
-        mock_open_file.assert_called_once_with(material_info["material_index_md_path"], 'w', encoding='utf-8')
-        handle = mock_open_file()
-        written_content = "".join(call_args[0][0] for call_args in handle.write.call_args_list)
-        
-        # Check frontmatter
-        self.assertIn("id: cs101_lec1_id\n", written_content)
-        self.assertIn("title: \"Lecture 1: Introduction\"\n", written_content)
-        self.assertIn("authors: [\"Dr. Foo\", \"Bar Baz\"]\n", written_content) # Relies on json.dumps
-        self.assertIn("work_title: \"Computer Science Basics\"\n", written_content)
-        self.assertIn("section_title: \"Chapter 1\"\n", written_content)
-        self.assertIn("publication_date: \"2023-01-15\"\n", written_content)
-        self.assertIn("material_type: lecture\n", written_content)
-        self.assertIn("source_type: course_material\n", written_content)
-        self.assertIn("course_code: CS101\n", written_content)
-        
-        # Check tags (order might vary due to set usage, so check individual tags)
-        self.assertIn("tags:", written_content)
-        self.assertIn("\"intro\"", written_content)
-        self.assertIn("\"cs\"", written_content)
-        self.assertIn("\"course:CS101\"", written_content)
-        self.assertIn("\"author:dr._foo\"", written_content)
-        self.assertIn("\"author:bar_baz\"", written_content)
-        
-        self.assertIn("summary: \"Full summary of content.\"\n", written_content)
-        self.assertIn("chunk_count: 2\n", written_content)
-        
-        # Check list_of_chunks
-        self.assertIn("list_of_chunks:\n", written_content)
-        self.assertIn("  - file: \"chunks/chunk_0001.md\"\n", written_content)
-        self.assertIn("    summary: \"Summary of part 1.\"\n", written_content)
-        self.assertIn("  - file: \"chunks/chunk_0002.md\"\n", written_content)
-        self.assertIn("    summary: \"Summary of part 2.\"\n", written_content)
-        
-        # Check markdown body
-        self.assertIn("\n---\n\n# Processed Chunks for: Lecture 1: Introduction\n\n", written_content)
-        self.assertIn("- [Intro Part 1](chunks/chunk_0001.md) (Tokens: ~150)\n", written_content)
-        self.assertIn("- [Intro Part 2](chunks/chunk_0002.md) (Tokens: ~120)\n", written_content)
-        mock_generate_summary.assert_called_once_with("Full text content here.", 250)
-
     @mock.patch('builtins.open', new_callable=mock.mock_open)
-    @mock.patch('process_source_text.generate_summary')
-    def test_summary_escaping(self, mock_generate_summary, mock_open_file):
-        """Test that quotes in summary are escaped."""
-        mock_generate_summary.return_value = 'Summary with "quotes" in it.'
-        material_info = {
-            "material_index_md_path": Path("test_output/library/quote_id/index.md"),
-            "material_id": "quote_id",
-            "title": "Quote Test",
-            "material_type": "note",
-            "source_type": "personal_note",
-            "full_text_for_summary": "Text with quotes"
-        }
-        all_chunks_data = []
-        write_material_index_md(material_info, all_chunks_data)
+    def test_write_material_index_minimal_data(self, mock_open_file, mock_generate_summary, mock_datetime):
+        mock_datetime.datetime.utcnow.return_value = datetime.datetime(2024, 1, 1, 12, 0, 0) # Fixed timestamp
+        mock_generate_summary.return_value = "Test summary."
+        material_id = "test_material_001"
+        output_dir = Path("test_output/processed/library/test_material_001")
+        title = "Test Title"
+        frontmatter = {"authors": ["Test Author"]} # Ensure authors is a list
+        chunk_files = ["chunk_01.md", "chunk_02.md"]
+        
+        write_material_index_md(material_id, output_dir, title, frontmatter, chunk_files, {})
+        
+        mock_open_file.assert_called_once_with(output_dir / INDEX_FILENAME, 'w', encoding='utf-8')
         handle = mock_open_file()
-        written_content = "".join(call_args[0][0] for call_args in handle.write.call_args_list)
-        self.assertIn("summary: \"Summary with \\\"quotes\\\" in it.\"\n", written_content)
+        
+        expected_content = (
+            "---\n"
+            "material_id: \"test_material_001\"\n"
+            "title: \"Test Title\"\n"
+            "summary: \"Test summary.\"\n"
+            "authors:\n"
+            "  - \"Test Author\"\n"
+            "material_type: \"unknown\"\n"
+            "source_type: \"unknown\"\n"
+            "course_code: \"unknown\"\n"
+            "source_file_path: \"unknown\"\n"
+            "source_file_hash: \"unknown\"\n"
+            "source_file_size: \"unknown\"\n"
+            "is_active_syllabus: false\n"
+            "tags:\n"
+            "  - \"author:test_author\"\n"
+            "dynamic_roles: []\n"
+            "chunk_files:\n"
+            "  - \"chunk_01.md\"\n"
+            "  - \"chunk_02.md\"\n"
+            # "processing_date: \"2024-01-01T12:00:00Z\"\n" # Add if script adds it
+            "---\n\n"
+            "# Test Title\n\n"
+            "Test summary.\n\n"
+            "## Content Sections:\n\n"
+            "- [chunk_01.md](chunks/chunk_01.md)\n"
+            "- [chunk_02.md](chunks/chunk_02.md)\n"
+        )
+        written_content = "".join(call.args[0] for call in handle.write.call_args_list)
+        # For more robust comparison, parse YAML if possible, or compare key parts
+        # For now, let's ensure the processing_date is handled or removed from script for test stability
+        # Assuming processing_date is NOT included for now based on previous script diff
+        self.assertEqual(written_content.strip(), expected_content.strip())
+
+    @mock.patch('process_source_text.datetime')
+    @mock.patch('process_source_text.generate_safe_filename', side_effect=lambda x, **kwargs: x.replace(' ', '_').lower())
+    @mock.patch('process_source_text.generate_summary')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    def test_write_material_index_all_data_and_chunks(self, mock_open_file, mock_generate_summary, mock_safe_filename, mock_datetime):
+        mock_datetime.datetime.utcnow.return_value = datetime.datetime(2024, 1, 1, 12, 0, 0)
+        mock_generate_summary.return_value = "Comprehensive summary."
+        material_id = "all_data_test_002"
+        output_dir = Path("test_output/processed/courses/phl101/lecture/all_data_test_002")
+        title = "All Data Lecture"
+        frontmatter = {
+            "authors": ["Dr. Know"], "tags": ["philosophy", "ethics"],
+            "source_type": "course_material", "course_code": "PHL101",
+            "material_type": "lecture", "source_file_path": "raw/lecture1.md",
+            "source_file_hash": "abc123hash", "source_file_size": 1024
+        }
+        chunk_files = ["section_1_intro.md", "section_2_main_points.md"]
+        citations = {"(Author, 2023)": "Author, A. (2023). Book Title.", "Smith (2020)": "Smith, J. (2020). Article."}
+        
+        write_material_index_md(material_id, output_dir, title, frontmatter, chunk_files, citations)
+        
+        mock_open_file.assert_called_once_with(output_dir / INDEX_FILENAME, 'w', encoding='utf-8')
+        handle = mock_open_file()
+        
+        expected_content = (
+            "---\n"
+            "material_id: \"all_data_test_002\"\n"
+            "title: \"All Data Lecture\"\n"
+            "summary: \"Comprehensive summary.\"\n"
+            "authors:\n"
+            "  - \"Dr. Know\"\n"
+            "material_type: \"lecture\"\n"
+            "source_type: \"course_material\"\n"
+            "course_code: \"PHL101\"\n"
+            "source_file_path: \"raw/lecture1.md\"\n"
+            "source_file_hash: \"abc123hash\"\n" # Assuming hash can be unquoted if simple
+            "source_file_size: 1024\n"
+            "is_active_syllabus: false\n"
+            "tags:\n"
+            "  - \"author:dr._know\"\n" # generate_safe_filename now lowercases
+            "  - \"course:PHL101\"\n"
+            "  - \"ethics\"\n"
+            "  - \"philosophy\"\n"
+            "dynamic_roles: []\n"
+            "chunk_files:\n"
+            "  - \"section_1_intro.md\"\n"
+            "  - \"section_2_main_points.md\"\n"
+            "citations:\n"
+            "  \"(Author, 2023)\": \"Author, A. (2023). Book Title.\"\n"
+            "  \"Smith (2020)\": \"Smith, J. (2020). Article.\"\n"
+            # "processing_date: \"2024-01-01T12:00:00Z\"\n"
+            "---\n\n"
+            "# All Data Lecture\n\n"
+            "Comprehensive summary.\n\n"
+            "## Content Sections:\n\n"
+            "- [section_1_intro.md](chunks/section_1_intro.md)\n"
+            "- [section_2_main_points.md](chunks/section_2_main_points.md)\n\n"
+            "## Citations:\n\n"
+            "- (Author, 2023): Author, A. (2023). Book Title.\n"
+            "- Smith (2020): Smith, J. (2020). Article.\n"
+        )
+        written_content = "".join(call.args[0] for call in handle.write.call_args_list)
+        self.assertEqual(written_content.strip(), expected_content.strip())
+
+    @mock.patch('process_source_text.datetime')
+    @mock.patch('process_source_text.generate_summary')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    def test_summary_escaping(self, mock_open_file, mock_generate_summary, mock_datetime):
+        mock_datetime.datetime.utcnow.return_value = datetime.datetime(2024, 1, 1, 12, 0, 0)
+        mock_generate_summary.return_value = 'Summary with "quotes" and newlines\nand special chars like : { }'
+        material_id = "escape_test_003"
+        output_dir = Path("test_output/processed/library/escape_test_003")
+        title = "Escaping Test"
+        frontmatter = {}
+        chunk_files = ["chunk1.md"]
+        
+        write_material_index_md(material_id, output_dir, title, frontmatter, chunk_files, {})
+        handle = mock_open_file()
+        written_content = "".join(call.args[0] for call in handle.write.call_args_list)
+        
+        self.assertIn("summary: |-\n    Summary with \"quotes\" and newlines\n    and special chars like : { }\n", written_content)
+        self.assertIn("\nSummary with \"quotes\" and newlines\nand special chars like : { }\n\n", written_content)
+
+    @mock.patch('process_source_text.datetime')
+    @mock.patch('process_source_text.generate_summary')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    def test_write_material_index_dated_lecture(self, mock_open_file, mock_generate_summary, mock_datetime):
+        mock_datetime.datetime.utcnow.return_value = datetime.datetime(2024, 1, 1, 12, 0, 0)
+        mock_generate_summary.return_value = "Dated lecture summary."
+        material_id = "dated_lec_004"
+        output_dir = Path("test_output/processed/courses/phl202/lecture/dated_lec_004")
+        title = "Dated Lecture"
+        frontmatter = {
+            "authors": ["Prof. Date"], "source_type": "course_material",
+            "course_code": "PHL202", "material_type": "lecture",
+            "lecture_date": "2023-10-26"
+        }
+        chunk_files = ["lecture_part1.md"]
+        
+        write_material_index_md(material_id, output_dir, title, frontmatter, chunk_files, {})
+        handle = mock_open_file()
+        written_content = "".join(call.args[0] for call in handle.write.call_args_list)
+
+        expected_yaml_part = (
+            "material_id: \"dated_lec_004\"\n"
+            "title: \"Dated Lecture\"\n"
+            "summary: \"Dated lecture summary.\"\n"
+            "authors:\n"
+            "  - \"Prof. Date\"\n"
+            "material_type: \"lecture\"\n"
+            "source_type: \"course_material\"\n"
+            "course_code: \"PHL202\"\n"
+            "source_file_path: \"unknown\"\n"
+            "source_file_hash: \"unknown\"\n"
+            "source_file_size: \"unknown\"\n"
+            "lecture_date: \"2023-10-26\"\n"
+            "is_active_syllabus: false\n"
+            "tags:\n"
+            "  - \"author:prof_date\"\n" # generate_safe_filename now lowercases
+            "  - \"course:PHL202\"\n"
+            "dynamic_roles: []\n"
+            "chunk_files:\n"
+            "  - \"lecture_part1.md\"\n"
+            # "processing_date: \"2024-01-01T12:00:00Z\"\n"
+        )
+        self.assertIn(expected_yaml_part, written_content)
+
+    @mock.patch('process_source_text.datetime')
+    @mock.patch('process_source_text.generate_summary')
+    @mock.patch('builtins.open', new_callable=mock.mock_open)
+    def test_write_material_index_syllabus(self, mock_open_file, mock_generate_summary, mock_datetime):
+        mock_datetime.datetime.utcnow.return_value = datetime.datetime(2024, 1, 1, 12, 0, 0)
+        mock_generate_summary.return_value = "Syllabus overview."
+        material_id = "syllabus_phl316_fall2025_005"
+        output_dir = Path("test_output/processed/courses/phl316/syllabus/syllabus_phl316_fall2025_005")
+        title = "PHL316 Fall 2025 Syllabus"
+        frontmatter = {
+            "course_code": "PHL316", "material_type": "syllabus",
+            "term": "Fall", "year": 2025, "is_active_syllabus": True,
+            "path_to_extracted_data": "extracted_data.json"
+        }
+        chunk_files = ["syllabus_content.md"]
+        
+        write_material_index_md(material_id, output_dir, title, frontmatter, chunk_files, {})
+        handle = mock_open_file()
+        written_content = "".join(call.args[0] for call in handle.write.call_args_list)
+
+        expected_yaml_part = (
+            "material_id: \"syllabus_phl316_fall2025_005\"\n"
+            "title: \"PHL316 Fall 2025 Syllabus\"\n"
+            "summary: \"Syllabus overview.\"\n"
+            "authors: []\n"
+            "material_type: \"syllabus\"\n"
+            "source_type: \"unknown\"\n"
+            "course_code: \"PHL316\"\n"
+            "source_file_path: \"unknown\"\n"
+            "source_file_hash: \"unknown\"\n"
+            "source_file_size: \"unknown\"\n"
+            "term: \"Fall\"\n"
+            "year: 2025\n"
+            "path_to_extracted_data: \"extracted_data.json\"\n"
+            "is_active_syllabus: true\n"
+            "tags:\n"
+            "  - \"course:PHL316\"\n"
+            "dynamic_roles: []\n"
+            "chunk_files:\n"
+            "  - \"syllabus_content.md\"\n"
+            # "processing_date: \"2024-01-01T12:00:00Z\"\n"
+        )
+        self.assertIn(expected_yaml_part, written_content)
+        self.assertIn("Extracted Syllabus Data: [extracted_data.json](extracted_data.json)", written_content)
+
 class TestUpdateMasterIndex(unittest.TestCase):
 
     @mock.patch('builtins.open', new_callable=mock.mock_open)
@@ -1541,7 +1728,11 @@ class TestProcessSourceFile(unittest.TestCase):
             material_type="lecture", # Explicitly provided
             source_type=None, # To be determined
             title=None, # To be determined from frontmatter or filename
-            force_update=False
+            force_update=False,
+            material_date=None, # Added for new args
+            term=None,
+            year=None,
+            is_active_syllabus=False
         )
 
         mock_frontmatter = {"title": "Course Lecture Title"}
@@ -1563,7 +1754,9 @@ class TestProcessSourceFile(unittest.TestCase):
             "course_index_md_path": Path("processed_data/courses/CS101/index.md"),
             "original_input_path": args.input_path,
             "full_text_for_summary": "# Test Content\nSome text.",
-            "tags": ["course:CS101"] # Example tag
+            "tags": ["course:CS101"], # Example tag
+            "authors": [], "work_title": None, "section_title": None, "publication_date": None, "dynamic_roles": [], # Added missing fields
+            "material_date": None, "term": None, "year": None, "is_active_syllabus": False, "path_to_extracted_data": None # Added new fields
         }
         mock_determine_metadata.return_value = mock_material_info
         
@@ -1592,7 +1785,16 @@ class TestProcessSourceFile(unittest.TestCase):
         )
         
         mock_gen_chunks.assert_called_once_with(mock_sections, mock_material_info, args.max_tokens)
-        mock_write_material_index.assert_called_once_with(mock_material_info, mock_chunks_data)
+        # The script now passes original_content to write_material_index_md
+        mock_write_material_index.assert_called_once_with(
+            mock_material_info["material_id"], 
+            mock_material_info["material_base_path"], 
+            mock_material_info["title"],
+            mock_frontmatter, # It passes the original frontmatter
+            [c['filename'] for c in mock_chunks_data], # It passes list of filenames
+            mock.ANY, # citations
+            original_content="# Test Content\nSome text." # Added original_content
+        )
         
         # Check master index update call (tags should be finalized before this)
         # The script finalizes tags within process_source_file before calling update_master_index
@@ -1644,3 +1846,115 @@ class TestProcessSourceFile(unittest.TestCase):
             process_source_file(args)
             mock_print.assert_any_call(f"Error reading file {args.input_path}: Cannot read")
         mock_open_error.assert_called_once_with(args.input_path, 'r', encoding='utf-8')
+
+class TestDetermineMaterialMetadataAndPaths(unittest.TestCase):
+    def setUp(self):
+        self.mock_args = argparse.Namespace(
+            input_path=None, # Will be set per test
+            output_dir=DEFAULT_OUTPUT_DIR,
+            course_code=None,
+            material_type=None,
+            source_type=None,
+            title=None,
+            material_date=None,
+            term=None,
+            year=None,
+            is_active_syllabus=False,
+            force_update=False
+        )
+
+    def test_dated_lecture_metadata_and_paths(self):
+        self.mock_args.input_path = Path("source_materials/raw/courses/PHL101/lectures/2023-09-05_Intro_Ethics/lecture.md")
+        self.mock_args.course_code = "PHL101"
+        self.mock_args.material_type = "lecture"
+        self.mock_args.material_date = "2023-09-05"
+        self.mock_args.title = "Intro to Ethics"
+        
+        frontmatter = {"title": "Intro to Ethics from FM"}
+        
+        metadata = determine_material_metadata_and_paths(self.mock_args, self.mock_args.input_path, frontmatter)
+        
+        expected_id_title_part = "intro_to_ethics"
+        expected_id_date_part = "2023_09_05"
+        self.assertTrue(metadata["material_id"].startswith(f"phl101_lecture_{expected_id_date_part}_{expected_id_title_part}"))
+        self.assertEqual(metadata["title"], "Intro to Ethics")
+        self.assertEqual(metadata["course_code"], "PHL101")
+        self.assertEqual(metadata["material_type"], "lecture")
+        self.assertEqual(metadata["material_type_category"], "lectures")
+        self.assertEqual(metadata["material_date"], "2023-09-05")
+        self.assertIsNone(metadata["term"])
+        self.assertIsNone(metadata["year"])
+        self.assertFalse(metadata["is_active_syllabus"])
+        expected_base_path = Path(DEFAULT_OUTPUT_DIR) / "courses" / "PHL101" / "lectures" / metadata["material_id"]
+        self.assertEqual(metadata["material_base_path"], expected_base_path)
+        self.assertEqual(metadata["chunks_dir"], expected_base_path / "chunks")
+        self.assertEqual(metadata["material_index_md_path"], expected_base_path / INDEX_FILENAME)
+        self.assertEqual(metadata["course_index_md_path"], Path(DEFAULT_OUTPUT_DIR) / "courses" / "PHL101" / INDEX_FILENAME)
+
+    def test_syllabus_with_term_year_metadata_and_paths(self):
+        self.mock_args.input_path = Path("source_materials/raw/courses/PHL316/syllabuses/Fall2025_Advanced_Logic.md")
+        self.mock_args.course_code = "PHL316"
+        self.mock_args.material_type = "syllabus"
+        self.mock_args.term = "Fall"
+        self.mock_args.year = 2025
+        self.mock_args.is_active_syllabus = True
+        self.mock_args.title = "Advanced Logic Syllabus"
+
+        frontmatter = {}
+        metadata = determine_material_metadata_and_paths(self.mock_args, self.mock_args.input_path, frontmatter)
+
+        expected_id_title_part = "advanced_logic_syllabus"
+        expected_id_date_part = "fall2025"
+        self.assertTrue(metadata["material_id"].startswith(f"phl316_syllabus_{expected_id_date_part}_{expected_id_title_part}"))
+        self.assertEqual(metadata["title"], "Advanced Logic Syllabus")
+        self.assertEqual(metadata["course_code"], "PHL316")
+        self.assertEqual(metadata["material_type"], "syllabus")
+        self.assertEqual(metadata["material_type_category"], "syllabuses")
+        self.assertIsNone(metadata["material_date"])
+        self.assertEqual(metadata["term"], "Fall")
+        self.assertEqual(metadata["year"], 2025)
+        self.assertTrue(metadata["is_active_syllabus"])
+        expected_base_path = Path(DEFAULT_OUTPUT_DIR) / "courses" / "PHL316" / "syllabuses" / metadata["material_id"]
+        self.assertEqual(metadata["material_base_path"], expected_base_path)
+        self.assertEqual(metadata["chunks_dir"], expected_base_path / "chunks")
+        self.assertEqual(metadata["material_index_md_path"], expected_base_path / INDEX_FILENAME)
+
+    def test_syllabus_with_material_date_override_metadata_and_paths(self):
+        self.mock_args.input_path = Path("source_materials/raw/courses/PHL100/syllabuses/Intro_Syllabus_Spring2024.md")
+        self.mock_args.course_code = "PHL100"
+        self.mock_args.material_type = "syllabus"
+        self.mock_args.material_date = "Spring2024"
+        self.mock_args.title = "Intro Philosophy Syllabus"
+
+        frontmatter = {}
+        metadata = determine_material_metadata_and_paths(self.mock_args, self.mock_args.input_path, frontmatter)
+        
+        expected_id_title_part = "intro_philosophy_syllabus"
+        expected_id_date_part = "spring2024"
+        self.assertTrue(metadata["material_id"].startswith(f"phl100_syllabus_{expected_id_date_part}_{expected_id_title_part}"))
+        self.assertEqual(metadata["material_date"], "Spring2024")
+        self.assertIsNone(metadata["term"])
+        self.assertIsNone(metadata["year"])
+        expected_base_path = Path(DEFAULT_OUTPUT_DIR) / "courses" / "PHL100" / "syllabuses" / metadata["material_id"]
+        self.assertEqual(metadata["material_base_path"], expected_base_path)
+
+    def test_library_material_no_date_args(self):
+        self.mock_args.input_path = Path("source_materials/raw/library/Some_Book/chapter1.md")
+        self.mock_args.material_type = "library_material"
+        self.mock_args.title = "Some Book Chapter 1"
+
+        frontmatter = {}
+        metadata = determine_material_metadata_and_paths(self.mock_args, self.mock_args.input_path, frontmatter)
+
+        expected_id_title_part = "some_book_chapter_1"
+        # Corrected expectation based on generate_material_id logic for library_material
+        self.assertTrue(metadata["material_id"].startswith(f"library_{expected_id_title_part}"))
+        self.assertIsNone(metadata["course_code"])
+        self.assertEqual(metadata["material_type"], "library_material")
+        self.assertIsNone(metadata["material_type_category"])
+        self.assertIsNone(metadata["material_date"])
+        self.assertIsNone(metadata["term"])
+        self.assertIsNone(metadata["year"])
+        expected_base_path = Path(DEFAULT_OUTPUT_DIR) / "library" / metadata["material_id"]
+        self.assertEqual(metadata["material_base_path"], expected_base_path)
+        self.assertIsNone(metadata["course_index_md_path"])

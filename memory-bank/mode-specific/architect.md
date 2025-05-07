@@ -1,4 +1,64 @@
+### [2025-05-07 13:11:00] Task: Design `.clinerules` Modifications for Dated Material &amp; AI Syllabus Integration
+- **Action**: Reviewed integration plan ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)), main architecture ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)), syllabus integration proposal ([`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)), source material architecture ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1)), and user guide ([`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)).
+- **Output**: Created specification document [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1) detailing `.clinerules` changes for `philosophy-syllabus-processor`, `philosophy-text-processor`, `philosophy-orchestrator`, `philosophy-pre-lecture`, `philosophy-class-analysis`, and `philosophy-secondary-lit`.
+- **Key `.clinerules` Design Points**:
+    - `philosophy-syllabus-processor`: Defined input schema for syllabus path and course details. Workflow includes AI-driven parsing, `extracted_data.json` generation, and proposing index updates.
+    - `philosophy-text-processor`: Input schema to include `material_date`. Workflow to pass this date to [`scripts/process_source_text.py`](scripts/process_source_text.py:1). Clarified its non-parsing role for syllabuses.
+    - Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`): Input schemas to accept date/week/topic context. Workflows updated to query active syllabus (`extracted_data.json`) and `master_index.json` using temporal metadata for contextual analysis.
+    - `philosophy-orchestrator`: Workflows defined for managing syllabus processing and the overall dated course progression.
+- **Status**: Specification document created. Task complete.
+- **Cross-ref:** [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1), [Active Context: 2025-05-07 13:11:00], [Global Progress: 2025-05-07 13:11:00], [Global System Pattern: AI-Driven Syllabus Processing &amp; Dated Material `.clinerules` Integration V1], [Global Decision Log: 2025-05-07 13:11:00]
+### [2025-05-07 12:26:25] Task: Update Documentation for AI-Driven Syllabus Processing
+- **Action**: Revised [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), and [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1).
+- **Key Architectural Changes**:
+    - **Syllabus Parsing Responsibility**: Shifted from script-based parsing to AI-driven parsing by an agent/mode (e.g., `philosophy-syllabus-processor` or a general analysis mode). This AI agent is responsible for intelligently handling varied syllabus formats and extracting structured data.
+    - **`docs/plans/dated_course_material_integration_plan_v1.md`**:
+        - Section 3.3.1 ("Syllabus Processing") updated to describe AI-driven parsing, input (syllabus file path), and outputs (`extracted_data.json`, proposed updates to index files).
+        - Section 3.5 ("Affected Components") updated to reflect changes in script roles (no longer primary parsers) and `.clinerules` (focus on AI agent's rules for parsing).
+    - **`docs/architecture/architecture_v18.md`**:
+        - Section 4.2 (`philosophy-syllabus-processor`): Emphasized AI capabilities for parsing varied formats. Workflow updated to reflect AI agent performing parsing and proposing updates. Script role clarified as potential I/O helper or AI agent invoker.
+        - Section 5 (Mermaid Diagram): Updated to show `SyllabusProc` directly parsing and generating `extracted_data.json`, removing the script as the primary parser in that flow.
+    - **`docs/proposals/syllabus_integration_architecture_v1.md`**:
+        - Section 3.2.2 ("Structured Data Extraction"): Clarified that an AI agent performs the parsing and extraction, leveraging NLP to handle format variability. Script role rephrased.
+        - References to script-based tagging/updating (Sections 3.3, 3.4, 4.0) updated to reflect AI agent proposing these changes.
+- **Status**: Architectural document updates complete to reflect AI-driven syllabus processing.
+- **Cross-ref:** [Active Context: 2025-05-07 12:26:25], [Global Progress: Syllabus Processing Strategy Revised - Architectural Updates Completed], [Global System Pattern: AI-Driven Syllabus Processing]
+### [2025-05-07 09:03:00] Task: Update Architectural Documents for Dated Course Material Integration
+- **Action**: Updated [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) to V18.3.7, [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) with Addendum V1.1, and [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1).
+- **Key Architectural Changes in `architecture_v18.md`**:
+    - **Source Material Organization (Section 3):**
+        - Updated raw material paths for lectures and readings to include `[YYYY-MM-DD_TITLE_SLUG]` subdirectories.
+        - Added raw syllabus path: `source_materials/raw/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_FILENAME.ext]`.
+        - Updated processed material paths for lectures, readings, and syllabuses under `source_materials/processed/courses/[COURSE_CODE]/` to include date/term in their IDs and specify `lecture_date`/`assigned_date`/term metadata in their `index.md` files.
+    - **Mode Responsibilities (Section 4):**
+        - Introduced new **`philosophy-syllabus-processor`** mode:
+            - Responsibility: Processes course syllabuses, parses them, extracts structured data (weekly schedules, topics, readings, lecture associations, term dates) into `extracted_data.json`, matches materials to `master_index.json` entries, adds temporal tags (week, topic, date) to KB entries.
+            - Dependencies: `philosophy-orchestrator`, syllabus processing script, `master_index.json`, course/material `index.md` files.
+        - Updated **`philosophy-text-processor`**:
+            - Responsibility: Clarified to handle general dated lectures/readings, parse `YYYY-MM-DD` from raw paths, and ensure dates are in `master_index.json` and material `index.md` metadata.
+        - Updated **Analysis Modes** (`pre-lecture`, `class-analysis`, `secondary-lit`, etc.):
+            - Responsibility: To query and utilize `lecture_date`, `assigned_date` from KB, interpret `extracted_data.json` from processed syllabuses for course progression context, and use date/week/topic tags for analysis.
+    - **Interaction Diagram (Section 5):**
+        - Added `philosophy-syllabus-processor` node.
+        - Showed its interactions with `RawSource`, `ProcessedSource` (for `extracted_data.json` and course `index.md`), and `PhilKB_Data` (for `master_index.json` updates and tagging).
+        - Showed `Orchestrator` delegating to `SyllabusProc`.
+        - Implied Analysis Modes access `ProcessedSource` for syllabus data.
+    - **KB Entry Format (Section 6):**
+        - Added clarification that date-specific metadata (`lecture_date`, `assigned_date`) is primarily in processed material `index.md` and `master_index.json`.
+        - Added examples of temporal tags (e.g., `[COURSE_CODE]_Week_[N]`, `date_YYYY-MM-DD`) to the `tags` array description.
+- **Status**: Architectural document updates complete.
+- **Cross-ref:** [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7), [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [Active Context: 2025-05-07 09:03:00], [Global Progress: 2025-05-07 09:03:00], [Global System Pattern: Dated Course Material Integration V18.3.7], [Global Decision Log: 2025-05-07 09:03:00]
+### [2025-05-07 08:54:55] Task: Create Plan for Integrating Dated Course Materials &amp; Workflows
+- **Action**: Reviewed user feedback, existing V1 source material architecture ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1)), main architecture ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)), new syllabus integration proposal ([`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)), and relevant Memory Bank entries. Developed a comprehensive plan.
+- **Output**: Created new plan document [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1) detailing modifications for source material structure, date handling, association logic, course progression workflow, affected components, and simplification for a single active set of materials.
+- **Status**: Planning complete. Plan document created.
+- **Cross-ref:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [Active Context: 2025-05-07 08:54:55], [Global Progress Update for this task]
 ### [2025-05-07 00:43:05] Task: Review `philosophy-kb-manager.clinerules`
+### [2025-05-07 08:05:23] Task: Investigate and Propose Syllabus Integration Architecture
+- **Action**: Reviewed existing V1 source material architecture ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1)), user guide ([`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)), and relevant Memory Bank entries. Investigated solutions for syllabus location, processing, course index integration, and temporal organization.
+- **Output**: Created new proposal document [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) detailing the proposed architecture for syllabus integration.
+- **Status**: Investigation and proposal complete.
+- **Cross-ref:** [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1), [Active Context: 2025-05-07 08:05:23], [Global Progress: 2025-05-07 08:05:23], [Global Decision Log: 2025-05-07 08:05:23], [Global System Patterns: 2025-05-07 08:05:23]
 - **Action**: Reviewed `philosophy-kb-manager.clinerules`, `docs/architecture/architecture_v18.md`, `docs/proposals/source_material_architecture_v1.md`, `docs/standards/source_material_navigation_guidelines_v1.md`, `docs/specs/clinerules_source_material_v1_updates.md`, and `docs/testing/verification_report_source_material_v1.md`.
 - **Findings**: The `philosophy-kb-manager` mode, designed as a sole KB gatekeeper under V14 architecture, is obsolete. Current V18.3.6 architecture and V1 Source Material Architecture mandate direct KB access by specialized modes. This is supported by `.clinerules` updates and QA verification.
 - **Output**: Created proposal `docs/proposals/philosophy_kb_manager_review_v1.md` recommending Option A: Deprecate &amp; Remove.

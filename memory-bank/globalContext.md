@@ -1,4 +1,174 @@
 # Progress
+### [2025-05-07 13:40:00] - `.clinerules` Implementation for Dated Material &amp; AI Syllabus Integration Completed
+- **Status:** Completed by `code` Mode
+- **Details:** Implemented the `.clinerules` changes specified in [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1). This involved creating a new file for `philosophy-syllabus-processor` and updating existing files for `philosophy-text-processor`, `philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`, and `philosophy-orchestrator`. Changes included updates to `identity`, `input_schema`, and `mode_specific_workflows` to support AI-driven syllabus parsing and dated course material integration.
+- **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Governing Specification:** [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 13:40:00], [System Pattern: AI-Driven Syllabus Processing &amp; Dated Material .clinerules Integration V1 at Global Context 2025-05-07 13:11:00]
+# Progress
+### [2025-05-07 13:11:00] - Specification for `.clinerules` Dated Syllabus Updates Created
+- **Status:** Completed by `architect` Mode
+- **Details:** Created the specification document [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1) detailing the required `.clinerules` modifications for `philosophy-syllabus-processor`, `philosophy-text-processor`, and other analysis modes to support AI-driven syllabus processing and dated course material integration.
+- **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 13:11:00], [Decision Log: 2025-05-07 13:11:00], [System Pattern: AI-Driven Syllabus Processing &amp; Dated Material `.clinerules` Integration V1]
+# Progress
+### [2025-05-07 12:21:47] - Syllabus Processing Strategy Revised
+- **Status:** Architectural Updates Completed
+- **Details:** User intervention indicated that syllabus processing should be handled by an AI agent's internal logic due to formatting variability, not by a script. Architectural documents ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) have been updated by `architect` mode to reflect this AI-driven approach. The previous script-based framework integration for syllabus processing ([Global Progress: 2025-05-07 12:18:00]) is now considered an incorrect approach for the core parsing logic.
+- **Next Steps:** Implementation of AI-driven syllabus parsing logic.
+- **Cross-ref:** [Active Context: 2025-05-07 12:21:47], [Decision Log: 2025-05-07 12:21:47]
+# Progress
+### [2025-05-07 12:18:00] - Syllabus Processing Framework Integrated into `scripts/process_source_text.py`
+- **Status:** Completed by `code` Mode
+# System Patterns
+### [2025-05-07 13:11:00] - System Pattern: AI-Driven Syllabus Processing &amp; Dated Material `.clinerules` Integration V1
+- **Description:** Defines the `.clinerules` modifications required for modes to support AI-driven syllabus parsing and the use of dated course materials. This includes how `philosophy-syllabus-processor` handles syllabus files, how `philosophy-text-processor` extracts date metadata, and how analysis modes utilize temporal context and structured syllabus data.
+- **Key Features:**
+    - `philosophy-syllabus-processor`: AI-driven parsing, `extracted_data.json` generation, index update proposals.
+    - `philosophy-text-processor`: Date extraction from paths for lectures/readings.
+    - Analysis Modes: Consumption of `extracted_data.json` and date metadata for temporally-aware analysis.
+    - `philosophy-orchestrator`: Manages new workflows.
+- **Governing Document:** [`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)
+- **Affected Components:** `.clinerules` for `philosophy-syllabus-processor`, `philosophy-text-processor`, `philosophy-orchestrator`, `philosophy-pre-lecture`, `philosophy-class-analysis`, `philosophy-secondary-lit`.
+- **Cross-ref:** [Active Context: 2025-05-07 13:11:00], [Decision Log: 2025-05-07 13:11:00], [Global Progress: 2025-05-07 13:11:00]
+- **Details:** Integrated the framework for processing course syllabuses into the existing `scripts/process_source_text.py` script. This includes new CLI arguments (`--term`, `--year`, `--is_active_syllabus`), updated logic for `material_type="syllabus"` to handle specific ID/path generation, a placeholder function `extract_syllabus_data` for detailed parsing, generation of `extracted_data.json` (as per [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)), and updates to `write_material_index_md`, `update_master_index`, and `update_course_index_md` to correctly manage syllabus-specific metadata and content. This fulfills Step 3.2 of the [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1).
+- **Files Affected:** [`scripts/process_source_text.py`](scripts/process_source_text.py:1)
+- **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Relevant Architecture:** [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) (Addendum V1.1)
+- **Cross-ref:** [Active Context: 2025-05-07 12:18:00], [Decision Log: 2025-05-07 12:18:00], [System Pattern: Syllabus Processing Framework V1]
+
+# System Patterns
+### [2025-05-07 12:26:25] - System Pattern: AI-Driven Syllabus Processing
+- **Description:** Defines the system's approach to parsing and extracting structured information from course syllabuses using AI capabilities to handle diverse and inconsistent formatting.
+- **Key Features:**
+    - An AI agent (e.g., `philosophy-syllabus-processor` mode or a general analysis mode) is responsible for the core parsing logic.
+    - Input: Path to syllabus file (Markdown, PDF, DOCX, etc., depending on AI agent capabilities).
+    - Output:
+        - `extracted_data.json`: Contains structured syllabus data (weekly schedule, topics, readings, assignments, term dates).
+        - Proposed updates to `master_index.json` with syllabus metadata and relevant tags.
+        - Proposed updates to course-specific `index.md` files.
+    - The AI agent attempts to match listed readings/lectures to existing `material_id`s.
+    - The AI agent identifies and proposes temporal tags (week, topic) for associated materials.
+- **Rationale:** Scripts are too brittle for the high variability in syllabus formats. AI offers more robust and intelligent parsing.
+- **Governing Documents:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1).
+- **Affected Components:** `philosophy-syllabus-processor` (or general analysis mode), `philosophy-orchestrator`, `master_index.json`, course/material `index.md` files.
+- **Cross-ref:** [Decision Log: 2025-05-07 12:21:47], [Active Context: 2025-05-07 12:26:25]
+### [2025-05-07 12:18:00] - System Pattern: Syllabus Processing Framework V1 (in `scripts/process_source_text.py`)
+- **Description:** Defines the integrated functionality within `scripts/process_source_text.py` for handling course syllabuses.
+- **Key Features:**
+    - New `material_type="syllabus"`.
+# Decision Log
+### [2025-05-07 13:11:00] - Decision: Specify `.clinerules` for Dated Material &amp; AI Syllabus Integration
+- **Decision**: Create a specification document ([`docs/specs/clinerules_dated_syllabus_updates_v1.md`](docs/specs/clinerules_dated_syllabus_updates_v1.md:1)) detailing the necessary `.clinerules` modifications for modes involved in processing dated course materials and AI-driven syllabus parsing.
+- **Rationale**: To provide clear, actionable guidance for implementing the required changes in mode behavior, ensuring alignment with the updated architecture ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)) and integration plan ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)).
+- **Outcome**: Specification document created.
+- **Cross-ref:** [Active Context: 2025-05-07 13:11:00], [Global Progress: 2025-05-07 13:11:00], [System Pattern: AI-Driven Syllabus Processing &amp; Dated Material `.clinerules` Integration V1]
+    - CLI arguments: `--term`, `--year`, `--is_active_syllabus`.
+    - `SYLLABUS_ID` generation incorporating term/year (e.g., `phl316_syllabus_fall2025_...`).
+    - Output path: `source_materials/processed/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_ID]/`.
+    - Placeholder `extract_syllabus_data()` function for parsing syllabus Markdown.
+    - Generation of `extracted_data.json` containing structured syllabus data (weekly schedule, topics, readings, assignments).
+    - `index.md` for syllabus includes full Markdown content and metadata (`term`, `year`, `is_active_syllabus`, link to `extracted_data.json`).
+    - `master_index.json` entries for syllabuses include `term`, `year`, `is_active_syllabus`, `path_to_extracted_data`.
+### [2025-05-07 12:21:47] - Decision: Revise Syllabus Processing Strategy to AI-Driven
+- **Decision**: Based on user feedback, syllabus processing will be handled by an AI agent's internal logic rather than a script due to high variability in syllabus formatting.
+- **Rationale**: AI agents are better equipped to handle diverse and inconsistent formatting found in syllabuses. Script-based parsing would be brittle.
+- **Outcome**: Step 3.2 of the integration plan ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)) needs revision. Architectural documents ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) will be updated to reflect this AI-driven approach. The previous script integration for syllabus processing framework ([Global Progress: 2025-05-07 12:18:00]) is now considered an incorrect approach for the core parsing logic.
+- **Cross-ref:** [Active Context: 2025-05-07 12:21:47], [SPARC MB Intervention Log: 2025-05-07 12:21:47]
+    - `courses/[COURSE_CODE]/index.md` updated to list all syllabuses for the course and summarize the active one, including a consolidated list of readings.
+- **Governing Document:** [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7)
+- **Affected Components:** [`scripts/process_source_text.py`](scripts/process_source_text.py:1), `master_index.json`, course/material `index.md` files.
+- **Cross-ref:** [Active Context: 2025-05-07 12:18:00], [Global Progress: 2025-05-07 12:18:00]
+
+# Decision Log
+### [2025-05-07 12:18:00] - Decision: Integrate Syllabus Processing into `scripts/process_source_text.py`
+- **Decision**: Integrate new syllabus processing functionality directly into the existing `scripts/process_source_text.py` script rather than creating a separate `scripts/process_syllabus.py`.
+- **Rationale**: The existing script already handles Markdown processing, V1 architecture output (directory structure, index files, `master_index.json`), and CLI argument parsing. Integrating syllabus processing leverages this existing framework, promotes code reuse, and keeps related source material processing logic consolidated. This aligns with the flexibility mentioned in architectural documents ([`docs/proposals/syllabus_integration_architecture_v1.md:50`](docs/proposals/syllabus_integration_architecture_v1.md:50), [`docs/architecture/architecture_v18.md:144`](docs/architecture/architecture_v18.md:144)).
+- **Outcome**: [`scripts/process_source_text.py`](scripts/process_source_text.py:1) modified to include syllabus-specific logic. Placeholder [`scripts/process_syllabus.py`](scripts/process_syllabus.py:1) kept per user request.
+- **Cross-ref:** [Active Context: 2025-05-07 12:18:00], [Global Progress: 2025-05-07 12:18:00]
+# Progress
+### [2025-05-07 09:11:19] - `scripts/process_source_text.py` Updated for Dated Material Integration
+- **Status:** Completed by `code` Mode
+- **Details:** Modified `scripts/process_source_text.py` to handle dated raw material paths (lectures/readings), accept a material date argument, incorporate dates into processed material IDs, and include `lecture_date`/`assigned_date` metadata in generated `index.md` YAML frontmatter, `master_index.json` entries, and the script's stdout JSON output. This aligns with Step 3.1 of the integration plan ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:120)) and architectural specifications ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) V18.3.7, [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) Addendum V1.1).
+- **Files Affected:** [`scripts/process_source_text.py`](scripts/process_source_text.py:1)
+- **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 09:11:19], [System Pattern: Dated Course Material Integration V18.3.7 at Global Context 2025-05-07 09:03:00]
+# Progress
+### [2025-05-07 09:03:00] - Architectural Documents Updated for Dated Material Integration
+- **Status:** Completed by `architect` Mode
+- **Details:** Updated [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (to V18.3.7), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) (Addendum V1.1), and [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1). Changes include new raw/processed directory structures for dated materials, introduction of `philosophy-syllabus-processor` mode, updated responsibilities for `philosophy-text-processor` and analysis modes, revised Mermaid diagram, and clarifications on date metadata in KB entries.
+- **Governing Plan:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 09:03:00]
+# Progress
+### [2025-05-07 08:54:55] - Dated Course Material &amp; Workflow Integration Plan Created
+- **Status:** Plan Completed by `architect` Mode
+- **Details:** Developed a comprehensive plan to integrate dated lectures/readings, support course progression workflows, and incorporate the syllabus architecture. Plan focuses on a single active set of materials per course initially.
+- **Output:** New plan document created at [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1).
+- **Next Steps:** Review and approve plan, then delegate implementation tasks (architecture updates, script modifications, `.clinerules` changes).
+- **Cross-ref:** [Active Context: 2025-05-07 08:54:55], [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+### [2025-05-07 08:45:00] - Plan and Implement Enhanced Course Material Workflows (Syllabus, Dated Readings/Lectures)
+- **Status:** In Progress - Architectural Document Updates
+- **Details:** User intervention re-prioritized tasks. `architect` mode created [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1). Now proceeding with updating architectural documents ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)) to reflect the new plan for syllabus integration and dated course materials.
+- **Relevant Documents:** [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1), [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 08:56:00], [SPARC MB Intervention Log: 2025-05-07 08:45:00], [Delegations Log: 2025-05-07 08:56:00]
+
+### [2025-05-07 08:10:00] - Addressing Terminology Inconsistency for Source Material Index
+- **Status:** Paused - Superseded by User Intervention ([Active Context: 2025-05-07 08:45:00])
+- **Details:** Initiated task to resolve terminology inconsistencies for the root processed source material index, as identified in the holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:44)). This involves confirming `master_index.json` as canonical and updating [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) and [`.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`](.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules:1).
+- **Relevant Documents:** [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`](.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules:1)
+- **Cross-ref:** [Active Context: 2025-05-07 08:10:00]
+# Progress
+### [2025-05-07 08:05:23] - Syllabus Integration Architecture Proposal Created
+- **Status:** Completed by `architect` Mode
+- **Details:** Investigated syllabus integration into the `source_materials/` architecture. Proposed solutions for location, processing, course index integration, and temporal organization.
+- **Output:** New proposal document created at [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1).
+- **Cross-ref:** [Active Context: 2025-05-07 08:05:23], [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)
+### [2025-05-07 07:57:00] - Investigation of `source_materials/` Architecture for Syllabuses Initiated
+- **Status:** Completed
+- **Details:** `architect` mode completed investigation and created proposal document [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) for syllabus integration, addressing storage, processing, indexing, and temporal organization.
+- **Relevant Documents:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 08:09:00], [Delegations Log: 2025-05-07 07:58:00]
+# Progress
+### [2025-05-07 05:56:50] - "SPARC" Terminology Purge (Docs &amp; Code) Completed
+- **Status:** Partially Completed
+- **Details:** `docs-writer` mode completed purging "SPARC" mentions from documentation files in `docs/` and the root `README.md`. `code` mode completed purging "SPARC" mentions from `.clinerules` files, the `.roomodes` file, scripts, and test files. User has instructed to skip purging "SPARC" from Memory Bank files at this time.
+- **Files Affected:** Various `.md` files in `docs/`, `README.md`, various `.clinerules` files, `.roomodes`.
+- **Cross-ref:** [Active Context: 2025-05-07 05:56:50]
+### [2025-05-07 04:48:42] - User Guide for Material Processing Created
+- **Status:** Completed by `docs-writer` Mode
+- **Details:** Created a new comprehensive user guide at `docs/guides/user_guide_material_processing_workflows.md`. This guide covers raw source material preparation (conversion to Markdown, standard format), the purpose and organization of the `source_materials/raw/` directory (including course-specific and library sub-structures), and provides three detailed user stories illustrating common system workflows for material processing and concept retrieval.
+- **Files Affected:** [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1) (created)
+- **Cross-ref:** [Active Context: 2025-05-07 04:48:42]
+# Progress
+### [2025-05-07 04:38:53] - User Intervention: Task Pivot to Documentation and "SPARC" Purge
+- **Status:** In Progress (New priorities set)
+- **Details:** User provided new instructions, correcting a holistic review finding and setting new priorities: 1) Create user-facing documentation for raw material processing workflows, `source_materials/raw/` organization, and general system interaction, including user stories. 2) Purge all mentions of the "SPARC" system from the philoso-roo project.
+- **Cross-ref:** [Active Context: 2025-05-07 04:38:53], [SPARC MB Intervention Log: 2025-05-07 04:38:53]
+### [2025-05-07 04:23:18] - Root `README.md` Created
+- **Status:** Completed by `docs-writer` Mode
+- **Details:** A comprehensive root `README.md` file was created for the project, providing an overview, setup instructions, key features, and links to important documentation. This addresses a high-priority finding from the holistic review.
+- **Files Affected:** [`README.md`](README.md:1) (created)
+- **Cross-ref:** [Active Context: 2025-05-07 04:23:18], [SPARC MB Delegation Log: 2025-05-07 04:19:43], [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)
+### [2025-05-07 04:22:01] - Root `README.md` Created
+- **Status:** Completed by `docs-writer` Mode
+- **Details:** Created the main `README.md` file for the Philoso-Roo project, providing an overview, setup instructions, directory structure, and links to key documents. This addresses a high-priority finding from the holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)).
+- **Files Affected:** [`README.md`](README.md:1) (created)
+- **Cross-ref:** [Active Context: 2025-05-07 04:22:01], [`README.md`](README.md:1)
+### [2025-05-07 04:18:31] - Initial Holistic Workspace Review Completed
+- **Status:** Completed by `holistic-reviewer` Mode
+- **Details:** Performed an initial holistic review of the workspace, focusing on key architectural documents, specifications, standards, and a high-level scan of core directories.
+- **Outcome:** Review report [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1) created, detailing findings and recommendations for integration, documentation, organization, and hygiene.
+- **Cross-ref:** [Active Context: 2025-05-07 04:18:31], [SPARC MB Delegation Log: 2025-05-07 03:58:50], [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)
+### [2025-05-07 04:17:19] - Holistic Review - Phase 1: Initial Scan &amp; Documentation Review
+- **Status:** In Progress (Holistic Reviewer Mode)
+- **Details:** Commenced holistic review of the workspace. Initial phase focused on reviewing key architectural documents ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1), [`docs/standards/clinerules_standard_v2.md`](docs/standards/clinerules_standard_v2.md:1)) and performing a high-level scan of `docs/`, `.roo/`, `scripts/`, `tests/`, `philosophy-knowledge-base/`, and `source_materials/` directories.
+- **Initial Findings Logged:** Several findings related to documentation (missing root README, outdated script README, versioning of architecture/specification documents, outdated standards document), organization (source material directory structure), and integration/hygiene (missing `.clinerules` for standard modes, inconsistent terminology) have been documented in [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1) and `memory-bank/mode-specific/holistic-reviewer.md`.
+- **Next Steps:** Summarize initial findings and determine areas for deeper dives or delegation. Context at ~43%.
+- **Cross-ref:** [Active Context: 2025-05-07 04:17:19], [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1), `memory-bank/mode-specific/holistic-reviewer.md`
+### [2025-05-07 04:04:47] - Git Debt Resolution Completed
+- **Status:** Completed by `devops` Mode
+- **Details:** Analyzed uncommitted changes, correlated them with Memory Bank logs, and created a series of 6 logical, chronological commits. Working directory is now clean.
+- **Cross-ref:** [Active Context: 2025-05-07 04:04:47]
 ### [2025-05-07 03:57:01] - Git Debt Resolution Task Initiated
 - **Status:** Pending (Delegated to `devops`)
 - **Details:** User requested resolution of accumulated git debt. Task involves using `git status` and `git diff`, correlating changes with Memory Bank logs, and grouping changes into logical, chronological commits. This includes all uncommitted files, including Memory Bank updates.
@@ -37,9 +207,29 @@
 - **Cross-ref:** [Active Context: 2025-05-07 03:20:51], [SPARC MB Delegation Log: 2025-05-07 03:17:10], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
 ### [2025-05-07 03:19:52] - V1 Source Material Documentation Updated with Terminology Clarifications
 - **Status:** Completed by DocsWriter Mode
+### [2025-05-07 05:56:50] - Decision: Skip "SPARC" Purge from Memory Bank Files
+- **Decision**: User instructed to skip the purge of "SPARC" terminology from Memory Bank files for the time being.
+- **Rationale**: The user noted that distinguishing when "SPARC" refers to its own memory versus the overall system could be difficult and decided to defer this part of the purge.
+- **Outcome**: "SPARC" purge from Memory Bank files is deferred. The purge is considered complete for documentation and code files.
+- **Cross-ref:** [Active Context: 2025-05-07 05:56:50]
+### [2025-05-07 04:23:18] - Decision: Create Root `README.md`
+- **Decision**: Based on high-priority finding from holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)), create a comprehensive root `README.md` file for the project.
+- **Rationale**: A root `README.md` is essential for project onboarding, providing an overview, setup instructions, and links to key documentation.
+### [2025-05-07 04:38:53] - Decision: Pivot to New User Priorities (Documentation & SPARC Purge)
+- **Decision**: User intervention has set new priorities. The immediate next tasks are: 1) Create user-facing documentation for raw material processing and general system workflows. 2) Purge all "SPARC" system mentions from the philoso-roo project.
+- **Rationale**: Direct user instruction supersedes previous plans. Addressing documentation and system identity are now the primary focus.
+- **Outcome**: Task to create user-facing documentation will be delegated to `docs-writer`. Task to purge "SPARC" mentions will be planned subsequently.
+- **Cross-ref:** [Active Context: 2025-05-07 04:38:53], [SPARC MB Intervention Log: 2025-05-07 04:38:53]
+- **Outcome**: Task delegated to `docs-writer` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 04:23:18], [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)
 - **Details:** Updated three key V1 Source Material Architecture documents ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)) to reflect the clarified terminology for `material_id` (conceptual) vs. `id` (data field) and the new update protocol for `dynamic_roles` (proposals to `philosophy-orchestrator`). All changes were based on the recommendations in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
 - **Files Affected:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)
 - **Cross-ref:** [Active Context: 2025-05-07 03:19:52], [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1)
+### [2025-05-07 04:18:31] - Decision: Proceed with High-Priority Findings from Holistic Review
+- **Decision**: Based on the initial holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)), the next steps will be to address the high-priority findings.
+- **Rationale**: Addressing high-priority issues like missing core documentation (`README.md`) and essential mode `.clinerules` files is crucial for project usability, onboarding, and system integrity.
+- **Outcome**: Tasks to address these high-priority items will be delegated, starting with the creation of the root `README.md`.
+- **Cross-ref:** [Active Context: 2025-05-07 04:18:31], [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)
 # Progress
 ### [2025-05-07 03:15:58] - Terminology Review (`dynamic_roles`, `source_id`) &amp; Clarification Proposal Completed
 - **Status:** Completed by `architect` Mode
@@ -101,6 +291,37 @@
 - **Files Affected:** `tests/test_process_source_text.py`, `scripts/process_source_text.py`
 - **Next Steps:** Continue TDD for remaining functions (file I/O, main orchestration) in a new task due to context limits.
 - **Cross-ref:** [Active Context: 2025-05-07 01:55:00]
+### [2025-05-07 08:10:00] - Decision: Address Terminology Inconsistency for Source Material Index
+- **Decision**: Prioritize addressing the terminology inconsistency for the root processed source material index, as identified in the holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:44)).
+- **Rationale**: This is a Medium-High priority item from the holistic review. Ensuring consistent terminology for core architectural components like the master index is crucial for clarity and reliable mode interactions.
+- **Outcome**: Tasks will be delegated to `docs-writer` to update [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) and to `code` mode to update [`.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules`](.roo/rules-philosophy-text-processor/philosophy-text-processor.clinerules:1).
+- **Cross-ref:** [Active Context: 2025-05-07 08:10:00], [Progress: 2025-05-07 08:10:00]
+### [2025-05-07 08:54:55] - Decision: Adopt Plan for Dated Course Material &amp; Workflow Integration V1
+- **Decision**: Adopt the plan detailed in [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1) for integrating dated course materials and workflows.
+- **Rationale**: The plan addresses user requirements for handling dated lectures/readings, syllabus integration, and course progression, providing a structured approach for system modification.
+- **Outcome**: The plan will guide subsequent architectural updates, script modifications, and `.clinerules` changes.
+- **Cross-ref:** [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [Active Context: 2025-05-07 08:54:55]
+### [2025-05-07 08:45:00] - Decision: Pivot to Enhance Course Material Workflows Based on User Intervention
+- **Decision**: User intervention has re-prioritized tasks. The immediate focus is now on updating the overall architecture ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)) and relevant `.clinerules` to integrate the syllabus proposal ([`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) and define workflows for dated readings/lectures. The task to address terminology inconsistency for the source material index is paused.
+- **Rationale**: Direct user instruction to address more fundamental architectural and workflow aspects related to course materials (syllabi, dated readings/lectures) before proceeding with more minor terminology fixes. User also requested simplification by deferring handling of multiple versions of the same class.
+- **Outcome**: A new plan will be formulated to address these architectural and workflow enhancements, starting with delegation to `architect` mode.
+- **Cross-ref:** [Active Context: 2025-05-07 08:45:00], [Progress: 2025-05-07 08:45:00], [SPARC MB Intervention Log: 2025-05-07 08:45:00]
+# Decision Log
+### [2025-05-07 09:03:00] - Decision: Introduce `philosophy-syllabus-processor` Mode and Update Related Architectures
+- **Decision**: Introduce a new `philosophy-syllabus-processor` mode to handle specific tasks of syllabus parsing, structured data extraction (e.g., weekly schedules, topics, reading/lecture associations), and temporal tagging. Update `philosophy-text-processor` to handle date extraction from raw lecture/reading paths. Update analysis modes to utilize dated materials and syllabus-derived context.
+- **Rationale**: To clearly separate concerns between general text processing and specialized syllabus processing. This enhances modularity and allows for dedicated logic for handling complex syllabus structures and their integration into the course progression workflow. Aligns with [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1).
+- **Outcome**: Architectural documents ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)) updated to reflect this new mode and associated responsibilities.
+- **Cross-ref:** [Active Context: 2025-05-07 09:03:00], [Global Progress: 2025-05-07 09:03:00], [System Pattern: Dated Course Material Integration V18.3.7]
+### [2025-05-07 08:05:23] - Decision: Adopt Syllabus Integration Architecture V1
+- **Decision**: Adopt the architecture for syllabus integration as detailed in [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1).
+- **Rationale**: The proposal provides a clear structure for storing raw and processed syllabuses, a method for extracting structured data (weekly topics, readings, assignments), integration with course indices, and enables temporal organization of materials. This addresses the user's request for investigating syllabus integration.
+- **Outcome**: The new proposal document [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) will guide future implementation of syllabus handling.
+- **Cross-ref:** [Active Context: 2025-05-07 08:05:23], [Progress: 2025-05-07 08:05:23], [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)
+### [2025-05-07 07:57:00] - Decision: Delegate `source_materials/` Syllabus Architecture Investigation to Architect Mode
+- **Decision**: Delegate the task of investigating and proposing architectural solutions for syllabus integration within the `source_materials/` structure to the `architect` mode.
+- **Rationale**: The `architect` mode is best suited to analyze existing architectural documents ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)), consider the user's specific questions about syllabus location, processing, and indexing, and propose a coherent architectural solution.
+- **Outcome**: A `new_task` will be formulated for `architect` mode with specific instructions and expected deliverables (a proposal document or updates to existing ones).
+- **Cross-ref:** [Active Context: 2025-05-07 07:57:00], [Progress: 2025-05-07 07:57:00]
 # Decision Log
 ### [2025-05-07 03:49:41] - Decision: Implement `manage_dynamic_roles_update` Workflow via Full File Rewrite
 - **Decision**: Used `write_to_file` to implement the detailed `manage_dynamic_roles_update` workflow in [`.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules`](.roo/rules-philosophy-orchestrator/philosophy-orchestrator.clinerules:1), replacing placeholder steps and correcting a structural file error.
@@ -123,12 +344,35 @@
 - **Decision**: Adopt the definitions and usage guidelines for `material_id` and the `dynamic_roles` update mechanism as specified in [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1).
 - **Rationale**: To address inconsistencies and ambiguities identified in the QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) and improve clarity and consistency across system documentation and mode interactions. `material_id` is established as the conceptual term, while `id` is the data field name. The `dynamic_roles` update mechanism is centralized via the `philosophy-orchestrator`.
 - **Outcome**: Existing documentation ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/standards/source_material_navigation_guidelines_v1.md`](docs/standards/source_material_navigation_guidelines_v1.md:1), [`docs/specs/clinerules_source_material_v1_updates.md`](docs/specs/clinerules_source_material_v1_updates.md:1)) will be updated to reflect these clarifications. Relevant `.clinerules` will require updates, particularly for analysis modes (proposing `dynamic_roles` updates) and `philosophy-orchestrator` (managing `dynamic_roles` updates).
+### [2025-05-07 09:03:00] - System Pattern: Dated Course Material Integration V18.3.7
+- **Description:** Defines architectural changes for handling dated course materials (lectures, readings) and syllabuses.
+- **Key Features:**
+    - Raw materials stored in dated subdirectories: `source_materials/raw/courses/[COURSE_CODE]/[lectures|readings]/[YYYY-MM-DD_TITLE_SLUG]/`.
+    - Processed material IDs (`LECTURE_ID`, `READING_ID`) incorporate dates.
+    - `lecture_date` / `assigned_date` metadata stored in `master_index.json` and individual processed material `index.md` files.
+    - New `philosophy-syllabus-processor` mode for parsing syllabuses, extracting structured data (`extracted_data.json`), associating materials, and adding temporal tags.
+    - `philosophy-text-processor` updated to parse dates from raw paths for lectures/readings.
+    - Analysis modes utilize date metadata and syllabus-derived context for temporal querying.
+    - Mermaid diagram in `architecture_v18.md` updated to reflect `philosophy-syllabus-processor` and new data flows.
+- **Governing Document:** [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (V18.3.7), [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)
+- **Affected Components:** `philosophy-text-processor`, `philosophy-syllabus-processor` (new), Analysis Modes, `master_index.json`, course/material `index.md` files, `source_materials/raw/` and `source_materials/processed/` structures.
+- **Cross-ref:** [Active Context: 2025-05-07 09:03:00], [Global Progress: 2025-05-07 09:03:00]
 - **Cross-ref:** [`docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md`](docs/proposals/terminology_clarification_v1_dynamic_roles_source_id.md:1), [Active Context: 2025-05-07 03:14:05], [System Patterns: 2025-05-07 03:14:05]
 # Decision Log
 ### [2025-05-07 01:09:50] - Decision: Refactor `scripts/process_source_text.py` for Modularity
 - **Decision**: Refactor `scripts/process_source_text.py` by breaking down its main processing logic into smaller, reusable functions.
 - **Rationale**: The script had become lengthy, and the `main()` function, in particular, handled many distinct steps. Refactoring improves modularity, readability, and maintainability, as noted in the task description.
 # System Patterns
+### [2025-05-07 08:05:23] - System Pattern: Syllabus Integration Architecture V1
+- **Description:** Defines the architecture for storing, processing, and integrating course syllabuses within the `source_materials/` directory.
+- **Key Features:**
+    - Raw syllabuses stored in `source_materials/raw/courses/[COURSE_CODE]/syllabuses/`.
+    - Processed syllabuses in `source_materials/processed/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_ID]/`, containing `index.md` (metadata, Markdown content) and `extracted_data.json` (structured syllabus information like weekly topics, readings, assignments).
+    - Syllabus processing script extracts structured data and updates `master_index.json` and course-specific `index.md`.
+    - Temporal organization achieved through extracted dates, weekly tags, and linking `material_id`s of readings/lectures within `extracted_data.json`.
+- **Governing Document:** [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)
+- **Affected Components:** `philosophy-text-processor` (or new `philosophy-syllabus-processor`), Analysis Modes, `master_index.json`, course `index.md` files.
+- **Cross-ref:** [Active Context: 2025-05-07 08:05:23], [Progress: 2025-05-07 08:05:23], [Decision Log: 2025-05-07 08:05:23]
 ### [2025-05-07 03:49:41] - System Pattern: Orchestrated `dynamic_roles` File Operations (Implementation Detail)
 - **Description:** Details the implemented file operation sequence within `philosophy-orchestrator.clinerules` for the `manage_dynamic_roles_update` workflow. This includes:
     1. Reading `source_materials/processed/master_index.json`.
@@ -264,6 +508,18 @@
 - **Outcome**: `scripts/process_source_text.py` updated by `code` mode.
 - **Cross-ref:** [Active Context: 2025-05-06 17:22:53], [Architect Analysis in Active Context: 2025-05-06 17:18:01]
 # Product Context
+### [2025-05-07 04:48:42] - User Guide: Material Processing and System Workflows
+- **Description:** A comprehensive guide detailing raw source material preparation, the `source_materials/raw/` directory structure, and example system workflow user stories.
+- **Key Features:** Covers conversion of PDF/EPUB/DOCX to Markdown, organization of raw files for courses and general library, and illustrates user interactions for adding new materials, finding concepts, and linking lecture content.
+- **Link to Document:** [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)
+- **Relevant Architecture:** [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`scripts/process_source_text.py`](scripts/process_source_text.py:1)
+- **Cross-ref:** [Active Context: 2025-05-07 04:48:42]
+### [2025-05-07 04:22:01] - Project `README.md` Created
+- **Description:** The main entry point documentation for the Philoso-Roo project.
+- **Key Features:** Provides an overview of the project, system components, setup instructions, directory structure, and links to key architectural documents.
+- **Link to Document:** [`README.md`](README.md:1)
+- **Relevant Architecture:** [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)
+- **Cross-ref:** [Active Context: 2025-05-07 04:22:01]
 
 ### [2025-05-06 17:10:56] - Source Material Navigation Guidelines V1
 - **Description:** Comprehensive guidelines for all modes on how to navigate and effectively utilize the V1 architecture of the `source_materials/processed/` directory.

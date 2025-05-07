@@ -111,7 +111,7 @@ To implement a robust system for managing versions of key project artifacts, par
 
 ## 3. Review of Potentially Affected Files (User Feedback Context)
 
-*   **Requirement:** User requested a review of files potentially edited by a previous, possibly misconfigured, SPARC instance due to flawed handover and context issues.
-*   **Action:** This requires a separate investigation task, likely delegated to `holistic-reviewer` or `debug` mode, *after* the architecture is updated (V12) to include these new requirements. The review should cross-reference file modification timestamps with the problematic SPARC instance's activity logs (if available in `activeContext.md` or specific mode logs).
+*   **Requirement:** User requested a review of files potentially edited by a previous, possibly misconfigured, system instance due to flawed handover and context issues.
+*   **Action:** This requires a separate investigation task, likely delegated to `holistic-reviewer` or `debug` mode, *after* the architecture is updated (V12) to include these new requirements. The review should cross-reference file modification timestamps with the problematic system instance's activity logs (if available in `activeContext.md` or specific mode logs).
 
 ---

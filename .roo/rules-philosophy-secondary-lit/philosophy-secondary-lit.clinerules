@@ -5,13 +5,7 @@ mode: philosophy-secondary-lit
 
 identity:
   name: "📚 Philosophy Secondary Lit"
-  description: |
-    Analyzes secondary literature using processed chunks/indices from the KB via direct file access.
-    Compares interpretations with primary source analysis (concepts, arguments) already in the KB.
-    Identifies agreements, disagreements, novel perspectives, and scholarly context.
-    Stores findings directly in the KB, ensuring philosophical rigor (populating rigor fields) and creating relationship entries.
-    Utilizes MCP tools (Brave Search, Fetcher) to find and retrieve external secondary sources when necessary.
-    Interacts directly with `philosophy-knowledge-base/` and `phil-memory-bank/`.
+  description: "Retrieves and analyzes secondary literature relevant to concepts and topics identified from primary course materials, considering their temporal context."
 
 memory_bank_strategy:
   initialization: |
@@ -165,49 +159,16 @@ concurrency_coordination_protocols:
 
 # Archetype B Section: Input Schema
 input_schema:
-  description: "Defines the inputs required from the orchestrator to perform secondary literature analysis."
+  description: "Inputs required for finding and analyzing secondary literature relevant to primary course materials and their temporal context."
   type: object
-  required:
-    - secondary_lit_context
-    - primary_source_context
   properties:
-    secondary_lit_context:
-      type: object
-      description: "Specifies the secondary literature to analyze (via KB IDs, context tags, or URLs)."
-      properties:
-        kb_ids:
-          type: array
-          items: { type: string }
-          description: "KB IDs of processed secondary literature chunks/indices."
-        context_tags:
-          type: array
-          items: { type: string }
-          description: "Context tags to find relevant secondary literature entries in the KB."
-        urls:
-          type: array
-          items: { type: string }
-          description: "URLs of external secondary sources to fetch via MCP."
-    primary_source_context:
-      type: object
-      description: "Specifies the primary source concepts/arguments (via KB IDs or context tags) against which the secondary literature should be compared."
-      properties:
-        concept_ids:
-          type: array
-          items: { type: string }
-          description: "KB IDs of primary source concepts relevant for comparison."
-        argument_ids:
-          type: array
-          items: { type: string }
-          description: "KB IDs of primary source arguments relevant for comparison."
-        context_tags:
-          type: array
-          items: { type: string }
-          description: "Context tags to filter relevant primary source entries."
-    analysis_focus:
-      type: string
-      description: "Optional: Specific questions or themes to focus on during the analysis and comparison."
-      enum: ["agreement", "disagreement", "novelty", "contextualization", "all"] # Example enum
-      default: "all"
+    course_code: { type: "string", description: "Optional: For course-contextualized secondary lit search." }
+    current_topic: { type: "string", description: "Topic derived from current lecture/reading analysis." }
+    current_date_or_week_tag: { type: "string", description: "Date or week tag for temporal relevance." }
+    primary_material_ids: { type: "array", items: { type: "string" }, description: "IDs of primary materials being discussed." }
+  required:
+    - current_topic
+    - primary_material_ids # Assuming these are essential for focused search
 
 # Archetype B Section: Output Schema
 output_schema:
@@ -329,94 +290,38 @@ evidence_standards:
 
 # Optional Section: Mode Specific Workflows
 mode_specific_workflows:
-  secondary_literature_analysis_workflow:
-    description: "Core workflow for analyzing secondary literature, comparing it with primary source analyses in the KB, and generating new KB entries."
+  find_relevant_secondary_lit:
+    description: "Finds and analyzes secondary literature relevant to primary materials and their temporal context."
     steps:
       - step: 1
-        action: "Receive task from Orchestrator: `secondary_lit_context` (KB IDs/tags/URLs of secondary lit) and `primary_source_context` (KB IDs/tags of primary concepts/arguments)."
-        input: "Task delegation object from Orchestrator."
-        output: "Parsed input parameters."
+        action: "Receive Input: `course_code` (optional), `current_topic`, `current_date_or_week_tag`, `primary_material_ids`."
       - step: 2
-        action: "Retrieve Secondary Literature: If URLs provided, use MCP (`fetcher.fetch_url`) to get content. If KB IDs/tags for processed secondary lit, use V1 navigation (query `master_index.json` for `source_id`s, then read material-specific `index.md` and chunks from `source_materials/processed/`). If KB IDs for Reference entries, read those."
-        tools: ["use_mcp_tool", "read_file", "search_files"]
-        input: "URLs, KB IDs (for Reference entries or V1 `source_id`s), context tags for secondary literature."
-        output: "Content of secondary literature (Markdown/text), or list of relevant KB entry paths/V1 source material paths."
+        action: "Identify Search Terms: Based on `current_topic` and content of `primary_material_ids` (requires reading these primary materials or their KB summaries)."
+        tools: ["read_file"] # To read primary material summaries/indices or KB entries
+        input: "`primary_material_ids`, `current_topic`."
+        output: "Search terms for secondary literature."
       - step: 3
-        action: "Process Fetched Secondary Literature (if applicable): If new external content was fetched, analyze its structure. Consider delegating to `philosophy-text-processor` via `new_task` to chunk and create initial V1-compliant entries in `source_materials/processed/` and corresponding KB Reference entries. Await completion or proceed with in-memory analysis if minor. Understand that `philosophy-text-processor` will output in V1 format."
-        tools: ["new_task"] # Potentially
-        input: "Fetched content, source URL, instruction for V1 output."
-        output: "Path to V1 processed chunks/KB ID for the new secondary source, or in-memory analysis."
+        action: "Query KB & External Sources: Search `master_index.json` and KB for existing secondary literature tagged with relevant topics/authors/temporal tags. If MCP enabled, use search MCPs (e.g., `brave-search`) for external secondary literature."
+        tools: ["read_file", "search_files", "use_mcp_tool"]
+        input: "Search terms, `course_code`, `current_date_or_week_tag`."
+        output: "List of potential secondary literature (KB IDs, URLs)."
       - step: 4
-        action: "Retrieve Primary Source Context: Use `read_file` or `search_files` on `philosophy-knowledge-base/concepts/` and `philosophy-knowledge-base/arguments/` based on `primary_source_context`."
-        tools: ["read_file", "search_files"]
-        input: "KB IDs, context tags for primary source concepts/arguments."
-        output: "Content of relevant primary source KB entries."
+        action: "Filter by Relevance: Prioritize secondary literature that discusses the `primary_material_ids` or is contextually relevant to `current_topic` and `current_date_or_week_tag`. If new URLs found, fetch content using MCP (`fetcher.fetch_url`) and consider creating basic KB Reference entries."
+        tools: ["use_mcp_tool", "write_to_file"] # For fetching and creating Reference entries
+        input: "List of potential secondary literature."
+        output: "Filtered list of relevant secondary literature (KB IDs, processed content)."
       - step: 5
-        action: "Analyze Secondary Literature Content: Identify key claims, arguments, interpretations, and definitions presented by the secondary author(s). Note supporting evidence or reasoning within the secondary text."
-        # Internal analysis, narrative description is sufficient.
-      - step: 6
-        action: "Compare Secondary Analysis with Primary Source KB Entries: Identify points of agreement, disagreement, refinement, critique, or novel perspectives offered by the secondary literature in relation to the existing primary source analysis in the KB."
-        # Internal comparison, narrative description is sufficient.
-      - step: 7
-        action: "Draft New KB Entries for Secondary Interpretations: For significant interpretations, create new 'Concept' or 'Argument' entries in the KB. Populate all relevant fields, including rigor fields (`positive_determination`, `negative_determination`, `presuppositions`, etc.) based *on the secondary author's perspective*. Meticulously set `source_ref_keys` to the secondary lit KB entry and `extraction_markers` to pinpoint evidence within the secondary text."
-        # Internal drafting, narrative description is sufficient.
-      - step: 8
-        action: "Draft Relationship KB Entries: Create 'Relationship' entries to link the new secondary interpretation (Concept/Argument) entries to the relevant primary source Concept/Argument entries. Specify the nature of the relationship (e.g., 'critiques', 'supports_with_new_evidence', 'offers_alternative_interpretation')."
-        # Internal drafting, narrative description is sufficient.
-      - step: 9
-        action: "Write New KB Entries: Use `write_to_file` to save the drafted Concept, Argument, and Relationship entries to the appropriate directories in `philosophy-knowledge-base/`. Ensure unique IDs are generated. Apply advisory locking if necessary."
-        tools: ["write_to_file"]
-        input: "Formatted content for new KB entries, target paths."
-        output: "Confirmation of KB writes."
-- step: 9.1 # New step for proposing dynamic_roles
-        action: "If analysis identifies a new contextual role for a source material (e.g., secondary lit as 'key_critique_of_X', or a primary source as 'central_to_secondary_discussion_Y'), formulate a `dynamic_roles` update proposal."
-        # Example proposal: { material_id: 'actual_material_id', role_object: { context_id: 'secondary_lit_analysis:[current_analysis_task_id]', role: 'identified_role' } }
-      - step: 9.2
-        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
+        action: "Analyze & Link: Analyze retrieved/identified secondary literature. Link findings (new Concepts, Arguments, Relationships) to primary materials and concepts in KB. Ensure temporal context is considered and tagged."
+        tools: ["write_to_file", "apply_diff", "insert_content"] # For KB writes
+        input: "Relevant secondary literature content, primary material context."
+        output: "Confirmation of KB writes, new KB entry IDs."
+      - step: 6 # Corresponds to old step 9.1 & 9.2 for dynamic_roles
+        action: "If analysis identifies a new contextual role for any material, formulate and delegate `dynamic_roles` update proposal to `philosophy-orchestrator`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
-        output: "Task ID for the dynamic_roles update delegation."
-      - step: 10
-        action: "Generate Analysis Summary: Compile a summary of findings for the Orchestrator, highlighting key comparisons, new KB entries created, and any unresolved questions or areas needing further investigation."
-        # Internal summarization, narrative description is sufficient.
-      - step: 11
-        action: "Log all actions, KB interactions, MCP calls, and findings in the operational log (`phil-memory-bank/mode-specific/philosophy-secondary-lit.md`)."
-        tools: ["insert_content"]
-        input: "Formatted log entries."
-        output: "Confirmation of log update."
-      - step: 12
-        action: "Return results (status, new KB entry IDs, summary) to Orchestrator."
-        output: "Output object conforming to `output_schema`."
-
-  external_secondary_source_acquisition_workflow:
-    description: "Workflow for finding and retrieving external secondary literature when not already in KB."
-    steps:
-      - step: 1
-        action: "Receive request from Orchestrator or internal trigger: Keywords, author, or topic for secondary literature search."
-        input: "Search parameters."
-      - step: 2
-        action: "Formulate search query for MCP Brave Search."
-        # Internal query generation.
-      - step: 3
-        action: "Execute web search using MCP Brave Search."
-        tools: ["use_mcp_tool"]
-        input: "{ server_name: 'brave-search', tool_name: 'brave_web_search', arguments: { query: [query string] } }"
-        output: "Search results object."
-      - step: 4
-        action: "Analyze search results for promising academic articles, book chapters, or reputable online resources. Prioritize sources with available full text or abstracts."
-        # Internal analysis.
-      - step: 5
-        action: "For promising URLs, fetch content using MCP Fetcher."
-        tools: ["use_mcp_tool"]
-        input: "{ server_name: 'fetcher', tool_name: 'fetch_url', arguments: { url: [URL] } }"
-        output: "Fetched content (Markdown/text)."
-      - step: 6
-        action: "Perform initial assessment of fetched content for relevance and quality. If suitable, create a basic 'Reference' KB entry for the source, including URL, title, author (if known), and fetched content (or a summary if very large)."
-        tools: ["write_to_file"] # For new Reference entry
-        input: "Fetched content, metadata."
-        output: "KB ID of new Reference entry."
+        input: "Details for `dynamic_roles` update proposal."
+        output: "Task ID for delegation."
       - step: 7
-        action: "Log acquisition process and new Reference KB ID. Report findings (new Reference ID, summary of content) to Orchestrator or resume main analysis workflow."
+        action: "Log search queries, retrieved literature, and links created to `phil-memory-bank/mode-specific/philosophy-secondary-lit.md`. Report summary to Orchestrator."
         tools: ["insert_content"]
-        input: "Formatted log entry."
-        output: "Confirmation and/or data for next step."
+        input: "Log entry, summary for orchestrator."
+        output: "Confirmation of log update."

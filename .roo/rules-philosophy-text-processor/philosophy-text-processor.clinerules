@@ -6,7 +6,7 @@ mode: philosophy-text-processor
 
 identity: # Based on Arch V18.3.6
   name: "Philosophy Text Processor"
-  description: "Orchestrates the processing of philosophical source texts via an external script (`scripts/process_source_text.py`) to align with V1 Source Material Architecture. Extracts context from source paths, executes the script. The script generates V1 outputs: `source_materials/processed/master_index.json`, course-specific `index.md` files, material-specific `[ID]/index.md` files, and chunked content. This mode parses the script's JSON output (containing metadata and paths to generated files) and writes corresponding entries to the Knowledge Base (`philosophy-knowledge-base/`). It logs operations to `phil-memory-bank/`."
+  description: "Orchestrates the processing of general source texts (lectures, readings) using `scripts/process_source_text.py`. Extracts date metadata for dated materials. Parses script output and performs direct KB writes. Updates relevant indices."
   details: |
     - **Input:** Receives source text path (`source_materials/raw/...`) from `philosophy-orchestrator`.
     - **Context Extraction:** Parses source path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`, `course_code` if applicable).
@@ -85,12 +85,12 @@ operational_logging: # Standard V2.5
   target_file: "phil-memory-bank/mode-specific/philosophy-text-processor.md"
   format: |
     ### [YYYY-MM-DD HH:MM:SS] - [Action/Status]
-    - **Details:** [Brief description of the step, parameters used, files involved, e.g., script executed, JSON parsed, KB entries targeted, root index updated.]
+    - **Details:** [Brief description of the step, parameters used, files involved, e.g., script executed, JSON parsed, KB entries targeted, root index updated, or for dated material: extracted/provided date, generated material ID.]
     - **KB Interaction:** [Read KB ID: N/A; Wrote KB IDs: [list_of_ids] (Types: Index/Reference/ChunkMeta/Concept/Argument), Root Index Update: [status]]
     - **Input:** [Summary of key input data, e.g., source_file_path, script parameters.]
     - **Output:** [Summary of key output data/result, e.g., script output summary, KB write status, root index update status.]
     - **Cross-ref:** [Link to relevant KB entry, feedback log, script log if separate, etc. if applicable.]
-  frequency: "Log task start/end, input validation, context extraction, script execution start/end/error, script output parsing, summary of KB write operations, root index update success/failure, and final completion/failure status."
+  frequency: "Log task start/end, input validation, context extraction, script execution start/end/error, script output parsing, summary of KB write operations, root index update success/failure, and final completion/failure status. For dated materials, log extracted dates and generated IDs."
   guidelines: "Maintain reverse chronological order. Be concise. Focus on operational actions, use KB IDs for reference. Do not duplicate KB content here. Recommend batching log entries before writing via `insert_content`."
 
 error_reporting_protocols: # Standard V2.5
@@ -139,6 +139,7 @@ input_schema: # Archetype A/B
     source_file_path:
       type: string
       description: "Full path to the source file within `source_materials/raw/` to be processed."
+    material_date: { type: "string", format: "date", description: "YYYY-MM-DD, extracted from path or provided directly for dated lectures/readings." }
     # Optional script parameters could be added here if needed (e.g., token limits, processing flags)
     # Example:
     # processing_options:
@@ -223,8 +224,64 @@ script_execution: # Archetype A/B, Retaining detailed structure from original
     - Ensure context tags are included in the KB data written by the mode.
   path_convention: "All file paths MUST use forward slashes (`/`)."
 
-mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user request
-  text_processing_and_kb_ingestion:
+mode_specific_workflows:
+  process_dated_material: # For lectures/readings
+    description: "Processes dated source materials (lectures, readings) by executing the main processing script with date information."
+    steps:
+      - step: 1
+        action: "Receive `raw_material_path`, `course_code`, `material_type`, `material_date`, etc. from Orchestrator or other calling mode."
+        # Assumes input validation already performed by Orchestrator or calling mode based on this mode's input_schema
+      - step: 2
+        action: "Execute `scripts/process_source_text.py` via `execute_command`, passing `--material_date [material_date]` and other relevant arguments (e.g. `source_file_path`, `course_code`, `material_type`)."
+        tools: ["execute_command"]
+        input: "Script path, `source_file_path`, `material_date`, `course_code`, `material_type`."
+        output: "Script stdout (JSON string), stderr, exit code. Filesystem changes by script."
+      - step: 3
+        action: "Script generates processed files, `index.md` (with `lecture_date` or `assigned_date` in YAML), and updates `master_index.json` (with `lecture_date` or `assigned_date`). This mode verifies script completion."
+        # Verification might involve checking script exit code and basic log parsing.
+      - step: 4
+        action: "Mode parses JSON output from script if any further KB writes are its responsibility beyond script's direct `master_index.json` update (as per `script_execution.mode_responsibilities`)."
+        # Internal logic
+      - step: 5
+        action: "Ensure root processed index (`source_materials/processed/index.md`) is updated (responsibility might be script's or this mode's depending on final architecture)."
+        # This step might be handled by the script or require this mode to update a general library index.
+      - step: 6
+        action: "Log processing of dated material, including extracted/provided date and generated material ID to `phil-memory-bank/mode-specific/philosophy-text-processor.md`."
+        tools: ["insert_content"]
+      - step: 7
+        action: "Report status to Orchestrator."
+        # Internal logic, prepares data for attempt_completion
+  process_library_material: # For non-dated, non-course specific
+    description: "Processes general library source materials (non-dated, not tied to a specific course instance immediately)."
+    steps:
+      - step: 1
+        action: "Receive `raw_material_path`, `material_type`, etc. (material_date would be null or not provided)."
+      - step: 2
+        action: "Execute `scripts/process_source_text.py` via `execute_command` without `--material_date`."
+        tools: ["execute_command"]
+      - step: 3
+        action: "Script generates processed files and updates relevant indices (`master_index.json`, material `index.md`)."
+      - step: 4
+        action: "Mode parses JSON output from script for any direct KB writes it's responsible for."
+      - step: 5
+        action: "Log processing to `phil-memory-bank/mode-specific/philosophy-text-processor.md`."
+        tools: ["insert_content"]
+      - step: 6
+        action: "Report status to Orchestrator."
+  interaction_with_syllabus_processing:
+    description: "Handles requests to process individual readings/lectures identified by the syllabus processor if they are not yet processed."
+    steps:
+      - step: 1
+        action: "Receive request from `philosophy-orchestrator` or `philosophy-syllabus-processor` containing `raw_material_path`, `course_code`, `material_type`, and `material_date` (derived from syllabus context)."
+      - step: 2
+        action: "Check `master_index.json` if this material (by path or derived ID) is already processed with the given date context. If yes, report back and exit."
+        tools: ["read_file"] # To read master_index.json
+      - step: 3
+        action: "If not processed, execute the `process_dated_material` workflow with the provided details."
+        # Internal delegation to another workflow within this mode.
+      - step: 4
+        action: "Report completion status of the `process_dated_material` workflow."
+  text_processing_and_kb_ingestion: # Original detailed workflow
     description: "End-to-end workflow for processing a source text, ingesting its structured data into the Knowledge Base, creating hierarchical processed source indices, and updating the root processed source library index."
     steps:
       - step: 1
@@ -264,31 +321,39 @@ mode_specific_workflows: # New section as per Standard V2.5 (Optional) and user 
       - step: 9
         action: "Report final status (`success` or `failure`), a descriptive message, the `processed_source_id`, the `processed_path` (e.g., `source_materials/processed/[source_id]`), and a summary of `kb_entries_written` to the Orchestrator, adhering to the main `output_schema`."
         # Internal logic, prepares data for attempt_completion
-  processed_source_navigation_guidance:
+  processed_source_navigation_guidance: # Original guidance section
     description: "Guidance for other modes on utilizing the V1 `source_materials/processed/` directory structure, `master_index.json`, and material-specific `index.md` files for research and context gathering, as per `docs/standards/source_material_navigation_guidelines_v1.md`."
     guidance: |
-      The V1 `source_materials/processed/` directory, created and maintained by `scripts/process_source_text.py` (orchestrated by `philosophy-text-processor`), provides a structured way to access processed texts.
+      The `source_materials/processed/` directory, created and maintained by `scripts/process_source_text.py` (orchestrated by `philosophy-text-processor`) and `philosophy-syllabus-processor`, provides a structured way to access processed texts and syllabus data.
       - **Master Index (`source_materials/processed/master_index.json`):**
-        - This JSON file is the **primary entry point** for discovering all processed materials.
-        - Each entry contains metadata like `id` (unique material ID), `title`, `authors`, `tags`, `material_type`, `course_code` (if applicable), `summary`, `chunk_count`, and crucially, `path_to_index` (relative path to the material's specific `index.md` file).
-        - Modes should query this file (e.g., by `id`, `tags`, `course_code`, keywords in `title` or `summary`) to find relevant materials.
+        - **Primary entry point** for discovering all processed materials (readings, lectures, syllabuses).
+        - Contains metadata: `id` (unique material ID), `title`, `authors`, `tags` (including temporal tags like `PHL316_Week_2`, `PHL316_Topic_Being`), `material_type` (`reading`, `lecture`, `syllabus`), `course_code`, `summary`, `chunk_count` (for texts), `path_to_index` (to material's `index.md`).
+        - For dated materials: `lecture_date`, `assigned_date`.
+        - For syllabuses: `term`, `year`, `is_active_syllabus`, `path_to_extracted_data`.
+        - Query by: `id`, `tags` (including temporal), `course_code`, date fields, keywords.
       - **Course-Specific Index (`source_materials/processed/courses/[COURSE_CODE]/index.md`):**
-        - For course-focused tasks, this Markdown file lists all processed materials (readings, lectures, notes) for a specific `[COURSE_CODE]`.
-        - It provides links to the individual `index.md` files of materials belonging to that course.
-      - **Material-Specific Index (`source_materials/processed/[path_to_material_dir]/index.md`):**
-        - Found via `path_to_index` from `master_index.json` or linked from a course index.
-        - Contains YAML frontmatter with detailed metadata for that specific material (subset of `master_index.json` fields, plus `list_of_chunks`).
-        - `list_of_chunks`: An array detailing each chunk (e.g., `file: "chunks/chunk_001.md"`, `summary`, `keywords`).
-        - The Markdown body provides a human-readable table of contents for the chunks.
-      - **Content Chunk Files (`source_materials/processed/[path_to_material_dir]/chunks/chunk_XXX.md`):**
-        - These are the actual processed text units.
-        - KB entries link to these via `extraction_markers` (e.g., `[source_id]/courses/PHL316/readings/hegel_phen_intro_processed/chunks/chunk_001.md#para_Y`). The `source_id` part of the marker corresponds to the `id` in `master_index.json`.
+        - Lists all processed materials for a `[COURSE_CODE]`. Links to individual material `index.md` files.
+        - May summarize/embed key info from the active syllabus for the course.
+      - **Syllabus-Specific Files (`source_materials/processed/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_ID]/`):**
+        - `index.md`: Metadata for the syllabus (course, term, year, active status), link to `extracted_data.json`, link to `syllabus_content.md`.
+        - `extracted_data.json`: Structured data parsed by `philosophy-syllabus-processor` (weekly schedule, topics, readings with matched `material_id`s, assignments). Key for temporal navigation and understanding course structure.
+        - `syllabus_content.md`: The Markdown version of the syllabus.
+      - **Material-Specific Index (for Readings/Lectures - `.../[MATERIAL_ID]/index.md`):**
+        - Found via `path_to_index` from `master_index.json`.
+        - YAML frontmatter: Detailed metadata (including `lecture_date` or `assigned_date`), `list_of_chunks`.
+        - Body: Human-readable table of contents for chunks.
+      - **Content Chunk Files (`.../[MATERIAL_ID]/chunks/chunk_XXX.md`):**
+        - Actual processed text units. KB entries link here via `extraction_markers`.
       - **Dynamic Roles (`dynamic_roles` field in `master_index.json` and material `index.md`):**
-        - This array allows materials to be tagged with roles (e.g., `primary_source`, `secondary_source`) relative to a specific `context_id` (e.g., `inquiry_id`, `essay_id`). Modes performing analysis can update this field.
-      - **Recommended Usage Pattern for Analysis Modes:**
-        1. **Discovery:**
-           - **Targeted:** If a `source_id` is known (e.g., from a KB Reference entry's `source_ref_keys`), query `master_index.json` for that `id` to get its `path_to_index`.
-           - **Exploratory/Course-Specific:** Query `master_index.json` using keywords, tags, `course_code`, etc. Or, if course is known, start with `source_materials/processed/courses/[COURSE_CODE]/index.md`.
-        2. **Material Overview:** Read the material-specific `index.md` (using `path_to_index` or direct link) to review its metadata, summary, and `list_of_chunks`.
-        3. **Chunk Access:** Use the `list_of_chunks` (or `extraction_markers` from KB entries) to read specific `chunks/chunk_XXX.md` files.
-        4. **Contextual Roles:** Check the `dynamic_roles` field in `master_index.json` or the material's `index.md` if the material's role in a specific inquiry/task is relevant.
+        - Contextual roles (e.g., `primary_source`) relative to an `inquiry_id` or `essay_id`.
+      - **Recommended Usage Pattern for Analysis Modes (Updated for Dated/Syllabus Context):**
+        1. **Discovery & Contextualization:**
+           - **Syllabus-Driven (for course progression):**
+             a. Identify active syllabus for `course_code` from `master_index.json`.
+             b. Read its `extracted_data.json` to find relevant readings/lectures for a specific week/topic/date. Use `matched_material_id`s.
+           - **Targeted (Known ID):** Query `master_index.json` for `id` to get `path_to_index` and date metadata.
+           - **Exploratory/Temporal:** Query `master_index.json` using `course_code`, temporal tags (e.g., `PHL316_Week_3`), `lecture_date`, `assigned_date`, or keywords.
+        2. **Material Overview:** Read material-specific `index.md` for metadata and chunk list.
+        3. **Chunk Access:** Use `list_of_chunks` or KB `extraction_markers`.
+        4. **Contextual Roles:** Check `dynamic_roles`.
+        5. **Leverage Syllabus Data:** For course-related tasks, cross-reference with `extracted_data.json` from the active syllabus for topics, weekly structure, and relationships between materials.

@@ -239,3 +239,52 @@ Located within each material's directory (e.g., `courses/PHL316/readings/[READIN
 ## 6. Conclusion
 
 This proposed architecture for the `source_materials/processed/` directory aims to provide a flexible, scalable, and discoverable system for managing processed philosophical texts. It balances hierarchical organization with powerful indexing and tagging, addresses the nuanced requirements for categorization and contextual roles, and lays a foundation for efficient use by various research modes.
+## 7. Addendum V1.1: Integration of Dated Course Materials (2025-05-07)
+
+This addendum details how dated raw course materials (lectures, readings) and syllabus information are integrated with the V1 Source Material Architecture, specifically concerning their processing into the `source_materials/processed/` directory and the incorporation of date metadata. This aligns with the [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1).
+
+### 7.1. Dated Raw Material Paths
+
+As per the integration plan, raw dated course materials are stored as follows:
+
+*   **Raw Lectures:** `source_materials/raw/courses/[COURSE_CODE]/lectures/[YYYY-MM-DD_LECTURE_TITLE_SLUG]/[FILENAME.ext]`
+*   **Raw Readings:** `source_materials/raw/courses/[COURSE_CODE]/readings/[YYYY-MM-DD_READING_TITLE_SLUG]/[FILENAME.ext]`
+*   **Raw Syllabuses:** `source_materials/raw/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_FILENAME.ext]`
+
+The `YYYY-MM-DD` prefix in lecture and reading subdirectories is critical for date extraction.
+
+### 7.2. Mapping to Processed Structure & Metadata Incorporation
+
+The V1 architecture for `source_materials/processed/courses/[COURSE_CODE]/` is extended to explicitly handle these dated materials:
+
+*   **Processed Lectures:**
+    *   Stored under: `source_materials/processed/courses/[COURSE_CODE]/lectures/[LECTURE_ID]/`
+    *   `LECTURE_ID` is derived to incorporate the date (e.g., `phl316_lec_2025-09-08_hegel_concepts`).
+    *   The `index.md` within this directory will have `lecture_date: YYYY-MM-DD` in its YAML frontmatter.
+    *   The `master_index.json` entry for this lecture will include `lecture_date: "YYYY-MM-DD"`.
+
+*   **Processed Readings:**
+    *   Stored under: `source_materials/processed/courses/[COURSE_CODE]/readings/[READING_ID]/`
+    *   `READING_ID` is derived to incorporate the primary assigned date (e.g., `phl316_reading_2025-09-08_hegel_phen_preface`).
+    *   The `index.md` within this directory will have `assigned_date: YYYY-MM-DD` (or `week_start_date`) in its YAML frontmatter.
+    *   The `master_index.json` entry for this reading will include `assigned_date: "YYYY-MM-DD"`.
+
+*   **Processed Syllabuses:**
+    *   Stored under: `source_materials/processed/courses/[COURSE_CODE]/syllabuses/[SYLLABUS_ID]/` (where `SYLLABUS_ID` incorporates term/year).
+    *   Contains `index.md` (with metadata like `term_start_date`, `term_end_date`, `year`, `is_active_syllabus`) and `extracted_data.json` (structured syllabus content).
+    *   The `master_index.json` entry for the syllabus will include `term_start_date`, `term_end_date`, and `year`.
+
+### 7.3. Script Modifications for Date Handling
+
+*   The `scripts/process_source_text.py` (or a similar script dedicated to dated materials if `process_source_text.py` remains for generic library items) MUST be updated to:
+    *   Parse the `YYYY-MM-DD` from the raw material path for lectures and readings.
+    *   Incorporate this extracted date into the derived `LECTURE_ID` or `READING_ID`.
+    *   Add the `lecture_date` or `assigned_date` to the YAML frontmatter of the material's `index.md` in the `processed` directory.
+    *   Add the corresponding date field to the material's entry in `master_index.json`.
+*   A new `scripts/process_syllabus.py` (or enhanced `process_source_text.py`) is responsible for processing syllabuses, generating `extracted_data.json`, and updating `master_index.json` and the course-specific `index.md` with syllabus metadata and associations.
+
+### 7.4. Tagging for Temporal Context
+
+*   The syllabus processing script and/or the text processing script (when handling dated course materials) should add week-specific and topic-specific tags (e.g., `PHL316_Week_2`, `PHL316_Topic_SelfConsciousness`, `date_YYYY-MM-DD`) to the `tags` array in `master_index.json` entries and the YAML frontmatter of individual processed material `index.md` files. This facilitates temporal querying and association by analysis modes.
+
+This addendum clarifies the integration of dated materials into the V1 source material architecture, ensuring that temporal context is captured and made available throughout the system.

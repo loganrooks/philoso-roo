@@ -1,4 +1,19 @@
+### [2025-05-07 12:24:19] - User Intervention: Syllabus Processing Strategy Change
+- **Trigger:** User task assignment.
+- **Context:** User feedback indicated that syllabus processing (Step 3.2 of [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)) must be handled by an AI agent's internal logic, not by a script, due to high variability in syllabus formatting.
+- **Action:** Updated architectural documents ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) to reflect AI-driven syllabus parsing.
+- **Rationale:** Align system design with new user requirement for more robust syllabus processing.
+- **Outcome:** Documentation updated. System design now specifies an AI agent for syllabus parsing.
+- **Follow-up:** Implementation of the AI-driven syllabus processing logic.
 ### [2025-05-05 04:45:32] - User Intervention: v6 Evaluation Still Lacks Detail/Specificity for External Reader
+### [2025-05-07 08:08:19] - User Intervention: Syllabus Uniqueness per Course
+- **Trigger:** User denied `attempt_completion` for syllabus integration proposal.
+- **Context:** Proposal [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) suggested a `syllabuses/[SYLLABUS_ID]/` structure under each course.
+- **User Feedback Summary:** "what, for each course code there will only be one syllabus." This implies the architecture needs to better reflect that a course typically has one *active* syllabus per offering/term, and how to manage historical vs. current syllabuses.
+- **Action:** Acknowledged feedback. Will revise the proposal to clarify how multiple syllabuses (e.g., for different terms) are handled and how the "current" or "active" syllabus for a course offering is identified.
+- **Rationale:** Improve the accuracy and practicality of the syllabus integration architecture.
+- **Outcome:** Proposal revision pending.
+- **Follow-up:** Update [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1).
 - **Trigger:** User denied `attempt_completion` for v6 reports.
 ### [2025-05-06 01:45:00] - Feedback: `.clinerules` Standard V2.4 Revision Issues
 - **Trigger**: User Feedback on `attempt_completion` for V2.4 standard.

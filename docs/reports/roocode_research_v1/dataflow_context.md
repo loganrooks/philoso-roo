@@ -81,7 +81,7 @@ Managing the context provided to the AI model is critical due to the finite cont
     - **Task Delegation (`new_task`):** Breaks large tasks into smaller ones, each with its own (potentially smaller) context.
     - **Partial File Reads:** Using `read_file` with line ranges avoids loading entire large files into context unnecessarily.
     - **Summarization (Implicit):** Modes (especially Orchestrator or Architect) might be implicitly or explicitly tasked with summarizing progress or key information into the Memory Bank to condense context.
-    - **Proactive Handover (Rule):** Some `.clinerules` (like SPARC's) include rules to proactively suggest using `new_task` for handover if context limits are approached, preventing failures.
+    - **Proactive Handover (Rule):** Some `.clinerules` (like those in this system) include rules to proactively suggest using `new_task` for handover if context limits are approached, preventing failures.
 
 ## 4. Relevance to `philoso-roo`
 

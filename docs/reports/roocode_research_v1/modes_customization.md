@@ -14,7 +14,7 @@ As outlined in [Core Concepts](./core_concepts_architecture.md), Modes are disti
 
 ## 2. `.clinerules` Files: Mode Definition
 
-Each mode is defined by a configuration file, typically named `<mode-slug>.clinerules` and located within a `.roo/rules-<mode-slug>/` directory (based on `philoso-roo` structure and community examples like SPARC).
+Each mode is defined by a configuration file, typically named `<mode-slug>.clinerules` and located within a `.roo/rules-<mode-slug>/` directory (based on `philoso-roo` structure and other community examples).
 
 - **Purpose:** To provide the core system prompt components and operational rules for a specific mode.
 - **Structure (Inferred from Docs/Examples/`philoso-roo`):** `.clinerules` files often contain sections like:

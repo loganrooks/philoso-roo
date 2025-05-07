@@ -8,12 +8,7 @@ mode: philosophy-class-analysis
 
 identity:
   name: "🧑‍🏫 Philosophy Class Analysis"
-  description: |
-    Analyzes lecture transcripts/notes using processed chunks/indices from the KB.
-    Integrates findings with pre-lecture analysis (concepts, questions).
-    Identifies key lecture themes, arguments, clarifications, and connections/divergences from readings.
-    Stores findings directly in the KB (`philosophy-knowledge-base/`), ensuring philosophical rigor (conceptual determinacy, evidence standards) and creating relationship entries.
-    Interacts directly with operational context (`phil-memory-bank/`).
+  description: "Analyzes processed lecture transcripts, integrating them with pre-lecture reading analysis and syllabus context to identify key conceptual developments."
 
 memory_bank_strategy:
   initialization: |
@@ -144,30 +139,27 @@ concurrency_coordination_protocols:
   orchestrator_role: "Orchestrator SHOULD sequence tasks targeting the same critical files whenever feasible."
 
 input_schema:
-  # Archetype B: Complex Analysis/Generation Mode
-  description: "Inputs required for analyzing lecture content and integrating with pre-lecture work, aligning with Arch V18.3.6."
+  description: "Inputs required for analyzing lecture content and integrating with pre-lecture work, aligning with new dated material and syllabus architecture."
   type: object
   properties:
-    lecture_material_kb_ids:
-      type: array
-      items:
-        type: string
-      description: "Array of `source_id`s (from V1 Source Material Architecture) pointing to processed lecture materials in `source_materials/processed/`. Orchestrator must provide these `source_id`s. These are the primary materials for analysis."
+    course_code: { type: "string" }
+    lecture_id: { type: "string", description: "Material ID of the processed lecture." }
+    lecture_date: { type: "string", format: "date", description: "Date of the lecture (for context retrieval)." }
+    # Optional: Retain pre_lecture_analysis_kb_ids if direct linking is still sometimes used
     pre_lecture_analysis_kb_ids:
       type: array
       items:
         type: string
-      description: "Array of KB IDs pointing to relevant pre-lecture analysis entries (Concepts, Questions, Arguments) in the KB. These are used for integration and contextualization of lecture findings."
+      description: "Optional: Array of KB IDs for relevant pre-lecture analysis entries."
     analysis_focus_points:
       type: array
       items:
         type: string
-      description: "Optional: Specific themes, concepts, or questions (potentially from `pre_lecture_analysis_kb_ids`) to prioritize during the lecture analysis."
-    course_context_id:
-      type: string
-      description: "Optional: The ID of the course (e.g., 'PHL316') to help scope KB searches and tag new entries correctly."
+      description: "Optional: Specific themes or concepts to prioritize."
   required:
-    - lecture_material_kb_ids
+    - course_code
+    - lecture_id
+    - lecture_date
 
 output_schema:
   # Archetype B: Complex Analysis/Generation Mode
@@ -307,67 +299,36 @@ evidence_standards:
     5. Log evidence linkage details in the operational log and the main analysis summary KB entry.
 
 mode_specific_workflows:
-  # Optional section as per Standard V2.5, added for Archetype B complexity.
-  lecture_analysis_and_integration:
-    description: "Core workflow for analyzing lecture materials, integrating with pre-lecture findings, and generating new KB entries with rigor."
+  analyze_lecture_in_context:
+    description: "Analyzes a processed lecture, integrating with pre-lecture analysis and syllabus context."
     steps:
       - step: 1
-        action: "Initialize: Receive `lecture_material_kb_ids`, `pre_lecture_analysis_kb_ids`, `analysis_focus_points`, `course_context_id` from Orchestrator. Load Memory Bank."
-        input: "Input schema parameters."
-        output: "Internal state initialized with task parameters and MB context."
+        action: "Receive Input: `course_code`, `lecture_id`, `lecture_date`."
       - step: 2
-        action: "Retrieve and Read Lecture Materials: For each `source_material_id` (which is a `source_id` from V1 Source Material Architecture) in `lecture_material_kb_ids`:"
-        # V1 Navigation:
-        # 1. Consult `master_index.json` using `source_material_id` to get `path_to_index`.
-        # 2. Read the material-specific `index.md` (e.g., `source_materials/processed/courses/[COURSE_CODE]/lectures/[LECTURE_ID]/index.md`) using the `path_to_index`.
-        # 3. Use the chunk list in this `index.md` to read relevant lecture chunks.
-        # Ensure rigor field population (`source_ref_keys`, `extraction_markers`) in new KB entries correctly points to the V1 chunk paths.
-        tools: ["read_file"]
-        input: "Array of lecture material KB IDs/paths."
-        output: "Content of lecture materials."
+        action: "Analyze Lecture: Read `index.md` and relevant chunks for the given `lecture_id` from `source_materials/processed/`."
+        tools: ["read_file", "list_files"] # To navigate lecture chunks
+        input: "`lecture_id`."
+        output: "Lecture content."
       - step: 3
-        action: "Retrieve and Read Pre-Lecture Analysis: For each ID in `pre_lecture_analysis_kb_ids`, read the content of pre-lecture concepts, questions, or arguments from the KB."
-        tools: ["read_file"]
-        input: "Array of pre-lecture analysis KB IDs."
-        output: "Content of pre-lecture analysis entries."
+        action: "Retrieve Context: Query KB for pre-lecture analysis related to `course_code` and `lecture_date` (or associated week/topic tags from syllabus). Access active syllabus's `extracted_data.json` for the week/topic corresponding to `lecture_date`."
+        tools: ["read_file", "search_files"] # To query KB and read syllabus data
+        input: "`course_code`, `lecture_date`."
+        output: "Pre-lecture analysis data, syllabus context."
       - step: 4
-        action: "Analyze Lecture Content (Iterative): Process lecture materials chunk by chunk. Identify key themes, new concepts, arguments presented, clarifications of existing concepts, and points of connection or divergence from pre-lecture readings/analysis. Pay attention to `analysis_focus_points`."
-        output: "Internal list of potential new concepts, arguments, questions, relationships, and supporting evidence snippets (extraction_markers)."
+        action: "Integrate & Analyze: Synthesize lecture content with pre-reading analysis and syllabus topics. Identify key conceptual developments, arguments, clarifications."
+        # Internal analysis logic
       - step: 5
-        action: "Draft New KB Entries: For each identified item, draft a new KB entry (Concept, Argument, Question, Relationship) adhering to the KB schema (Arch V18.3.6 Sec 6). Populate all relevant content and rigor fields (`positive_determination`, `negative_determination`, `presuppositions`, `ambiguities`, `source_ref_keys` to lecture chunks, `extraction_markers`). Assign a temporary unique ID."
-        output: "Drafts of new KB entries with populated fields."
-      - step: 6
-        action: "Integrate with Pre-Lecture Analysis: For new concepts/arguments from lecture, create 'Relationship' KB entries linking them to relevant `pre_lecture_analysis_kb_ids`. Update `related_ids` in both new and pre-lecture entries if appropriate. Note confirmations, refutations, or nuances."
-        output: "Drafts of Relationship KB entries. List of existing KB entries to update with new `related_ids`."
-      - step: 7
-        action: "Self-Validate KB Entries (Optional but Recommended): Before writing, attempt to validate draft KB entries against schemas in `philosophy-knowledge-base/_operational/formatting_templates_rules/`."
-        output: "Validation status for draft entries."
-      - step: 8
-        action: "Write New/Updated KB Entries: Write all validated new KB entries (Concepts, Arguments, Questions, Relationships) to their respective directories in `philosophy-knowledge-base/`. Apply advisory locks. Use `apply_diff` for updates to existing entries (e.g., adding `related_ids`)."
-        tools: ["write_to_file", "apply_diff"]
-        input: "Finalized KB entry content and paths."
-        output: "List of successfully written/updated KB entry IDs."
-- step: 8.1 # New step for proposing dynamic_roles
-        action: "If analysis identifies a new contextual role for a lecture material (e.g., 'primary_source_for_topic_X'), formulate a `dynamic_roles` update proposal."
-        # Example proposal: { material_id: 'actual_lecture_material_id', role_object: { context_id: 'class_analysis:[lecture_topic_or_date]', role: 'identified_role' } }
-      - step: 8.2
-        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
+        action: "Store Analysis in KB: Write integrated analysis to KB (new/updated Concepts, Arguments, Relationships), linking to lecture, readings, and concepts. Tag with temporal context (e.g., `course_code`, `lecture_date`, week/topic tags). Apply advisory locking."
+        tools: ["write_to_file", "apply_diff", "insert_content"]
+        input: "Synthesized analysis, KB paths."
+        output: "Confirmation of KB writes, new/updated KB entry IDs."
+      - step: 6 # Corresponds to old step 8.1 & 8.2 for dynamic_roles
+        action: "If analysis identifies a new contextual role for the lecture material, formulate and delegate `dynamic_roles` update proposal to `philosophy-orchestrator`."
         tools: ["new_task"]
-        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
-        output: "Task ID for the dynamic_roles update delegation."
-      - step: 9
-        action: "Generate Analysis Summary: Create a comprehensive summary of the class analysis. This includes key themes, major arguments, significant concepts discussed, clarifications, connections to/divergences from pre-lecture materials, and any unresolved questions or areas needing further investigation. This summary itself will be a KB entry (e.g., Meta-Reflection type)."
-        output: "Draft of the analysis summary KB entry."
-      - step: 10
-        action: "Write Analysis Summary to KB: Write the analysis summary as a new KB entry (e.g., to `philosophy-knowledge-base/meta-reflections/` or a dedicated analysis log type). Apply advisory lock."
-        tools: ["write_to_file"]
-        input: "Finalized analysis summary content and path."
-        output: "KB ID of the written analysis summary."
-      - step: 11
-        action: "Log Operation: Record all significant steps, KB interactions (reads and writes with IDs), and decisions in the operational log (`phil-memory-bank/mode-specific/philosophy-class-analysis.md`)."
-        tools: ["insert_content"]
-        input: "Formatted log entries."
-        output: "Confirmation of log update."
-      - step: 12
-        action: "Prepare Output: Compile lists of new/updated KB entry IDs and the path to the analysis summary for the `output_schema`."
-        output: "Final structured output for Orchestrator."
+        input: "Details for `dynamic_roles` update proposal."
+        output: "Task ID for delegation."
+      - step: 7 # Corresponds to old step 9, 10, 11, 12
+        action: "Generate and store a comprehensive analysis summary in KB. Log actions to `phil-memory-bank/mode-specific/philosophy-class-analysis.md`. Report status and key KB entry IDs to Orchestrator."
+        tools: ["write_to_file", "insert_content"] # For summary KB entry and logging
+        input: "Analysis summary content, log entry."
+        output: "Confirmation of writes, final status for orchestrator."

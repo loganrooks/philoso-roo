@@ -1,6 +1,17 @@
 # TDD Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
+## Test Execution Results
+### Test Execution: `tests.test_process_source_text.TestWriteMaterialIndexMd` - 2025-05-07 14:21:00
+- **Trigger**: Manual run after script modification and test expectation adjustments.
+- **Outcome**: FAIL
+- **Summary**: 1 test passed, 4 failed (AssertionErrors related to YAML formatting/content).
+- **Failed Tests**:
+    - `test_write_material_index_all_data_and_chunks`
+    - `test_write_material_index_dated_lecture`
+    - `test_write_material_index_minimal_data`
+    - `test_write_material_index_syllabus`
+- **Notes**: Persistent issues with matching exact YAML string output, specifically around quoting of simple strings and inclusion/omission of default "unknown" fields. Context at 43%. Invoking Early Return.
 ## Test Plans (Driving Implementation)
 ### Test Plan: `dynamic_roles` Update Protocol - 2025-05-07 03:30:00
 - **Objective**: Verify the correct functioning of the `dynamic_roles` update mechanism, focusing on interactions between analysis modes and `philosophy-orchestrator`.

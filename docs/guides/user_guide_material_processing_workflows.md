@@ -56,14 +56,18 @@ The structure of the `source_materials/raw/` directory should mirror the intende
 *   **Base Path:** `source_materials/raw/`
 *   **Sub-directory Structure:**
     *   **Course-Specific Materials:**
-        *   Path: `source_materials/raw/courses/[COURSE_CODE]/[TYPE]/[FILENAME.ext]`
+        *   Path: `source_materials/raw/courses/[COURSE_CODE]/[TYPE]/...`
         *   `[COURSE_CODE]`: The code for the course (e.g., `PHL316`, `PHL400`).
-        *   `[TYPE]`: The type of material. It is recommended to use subdirectories like:
-            *   `lectures/`
-            *   `readings/`
-            *   `notes/`
-        *   `[FILENAME.ext]`: The original filename of the raw material (e.g., `Hegel_Phenomenology_Spirit_Introduction.md`, `Lecture1_Notes.pdf`).
-        *   **Example:** `source_materials/raw/courses/PHL316/readings/Hegel_Phenomenology_Spirit_Introduction.md`
+        *   `[TYPE]`: The type of material, using specific subdirectories:
+            *   `lectures/[YYYY-MM-DD_LECTURE_TITLE_SLUG]/[FILENAME.ext]`
+                *   Example: `source_materials/raw/courses/PHL316/lectures/2025-09-08_hegel_phenomenology_concepts/transcript.md`
+            *   `readings/[YYYY-MM-DD_READING_TITLE_SLUG]/[FILENAME.ext]`
+                *   Example: `source_materials/raw/courses/PHL316/readings/2025-09-08_hegel_phen_preface/Hegel_Phenomenology_Preface.pdf`
+            *   `syllabuses/[SYLLABUS_FILENAME.ext]`
+                *   Example: `source_materials/raw/courses/PHL316/syllabuses/PHL316_Fall2025_Syllabus.pdf`
+            *   `notes/[FILENAME.md]` (General course notes remain directly under `notes/`)
+                *   Example: `source_materials/raw/courses/PHL316/notes/general_course_reflections.md`
+        *   The `YYYY-MM-DD` prefix in `lectures` and `readings` subdirectories is crucial for date extraction by the processing scripts.
     *   **General Library Materials:**
         *   Path: `source_materials/raw/library/[TYPE]/[FILENAME.ext]` (Optional `[TYPE]` subdirectory)
         *   `[TYPE]`: Optional subdirectory for type, e.g., `primary_texts/`, `secondary_literature/`.
@@ -86,12 +90,12 @@ These user stories illustrate common interactions with the Philoso-Roo system:
 **Workflow Steps:**
 
 1.  **Convert PDF to Markdown:** The user converts the PDF textbook (e.g., "Fichte_ScienceOfKnowledge.pdf") into a Markdown file ("Fichte_ScienceOfKnowledge.md") using a tool like `pandoc`. They review and clean up the Markdown.
-2.  **Place Raw Material:** The user places the "Fichte_ScienceOfKnowledge.md" file into the appropriate directory: `source_materials/raw/courses/PHL316/readings/Fichte_ScienceOfKnowledge.md`.
+2.  **Place Raw Material:** The user places the "Fichte_ScienceOfKnowledge.md" file into the appropriate dated directory: `source_materials/raw/courses/PHL316/readings/2025-09-15_fichte_science_of_knowledge/Fichte_ScienceOfKnowledge.md`. (Assuming it's for Sept 15th).
 3.  **Initiate Processing:** The user (or an automated trigger via the [`philosophy-orchestrator`](.roomodes:272)) invokes the [`philosophy-text-processor`](.roomodes:280) mode.
-4.  **Script Execution:** The [`philosophy-text-processor`](.roomodes:280) mode executes [`scripts/process_source_text.py`](scripts/process_source_text.py:1), providing the path to the raw file and any necessary metadata (e.g., `--course_code PHL316 --material_type reading`).
+4.  **Script Execution:** The [`philosophy-text-processor`](.roomodes:280) mode executes [`scripts/process_source_text.py`](scripts/process_source_text.py:1), providing the path to the raw file.
 5.  **System Processing:**
     *   The script reads the Markdown file.
-    *   It determines metadata (course, type, title) from arguments and file path.
+    *   It determines metadata (course, type, title, **date**) from arguments and file path (including parsing the `YYYY-MM-DD` from the directory name).
     *   It generates a unique `material_id` (e.g., `phl316_reading_fichte_scienceofknowledge_abcdef`).
     *   It creates the output directory structure: `source_materials/processed/courses/PHL316/readings/phl316_reading_fichte_scienceofknowledge_abcdef/chunks/`.
     *   It chunks the text into smaller Markdown files within the `chunks/` directory.

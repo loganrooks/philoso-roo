@@ -2,11 +2,11 @@
 
 ## 1. Introduction
 
-**Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the SPARC-orchestrated system.
+**Purpose:** This document defines standard structures and guidelines for `.clinerules` files used by philosophy-focused modes within the Philoso-Roo system.
 
 **Background:** Based on the decision logged at [2025-05-02 23:50:14 in `memory-bank/globalContext.md`], these standards aim to address inconsistencies in `.clinerules` detail and ensure alignment with the current V18.3 system architecture (Direct KB Access, KB Doctor for maintenance, Orchestrator-centric workflow).
 
-**Inspiration:** The structure and detail level are inspired by the robust `.clinerules-philosophy-essay-prep` file, adapted to remove inter-mode handoff logic now managed by the central orchestrator (`philosophy-orchestrator` or `sparc`).
+**Inspiration:** The structure and detail level are inspired by the robust `.clinerules-philosophy-essay-prep` file, adapted to remove inter-mode handoff logic now managed by the central orchestrator (`philosophy-orchestrator` or the system).
 
 **Core Principles:**
 *   **Consistency:** Provide a predictable structure for mode configuration.
@@ -24,7 +24,7 @@ Two primary archetypes are defined:
 
 ## 3. Common Sections (Applicable to All Archetypes)
 
-These sections MUST be present and adhere to the central SPARC system standards.
+These sections MUST be present and adhere to the central system standards.
 
 ### 3.1. `mode`
 
@@ -52,12 +52,12 @@ These sections MUST be present and adhere to the central SPARC system standards.
 ### 3.3. `memory_bank_strategy`
 
 *   **Type:** `object`
-*   **Description:** Defines how the mode interacts with the central SPARC Memory Bank (`memory-bank/`).
-*   **Implementation:** **STRICT:** Must adhere to the standard SPARC Memory Bank strategy rules defined centrally (likely in `.roo/rules-sparc/.clinerules-sparc` or a shared configuration). This includes initialization checks, update frequency/process, and feedback handling. Modes should NOT define custom MB strategies unless explicitly approved as a deviation.
+*   **Description:** Defines how the mode interacts with the central Operational Memory (`memory-bank/`).
+*   **Implementation:** **STRICT:** Must adhere to the standard Operational Memory strategy rules defined centrally (likely in a core system `.clinerules` file or a shared configuration). This includes initialization checks, update frequency/process, and feedback handling. Modes should NOT define custom MB strategies unless explicitly approved as a deviation.
 *   **Example (Reference Only - Do Not Copy Verbatim):**
     ```yaml
     memory_bank_strategy:
-      # --- INHERITED FROM CENTRAL SPARC CONFIGURATION ---
+      # --- INHERITED FROM CENTRAL SYSTEM CONFIGURATION ---
       # initialization: | ... standard checks ...
       # update_process: | ... standard update rules (reverse chrono, batching) ...
       # feedback_handling: | ... standard feedback logging ...
@@ -69,7 +69,7 @@ These sections MUST be present and adhere to the central SPARC system standards.
 
 *   **Type:** `object`
 *   **Description:** General operational rules.
-*   **Implementation:** **STRICT:** Must adhere to the standard SPARC general rules defined centrally.
+*   **Implementation:** **STRICT:** Must adhere to the standard system general rules defined centrally.
 *   **Fields (Examples - Inherited):**
     *   `status_prefix`: Standard prefix for responses (e.g., `[MEMORY BANK: ACTIVE]`).
     *   `context_management`: Standard rules for proactive context handling and delegation (`new_task`).
@@ -79,7 +79,7 @@ These sections MUST be present and adhere to the central SPARC system standards.
 *   **Example (Reference Only - Do Not Copy Verbatim):**
     ```yaml
     general:
-      # --- INHERITED FROM CENTRAL SPARC CONFIGURATION ---
+      # --- INHERITED FROM CENTRAL SYSTEM CONFIGURATION ---
       # status_prefix: | ... standard prefix ...
       # context_management: | ... standard delegation rules ...
       # error_handling_protocol: | ... standard error handling steps ...
@@ -115,7 +115,7 @@ These sections MUST be present and adhere to the central SPARC system standards.
 *   **Type:** `object`
 *   **Description:** **STRICT PROTOCOL** for how the mode reports errors internally and to the orchestrator.
 *   **Fields:**
-    *   `reporting_target`: (string) **MUST** report errors primarily via the standard return mechanism to the calling orchestrator (SPARC or `philosophy-orchestrator`).
+    *   `reporting_target`: (string) **MUST** report errors primarily via the standard return mechanism to the calling orchestrator (the system or `philosophy-orchestrator`).
     *   `error_codes`: (object) Define standard error codes the mode might emit. (Modes should aim to use centrally defined codes where possible).
         *   `KB_READ_FAIL`: Failed to read from Knowledge Base.
         *   `KB_WRITE_FAIL`: Failed to write to Knowledge Base.
@@ -127,7 +127,7 @@ These sections MUST be present and adhere to the central SPARC system standards.
         *   `CONFIG_ERROR`: Issue with `.clinerules` configuration.
     *   `error_message_format`: (string) Format for error messages returned to orchestrator. **MUST** include Error Code, Mode Slug, File/Resource Path (if applicable), KB ID (if applicable), Line Number (if applicable), and a concise description.
     *   `logging`: (string) **MUST** log all errors in the mode's operational log (`operational_logging.target_file`) and feedback log (`memory-bank/feedback/[mode_slug]-feedback.md`) following standard formats.
-    *   `escalation`: (string) Adhere to the standard SPARC `error_handling_protocol` regarding retries, strategy changes (Three Strikes Rule), delegation to `debug`, and invoking Early Return.
+    *   `escalation`: (string) Adhere to the standard system `error_handling_protocol` regarding retries, strategy changes (Three Strikes Rule), delegation to `debug`, and invoking Early Return.
 *   **Example:**
     ```yaml
     error_reporting_protocols:
@@ -140,7 +140,7 @@ These sections MUST be present and adhere to the central SPARC system standards.
         # ... other mode-specific or standard codes
       error_message_format: "[ErrorCode] in [ModeSlug]: [Description]. Resource: [Path/ID], Line: [LineNum]."
       logging: "Log all errors with details in operational log and feedback log."
-      escalation: "Follow standard SPARC error handling protocol (retries, three strikes, debug delegation, early return)."
+      escalation: "Follow standard system error handling protocol (retries, three strikes, debug delegation, early return)."
     ```
 
 ## 4. Archetype A: Simple Orchestrated Task Mode

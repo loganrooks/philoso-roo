@@ -35,7 +35,7 @@ Effective prompting is crucial for guiding RooCode.
 - **Be Mindful of Limits:** Understand that LLM context windows are finite.
 - **Leverage Memory Bank:** Utilize the Memory Bank structure (if implemented, as in `philoso-roo`) for persistent context. Follow defined update rules (frequency, format, reverse chronological order). Keep entries concise but informative. Use cross-referencing links between related MB entries.
 - **Use Partial Reads:** Employ `read_file` with `start_line`/`end_line` to read only necessary portions of large files.
-- **Proactive Handover:** Implement rules (like in SPARC mode) to monitor context usage and trigger handovers (`new_task`) *before* critical limits are reached, ensuring smoother continuation.
+- **Proactive Handover:** Implement rules (like in this system's mode) to monitor context usage and trigger handovers (`new_task`) *before* critical limits are reached, ensuring smoother continuation.
 - **Summarization:** Encourage modes (especially Orchestrator/Architect) to summarize key information, decisions, and progress into the Memory Bank periodically.
 
 ## 5. Configuration & Customization

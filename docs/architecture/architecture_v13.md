@@ -10,7 +10,7 @@
 *   User Task & Feedback (as of 2025-05-02 02:28)
 *   Memory Bank Context (as of 2025-05-02 02:41)
 
-**Goal:** Define the V13 architecture, integrating a dedicated **Philosophy Knowledge Base (KB)**, a **Philosophical Inquiry Workflow**, and a **System Self-Reflection Workflow** into the V12 structure. This version emphasizes a clear separation between domain knowledge (KB) and process memory (SPARC Memory Bank), introduces meta-reflective capabilities, and refines mode responsibilities.
+**Goal:** Define the V13 architecture, integrating a dedicated **Philosophy Knowledge Base (KB)**, a **Philosophical Inquiry Workflow**, and a **System Self-Reflection Workflow** into the V12 structure. This version emphasizes a clear separation between domain knowledge (KB) and process memory (Operational Memory), introduces meta-reflective capabilities, and refines mode responsibilities.
 
 ## 1. Core Principles (Inherited & Extended)
 
@@ -21,7 +21,7 @@
 *   **Modularity:** Encapsulated functionality in specialized modes. (V11+)
 *   **Orchestration:** Complex workflows managed by `philosophy-orchestrator`. (V11+)
 *   **Traceability:** Version control (Git) for key artifacts (essays, potentially KB/config). (V12+)
-*   **Knowledge Separation (New V13):** Explicit distinction between philosophical domain knowledge (`philosophy-knowledge-base/`) and SPARC operational/process memory (`memory-bank/`).
+*   **Knowledge Separation (New V13):** Explicit distinction between philosophical domain knowledge (`philosophy-knowledge-base/`) and operational/process memory (`memory-bank/`).
 *   **Reflexivity (New V13):** Capacity for the system to question its own assumptions, methods, and architecture (`philosophy-meta-reflector`).
 *   **Controlled Evolution (New V13):** Mechanisms for proposing and approving modifications to the KB and potentially the system architecture itself.
 
@@ -41,12 +41,12 @@ V13 introduces three major components integrated into the V12 structure:
     *   **Responsibility:** Acts as the **sole interface** to the `philosophy-knowledge-base/`. Handles CRUD operations and querying for structured philosophical data (concepts, arguments, quotations, references, questions, theses, relationships, methods). Manages internal linking, structure, and data integrity within the KB. Executes approved KB modification proposals received via the orchestrator.
     *   **Input:** Structured queries from other modes, structured data for storage, approved modification instructions.
     *   **Output:** Formatted philosophical data packages (e.g., Markdown snippets, JSON). Confirmation of data storage/modification.
-    *   **Dependencies:** `philosophy-orchestrator` (for modification approvals), All modes requiring philosophical knowledge, `philosophy-evidence-manager` (for SPARC context if needed for cross-referencing).
+    *   **Dependencies:** `philosophy-orchestrator` (for modification approvals), All modes requiring philosophical knowledge, `philosophy-evidence-manager` (for operational context if needed for cross-referencing).
 *   **`philosophy-evidence-manager` (Revised Scope):**
-    *   **Responsibility:** Manages access **only** to the **SPARC Memory Bank** (`memory-bank/`) and potentially intermediate analysis files (`analysis_workspace/`). Handles queries for SPARC context (active context, global context, feedback, mode-specific logs), progress logs, decision logs, etc. **Does NOT interact with `philosophy-knowledge-base/`.**
-    *   **Input:** Queries for SPARC context data, SPARC context data for storage.
-    *   **Output:** SPARC context data packages. Confirmation of data storage.
-    *   **Dependencies:** All modes (for SPARC context), `memory-bank/` files.
+    *   **Responsibility:** Manages access **only** to the **Operational Memory** (`memory-bank/`) and potentially intermediate analysis files (`analysis_workspace/`). Handles queries for operational context (active context, global context, feedback, mode-specific logs), progress logs, decision logs, etc. **Does NOT interact with `philosophy-knowledge-base/`.**
+    *   **Input:** Queries for operational context data, operational context data for storage.
+    *   **Output:** operational context data packages. Confirmation of data storage.
+    *   **Dependencies:** All modes (for operational context), `memory-bank/` files.
 
 ### 3.2. Text Processing & Analysis Modes (Interactions Updated)
 
@@ -135,9 +135,9 @@ graph TD
     end
 
     subgraph Data Layer
-        subgraph SPARC Memory
+        subgraph Operational Memory
             EvidMan(philosophy-evidence-manager)
-            SPARCMB[(SPARC Memory Bank<br>memory-bank/)]
+            OPERATIONALMB[(Operational Memory<br>memory-bank/)]
         end
         subgraph Philosophical Knowledge Base
             KBMan(philosophy-kb-manager)
@@ -223,21 +223,21 @@ graph TD
     KBMan -- Provide Data/Paths --> MetaReflector
     KBMan -- Execute Approved Modification --> PhilKB
 
-    %% Evidence Manager Interactions (SPARC Context)
-    EvidMan -- Access/Update --> SPARCMB
-    EvidMan -- Provide SPARC Context --> Orchestrator
-    EvidMan -- Provide SPARC Context --> TextProc
-    EvidMan -- Provide SPARC Context --> PreLec
-    EvidMan -- Provide SPARC Context --> ClassAn
-    EvidMan -- Provide SPARC Context --> SecLit
-    EvidMan -- Provide SPARC Context --> DialAn
-    EvidMan -- Provide SPARC Context --> Quest
-    EvidMan -- Provide SPARC Context --> EssayPrep
-    EvidMan -- Provide SPARC Context --> DraftGen
-    EvidMan -- Provide SPARC Context --> CiteMan
-    EvidMan -- Provide SPARC Context --> Verify
-    EvidMan -- Provide SPARC Context --> KBMan
-    EvidMan -- Provide SPARC Context --> MetaReflector
+    %% Evidence Manager Interactions (Operational Context)
+    EvidMan -- Access/Update --> OPERATIONALMB
+    EvidMan -- Provide Operational Context --> Orchestrator
+    EvidMan -- Provide Operational Context --> TextProc
+    EvidMan -- Provide Operational Context --> PreLec
+    EvidMan -- Provide Operational Context --> ClassAn
+    EvidMan -- Provide Operational Context --> SecLit
+    EvidMan -- Provide Operational Context --> DialAn
+    EvidMan -- Provide Operational Context --> Quest
+    EvidMan -- Provide Operational Context --> EssayPrep
+    EvidMan -- Provide Operational Context --> DraftGen
+    EvidMan -- Provide Operational Context --> CiteMan
+    EvidMan -- Provide Operational Context --> Verify
+    EvidMan -- Provide Operational Context --> KBMan
+    EvidMan -- Provide Operational Context --> MetaReflector
 
 
     %% Styling
@@ -249,21 +249,21 @@ graph TD
     class Scripts script;
     classDef vcs fill:#d9edf7,stroke:#31708f,stroke-width:1px;
     class VCS vcs;
-    classDef sparcmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
-    class SPARCMB sparcmb;
+    classDef operationalmb fill:#e0e0e0,stroke:#666,stroke-width:1px;
+    class OPERATIONALMB operationalmb;
 ```
 
 **Diagram Notes:**
 *   Introduces `philosophy-kb-manager` as the gateway to the `philosophy-knowledge-base/` (PhilKB).
-*   `philosophy-evidence-manager` now solely manages the SPARC Memory Bank (SPARCMB).
+*   `philosophy-evidence-manager` now solely manages the Operational Memory (OPERATIONALMB).
 *   Introduces `philosophy-meta-reflector` interacting with Orchestrator, KBMan, EvidMan, and potentially proposing changes.
-*   Analysis/Essay modes now query `KBMan` for philosophical content and `EvidMan` for SPARC context.
+*   Analysis/Essay modes now query `KBMan` for philosophical content and `EvidMan` for operational context.
 *   Orchestrator routes modification proposals (KB, System) for approval.
 
 ## 5. Philosophy Knowledge Base (KB) - V13 Design
 
 *   **Location:** `philosophy-knowledge-base/` (New top-level directory).
-*   **Purpose:** Centralized, structured repository for **philosophical domain knowledge**, distinct from SPARC operational memory. Aims for long-term persistence and potential evolution.
+*   **Purpose:** Centralized, structured repository for **philosophical domain knowledge**, distinct from operational memory. Aims for long-term persistence and potential evolution.
 *   **Management:** Exclusively managed via `philosophy-kb-manager` mode.
 *   **Initial Structure:** Subdirectories mirroring content types:
     *   `philosophy-knowledge-base/concepts/`
@@ -317,7 +317,7 @@ graph TD
 
 1.  **Trigger:** User explicitly invokes reflection OR `philosophy-orchestrator` detects anomalies (e.g., persistent errors, contradictions flagged by `verification-agent`) OR scheduled task.
 2.  **Activation:** Orchestrator delegates to `philosophy-meta-reflector`.
-3.  **Analysis:** `meta-reflector` queries `philosophy-evidence-manager` for relevant SPARC Memory Bank logs (active context, feedback, global context). It reads relevant `docs/` (architecture, specs), `.roo/` files (`.clinerules`), and potentially queries `philosophy-kb-manager` for existing meta-reflections or method descriptions.
+3.  **Analysis:** `meta-reflector` queries `philosophy-evidence-manager` for relevant Operational Memory logs (active context, feedback, global context). It reads relevant `docs/` (architecture, specs), `.roo/` files (`.clinerules`), and potentially queries `philosophy-kb-manager` for existing meta-reflections or method descriptions.
 4.  **Reflection:** Based on analysis and `architecture-questioning.md` principles, `meta-reflector` generates questions and reflections about the system's assumptions, limitations, architecture, mode interactions, potential biases, or methodological blind spots.
 5.  **Storage (Reflection):** `meta-reflector` sends generated reflections/questions to `philosophy-kb-manager` for storage in `philosophy-knowledge-base/meta-reflections/` or `philosophy-knowledge-base/questions/` (tagged as 'meta').
 6.  **Proposal Generation (Optional):** If analysis suggests specific improvements, `meta-reflector` generates proposals:
@@ -347,7 +347,7 @@ graph TD
       "philosophy-dialectical-analysis": ".roo/rules-philosophy-dialectical-analysis/philosophy-dialectical-analysis.clinerules",
       "philosophy-questioning": ".roo/rules-philosophy-questioning/philosophy-questioning.clinerules",
       "philosophy-essay-prep": ".roo/rules-philosophy-essay-prep/philosophy-essay-prep.clinerules",
-      "philosophy-evidence-manager": ".roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules", // Manages SPARC MB
+      "philosophy-evidence-manager": ".roo/rules-philosophy-evidence-manager/philosophy-evidence-manager.clinerules", // Manages Operational MB
       "philosophy-kb-manager": ".roo/rules-philosophy-kb-manager/philosophy-kb-manager.clinerules", // Manages Phil KB (New)
       "philosophy-draft-generator": ".roo/rules-philosophy-draft-generator/philosophy-draft-generator.clinerules",
       "philosophy-citation-manager": ".roo/rules-philosophy-citation-manager/philosophy-citation-manager.clinerules",

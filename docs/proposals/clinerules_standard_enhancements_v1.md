@@ -72,7 +72,7 @@ This document proposes enhancements to the `clinerules_standard_v1.md` to create
 *   **Title:** `rule_inheritance_guidelines` (or integrate into relevant sections)
 *   **YAML Anchors:** Explain the use of YAML anchors (`&`) and aliases (`*`) for defining reusable rule blocks within a single `.clinerules` file, if supported by the parser. Provide a simple example.
 *   **External Includes:** State whether the current RooCode `.clinerules` parser supports external file includes (e.g., `!include shared_rules.yaml`). If not, state this limitation.
-*   **Documentation Convention:** If direct inheritance is limited, recommend a documentation convention where modes explicitly state which standard rules (e.g., "Standard SPARC Error Handling Protocol V1.2") they adhere to, referencing a central standards document.
+*   **Documentation Convention:** If direct inheritance is limited, recommend a documentation convention where modes explicitly state which standard rules (e.g., "Standard System Error Handling Protocol V1.2") they adhere to, referencing a central standards document.
 
 ## 3. Implementation
 

@@ -14,13 +14,13 @@ V13 introduces significant enhancements focused on knowledge management and syst
 *   **Philosophy Knowledge Base (KB):** A dedicated repository (`philosophy-knowledge-base/`) for structured philosophical domain knowledge, managed by `philosophy-kb-manager`.
 *   **Philosophical Inquiry Workflow:** A structured process for generating, refining, and storing philosophical questions and theses within the KB.
 *   **System Self-Reflection Workflow:** A mechanism for the system to analyze its own operations, methods, and architecture, facilitated by the new `philosophy-meta-reflector` mode.
-*   **Mode Refinements:** Updates to existing modes to interact with the KB via `philosophy-kb-manager` and participate in the new workflows. Clear separation between KB (`kb-manager`) and SPARC Memory Bank (`evidence-manager`).
+*   **Mode Refinements:** Updates to existing modes to interact with the KB via `philosophy-kb-manager` and participate in the new workflows. Clear separation between KB (`kb-manager`) and Operational Memory (`evidence-manager`).
 
 ## 2. Philosophy Knowledge Base (KB) Specifications
 
 ### 2.1. Purpose & Location
 
-*   **Purpose:** To serve as a centralized, structured, and persistent repository for philosophical domain knowledge, separate from SPARC's operational memory.
+*   **Purpose:** To serve as a centralized, structured, and persistent repository for philosophical domain knowledge, separate from the system's operational memory.
 *   **Location:** A new top-level directory: `philosophy-knowledge-base/`.
 
 ### 2.2. Management
@@ -129,7 +129,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 2.  **Activation (`orchestrator` -> `meta-reflector`):**
     *   `philosophy-orchestrator` identifies the trigger and delegates the reflection task to `philosophy-meta-reflector`, providing context (e.g., specific area of concern, relevant logs).
 3.  **Analysis (`meta-reflector`):**
-    *   `meta-reflector` queries `philosophy-evidence-manager` for relevant SPARC Memory Bank data (active context, global context, feedback logs, decision logs).
+    *   `meta-reflector` queries `philosophy-evidence-manager` for relevant Operational Memory data (active context, global context, feedback logs, decision logs).
     *   `meta-reflector` reads relevant system documentation (`docs/architecture/`, `docs/specs/`), mode rules (`.roo/rules-*/`), and potentially configuration files.
     *   `meta-reflector` queries `philosophy-kb-manager` for existing `Meta-Reflection` entries, `Method` descriptions, or relevant philosophical concepts (e.g., concepts related to bias, interpretation).
     *   Analysis guided by principles in `architecture-questioning.md`.
@@ -159,7 +159,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 
 ### 4.3. Data Flow
 
-*   SPARC MB data -> `meta-reflector` (via `evidence-manager`)
+*   Operational Memory data -> `meta-reflector` (via `evidence-manager`)
 *   Docs/Rules/Config -> `meta-reflector` (via file reads)
 *   KB data (meta-reflections, methods) -> `meta-reflector` (via `kb-manager`)
 *   Generated reflections/meta-questions -> `kb-manager`
@@ -231,7 +231,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 
 *   **Triggering:** MUST activate upon receiving a delegation request from `philosophy-orchestrator` (triggered by User, anomaly detection, or schedule).
 *   **Analysis Targets:**
-    *   MUST be able to query and analyze SPARC Memory Bank data via `philosophy-evidence-manager` (e.g., `activeContext.md`, `globalContext.md`, feedback logs).
+    *   MUST be able to query and analyze Operational Memory data via `philosophy-evidence-manager` (e.g., `activeContext.md`, `globalContext.md`, feedback logs).
     *   MUST be able to read and analyze system documentation (`docs/architecture/`, `docs/specs/`).
     *   MUST be able to read and analyze mode rules (`.roo/rules-*/`).
     *   MUST be able to query and analyze existing KB entries via `philosophy-kb-manager` (especially `Meta-Reflection`, `Method`, `Question` types).
@@ -256,7 +256,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 
 *   **Input:**
     *   Delegation request from `philosophy-orchestrator` (including trigger context).
-    *   Data from `philosophy-evidence-manager` (SPARC MB content).
+    *   Data from `philosophy-evidence-manager` (Operational Memory content).
     *   Data from `philosophy-kb-manager` (KB content).
     *   Content from `docs/`, `.roo/` files.
 *   **Output:**
@@ -268,7 +268,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 
 *   `philosophy-orchestrator` (for triggering and proposal routing).
 *   `philosophy-kb-manager` (for storing/retrieving reflections, methods, meta-questions).
-*   `philosophy-evidence-manager` (for accessing SPARC MB).
+*   `philosophy-evidence-manager` (for accessing Operational Memory).
 *   Access to `docs/` and `.roo/` directories.
 *   `architecture-questioning.md` (for guiding principles).
 
@@ -277,7 +277,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 ### 7.1. `philosophy-evidence-manager` (Revised Scope)
 
 *   **Data Access:** MUST ONLY interact with `memory-bank/` and potentially `analysis_workspace/`. MUST NOT interact with `philosophy-knowledge-base/`.
-*   **Functionality:** Role is limited to providing SPARC operational context (logs, decisions, feedback) to other modes.
+*   **Functionality:** Role is limited to providing operational context (logs, decisions, feedback) to other modes.
 
 ### 7.2. `philosophy-text-processor`
 
@@ -287,7 +287,7 @@ V13 introduces significant enhancements focused on knowledge management and syst
 
 *   **KB Querying:** MUST query `philosophy-kb-manager` (instead of `evidence-manager`) to retrieve processed text chunks/indices, existing concepts, arguments, questions, etc., relevant to their analysis task.
 *   **KB Storage:** MUST send their findings (new concepts, arguments, analyses, proto-questions) to `philosophy-kb-manager` for storage in the appropriate KB subdirectory.
-*   **SPARC Context:** MAY still query `philosophy-evidence-manager` if they require SPARC operational context (e.g., previous run logs).
+*   **Operational Context:** MAY still query `philosophy-evidence-manager` if they require operational context (e.g., previous run logs).
 
 ### 7.4. `philosophy-questioning`
 

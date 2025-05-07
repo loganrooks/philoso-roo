@@ -1,7 +1,7 @@
 # Hegel Philosophy RooCode Suite - Architecture V18.3 (Feedback Integration)
 
-**Date:** 2025-05-06
-**Version:** 18.3.6 (Added philosophy-evidence-manager)
+**Date:** 2025-05-07
+**Version:** 18.3.7 (Dated Material Integration)
 **Status:** Draft
 **Based On:**
 *   `docs/architecture/architecture_v18.md` (V18.3.1 - Text Processor Workflow Correction)
@@ -46,20 +46,24 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
 9.  **Corrected Text Processing Workflow (V18.3.1):** `philosophy-text-processor` orchestrates `scripts/process_source_text.py`. The script generates hierarchical `index.md` files in `source_materials/processed/[source_id]/...` for navigation AND outputs structured JSON to stdout. The mode parses this JSON and performs direct writes to the KB.
 10. **Processed Source Library Index (V18.3.2):** A root `index.md` file exists at `source_materials/processed/index.md`, providing an overview of all processed sources within the library.
 
-## 3. Source Material Organization (V18.3.2 - Processed Root Index Added)
+## 3. Source Material Organization (V18.3.7 - Dated Material Integration)
 
 *   **Raw Input Location:** `source_materials/raw/`
-*   **Purpose:** Centralized location for all original source materials before processing. Provides a clear, machine-parsable structure for determining source context.
+*   **Purpose:** Centralized location for all original source materials before processing. Provides a clear, machine-parsable structure for determining source context, including dates for course-specific materials.
 *   **Structure:** Hierarchical directories define context. Paths use forward slashes (`/`).
     ```
     source_materials/
     ├── raw/
     │   ├── courses/
     │   │   ├── [COURSE_CODE]/        # e.g., PHL316, PHL400
-    │   │   │   ├── readings/         # Assigned readings
-    │   │   │   │   └── [filename.md | .pdf | .docx]
     │   │   │   ├── lectures/         # Lecture transcripts/notes
-    │   │   │   │   └── [filename.md | .txt]
+    │   │   │   │   └── [YYYY-MM-DD_LECTURE_TITLE_SLUG]/
+    │   │   │   │       └── [FILENAME.ext]  # e.g., transcript.md, slides.pdf
+    │   │   │   ├── readings/         # Assigned readings
+    │   │   │   │   └── [YYYY-MM-DD_READING_TITLE_SLUG]/
+    │   │   │   │       └── [FILENAME.ext]  # e.g., Hegel_Phenomenology_Preface.pdf
+    │   │   │   ├── syllabuses/       # Course syllabuses
+    │   │   │   │   └── [SYLLABUS_FILENAME.ext] # e.g., PHL316_Fall2025_Syllabus.pdf
     │   │   │   └── notes/            # Personal notes specific to this course
     │   │   │       └── [filename.md]
     │   │   └── ... (other courses)
@@ -82,49 +86,72 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
     │   └── personal_notes/           # General notes not tied to course/project
     │       └── [filename.md]
     └── processed/                    # Output location for processed chunks & navigational indices
-        ├── index.md                  # <<< V18.3.2: Root index for the processed library
-        └── [source_id]/
-            ├── index.md              # Nav index for this source
-            ├── level_0/
-            │   ├── index.md          # Nav index for level 0
-            │   ├── chunk_001.md
-            │   └── level_1/
-            │       ├── index.md      # Nav index for level 1
-            │       └── chunk_002.md
-            └── ...
+        ├── index.md                  # Root index for the processed library
+        ├── courses/
+        │   └── [COURSE_CODE]/
+        │       ├── index.md          # Course-specific index (lists materials, syllabus link)
+        │       ├── lectures/
+        │       │   └── [LECTURE_ID]/ # LECTURE_ID incorporates date (e.g., phl316_lec_2025-09-08_hegel_concepts)
+        │       │       ├── index.md  # Nav index for this lecture (YAML: lecture_date)
+        │       │       └── chunks/
+        │       │           └── chunk_XXX.md
+        │       ├── readings/
+        │       │   └── [READING_ID]/ # READING_ID incorporates date (e.g., phl316_reading_2025-09-08_hegel_phen_preface)
+        │       │       ├── index.md  # Nav index for this reading (YAML: assigned_date)
+        │       │       └── chunks/
+        │       │           └── chunk_XXX.md
+        │       └── syllabuses/
+        │           └── [SYLLABUS_ID]/ # SYLLABUS_ID incorporates term/year
+        │               ├── index.md        # Syllabus metadata (term, year, active status)
+        │               └── extracted_data.json # Structured syllabus data
+        └── library/                  # For non-course specific processed materials (structure TBD or mirrors V1 generic [source_id])
+            └── [SOURCE_ID]/
+                ├── index.md
+                └── chunks/
+                    └── chunk_XXX.md
     ```
 *   **Processed Root Index (`source_materials/processed/index.md`):**
     *   **Purpose:** Provides a top-level overview or manifest of all sources that have been processed and are available within the `source_materials/processed/` directory. Helps determine library content and identify potentially missing items.
     *   **Content:** Lists processed `source_id`s, potentially with links to their respective top-level `index.md` files (e.g., `[source_id]/index.md`), timestamps, or status indicators.
     *   **Update Mechanism:** Updated by `philosophy-text-processor` mode after successfully processing a new source and confirming the creation of its hierarchical structure.
-*   **Context Extraction:** `philosophy-text-processor` MUST parse paths like `source_materials/raw/courses/PHL316/readings/Hegel_Work.md` relative to `source_materials/raw/` to extract:
+*   **Context Extraction:** `philosophy-text-processor` (or a dedicated syllabus processor) MUST parse paths like `source_materials/raw/courses/PHL316/lectures/2025-09-08_hegel_phenomenology_concepts/transcript.md` relative to `source_materials/raw/` to extract:
     *   `context_type`: `course`
     *   `context_id`: `PHL316`
     *   `context_subtype`: `reading`
     These are then formatted as tags: `context:type:course`, `context:id:PHL316`, `context:subtype:reading` for storage in the KB entry YAML.
 
-## 4. Mode Structure & Responsibilities (V18.3.2 - Text Processor Root Index Update)
+## 4. Mode Structure & Responsibilities (V18.3.7 - Dated Material Integration)
 
 *   **MCP Integration (V18.3.4):** Modes requiring external data access (e.g., web search, URL fetching) will utilize the Model Context Protocol (MCP). The chosen strategy is **Distributed MCP Calls**, where relevant modes directly invoke MCP tools. This requires strict adherence to standardized call patterns, error handling, and security measures defined in `docs/standards/clinerules_standard_v1.md`. API keys MUST be managed via environment variables accessible only to the MCP servers. See `docs/blueprints/mcp_integration_v1.md` for the detailed strategy and implementation patterns.
 ### 4.2. Text Processing & Analysis Modes
 
-*   **`philosophy-text-processor` (V18.3.2 Corrected Workflow & Root Index Update):**
-    *   **Responsibility:** Orchestrates the pre-processing of source texts from `source_materials/raw/` by executing the `scripts/process_source_text.py` script. Parses the script's JSON output, performs direct writes to the `philosophy-knowledge-base/`, and **updates the root processed library index (`source_materials/processed/index.md`)**.
-    *   **Workflow:**
+*   **`philosophy-text-processor` (V18.3.7 Dated Material Handling):**
+    *   **Responsibility:** Orchestrates the pre-processing of general source texts (lectures, readings) from `source_materials/raw/` by executing the `scripts/process_source_text.py` script. **Parses dates from raw material paths (e.g., `YYYY-MM-DD` in lecture/reading subdirectories)**. Ensures extracted dates are included in the metadata generated for `master_index.json` and the material's `index.md`. Parses the script's JSON output, performs direct writes to the `philosophy-knowledge-base/`, and updates the root processed library index (`source_materials/processed/index.md`).
+    *   **Workflow (Updated for Dated Materials):**
         1.  Receives source file path from `Orchestrator`.
-        2.  Parses input path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`).
-        3.  Executes `scripts/process_source_text.py` via `execute_command`, passing input path and output directory (`source_materials/processed/`).
-        4.  The script performs hierarchical splitting, chunking, generates navigational `index.md` files within the `source_materials/processed/[source_id]/...` structure, and outputs structured JSON to stdout containing metadata, summaries, concepts, arguments, citations, context tags, and paths to generated files.
+        2.  Parses input path relative to `source_materials/raw/` to extract context (`type`, `id`, `subtype`) **and date information from dated subdirectories for lectures/readings**.
+        3.  Executes `scripts/process_source_text.py` via `execute_command`, passing input path, output directory (`source_materials/processed/`), **and extracted date metadata**.
+        4.  The script performs hierarchical splitting, chunking, generates navigational `index.md` files (incorporating date into `LECTURE_ID` or `READING_ID` for processed paths and including `lecture_date` or `assigned_date` in YAML frontmatter), and outputs structured JSON to stdout containing metadata (including dates), summaries, concepts, arguments, citations, context tags, and paths to generated files.
         5.  The mode **parses the JSON output** received from the script execution.
-        6.  The mode performs **direct writes** to the `philosophy-knowledge-base/` using the parsed JSON data (e.g., writing summaries/concepts/arguments to relevant KB files, updating reference entries, storing context tags). This aligns with the "Direct KB Write Pattern".
-        7.  The mode **updates the root library index** `source_materials/processed/index.md`, adding an entry for the newly processed `source_id` (potentially with timestamp or link).
-        8.  The mode **directly writes** operational logs (including script execution status, KB write actions, and root index update) to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
-    *   **Dependencies:** `philosophy-orchestrator` (trigger), `scripts/process_source_text.py`, `execute_command`, File system tools (for KB, `processed/`, and `phil-memory-bank/` access), JSON parsing library.
-*   **Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`, `questioning`):**
-    *   **Responsibility:** Analyze sources/KB content, generate concepts, arguments, questions, etc., **ensuring philosophical rigor**. **Directly manage** own operational logs in `phil-memory-bank/mode-specific/`.
-    *   **Interaction (V18.2):**
-        *   **Read KB:** Directly Read KB files (`philosophy-knowledge-base/`) using file tools, applying context filters. Query related context (linked entries like counter-arguments, secondary sources) via `related_ids` or context tags. **May also read navigational `index.md` files** (including the root `source_materials/processed/index.md`) to locate relevant source chunks before reading them.
-        *   **Read Operational Context:** Directly Read relevant files within `phil-memory-bank/` (e.g., `activeContext.md`, `globalContext.md`, other mode logs) for operational context as needed.
+        6.  The mode performs **direct writes** to the `philosophy-knowledge-base/` using the parsed JSON data (including date metadata). This aligns with the "Direct KB Write Pattern".
+        7.  The mode **updates the root library index** `source_materials/processed/index.md`.
+        8.  The mode **directly writes** operational logs to `phil-memory-bank/mode-specific/philosophy-text-processor.md`.
+    *   **Dependencies:** `philosophy-orchestrator` (trigger), `scripts/process_source_text.py` (updated for date handling), `execute_command`, File system tools (for KB, `processed/`, and `phil-memory-bank/` access), JSON parsing library.
+*   **`philosophy-syllabus-processor` (New V18.3.7 - AI-Driven Parsing):**
+    *   **Responsibility:** Processes course syllabuses using AI-driven logic to handle high variability in formatting. Parses syllabus documents (e.g., PDF, Markdown) by leveraging natural language understanding and document structure analysis to extract structured data including weekly schedules, topics, assigned readings, lecture associations, and term dates. Populates `extracted_data.json` within the processed syllabus directory. Attempts to match listed readings/lectures to existing `material_id`s in `master_index.json`. Adds week-specific and topic-specific tags to relevant entries in `master_index.json` and individual material `index.md` files. Proposes updates to `master_index.json` and course-specific `index.md` with syllabus metadata.
+    *   **Workflow:**
+        1. Receives syllabus file path from `Orchestrator`.
+        2. The mode (as an AI agent) directly parses the syllabus content, intelligently handling diverse formats.
+        3. Extracts structured data and generates `extracted_data.json`.
+        4. Proposes updates to `master_index.json` with syllabus metadata (term dates, active status) and potentially adds/updates tags for associated materials based on syllabus content.
+        5. Proposes updates to the course-specific `index.md` in `source_materials/processed/courses/[COURSE_CODE]/`.
+        6. Directly writes operational logs.
+    *   **Dependencies:** `philosophy-orchestrator` (trigger), `master_index.json`, course/material `index.md` files, File system tools (for reading syllabus and potentially writing `extracted_data.json` or proposing changes).
+*   **Analysis Modes (`pre-lecture`, `class-analysis`, `secondary-lit`, `dialectical-analysis`, `questioning`) (V18.3.7 Dated Material Usage):**
+    *   **Responsibility:** Analyze sources/KB content, generate concepts, arguments, questions, etc., ensuring philosophical rigor. **Utilize dated materials and syllabus-derived temporal context.** Directly manage own operational logs.
+    *   **Interaction (Updated for Dated Materials):**
+        *   **Read KB & Syllabus Context:** Directly Read KB files. **Query and utilize `lecture_date` and `assigned_date` metadata from `master_index.json` or individual material `index.md` files.** Access and interpret `extracted_data.json` from processed syllabuses to understand weekly schedules, topic-reading-lecture associations, and overall course progression. Use date/week/topic tags for targeted querying.
+        *   **Read Operational Context:** Directly Read relevant files within `phil-memory-bank/` for operational context.
         *   **Analyze for Rigor:** Explicitly identify and analyze determinacy, presuppositions, ambiguities, contradictions, related terms, ordinary language contrast, etc.
         *   **Write KB:** Directly Write findings to designated KB files/sections using file tools, **populating rigor fields** (see Section 6) and ensuring correct formatting and linking (including `source_ref_keys`, `extraction_markers`, `related_ids`).
         *   **Write Operational Log:** Directly Write detailed operational logs (process, decisions, inputs, outputs) to own file in `phil-memory-bank/mode-specific/`.
@@ -196,7 +223,7 @@ V18.3.2 incorporates user feedback regarding the `source_materials/processed/` d
         *   **Write Operational Log:** Directly Writes detailed operational logs (query, results, errors) to its own file in `phil-memory-bank/mode-specific/philosophy-evidence-manager.md`.
     *   **Dependencies:** `philosophy-orchestrator` (for task delegation), File system tools (for KB and `phil-memory-bank/` access).
 
-## 5. V18.3.2 Mode Interaction Diagram (Mermaid - Processed Root Index Added)
+## 5. V18.3.7 Mode Interaction Diagram (Mermaid - Dated Material Integration)
 
 ```mermaid
 graph TD
@@ -217,8 +244,10 @@ graph TD
     %% KB Maintenance & Rigor Validation (Responsibilities moved to Orchestrator/MetaReflector/Verify)
     %% KBDoctor subgraph removed
 
-    subgraph Text Processing
-        TextProc(philosophy-text-processor) -- Runs --> Scripts((scripts/process_source_text.py))
+    subgraph Text & Syllabus Processing
+        TextProc(philosophy-text-processor) -- Runs --> ScriptsTP((scripts/process_source_text.py))
+        SyllabusProc(philosophy-syllabus-processor)
+        class SyllabusProc mode;
     end
 
     subgraph Analysis & Inquiry (Rigor Focused)
@@ -249,6 +278,7 @@ graph TD
              Orchestrator -- Manages --> OpMemBank_Global
              %% Individual modes manage their own logs
              TextProc -- Writes --> OpMemBank_ModeLogs
+             SyllabusProc -- Writes --> OpMemBank_ModeLogs %% Added
              PreLec -- Writes --> OpMemBank_ModeLogs
              ClassAn -- Writes --> OpMemBank_ModeLogs
              SecLit -- Writes --> OpMemBank_ModeLogs
@@ -259,12 +289,13 @@ graph TD
              CiteMan -- Writes --> OpMemBank_ModeLogs
              Verify -- Writes --> OpMemBank_ModeLogs
              MetaReflector -- Writes --> OpMemBank_ModeLogs
-             EvidMan -- Writes Log --> OpMemBank_ModeLogs %% Added for EvidMan
+             EvidMan -- Writes Log --> OpMemBank_ModeLogs
              %% All modes can read all OpCtx files
              Orchestrator -- Reads --> OpMemBank_Global
              Orchestrator -- Reads --> OpMemBank_ModeLogs
              Orchestrator -- Reads --> OpMemBank_Feedback
              TextProc -- Reads --> OpMemBank_Global; TextProc -- Reads --> OpMemBank_ModeLogs
+             SyllabusProc -- Reads --> OpMemBank_Global; SyllabusProc -- Reads --> OpMemBank_ModeLogs %% Added
              PreLec -- Reads --> OpMemBank_Global; PreLec -- Reads --> OpMemBank_ModeLogs
              ClassAn -- Reads --> OpMemBank_Global; ClassAn -- Reads --> OpMemBank_ModeLogs
              SecLit -- Reads --> OpMemBank_Global; SecLit -- Reads --> OpMemBank_ModeLogs
@@ -275,11 +306,11 @@ graph TD
              CiteMan -- Reads --> OpMemBank_Global; CiteMan -- Reads --> OpMemBank_ModeLogs
              Verify -- Reads --> OpMemBank_Global; Verify -- Reads --> OpMemBank_ModeLogs
              MetaReflector -- Reads --> OpMemBank_Global; MetaReflector -- Reads --> OpMemBank_ModeLogs; MetaReflector -- Reads --> OpMemBank_Feedback
-             EvidMan -- Reads OpCtx --> OpMemBank_Global %% Added for EvidMan
+             EvidMan -- Reads OpCtx --> OpMemBank_Global
         end
         subgraph Philosophical Knowledge Base [Domain Knowledge & Domain Operations]
             style PhilKB fill:#f9f,stroke:#333,stroke-width:2px
-            PhilKB_Data[(Philosophy KB Data<br>philosophy-knowledge-base/<br>concepts/, arguments/, etc.<br>+ Rigor Fields)]
+            PhilKB_Data[(Philosophy KB Data<br>philosophy-knowledge-base/<br>concepts/, arguments/, etc.<br>+ Rigor Fields, Date Metadata)]
             PhilKB_Ops[(KB Operational<br>philosophy-knowledge-base/_operational/)]
 
             subgraph KB_Ops_Details ["_operational/"]
@@ -292,14 +323,15 @@ graph TD
             end
             PhilKB_Ops --> KB_Ops_Details
         end
-        RawSource[(Raw Source Materials<br>source_materials/raw/)]
-        ProcessedSource[(Processed Source<br>source_materials/processed/<br>(Root index.md + Hierarchical index.md + chunks))]
+        RawSource[(Raw Source Materials<br>source_materials/raw/<br>(Incl. dated lectures/readings, syllabuses))]
+        ProcessedSource[(Processed Source<br>source_materials/processed/<br>(Incl. dated lectures/readings with date metadata, processed syllabuses with extracted_data.json))]
         Workspace(analysis_workspace / essay_prep)
     end
 
     %% Core Flow & Orchestration
     User -- Request --> Orchestrator
     Orchestrator -- Delegate Tasks --> TextProc
+    Orchestrator -- Delegate Syllabus Processing --> SyllabusProc %% Added
     Orchestrator -- Delegate Tasks --> PreLec
     Orchestrator -- Delegate Tasks --> ClassAn
     Orchestrator -- Delegate Tasks --> SecLit
@@ -307,51 +339,54 @@ graph TD
     Orchestrator -- Delegate Tasks --> Quest
     Orchestrator -- Delegate Tasks --> EssayPrep
     Orchestrator -- Delegate Tasks/Trigger --> MetaReflector
-    Orchestrator -- Delegate Evidence Retrieval --> EvidMan %% Added
+    Orchestrator -- Delegate Evidence Retrieval --> EvidMan
     Orchestrator -- Coordinate Commit? --> EssayPrep
-    Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector %% Updated
-    Orchestrator -- Trigger KB Maintenance/Validation --> Verify %% Updated
+    Orchestrator -- Trigger KB Maintenance/Validation --> MetaReflector
+    Orchestrator -- Trigger KB Maintenance/Validation --> Verify
     Orchestrator -- Route KB/System Mod Proposal --> User
     Orchestrator -- Relay Approval --> Architect
     Orchestrator -- Relay Approval --> DevOps
     Orchestrator -- Manage Self-Correction Loop --> Verify/MetaReflector/AnalysisModes
     Orchestrator -- Results --> User
 
-    %% Text Processing Flow (V18.3.2 Corrected)
-    TextProc -- Reads --> RawSource
-    Scripts -- Generates Hierarchical Indices/Chunks --> ProcessedSource
-    Scripts -- JSON Output --> TextProc
-    TextProc -- Parses JSON & Direct Write KB --> PhilKB_Data
+    %% Text Processing Flow (V18.3.7 Dated Materials)
+    TextProc -- Reads Dated Lectures/Readings --> RawSource
+    ScriptsTP -- Generates Dated Hierarchical Indices/Chunks --> ProcessedSource
+    ScriptsTP -- JSON Output (incl. dates) --> TextProc
+    TextProc -- Parses JSON & Direct Write KB (incl. dates) --> PhilKB_Data
     TextProc -- Updates Root Index --> ProcessedSource
 
-    %% Analysis & Inquiry Flow (V18.2 Direct R/W + Rigor)
+    %% Syllabus Processing Flow (V18.3.7 New)
+    SyllabusProc -- Reads Syllabus --> RawSource
+    SyllabusProc -- AI Parses Syllabus, Generates extracted_data.json --> ProcessedSource
+    SyllabusProc -- Proposes Updates (master_index, course_index, tags) --> PhilKB_Data
+
+    %% Analysis & Inquiry Flow (V18.3.7 Dated Material Usage)
     PreLec -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     ClassAn -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     SecLit -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     DialAn -- Direct Write KB (Analysis + Rigor Fields) --> PhilKB_Data
     Quest -- Direct Write KB (Refined Qs + Rigor Fields) --> PhilKB_Data
 
-    PreLec -- Direct Read KB (incl. Related Context) --> PhilKB_Data
-    ClassAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
-    SecLit -- Direct Read KB (incl. Related Context) --> PhilKB_Data
-    DialAn -- Direct Read KB (incl. Related Context) --> PhilKB_Data
-    Quest -- Direct Read KB (incl. Related Context) --> PhilKB_Data
-    %% Analysis modes may also read navigational indices
-    PreLec -- Reads Nav Index --> ProcessedSource
-    ClassAn -- Reads Nav Index --> ProcessedSource
-    SecLit -- Reads Nav Index --> ProcessedSource
-    DialAn -- Reads Nav Index --> ProcessedSource
-    Quest -- Reads Nav Index --> ProcessedSource
-    %% Analysis modes may request specific evidence via Orchestrator -> EvidMan
+    PreLec -- Direct Read KB (incl. Dates, Tags) --> PhilKB_Data
+    ClassAn -- Direct Read KB (incl. Dates, Tags) --> PhilKB_Data
+    SecLit -- Direct Read KB (incl. Dates, Tags) --> PhilKB_Data
+    DialAn -- Direct Read KB (incl. Dates, Tags) --> PhilKB_Data
+    Quest -- Direct Read KB (incl. Dates, Tags) --> PhilKB_Data
 
-    %% Essay Flow (V18.2 Direct R/W + Rigor)
+    PreLec -- Reads Nav Index & Syllabus Data --> ProcessedSource
+    ClassAn -- Reads Nav Index & Syllabus Data --> ProcessedSource
+    SecLit -- Reads Nav Index & Syllabus Data --> ProcessedSource
+    DialAn -- Reads Nav Index & Syllabus Data --> ProcessedSource
+    Quest -- Reads Nav Index & Syllabus Data --> ProcessedSource
+
+    %% Essay Flow (V18.2 Direct R/W + Rigor - No change for dated materials directly, but benefits from better KB context)
     EssayPrep -- Direct Read KB (Thesis Context + Rigor) --> PhilKB_Data
     EssayPrep -- Direct Write KB (Thesis + Rigor) --> PhilKB_Data
     EssayPrep -- Request Draft --> DraftGen
     EssayPrep -- Request Citation --> CiteMan
     EssayPrep -- Request Verification --> Verify
     EssayPrep -- Manage Files --> Workspace
-    %% Essay modes may request specific evidence via Orchestrator -> EvidMan
 
     DraftGen -- Direct Read KB (Evidence + Rigor) --> PhilKB_Data
     DraftGen -- Draft --> EssayPrep
@@ -375,7 +410,7 @@ graph TD
     MetaReflector -- Propose Method/Git Mod --> Orchestrator
 
     %% Evidence Manager Interactions
-    EvidMan -- Direct Read KB --> PhilKB_Data %% Added
+    EvidMan -- Direct Read KB --> PhilKB_Data
 
     %% KB Maintenance & Validation Interactions (V18.3.3 - Distributed)
     MetaReflector -- Performs KB Maintenance/Validation --> PhilKB_Data
@@ -402,12 +437,14 @@ graph TD
 ```
 
 **Diagram Notes:**
-*   Reflects V18.3.2: Added Root Index Update by `TextProc`.
-*   `TextProc` now interacts with `ProcessedSource` to update the root `index.md`.
-*   Other V18.3.1 elements remain.
-*   **V18.3.6 Update:** Added `philosophy-evidence-manager` (EvidMan) node and its interactions with Orchestrator, PhilKB_Data, and OpMemBank.
+*   Reflects V18.3.7: Dated Material Integration.
+*   Added `philosophy-syllabus-processor` (SyllabusProc) and its interactions.
+*   Updated `TextProc` interactions for dated lectures/readings.
+*   Analysis modes now show interaction with `ProcessedSource` for syllabus data and dated material indices.
+*   Updated data layer node descriptions for clarity on dated content.
+*   V18.3.6 (EvidMan) and other V18.3.x elements remain.
 
-## 6. Philosophy Knowledge Base (KB) - V18.1 Design (Rigor Enhanced, Linux Paths)
+## 6. Philosophy Knowledge Base (KB) - V18.3.7 Design (Dated Material Context)
 
 *   **Location:** `philosophy-knowledge-base/`
 *   **Purpose:** Centralized, structured, persistent repository for **philosophical domain knowledge**, distinct from operational memory (`phil-memory-bank/`). Enhanced for philosophical rigor.
@@ -451,8 +488,13 @@ graph TD
       "context:id:[course_code|project_name|general_topic]",
       "context:subtype:[reading|lecture|note|primary|secondary]",
       # Standard Tags (Added by analysis modes):
-      "hegel", "logic", "critique", "meta", "inquiry", ...
-    ]
+            "hegel", "logic", "critique", "meta", "inquiry", ...
+            # Temporal Tags (Added by syllabus/text processor for dated materials):
+            "[COURSE_CODE]_Week_[N]", "[COURSE_CODE]_Topic_[TOPIC_SLUG]", "date_YYYY-MM-DD", ...
+          ]
+          # Note: Date-specific metadata for lectures/readings (lecture_date, assigned_date) is primarily stored in the
+          #       corresponding processed material's index.md and master_index.json. KB entries derive temporal
+          #       context through these tags and their link to the source material via source_ref_keys/extraction_markers.
 
     # --- Linking & Source Fields (V11+, Emphasized V18.1) ---
     source_ref_keys: [[ref_key_1, ...]] # CRITICAL: Links to `Reference` type KB entries. Each `Reference` entry contains metadata about an original source text, including the unique `source_id` used in `source_materials/processed/[source_id]/`. This identifies the overall source document(s).
@@ -615,6 +657,53 @@ Clarifying user interaction loops:
     6.  User selects an option or provides clarification.
     7.  `Orchestrator` receives clarification and delegates a more focused task to the appropriate analysis mode.
 
+### 7.5 Handling Missing or Incomplete Source Materials (V18.3.7)
+
+The system must gracefully handle scenarios where expected source materials (e.g., a lecture transcript listed in a syllabus) are missing or incomplete.
+
+*   **Identification:**
+    *   The `philosophy-syllabus-processor`, through its `extracted_data.json`, provides a list of expected materials for a course, including lectures and readings associated with specific dates or topics.
+    *   When the `philosophy-orchestrator` or an analysis mode (e.g., `philosophy-class-analysis`) attempts to retrieve a specific material (e.g., a lecture for a given date) based on the syllabus schedule, it will check `master_index.json` and the `source_materials/processed/` directory.
+    *   If the material is not found, it's flagged as missing.
+
+*   **Logging and Reporting:**
+    *   The mode that identifies the missing material MUST log this event in its specific operational log within `phil-memory-bank/mode-specific/`.
+    *   The `philosophy-orchestrator` should be informed (e.g., if a delegated task to process a specific lecture fails due to missing input) and should log this in `globalContext.md` (e.g., under a "Data Integrity Issues" or "Progress" section) and `activeContext.md`.
+    *   The system may, as a future enhancement, provide a consolidated report of missing expected materials to the user.
+
+*   **Workflow Adaptation (Detailed Alternative):**
+    *   **`philosophy-orchestrator`**:
+        *   Upon identifying a missing lecture transcript (expected from syllabus), the orchestrator logs the issue.
+        *   It may trigger a sub-workflow to find alternative materials:
+            *   Instruct `philosophy-text-processor` to check for and process any available raw class notes or lecture slides for the corresponding date/topic from `source_materials/raw/courses/[COURSE_CODE]/lectures/[YYYY-MM-DD_LECTURE_TITLE_SLUG]/notes/` or `slides/`.
+            *   Instruct `philosophy-secondary-lit` to find or acquire relevant secondary literature (see below).
+        *   It will adapt the main workflow:
+            *   Skip tasks directly dependent on the full transcript (e.g., detailed lecture summarization).
+            *   Prioritize analysis of assigned readings, available notes/slides, and supplementary secondary literature.
+        *   Clearly logs all deviations and alternative steps taken.
+    *   **Analysis Modes (e.g., `philosophy-class-analysis`, `philosophy-pre-lecture`):**
+        *   If an expected lecture transcript is missing, these modes will:
+            1.  Utilize any processed class notes or lecture slides for that date/topic.
+            2.  Place greater emphasis on the pre-lecture analysis of assigned readings.
+            3.  Actively incorporate analysis from relevant secondary literature (see "Proactive Secondary Literature Acquisition" below).
+            4.  Explicitly state in their outputs (KB entries, reports) that the analysis is modified due to the missing transcript and specify the alternative materials used.
+    *   **`philosophy-secondary-lit` (Enhanced Role for Missing Transcripts):**
+        *   **Proactive Secondary Literature Acquisition:**
+            1.  If a lecture transcript is missing, `philosophy-orchestrator` or `philosophy-class-analysis` can task `philosophy-secondary-lit` to find/acquire supplementary materials.
+            2.  `philosophy-secondary-lit` first searches the existing `philosophy-knowledge-base/` for relevant processed secondary sources related to the primary readings or topic of the missing lecture.
+            3.  If insufficient, it uses the `zlibrary-mcp` tool (via `use_mcp_tool` with `search_books` or `full_text_search`) to find relevant academic commentaries or secondary analyses on the primary readings for that week.
+            4.  If suitable texts are found, it uses `zlibrary-mcp`'s `download_book_to_file` tool to download them to a designated subdirectory in `source_materials/raw/external_lit/secondary/` (e.g., `source_materials/raw/external_lit/secondary/commentaries_on_hegel_phenomenology/`).
+            5.  It then informs `philosophy-orchestrator` of the newly downloaded raw material.
+            6.  `philosophy-orchestrator` delegates processing of this new raw material to `philosophy-text-processor`.
+            7.  Once processed, this new secondary literature becomes available for `philosophy-class-analysis` and other modes to use in lieu of or to supplement the missing lecture content.
+    *   **Downstream Modes (e.g., `philosophy-draft-generator`):** These modes will consume the KB as is. The KB will reflect the alternative analysis based on readings, notes/slides, and supplementary secondary literature if the primary lecture transcript was missing.
+
+*   **Handling Lecture Slides/Notes (as part of the alternative workflow):**
+    *   As mentioned above, if lecture slides or instructor notes are available in `source_materials/raw/courses/[COURSE_CODE]/lectures/[YYYY-MM-DD_LECTURE_TITLE_SLUG]/` (e.g., in subfolders like `slides/` or `notes/`), `philosophy-text-processor` will process them.
+    *   These processed materials (with their own `MATERIAL_ID`s) will be linked to the lecture date/topic, ideally via the syllabus `extracted_data.json` or by `philosophy-orchestrator` / analysis modes.
+    *   Analysis modes will then use these as primary sources of information about the lecture if the transcript is absent.
+
+*   **Data Integrity Principle:** The system prioritizes proceeding with available information while clearly flagging and logging any missing expected data to ensure transparency and manage expectations about the completeness of analyses or generated content.
 ## 8. Version Control & Release Strategy (V18.3.4)
 
 *   **Tool:** Git, managed via `execute_command`.

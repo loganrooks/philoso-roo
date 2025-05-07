@@ -61,7 +61,7 @@ RooCode includes features for managing complex tasks and workflows.
 
 ## 6. Memory Bank & Context
 
-While core documentation focuses heavily on tools and modes, the concept of a **Memory Bank** is evident in community projects (SPARC, Memory Bank Project) and the structure observed within `philoso-roo`.
+While core documentation focuses heavily on tools and modes, the concept of a **Memory Bank** is evident in other community projects and the Memory Bank Project and the structure observed within `philoso-roo`.
 
 - **Purpose (Inferred):** To provide persistent context storage across multiple interactions, tasks, and potentially sessions. This helps mitigate context window limitations of LLMs and maintain project history/decisions.
 - **Structure (Observed in `philoso-roo`):** Typically involves a `memory-bank/` directory with files like:

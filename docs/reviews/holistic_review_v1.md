@@ -69,7 +69,8 @@
         *   Ensure the (missing) root `README.md` or an overview document in `docs/specs/` points to the current, canonical specification(s).
     *   **Severity/Priority:** Medium
 
-*   **Finding:** `source_materials/` directory structure deviates from V18.3.2 Architecture.
+*   **Finding:** `source_materials/` directory structure deviates from V18.3.2 Architecture. (POSSIBLY OUTDATED DUE TO NEW SOURCE MATERIAL ARCHITECTURE TO HANDLE SYLLABUSES AND DATED COURSE MATERIALS LIKE LECTURES AND READINGS)
+    
     *   **Observation:** The `source_materials/` directory currently contains `index.md`, `lectures/`, `processed/`, and `secondary_lit/`. However, [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (lines 51-85) specifies a structure with `raw/` and `processed/` at the top level of `source_materials/`. Within `raw/`, it defines subdirectories like `courses/`, `projects/`, and `external_lit/`, which would then contain typed content like `lectures/`, `readings/`, `secondary_lit/`, etc. The `index.md` at the root of `source_materials/` is also not specified; an `index.md` is specified for `source_materials/processed/`.
     *   **Recommendation:**
         *   Reorganize the `source_materials/` directory to align with the V18.3.2 architecture documented in [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1). This would involve:
@@ -87,9 +88,9 @@
 
 *(Findings and recommendations related to code cleanliness, consistency, and configuration files)*
 
-### 2.5. SPARC/TDD Adherence
+### 2.5. System/TDD Adherence
 
-*(Findings and recommendations related to SPARC/TDD principles)*
+*(Findings and recommendations related to System/TDD principles)*
 
 ### 2.6. Future-Proofing
 

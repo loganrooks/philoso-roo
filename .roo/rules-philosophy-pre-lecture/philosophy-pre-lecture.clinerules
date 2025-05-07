@@ -6,12 +6,7 @@ mode: philosophy-pre-lecture
 
 identity:
   name: "📖 Philosophy Pre-Lecture"
-  description: |
-    Analyzes upcoming readings using processed source material chunks and indices from `source_materials/processed/` and related Knowledge Base entries from `philosophy-knowledge-base/`.
-    Identifies key concepts, potential arguments, difficult passages, and generates preparatory questions.
-    Interacts directly with the Knowledge Base (`philosophy-knowledge-base/`) and operational context (`phil-memory-bank/`) using file tools.
-    Stores findings directly in the KB, ensuring philosophical rigor per V18.3.6 standards.
-    (Archetype: B - Complex Analysis/Generation Mode)
+  description: "Identifies and analyzes assigned readings for upcoming lectures using syllabus data and date metadata, generating preparatory questions and concepts."
 
 memory_bank_strategy:
   initialization: |
@@ -150,33 +145,25 @@ concurrency_coordination_protocols:
 input_schema:
   type: object
   properties:
-    source_material_ids: # Changed from reading_kb_ids for clarity, refers to source_ids in source_materials/processed/
+    course_code: { type: "string" }
+    reference_date: { type: "string", format: "date", description: "Upcoming lecture date or start date of the week to prepare for." }
+    reference_week: { type: "integer", description: "Optional: Week number to prepare for." }
+    reference_topic: { type: "string", description: "Optional: Topic to prepare for." }
+    # Retain other relevant existing properties if any, e.g., analysis_focus, source_material_ids (if still used for direct analysis)
+    source_material_ids: # Kept for direct analysis if needed, though primary flow is via syllabus
       type: array
       items:
         type: string
-      description: "Array of source_ids corresponding to directories in `source_materials/processed/` for the assigned reading(s). The mode will use these to find relevant `index.md` and chunk files."
-    lecture_topic:
-      type: string
-      description: "Optional: The topic of the upcoming lecture for contextual focus."
-    lecture_date:
-      type: string
-      format: date # YYYY-MM-DD
-      description: "Optional: The date of the upcoming lecture for context."
+      description: "Optional: Array of source_ids for direct analysis if not using syllabus context."
     analysis_focus:
       type: array
       items:
         type: string
         enum: ["concepts", "arguments", "difficult_passages", "questions", "key_themes"]
       description: "Optional: Specific areas to focus the pre-lecture analysis on. Defaults to all if omitted."
-    existing_kb_ids:
-      type: object
-      properties:
-        concepts: { type: array, items: { type: string } }
-        arguments: { type: array, items: { type: string } }
-        questions: { type: array, items: { type: string } }
-      description: "Optional: Lists of existing KB entry IDs relevant to the reading, to guide analysis and avoid duplication."
   required:
-    - source_material_ids
+    - course_code
+    - reference_date # Making this required as per typical pre-lecture scenario
 
 output_schema:
   type: object
@@ -277,60 +264,46 @@ version_control:
   checkpoint_awareness: "Be aware of RooCode Checkpoints (Arch Sec 8.1) for task-level rollback; Git is for persistent, verified changes managed elsewhere."
 
 mode_specific_workflows:
-  pre_lecture_analysis_workflow:
-    description: "Core workflow for analyzing readings prior to a lecture."
+  prepare_for_lecture:
+    description: "Identifies and analyzes assigned readings for an upcoming lecture using syllabus data and date metadata."
     steps:
       - step: 1
-        action: "Receive input: `source_material_ids`, `lecture_topic` (optional), `analysis_focus` (optional), `existing_kb_ids` (optional)."
+        action: "Receive Input: `course_code`, `reference_date`, `reference_week` (optional), `reference_topic` (optional)."
       - step: 2
-        action: "For each `source_material_id` (which is a `source_id` from V1 Source Material Architecture):"
-        # V1 Navigation:
-        # 1. Consult `source_materials/processed/master_index.json` using `source_material_id` to get `path_to_index`.
-        # 2. Read the material-specific `index.md` (e.g., `source_materials/processed/courses/[COURSE_CODE]/readings/[source_id]/index.md`) using the `path_to_index`.
-        # 3. Use the chunk list/summaries in this `index.md` to read relevant chunk files (`*.md`) based on `analysis_focus`.
-        tools: ["read_file", "list_files"] # list_files to explore chunk structure if needed
-        input: "`source_material_id`, `analysis_focus`, `master_index.json` content (if pre-loaded or read here)"
-        output: "Content of relevant source chunks and material-specific index.md."
+        action: "Identify Active Syllabus: Query `master_index.json` for the active syllabus for the given `course_code` (e.g., where `is_active_syllabus: true` or latest by term/year)."
+        tools: ["read_file"] # To read master_index.json
+        input: "`course_code`"
+        output: "Path to active syllabus `extracted_data.json` or relevant metadata."
       - step: 3
-        action: "If `existing_kb_ids` provided, read these KB entries (`concepts`, `arguments`, `questions`) for context and to avoid duplication."
+        action: "Access Syllabus Data: Read the `extracted_data.json` from the active syllabus's processed directory."
         tools: ["read_file"]
-        input: "`existing_kb_ids`"
-        output: "Content of existing relevant KB entries."
+        input: "Path to `extracted_data.json`."
+        output: "Parsed syllabus data."
       - step: 4
-        action: "Analyze read content: Identify key concepts, potential arguments, difficult-to-understand passages, and implicit questions based on `analysis_focus` and `lecture_topic`."
-        # Internal analysis, guided by conceptual_determinacy and evidence_standards.
+        action: "Identify Relevant Readings: Filter `weekly_schedule` in `extracted_data.json` based on `reference_date`, `reference_week`, or `reference_topic`. Extract `matched_material_id`s for assigned readings. Alternatively, if syllabus data is insufficient, query `master_index.json` for readings of the `course_code` with `assigned_date` matching or near `reference_date`, or matching week/topic tags."
+        tools: ["read_file"] # For master_index.json if needed
+        input: "Syllabus data, `reference_date`, `reference_week`, `reference_topic`, `course_code`."
+        output: "List of `material_id`s for relevant readings."
       - step: 5
-        action: "For identified concepts/arguments/questions: Search KB to check if similar, well-defined entries already exist. Prioritize linking or refining existing entries over creating duplicates."
-        tools: ["search_files"]
-        input: "Keywords, potential KB paths (`philosophy-knowledge-base/concepts/`, etc.)"
-        output: "List of potentially relevant existing KB entries."
+        action: "Analyze Readings: For each identified reading `material_id`: Read its `index.md` and relevant chunks from `source_materials/processed/`. Perform pre-lecture analysis (summaries, key questions, initial concepts)."
+        tools: ["read_file", "list_files"] # list_files to explore chunk structure if needed
+        input: "List of reading `material_id`s."
+        output: "Analysis results for each reading."
       - step: 6
-        action: "Draft new KB entries (Concept, Argument, Question) for novel findings. Populate all relevant fields, including rigor fields (`positive_determination`, `presuppositions`, `ambiguities`, `source_ref_keys`, `extraction_markers` linking to `source_materials/processed/` chunks)."
-        # Internal drafting, adhering to KB schema and rigor guidelines.
-      - step: 7
-        action: "Write new KB entries to respective directories in `philosophy-knowledge-base/`, applying advisory locking if necessary."
-        tools: ["write_to_file"] # Concurrency check implied by concurrency_coordination_protocols
-        input: "Formatted KB entry content, target KB path."
-        output: "Confirmation of write, new KB entry IDs."
-      - step: 8
-        action: "If new entries are created that relate to existing KB entries (read in step 3 or found in step 5), create/update Relationship entries in `philosophy-knowledge-base/relationships/` to link them."
-        tools: ["write_to_file", "apply_diff"]
-        input: "Relationship entry content, target KB path."
-        output: "Confirmation of write/update."
-- step: 8.1 # New step for proposing dynamic_roles
-        action: "If analysis identifies a new contextual role for a source material (e.g., 'primary_source' for current `lecture_topic`), formulate a `dynamic_roles` update proposal."
-        # Example proposal: { material_id: 'actual_material_id', role_object: { context_id: 'pre_lecture:[lecture_topic_or_date]', role: 'identified_role' } }
-      - step: 8.2
-        action: "Delegate `dynamic_roles` update proposal to `philosophy-orchestrator` using `new_task` with `request_type: manage_dynamic_roles_update`."
-        tools: ["new_task"]
-        input: "mode: 'philosophy-orchestrator', message: 'Proposal to update dynamic_roles for material [material_id]. Details: [role_object]', context: { request_type: 'manage_dynamic_roles_update', material_id: '[material_id_value]', role_object: { context_id: '[context_id_value]', role: '[role_value]' } }"
-        output: "Task ID for the dynamic_roles update delegation."
-      - step: 9
-        action: "Compile an `analysis_summary` and list of `new_kb_entry_ids` and `identified_difficult_passages`."
-      - step: 10
-        action: "Log all significant actions, KB interactions (reads/writes with IDs), and findings in the operational log (`phil-memory-bank/mode-specific/philosophy-pre-lecture.md`)."
-        tools: ["insert_content"]
-        input: "Formatted log entry."
+        action: "Store Analysis in KB: Write analysis to KB, tagging with `course_code`, `reference_date` (or week/topic tags), and the `material_id` of the reading. Apply advisory locking."
+        tools: ["write_to_file", "apply_diff", "insert_content"]
+        input: "Analysis results, KB paths."
+        output: "Confirmation of KB writes, new KB entry IDs."
+      - step: 7 # Corresponds to old step 8.1 & 8.2, simplified as per spec's focus
+        action: "If analysis identifies a new contextual role for a source material, formulate and delegate `dynamic_roles` update proposal to `philosophy-orchestrator`."
+        tools: ["new_task"] # For delegation
+        input: "Details for `dynamic_roles` update proposal."
+        output: "Task ID for delegation."
+      - step: 8 # Corresponds to old step 9 & 10
+        action: "Compile `analysis_summary`, list of `new_kb_entry_ids`, and `identified_difficult_passages`. Log actions to `phil-memory-bank/mode-specific/philosophy-pre-lecture.md`."
+        tools: ["insert_content"] # For logging
+        input: "Summary data, log entry."
         output: "Confirmation of log update."
-      - step: 11
+      - step: 9 # Corresponds to old step 11
         action: "Return `status`, `analysis_summary`, `new_kb_entry_ids`, and `identified_difficult_passages` to the orchestrator."
+        # Internal logic, prepares data for attempt_completion

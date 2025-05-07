@@ -1,6 +1,23 @@
 # SPARC Orchestrator Specific Memory
 <!-- Entries below should be added reverse chronologically (newest first) -->
 
+## Intervention Log
+### [2025-05-07 12:21:47] Intervention: Syllabus Processing Strategy Changed to AI-Driven
+- **Trigger**: User Feedback ("THERE IS AN ISSUE WITH ALL OF THIS INSOFAR AS WE SHOULDN'T BE USING A SCRIPT BECAUSE SYLLABUSES DIFFER SO VASTLY FROM ONE ANOTHER IN FORMATTING. IT SHOULD BE THE AI AGENT WHO READS AND PROCESSES IT THEMSELVES USING THEIR "INTERNAL LOGIC"")
+- **Context**: SPARC had just received completion from `code` mode for integrating a *script-based* syllabus processing framework into `scripts/process_source_text.py` ([Active Context: 2025-05-07 12:18:00]).
+- **Action Taken**: Halted script-based approach for syllabus parsing. Acknowledged user feedback. Logged intervention in `activeContext.md`, `globalContext.md` (Progress & Decision Log), `sparc-feedback.md`, and here. The plan ([`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1)) and architectural documents ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) require revision to reflect AI-driven syllabus processing.
+- **Rationale**: User identified that the variability of syllabus formats makes script-based parsing impractical and brittle. AI-driven processing by a specialized agent is a more robust approach.
+- **Outcome**: Syllabus processing strategy revised. Script-based parsing logic development is cancelled. Architectural and planning documents need updating.
+- **Follow-up**: Delegate task to `architect` mode to update the integration plan and relevant architectural documents to reflect AI-driven syllabus parsing. Update Workflow State.
+
+## Workflow State
+- Current phase: Implementation (Paused for Re-planning)
+- Phase start: [2025-05-07 09:06:29] (Start of this SPARC instance)
+- Current focus: Revising syllabus processing strategy due to user intervention.
+- Next actions:
+    1. Delegate to `architect` mode: Update [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1), [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), and [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) to reflect that syllabus parsing and structured data extraction will be performed by an AI agent (e.g., `philosophy-syllabus-processor` or a general analysis mode) using its internal logic, not by a script. Define the expected inputs/outputs for this AI-driven process.
+    2. Once architectural updates are complete, re-evaluate subsequent steps of the "Dated Course Material Integration Plan".
+- Last Updated: [2025-05-07 12:22:48]
 ### [2025-05-07 01:30:42] CRITICAL Intervention: SPARC Delusional State &amp; Looping - User Invoked Delegate Clause
 - **Trigger**: User Feedback &amp; SPARC Self-Correction.
 - **Context**: SPARC instance (Gemini 2.5 Pro Exp 03-25, started task at approx. 2025-05-06 21:16:01) became delusional regarding the status of the `scripts/process_source_text.py` refactoring task. Despite this task being completed by `refinement-optimization-mode` at [2025-05-07 01:11:10] and logged, SPARC incorrectly believed it was a new request and attempted to re-address it.
@@ -29,6 +46,14 @@
 - **Rationale**: Ensuring delegation messages are precise and provide sufficient context for the receiving mode to perform its task effectively.
 - **Outcome**: Delegation to `architect` will be re-attempted with more specific instructions.
 - **Follow-up**: Re-delegate task to `architect` with revised, more detailed instructions.
+## Intervention Log
+### [2025-05-07 08:45:00] Intervention: User Re-prioritized Tasks - Focus on Enhanced Course Material Workflows
+- **Trigger**: User feedback denying delegation for terminology fix ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:44) item).
+- **Context**: SPARC was about to delegate tasks to address terminology inconsistencies for the source material index.
+- **Action Taken**: Halted planned delegations for terminology fix. Acknowledged new user priority: Update overall architecture ([`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1)) and relevant `.clinerules` to integrate the syllabus proposal ([`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1)) and define workflows for dated readings/lectures (storage, date handling, associations, course progression). User requested simplification by deferring handling of multiple class versions for now. The terminology task is paused.
+- **Rationale**: Direct user instruction to address more fundamental architectural and workflow aspects related to course materials before minor fixes.
+- **Outcome**: Workflow pivoted. New focus is on planning and implementing enhancements for course material (syllabi, dated readings/lectures) workflows.
+- **Follow-up**: Delegate task to `architect` mode to create an overall plan for these system modifications and integrations. Logged in [`memory-bank/feedback/sparc-feedback.md`](memory-bank/feedback/sparc-feedback.md:1). [See Active Context: 2025-05-07 08:45:00], [Progress: 2025-05-07 08:45:00], [Decision Log: 2025-05-07 08:45:00]
 ## Intervention Log
 ### [2025-05-06 17:14:34] Intervention: SPARC Loop Detected - Attempted Re-delegation of Completed Task
 - **Trigger**: User Feedback.
@@ -678,19 +703,58 @@
 <!-- Append intervention details using the format below -->
 
 # Workflow State (Current - Overwrite this section)
-- Current phase: Refinement (Post-Handover)
-- Phase start: [2025-05-07 01:32:45]
-- Current focus: Handover complete. Previous SPARC instance looping error regarding `scripts/process_source_text.py` refactoring (confirmed complete) has been acknowledged. Memory Bank initialized.
+- Current phase: Architecture
+- Phase start: [2025-05-07 08:56:00]
+- Current focus: Architectural document updates for dated material integration completed by `architect` mode. Preparing for handover due to context limits.
 - Next actions:
-    - Delegate task to `tdd` mode to create Test-Driven Development tests for the refactored `scripts/process_source_text.py`.
-    - Await completion from `tdd` mode.
-    - Consider addressing `dynamic_roles`/`source_id` terminology clarification from QA report ([`docs/testing/verification_report_source_material_v1.md`](docs/testing/verification_report_source_material_v1.md:1)) as a subsequent task.
-- Last Updated: [2025-05-07 01:32:45]
+    - (Handover to new SPARC instance)
+    - New instance to proceed with Step 3 of [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1) (Script Modifications).
+- Last Updated: [2025-05-07 09:05:00]
 
 ### [2025-05-07 01:00:31] Task: Refactor `scripts/process_source_text.py` for Improved Modularity
+### [2025-05-07 07:58:00] Task: Investigate `source_materials/` Architecture for Syllabuses
+- Assigned to: architect
+- Description: Analyze existing `source_materials/` architecture ([`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1)) and user queries to propose solutions for syllabus location, processing, indexing, and relation to weekly lecture/reading organization.
+- Expected deliverable: New or updated proposal document with findings and recommendations.
+- Status: completed
+- Completion time: [2025-05-07 08:09:00]
+- Outcome: Architect mode created proposal document [`docs/proposals/syllabus_integration_architecture_v1.md`](docs/proposals/syllabus_integration_architecture_v1.md:1) detailing syllabus storage, processing, indexing, and temporal organization.
+- Link to Progress Entry: [Progress: 2025-05-07 07:57:00]
 - Assigned to: refinement-optimization-mode
 - Description: Analyze and refactor `scripts/process_source_text.py` into smaller, well-defined functions/modules to improve readability and maintainability, while preserving its V1 Source Material Architecture compliant functionality.
 - Expected deliverable: Refactored `scripts/process_source_text.py` file.
+### [2025-05-07 08:56:00] Task: Update Architectural Documents for Dated Material Integration
+- Assigned to: architect
+- Description: Update [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1), and [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1) to reflect the new plan for dated course material and syllabus integration as detailed in [`docs/plans/dated_course_material_integration_plan_v1.md`](docs/plans/dated_course_material_integration_plan_v1.md:1).
+- Expected deliverable: Updated versions of the specified architectural documents.
+- Status: completed
+- Completion time: [2025-05-07 09:05:00]
+- Outcome: Architect mode updated [`docs/architecture/architecture_v18.md`](docs/architecture/architecture_v18.md:1) (to V18.3.7), [`docs/proposals/source_material_architecture_v1.md`](docs/proposals/source_material_architecture_v1.md:1) (Addendum V1.1), and [`docs/guides/user_guide_material_processing_workflows.md`](docs/guides/user_guide_material_processing_workflows.md:1) as per plan.
+- Link to Progress Entry: [Progress: 2025-05-07 08:45:00]
+### [2025-05-07 03:57:22] Task: Resolve Accumulated Git Debt
+- Assigned to: devops
+- Description: User requested resolution of accumulated git debt. Task involves using `git status` and `git diff`, correlating changes with Memory Bank logs, and grouping all uncommitted changes (including Memory Bank files) into logical, chronological commits.
+- Expected deliverable: A clean git status with all relevant changes committed in logical, chronological batches.
+- Status: completed
+- Completion time: [2025-05-07 04:05:56]
+- Outcome: 7 logical, chronological commits created. Working directory clean. Local `main` is 49 commits ahead of `origin/main`.
+- Link to Progress Entry: [Global Progress: 2025-05-07 03:57:01]
+### [2025-05-07 04:19:43] Task: Create Root `README.md` File
+- Assigned to: docs-writer
+- Description: Create a comprehensive `README.md` file for the root of the `/home/rookslog/philoso-roo` project, based on findings from the holistic review ([`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1)).
+- Expected deliverable: A new `README.md` file in the project root.
+- Status: completed
+- Completion time: [2025-05-07 04:23:18]
+- Outcome: Comprehensive [`README.md`](README.md:1) created, including project overview, setup, usage, key features, directory structure, and links to key documents.
+- Link to Progress Entry: [Global Progress: 2025-05-07 04:23:18]
+### [2025-05-07 03:58:50] Task: Holistic Workspace Review
+- Assigned to: holistic-reviewer
+- Description: Conduct a comprehensive review of the entire workspace to identify areas for improvement in integration, documentation, organization, and code/configuration hygiene.
+- Expected deliverable: A review report (e.g., `docs/reviews/holistic_review_v1.md`) with findings, recommendations, and prioritization.
+- Status: completed
+- Completion time: [2025-05-07 04:18:31]
+- Outcome: Initial review completed. Report [`docs/reviews/holistic_review_v1.md`](docs/reviews/holistic_review_v1.md:1) created with high, medium, and low priority findings and recommendations.
+- Link to Progress Entry: [Global Progress: 2025-05-07 04:18:31]
 ### [2025-05-07 03:57:22] Task: Resolve Accumulated Git Debt
 - Assigned to: devops
 - Description: User requested resolution of accumulated git debt. Task involves using `git status` and `git diff`, correlating changes with Memory Bank logs, and grouping all uncommitted changes (including Memory Bank files) into logical, chronological commits.
