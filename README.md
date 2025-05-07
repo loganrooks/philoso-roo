@@ -20,7 +20,6 @@ The Philoso-Roo system is built upon the RooCode framework, utilizing a collecti
 *   **Memory Bank (`memory-bank/`, `phil-memory-bank/`):**
     *   `memory-bank/`: Contains operational context for the general SPARC system.
     *   `phil-memory-bank/`: Contains operational context specific to the Philoso-Roo system's operations, ensuring separation from the philosophical domain knowledge.
-*   **SPARC Methodology:** The system follows the SPARC principles for task execution, involving modes like `spec-pseudocode`, `architect`, `code`, `tdd`, `docs-writer`, etc.
 
 ## Directory Structure Overview
 
@@ -36,7 +35,7 @@ The Philoso-Roo system is built upon the RooCode framework, utilizing a collecti
 *   **`source_materials/`**:
     *   `raw/`: Location for original, unprocessed source texts.
     *   `processed/`: Output location for processed source texts, including chunked files and navigational indices.
-*   **`memory-bank/`**: General operational context for the SPARC system.
+*   **`memory-bank/`**: General operational context for the Philoso-Roo system.
 *   **`phil-memory-bank/`**: Operational context specific to the Philoso-Roo system.
 *   **`tests/`**: Contains test files, e.g., [`test_dynamic_roles_protocol.py`](tests/test_dynamic_roles_protocol.py:1).
 *   **`analysis_workspace/`**: Workspace for ongoing analysis tasks.
@@ -60,7 +59,7 @@ The Philoso-Roo system is built upon the RooCode framework, utilizing a collecti
 
 ## Basic Usage
 
-Interaction with the Philoso-Roo system is primarily mediated through the SPARC orchestrator and its specialized modes.
+Interaction with the Philoso-Roo system is primarily mediated through the the system's orchestrator and its specialized modes.
 
 1.  **Source Text Processing:**
     *   Place raw source texts (Markdown, PDF, DOCX) into the appropriate subdirectory within `source_materials/raw/`.
